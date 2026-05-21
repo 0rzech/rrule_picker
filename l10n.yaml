@@ -1,0 +1,7 @@
+arb-dir: lib/l10n
+template-arb-file: en.arb
+nullable-getter: false
+output-dir: lib/localizations
+output-localization-file: localizations.dart
+output-class: RRulePickerLocalizations
+untranslated-messages-file: missing-localizations.json

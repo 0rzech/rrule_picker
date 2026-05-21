@@ -1,0 +1,23 @@
+name: rrule_picker
+description: 'RRule picker widget.'
+version: 0.0.1
+homepage: 'https://codeberg.org/0rzech/rrule_picker'
+
+environment:
+  sdk: ^3.12.0
+  flutter: '>=3.44.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  generate: true

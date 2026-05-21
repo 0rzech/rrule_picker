@@ -1,0 +1,5 @@
+{
+  "@@locale": "nl",
+  "rrulePickerRecurrenceType": "{name, select, daily{Dagelijks} weekly{Wekelijks} monthly{Maandelijks} yearly{Jaarlijks} other{Nooit}}",
+  "rrulePickerTitle": "Herhaal"
+}

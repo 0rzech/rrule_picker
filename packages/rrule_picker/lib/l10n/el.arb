@@ -1,0 +1,5 @@
+{
+  "@@locale": "el",
+  "rrulePickerRecurrenceType": "{name, select, daily{Ημέρες} weekly{Εβδομάδες} monthly{Μήνες} yearly{Ετη} other{Χωρίς επανάληψη}}",
+  "rrulePickerTitle": "Επανάλαβε"
+}

@@ -1,0 +1,5 @@
+{
+  "@@locale": "lv",
+  "rrulePickerRecurrenceType": "{name, select, daily{Ikdienas} weekly{Iknedēļas} monthly{Ikmēneša} yearly{Ik gadu} other{Nekad}}",
+  "rrulePickerTitle": "Atkārtot"
+}

@@ -1,0 +1,5 @@
+{
+  "@@locale": "fi",
+  "rrulePickerRecurrenceType": "{name, select, daily{Päivittäin} weekly{Viikoittain} monthly{Kuukausittain} yearly{Vuotuinen} other{Ei koskaan}}",
+  "rrulePickerTitle": "Toistaa"
+}

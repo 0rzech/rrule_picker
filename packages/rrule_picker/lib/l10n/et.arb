@@ -1,0 +1,5 @@
+{
+  "@@locale": "et",
+  "rrulePickerRecurrenceType": "{name, select, daily{Igapäevane} weekly{Iganädalane} monthly{Igakuine} yearly{Iga-aastane} other{Mitte kunagi}}",
+  "rrulePickerTitle": "Korda"
+}

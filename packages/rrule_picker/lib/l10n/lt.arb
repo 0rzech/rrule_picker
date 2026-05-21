@@ -1,0 +1,5 @@
+{
+  "@@locale": "lt",
+  "rrulePickerRecurrenceType": "{name, select, daily{Kasdien} weekly{Kas savaitę} monthly{Kas mėnesį} yearly{Metinis} other{Niekada}}",
+  "rrulePickerTitle": "Kartoti"
+}

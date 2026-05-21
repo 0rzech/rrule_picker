@@ -1,0 +1,5 @@
+{
+  "@@locale": "se",
+  "rrulePickerRecurrenceType": "{name, select, daily{Beaivválaš} weekly{Vahkkosaš} monthly{Mánnui} yearly{Jahkásaččat} other{Ii goassige}}",
+  "rrulePickerTitle": "Geardduhit"
+}

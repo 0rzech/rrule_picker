@@ -1,0 +1,5 @@
+{
+  "@@locale": "ro",
+  "rrulePickerRecurrenceType": "{name, select, daily{Zilnic} weekly{Săptămânal} monthly{Lunar} yearly{Anual} other{Niciodată}}",
+  "rrulePickerTitle": "Repetă"
+}

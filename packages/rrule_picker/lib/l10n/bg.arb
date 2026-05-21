@@ -1,0 +1,5 @@
+{
+  "@@locale": "bg",
+  "rrulePickerRecurrenceType": "{name, select, daily{Дневно} weekly{Седмично} monthly{Месечно} yearly{Годишно} other{Никога}}",
+  "rrulePickerTitle": "Повтори"
+}

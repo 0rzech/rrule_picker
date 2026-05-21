@@ -1,0 +1,5 @@
+{
+  "@@locale": "tr",
+  "rrulePickerRecurrenceType": "{name, select, daily{Günlük} weekly{Haftalık} monthly{Aylık} yearly{Yıllık} other{Asla}}",
+  "rrulePickerTitle": "Tekrarlamak"
+}

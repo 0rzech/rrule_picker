@@ -1,0 +1,18 @@
+{
+    "@@locale": "en",
+
+    "rrulePickerRecurrenceType": "{name, select, daily{Daily} weekly{Weekly} monthly{Monthly} yearly{Yearly} other{Never}}",
+    "@rrulePickerRecurrenceType": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        },
+        "description": "Display values for recurrence type dropdown"
+    },
+
+    "rrulePickerTitle": "Repeat",
+    "@rrulePickerTitle": {
+        "description": "Optional title of the whole widget"
+    }
+}

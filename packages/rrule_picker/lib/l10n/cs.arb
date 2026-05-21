@@ -1,0 +1,5 @@
+{
+  "@@locale": "cs",
+  "rrulePickerRecurrenceType": "{name, select, daily{Denně} weekly{Týdně} monthly{Měsíčně} yearly{Ročně} other{Nikdy}}",
+  "rrulePickerTitle": "Opakovat"
+}

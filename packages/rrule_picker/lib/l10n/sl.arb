@@ -1,0 +1,5 @@
+{
+  "@@locale": "sl",
+  "rrulePickerRecurrenceType": "{name, select, daily{Denne} weekly{Týždenne} monthly{Mesačne} yearly{Ročne} other{Nikdy}}",
+  "rrulePickerTitle": "Ponovi"
+}

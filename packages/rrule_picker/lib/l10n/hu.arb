@@ -1,0 +1,5 @@
+{
+  "@@locale": "hu",
+  "rrulePickerRecurrenceType": "{name, select, daily{Napi} weekly{Heti} monthly{Havi} yearly{Évi} other{Soha}}",
+  "rrulePickerTitle": "Ismétlés"
+}

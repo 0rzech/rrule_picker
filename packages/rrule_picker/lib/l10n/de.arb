@@ -1,0 +1,5 @@
+{
+  "@@locale": "de",
+  "rrulePickerRecurrenceType": "{name, select, daily{Täglich} weekly{Wöchentlich} monthly{Monatlich} yearly{Jährlich} other{Keine Wiederholung}}",
+  "rrulePickerTitle": "Wiederhole"
+}

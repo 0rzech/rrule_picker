@@ -1,0 +1,5 @@
+{
+  "@@locale": "zh",
+  "rrulePickerRecurrenceType": "{name, select, daily{日常的} weekly{每周} monthly{每月} yearly{年度的} other{绝不}}",
+  "rrulePickerTitle": "重复"
+}

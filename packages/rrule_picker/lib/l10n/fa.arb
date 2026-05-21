@@ -1,0 +1,5 @@
+{
+  "@@locale": "fa",
+  "rrulePickerRecurrenceType": "{name, select, daily{روزانه} weekly{هفتگی} monthly{ماهانه} yearly{سالانه} other{هرگز}}",
+  "rrulePickerTitle": "تکرار"
+}

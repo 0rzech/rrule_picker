@@ -1,0 +1,5 @@
+{
+  "@@locale": "is",
+  "rrulePickerRecurrenceType": "{name, select, daily{Daglega} weekly{Vikulega} monthly{Mánaðarlega} yearly{Árlega} other{Aldrei}}",
+  "rrulePickerTitle": "Endurtekning"
+}

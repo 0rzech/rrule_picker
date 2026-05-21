@@ -1,0 +1,5 @@
+{
+  "@@locale": "da",
+  "rrulePickerRecurrenceType": "{name, select, daily{Daglige} weekly{Ugentlig} monthly{Månedlige} yearly{Årligt} other{Aldrig}}",
+  "rrulePickerTitle": "Gentage"
+}

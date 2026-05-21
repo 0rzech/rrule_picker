@@ -1,0 +1,5 @@
+{
+  "@@locale": "sv",
+  "rrulePickerRecurrenceType": "{name, select, daily{Dagligen} weekly{Veckovis} monthly{Månadsvis} yearly{Årligen} other{Aldrig}}",
+  "rrulePickerTitle": "Upprepa"
+}

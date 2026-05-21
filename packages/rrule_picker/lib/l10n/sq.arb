@@ -1,0 +1,5 @@
+{
+  "@@locale": "sq",
+  "rrulePickerRecurrenceType": "{name, select, daily{Ditor} weekly{Javor} monthly{Mujor} yearly{Vjetor} other{Kurrë}}",
+  "rrulePickerTitle": "Përsërit"
+}

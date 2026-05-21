@@ -1,0 +1,5 @@
+{
+  "@@locale": "pt",
+  "rrulePickerRecurrenceType": "{name, select, daily{Diário} weekly{Semanal} monthly{Mensal} yearly{Anual} other{Nunca}}",
+  "rrulePickerTitle": "Repetir"
+}

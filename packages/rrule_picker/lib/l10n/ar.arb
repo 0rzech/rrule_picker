@@ -1,0 +1,5 @@
+{
+  "@@locale": "ar",
+  "rrulePickerRecurrenceType": "{name, select, daily{يوميًا} weekly{أسبوعيًا} monthly{شهريًا} yearly{سنويًا} other{أبدًا}}",
+  "rrulePickerTitle": "كرّر"
+}

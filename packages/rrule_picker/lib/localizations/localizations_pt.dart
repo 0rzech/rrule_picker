@@ -9,6 +9,26 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
   RRulePickerLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
+  String rrulePickerDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'dia(s)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerEveryDaily(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Todo',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerRecurrenceType(String name) {
     String _temp0 = intl.Intl.selectLogic(name, {
       'daily': 'Diário',
@@ -27,6 +47,26 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
 class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
   RRulePickerLocalizationsPtBr() : super('pt_BR');
+
+  @override
+  String rrulePickerDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'dia(s)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerEveryDaily(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Todo',
+    );
+    return '$_temp0';
+  }
 
   @override
   String rrulePickerRecurrenceType(String name) {

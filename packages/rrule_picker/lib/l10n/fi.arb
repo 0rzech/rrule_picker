@@ -1,5 +1,7 @@
 {
   "@@locale": "fi",
+  "rrulePickerDays": "{count, plural, other{päivä}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Joka}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Päivittäin} weekly{Viikoittain} monthly{Kuukausittain} yearly{Vuotuinen} other{Ei koskaan}}",
   "rrulePickerTitle": "Toistaa"
 }

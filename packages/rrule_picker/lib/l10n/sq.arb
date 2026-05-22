@@ -1,5 +1,7 @@
 {
   "@@locale": "sq",
+  "rrulePickerDays": "{count, plural, other{ditë(ë)}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Çdo}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Ditor} weekly{Javor} monthly{Mujor} yearly{Vjetor} other{Kurrë}}",
   "rrulePickerTitle": "Përsërit"
 }

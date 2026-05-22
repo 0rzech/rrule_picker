@@ -1,5 +1,22 @@
 {
     "@@locale": "en",
+    "rrulePickerDays": "{count, plural, =1{day} other{days}}",
+    "@rrulePickerDays": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+
+    "rrulePickerEveryDaily": "{count, plural, other{Every}}",
+    "@rrulePickerEveryDaily": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
 
     "rrulePickerRecurrenceType": "{name, select, daily{Daily} weekly{Weekly} monthly{Monthly} yearly{Yearly} other{Never}}",
     "@rrulePickerRecurrenceType": {

@@ -1,5 +1,7 @@
 {
   "@@locale": "is",
+  "rrulePickerDays": "{count, plural, other{dagar}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Á hverjum}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Daglega} weekly{Vikulega} monthly{Mánaðarlega} yearly{Árlega} other{Aldrei}}",
   "rrulePickerTitle": "Endurtekning"
 }

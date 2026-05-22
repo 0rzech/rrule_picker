@@ -1,5 +1,7 @@
 {
   "@@locale": "cs",
+  "rrulePickerDays": "{count, plural, other{dnů}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Každý}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Denně} weekly{Týdně} monthly{Měsíčně} yearly{Ročně} other{Nikdy}}",
   "rrulePickerTitle": "Opakovat"
 }

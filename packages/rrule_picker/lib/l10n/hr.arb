@@ -1,5 +1,7 @@
 {
   "@@locale": "hr",
+  "rrulePickerDays": "{count, plural, other{dani}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Svaki}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Dnevno} weekly{Tjedno} monthly{Mjesečno} yearly{Godišnje} other{Nikada}}",
   "rrulePickerTitle": "Ponovi"
 }

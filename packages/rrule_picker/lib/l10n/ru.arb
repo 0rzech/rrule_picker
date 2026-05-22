@@ -1,5 +1,7 @@
 {
   "@@locale": "ru",
+  "rrulePickerDays": "{count, plural, other{день(и)}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Каждый}}",
   "rrulePickerRecurrenceType": "{name, select, daily{День} weekly{Неделя} monthly{Месяц} yearly{Год} other{Никогда}}",
   "rrulePickerTitle": "Повторять"
 }

@@ -1,5 +1,7 @@
 {
   "@@locale": "zh",
+  "rrulePickerDays": "{count, plural, other{到黎明}}",
+  "rrulePickerEveryDaily": "{count, plural, other{每个}}",
   "rrulePickerRecurrenceType": "{name, select, daily{日常的} weekly{每周} monthly{每月} yearly{年度的} other{绝不}}",
   "rrulePickerTitle": "重复"
 }

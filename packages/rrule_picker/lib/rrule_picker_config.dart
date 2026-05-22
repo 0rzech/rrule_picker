@@ -7,11 +7,15 @@ class RRulePickerConfig {
   final EdgeInsetsGeometry padding;
   final RRulePickerHeaderStyle headerStyle;
   final RRulePickerDropdownStyle dropdownStyle;
+  final TextStyle? labelStyle;
+  final RRulePickerTextFieldStyle textFieldStyle;
 
   const RRulePickerConfig({
     this.padding = const .only(),
     this.headerStyle = const .new(),
     this.dropdownStyle = const .new(),
+    this.labelStyle,
+    this.textFieldStyle = const .new(),
   });
 }
 
@@ -36,5 +40,15 @@ class RRulePickerDropdownStyle {
     this.decoration,
     this.menuItemTextStyle,
     this.menuItemDecoration,
+  });
+}
+
+class RRulePickerTextFieldStyle {
+  final InputDecoration decoration;
+  final TextStyle? textStyle;
+
+  const RRulePickerTextFieldStyle({
+    this.decoration = const InputDecoration(isDense: true),
+    this.textStyle = const TextStyle(),
   });
 }

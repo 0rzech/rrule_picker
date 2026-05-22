@@ -1,5 +1,7 @@
 {
   "@@locale": "fr",
+  "rrulePickerDays": "{count, plural, other{jours}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Tous}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Quotidien} weekly{Hebdomadaire} monthly{Mensuel} yearly{Annuel} other{Jamais}}",
   "rrulePickerTitle": "Répéter"
 }

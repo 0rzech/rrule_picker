@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
+import 'package:rrule_picker/daily_widget.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 
 class RRulePicker extends StatefulWidget {
@@ -21,10 +22,15 @@ class RRulePicker extends StatefulWidget {
 class _RRulePickerState extends State<RRulePicker> {
   late final ValueNotifier<_RecurrenceType> recurrenceType;
 
+  late final RRulePickerDailyController dailyController;
+
   @override
   void initState() {
     super.initState();
-    recurrenceType = .new(.never);
+    recurrenceType = .new(getRecurrenceType(widget.controller.initialRRule));
+
+    dailyController = .new(widget.controller.initialRRule);
+
     widget.controller.rruleBuilder = buildRRule;
   }
 
@@ -76,7 +82,14 @@ class _RRulePickerState extends State<RRulePicker> {
           return Column(
             crossAxisAlignment: .start,
             spacing: 8,
-            children: [title!, dropdown],
+            children: [
+              title!,
+              dropdown,
+              switch (recurrenceType.value) {
+                .daily => RRulePickerDaily(controller: dailyController),
+                _ => const SizedBox.shrink(),
+              },
+            ],
           );
         },
         child: config.headerStyle.enabled
@@ -89,8 +102,29 @@ class _RRulePickerState extends State<RRulePicker> {
     );
   }
 
-  void buildRRule(final StringBuffer sb) =>
-      mounted ? null : sb.write(widget.controller.initialRRule);
+  _RecurrenceType getRecurrenceType(final String rrule) {
+    if (rrule.isEmpty) {
+      return .never;
+    } else if (rrule.contains('DAILY')) {
+      return .daily;
+    } else if (rrule.contains('WEEKLY')) {
+      return .weekly;
+    } else if (rrule.contains('MONTHLY')) {
+      return .monthly;
+    } else {
+      return .yearly;
+    }
+  }
+
+  void buildRRule(final StringBuffer sb) => mounted
+      ? switch (recurrenceType.value) {
+          .never => null,
+          .daily => dailyController.buildRRulePart(sb),
+          .weekly => null,
+          .monthly => null,
+          .yearly => null,
+        }
+      : sb.write(widget.controller.initialRRule);
 }
 
 class RRulePickerController extends RRuleWidgetController<RRulePicker> {

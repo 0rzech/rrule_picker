@@ -1,5 +1,7 @@
 {
   "@@locale": "ja",
+  "rrulePickerDays": "{count, plural, other{日}}",
+  "rrulePickerEveryDaily": "{count, plural, other{毎}}",
   "rrulePickerRecurrenceType": "{name, select, daily{毎日} weekly{毎週} monthly{毎月} yearly{毎年} other{終了しない}}",
   "rrulePickerTitle": "繰り返し"
 }

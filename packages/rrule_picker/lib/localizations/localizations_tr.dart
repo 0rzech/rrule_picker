@@ -9,6 +9,26 @@ class RRulePickerLocalizationsTr extends RRulePickerLocalizations {
   RRulePickerLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
+  String rrulePickerDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'gün(ler)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerEveryDaily(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Her',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerRecurrenceType(String name) {
     String _temp0 = intl.Intl.selectLogic(name, {
       'daily': 'Günlük',

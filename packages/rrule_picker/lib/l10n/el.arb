@@ -1,5 +1,7 @@
 {
   "@@locale": "el",
+  "rrulePickerDays": "{count, plural, other{Ημέρες}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Κάθε}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Ημέρες} weekly{Εβδομάδες} monthly{Μήνες} yearly{Ετη} other{Χωρίς επανάληψη}}",
   "rrulePickerTitle": "Επανάλαβε"
 }

@@ -1,5 +1,7 @@
 {
   "@@locale": "id",
+  "rrulePickerDays": "{count, plural, other{hari}}",
+  "rrulePickerEveryDaily": "{count, plural, other{Setiap}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Harian} weekly{Mingguan} monthly{Bulanan} yearly{Tahunan} other{Tak pernah}}",
   "rrulePickerTitle": "Mengulang"
 }

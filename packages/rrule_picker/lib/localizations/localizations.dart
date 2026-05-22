@@ -168,6 +168,18 @@ abstract class RRulePickerLocalizations {
     Locale('zh'),
   ];
 
+  /// No description provided for @rrulePickerDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{day} other{days}}'**
+  String rrulePickerDays(int count);
+
+  /// No description provided for @rrulePickerEveryDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{Every}}'**
+  String rrulePickerEveryDaily(int count);
+
   /// Display values for recurrence type dropdown
   ///
   /// In en, this message translates to:

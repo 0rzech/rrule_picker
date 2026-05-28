@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/widgets/daily.dart';
+import 'package:rrule_picker/widgets/weekly.dart';
 
 class RRulePicker extends StatefulWidget {
   final RRulePickerController controller;
@@ -23,6 +24,7 @@ class _RRulePickerState extends State<RRulePicker> {
   late final ValueNotifier<_RecurrenceType> recurrenceType;
 
   late final RRulePickerDailyController dailyController;
+  late final RRulePickerWeeklyController weeklyController;
 
   @override
   void initState() {
@@ -30,6 +32,7 @@ class _RRulePickerState extends State<RRulePicker> {
     recurrenceType = .new(getRecurrenceType(widget.controller.initialRRule));
 
     dailyController = .new(widget.controller.initialRRule);
+    weeklyController = .new(widget.controller.initialRRule);
 
     widget.controller.rruleBuilder = buildRRule;
   }
@@ -87,6 +90,7 @@ class _RRulePickerState extends State<RRulePicker> {
               dropdown,
               switch (recurrenceType.value) {
                 .daily => RRulePickerDaily(controller: dailyController),
+                .weekly => RRulePickerWeekly(controller: weeklyController),
                 _ => const SizedBox.shrink(),
               },
             ],
@@ -120,7 +124,7 @@ class _RRulePickerState extends State<RRulePicker> {
       ? switch (recurrenceType.value) {
           .never => null,
           .daily => dailyController.buildRRulePart(sb),
-          .weekly => null,
+          .weekly => weeklyController.buildRRulePart(sb),
           .monthly => null,
           .yearly => null,
         }

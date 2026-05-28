@@ -180,6 +180,12 @@ abstract class RRulePickerLocalizations {
   /// **'{count, plural, other{Every}}'**
   String rrulePickerEveryDaily(int count);
 
+  /// No description provided for @rrulePickerEveryWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{Every}}'**
+  String rrulePickerEveryWeekly(int count);
+
   /// Display values for recurrence type dropdown
   ///
   /// In en, this message translates to:
@@ -191,6 +197,12 @@ abstract class RRulePickerLocalizations {
   /// In en, this message translates to:
   /// **'Repeat'**
   String get rrulePickerTitle;
+
+  /// No description provided for @rrulePickerWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{week} other{weeks}}'**
+  String rrulePickerWeeks(int count);
 }
 
 class _RRulePickerLocalizationsDelegate

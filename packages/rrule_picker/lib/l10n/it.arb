@@ -2,6 +2,8 @@
   "@@locale": "it",
   "rrulePickerDays": "{count, plural, other{giorni}}",
   "rrulePickerEveryDaily": "{count, plural, other{Ogni}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Ogni}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Quotidiano} weekly{Settimanalmente} monthly{Mensile} yearly{Annuale} other{Mai}}",
-  "rrulePickerTitle": "Ripetere"
+  "rrulePickerTitle": "Ripetere",
+  "rrulePickerWeeks": "{count, plural, other{settimane}}"
 }

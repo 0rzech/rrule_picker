@@ -18,6 +18,15 @@
         }
     },
 
+    "rrulePickerEveryWeekly": "{count, plural, other{Every}}",
+    "@rrulePickerEveryWeekly": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+
     "rrulePickerRecurrenceType": "{name, select, daily{Daily} weekly{Weekly} monthly{Monthly} yearly{Yearly} other{Never}}",
     "@rrulePickerRecurrenceType": {
         "placeholders": {
@@ -31,5 +40,14 @@
     "rrulePickerTitle": "Repeat",
     "@rrulePickerTitle": {
         "description": "Optional title of the whole widget"
+    },
+
+    "rrulePickerWeeks": "{count, plural, =1{week} other{weeks}}",
+    "@rrulePickerWeeks": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
     }
 }

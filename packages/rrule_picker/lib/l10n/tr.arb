@@ -2,6 +2,8 @@
   "@@locale": "tr",
   "rrulePickerDays": "{count, plural, other{gün(ler)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Her}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Her}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Günlük} weekly{Haftalık} monthly{Aylık} yearly{Yıllık} other{Asla}}",
-  "rrulePickerTitle": "Tekrarlamak"
+  "rrulePickerTitle": "Tekrarlamak",
+  "rrulePickerWeeks": "{count, plural, other{haftalar}}"
 }

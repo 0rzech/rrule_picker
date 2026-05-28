@@ -2,6 +2,8 @@
   "@@locale": "nl",
   "rrulePickerDays": "{count, plural, other{dag(en)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Elke}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Elke}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Dagelijks} weekly{Wekelijks} monthly{Maandelijks} yearly{Jaarlijks} other{Nooit}}",
-  "rrulePickerTitle": "Herhaal"
+  "rrulePickerTitle": "Herhaal",
+  "rrulePickerWeeks": "{count, plural, other{weken}}"
 }

@@ -2,6 +2,8 @@
   "@@locale": "se",
   "rrulePickerDays": "{count, plural, other{beaivi(t)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Juohke}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Juohke}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Beaivválaš} weekly{Vahkkosaš} monthly{Mánnui} yearly{Jahkásaččat} other{Ii goassige}}",
-  "rrulePickerTitle": "Geardduhit"
+  "rrulePickerTitle": "Geardduhit",
+  "rrulePickerWeeks": "{count, plural, other{vahkku(t)}}"
 }

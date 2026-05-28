@@ -2,6 +2,8 @@
   "@@locale": "hu",
   "rrulePickerDays": "{count, plural, other{hajnalra}}",
   "rrulePickerEveryDaily": "{count, plural, other{Minden}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Minden}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Napi} weekly{Heti} monthly{Havi} yearly{Évi} other{Soha}}",
-  "rrulePickerTitle": "Ismétlés"
+  "rrulePickerTitle": "Ismétlés",
+  "rrulePickerWeeks": "{count, plural, other{puháni}}"
 }

@@ -29,6 +29,16 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryWeekly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Todo',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerRecurrenceType(String name) {
     String _temp0 = intl.Intl.selectLogic(name, {
       'daily': 'Diário',
@@ -42,6 +52,16 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
 
   @override
   String get rrulePickerTitle => 'Repetir';
+
+  @override
+  String rrulePickerWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'semana(s)',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -69,6 +89,16 @@ class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
   }
 
   @override
+  String rrulePickerEveryWeekly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Todo',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerRecurrenceType(String name) {
     String _temp0 = intl.Intl.selectLogic(name, {
       'daily': 'Diário',
@@ -82,4 +112,14 @@ class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
 
   @override
   String get rrulePickerTitle => 'Repetir';
+
+  @override
+  String rrulePickerWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'semana(s)',
+    );
+    return '$_temp0';
+  }
 }

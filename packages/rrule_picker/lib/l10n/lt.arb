@@ -2,6 +2,8 @@
   "@@locale": "lt",
   "rrulePickerDays": "{count, plural, other{dieną}}",
   "rrulePickerEveryDaily": "{count, plural, other{Kiekvieną}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Kiekvieną}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Kasdien} weekly{Kas savaitę} monthly{Kas mėnesį} yearly{Metinis} other{Niekada}}",
-  "rrulePickerTitle": "Kartoti"
+  "rrulePickerTitle": "Kartoti",
+  "rrulePickerWeeks": "{count, plural, other{kad suminkštėtų}}"
 }

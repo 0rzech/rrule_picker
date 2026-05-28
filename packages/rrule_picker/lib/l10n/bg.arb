@@ -2,6 +2,8 @@
   "@@locale": "bg",
   "rrulePickerDays": "{count, plural, other{ден(а)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Всеки}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Всеки}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Дневно} weekly{Седмично} monthly{Месечно} yearly{Годишно} other{Никога}}",
-  "rrulePickerTitle": "Повтори"
+  "rrulePickerTitle": "Повтори",
+  "rrulePickerWeeks": "{count, plural, other{седмица/и}}"
 }

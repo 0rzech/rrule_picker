@@ -2,6 +2,8 @@
   "@@locale": "et",
   "rrulePickerDays": "{count, plural, other{päevadel}}",
   "rrulePickerEveryDaily": "{count, plural, other{Iga}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Iga}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Igapäevane} weekly{Iganädalane} monthly{Igakuine} yearly{Iga-aastane} other{Mitte kunagi}}",
-  "rrulePickerTitle": "Korda"
+  "rrulePickerTitle": "Korda",
+  "rrulePickerWeeks": "{count, plural, other{nädalad}}"
 }

@@ -2,6 +2,8 @@
   "@@locale": "no",
   "rrulePickerDays": "{count, plural, other{dag(er)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Hver}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Hver}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Daglig} weekly{Ukentlig} monthly{Månedlig} yearly{Årlig} other{Aldri}}",
-  "rrulePickerTitle": "Gjenta"
+  "rrulePickerTitle": "Gjenta",
+  "rrulePickerWeeks": "{count, plural, other{uke(r)}}"
 }

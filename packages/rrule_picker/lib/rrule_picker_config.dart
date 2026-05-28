@@ -9,6 +9,7 @@ class RRulePickerConfig {
   final RRulePickerDropdownStyle dropdownStyle;
   final TextStyle? labelStyle;
   final RRulePickerTextFieldStyle textFieldStyle;
+  final RRulePickerDayOfWeekStyle dayOfWeekStyle;
 
   const RRulePickerConfig({
     this.padding = const .only(),
@@ -16,6 +17,7 @@ class RRulePickerConfig {
     this.dropdownStyle = const .new(),
     this.labelStyle,
     this.textFieldStyle = const .new(),
+    this.dayOfWeekStyle = const .new(),
   });
 }
 
@@ -50,5 +52,18 @@ class RRulePickerTextFieldStyle {
   const RRulePickerTextFieldStyle({
     this.decoration = const InputDecoration(isDense: true),
     this.textStyle = const TextStyle(),
+  });
+}
+
+class RRulePickerDayOfWeekStyle {
+  final ButtonStyle buttonStyle;
+
+  const RRulePickerDayOfWeekStyle({
+    this.buttonStyle = const ButtonStyle(
+      visualDensity: .standard,
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(borderRadius: .zero),
+      ),
+    ),
   });
 }

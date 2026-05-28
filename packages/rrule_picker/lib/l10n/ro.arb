@@ -2,6 +2,8 @@
   "@@locale": "ro",
   "rrulePickerDays": "{count, plural, other{zi(e)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Fiecare}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Fiecare}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Zilnic} weekly{Săptămânal} monthly{Lunar} yearly{Anual} other{Niciodată}}",
-  "rrulePickerTitle": "Repetă"
+  "rrulePickerTitle": "Repetă",
+  "rrulePickerWeeks": "{count, plural, other{săptămână(i)}}"
 }

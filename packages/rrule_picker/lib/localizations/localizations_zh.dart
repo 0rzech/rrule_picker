@@ -29,6 +29,16 @@ class RRulePickerLocalizationsZh extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryWeekly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '每个',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerRecurrenceType(String name) {
     String _temp0 = intl.Intl.selectLogic(name, {
       'daily': '日常的',
@@ -42,4 +52,14 @@ class RRulePickerLocalizationsZh extends RRulePickerLocalizations {
 
   @override
   String get rrulePickerTitle => '重复';
+
+  @override
+  String rrulePickerWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '软化',
+    );
+    return '$_temp0';
+  }
 }

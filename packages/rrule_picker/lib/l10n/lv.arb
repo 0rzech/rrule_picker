@@ -2,6 +2,8 @@
   "@@locale": "lv",
   "rrulePickerDays": "{count, plural, other{dienas}}",
   "rrulePickerEveryDaily": "{count, plural, other{Katru}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Katru}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Ikdienas} weekly{Iknedēļas} monthly{Ikmēneša} yearly{Ik gadu} other{Nekad}}",
-  "rrulePickerTitle": "Atkārtot"
+  "rrulePickerTitle": "Atkārtot",
+  "rrulePickerWeeks": "{count, plural, other{nedēļas}}"
 }

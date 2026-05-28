@@ -2,6 +2,8 @@
   "@@locale": "fa",
   "rrulePickerDays": "{count, plural, other{روز}}",
   "rrulePickerEveryDaily": "{count, plural, other{هر}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{هر}}",
   "rrulePickerRecurrenceType": "{name, select, daily{روزانه} weekly{هفتگی} monthly{ماهانه} yearly{سالانه} other{هرگز}}",
-  "rrulePickerTitle": "تکرار"
+  "rrulePickerTitle": "تکرار",
+  "rrulePickerWeeks": "{count, plural, other{هفته}}"
 }

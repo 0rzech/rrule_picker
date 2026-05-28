@@ -2,6 +2,8 @@
   "@@locale": "ar",
   "rrulePickerDays": "{count, plural, other{أيام}}",
   "rrulePickerEveryDaily": "{count, plural, other{كل}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{كل}}",
   "rrulePickerRecurrenceType": "{name, select, daily{يوميًا} weekly{أسبوعيًا} monthly{شهريًا} yearly{سنويًا} other{أبدًا}}",
-  "rrulePickerTitle": "كرّر"
+  "rrulePickerTitle": "كرّر",
+  "rrulePickerWeeks": "{count, plural, other{أسابيع}}"
 }

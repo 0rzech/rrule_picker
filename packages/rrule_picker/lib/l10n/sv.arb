@@ -2,6 +2,8 @@
   "@@locale": "sv",
   "rrulePickerDays": "{count, plural, other{dagar}}",
   "rrulePickerEveryDaily": "{count, plural, other{Varje}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{Varje}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Dagligen} weekly{Veckovis} monthly{Månadsvis} yearly{Årligen} other{Aldrig}}",
-  "rrulePickerTitle": "Upprepa"
+  "rrulePickerTitle": "Upprepa",
+  "rrulePickerWeeks": "{count, plural, other{veckor}}"
 }

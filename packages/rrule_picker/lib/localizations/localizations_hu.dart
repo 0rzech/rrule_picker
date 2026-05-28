@@ -29,6 +29,16 @@ class RRulePickerLocalizationsHu extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryWeekly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Minden',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerRecurrenceType(String name) {
     String _temp0 = intl.Intl.selectLogic(name, {
       'daily': 'Napi',
@@ -42,4 +52,14 @@ class RRulePickerLocalizationsHu extends RRulePickerLocalizations {
 
   @override
   String get rrulePickerTitle => 'Ismétlés';
+
+  @override
+  String rrulePickerWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'puháni',
+    );
+    return '$_temp0';
+  }
 }

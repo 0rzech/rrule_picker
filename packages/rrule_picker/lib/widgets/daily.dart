@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rrule_picker/parsing.dart';
 import 'package:rrule_picker/rrule_picker.dart';
+import 'package:rrule_picker/widgets/interval.dart';
 
 class RRulePickerDaily extends StatefulWidget {
   final RRulePickerConfig config;
@@ -43,45 +43,13 @@ class _RRulePickerDailyState extends State<RRulePickerDaily> {
   @override
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
-    final config = widget.config;
 
-    final everyLabel = ValueListenableBuilder(
-      valueListenable: interval,
-      builder: (context, count, _) => Text(
-        localizations.rrulePickerEveryDaily(count),
-        style: config.labelStyle,
-      ),
-    );
-
-    final dayCountField = Expanded(
-      child: TextField(
-        controller: intervalController,
-        keyboardType: .number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        style: config.textFieldStyle.textStyle,
-        decoration: config.textFieldStyle.decoration,
-        onChanged: (value) {
-          if (int.tryParse(value) case final int count) {
-            interval.value = count;
-          }
-        },
-      ),
-    );
-
-    final daysLabel = ValueListenableBuilder(
-      valueListenable: interval,
-      builder: (context, count, _) =>
-          Text(localizations.rrulePickerDays(count), style: config.labelStyle),
-    );
-
-    return Row(
-      children: [
-        everyLabel,
-        const SizedBox(width: 8),
-        dayCountField,
-        const SizedBox(width: 8),
-        daysLabel,
-      ],
+    return RRulePickerInterval(
+      everyUnitText: localizations.rrulePickerEveryDaily,
+      intervalUnitText: localizations.rrulePickerDays,
+      intervalNotifier: interval,
+      intervalController: intervalController,
+      config: widget.config,
     );
   }
 

@@ -9,6 +9,12 @@ class RRulePickerLocalizationsPl extends RRulePickerLocalizations {
   RRulePickerLocalizationsPl([String locale = 'pl']) : super(locale);
 
   @override
+  String get rrulePickerDayOfMonth => 'Dzień miesiąca';
+
+  @override
+  String get rrulePickerDayOfWeek => 'Dzień tygodnia';
+
+  @override
   String rrulePickerDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -33,12 +39,72 @@ class RRulePickerLocalizationsPl extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryMonthly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Każde',
+      one: 'Każdy',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerEveryWeekly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: 'Każde',
       one: 'Każdy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFirstDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'pierwsza',
+      'saturday': 'pierwsza',
+      'sunday': 'pierwsza',
+      'other': 'pierwszy',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFourthDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'czwarta',
+      'saturday': 'czwarta',
+      'sunday': 'czwarta',
+      'other': 'czwarty',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get rrulePickerLastDay => 'ostatni';
+
+  @override
+  String rrulePickerLastDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'ostatnia',
+      'saturday': 'ostatnia',
+      'sunday': 'ostatnia',
+      'other': 'ostatni',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'miesiąca',
+      many: 'miesięcy',
+      few: 'miesiące',
+      one: 'miesiąc',
     );
     return '$_temp0';
   }
@@ -51,6 +117,28 @@ class RRulePickerLocalizationsPl extends RRulePickerLocalizations {
       'monthly': 'Miesięcznie',
       'yearly': 'Rocznie',
       'other': 'Nigdy',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerSecondDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'druga',
+      'saturday': 'druga',
+      'sunday': 'druga',
+      'other': 'drugi',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerThirdDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'trzecia',
+      'saturday': 'trzecia',
+      'sunday': 'trzecia',
+      'other': 'trzeci',
     });
     return '$_temp0';
   }

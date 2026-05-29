@@ -1,9 +1,19 @@
 {
   "@@locale": "ja",
+  "rrulePickerDayOfMonth": "月の日",
+  "rrulePickerDayOfWeek": "曜日",
   "rrulePickerDays": "{count, plural, other{日}}",
   "rrulePickerEveryDaily": "{count, plural, other{毎}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{毎}}",
   "rrulePickerEveryWeekly": "{count, plural, other{毎}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{第一}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{第四}}",
+  "rrulePickerLastDay": "最後",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{最終}}",
+  "rrulePickerMonths": "{count, plural, other{ヶ月}}",
   "rrulePickerRecurrenceType": "{name, select, daily{毎日} weekly{毎週} monthly{毎月} yearly{毎年} other{終了しない}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{第二}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{第三}}",
   "rrulePickerTitle": "繰り返し",
   "rrulePickerWeeks": "{count, plural, other{週}}"
 }

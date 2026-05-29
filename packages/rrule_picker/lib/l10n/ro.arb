@@ -1,9 +1,19 @@
 {
   "@@locale": "ro",
+  "rrulePickerDayOfMonth": "Zi a lunii",
+  "rrulePickerDayOfWeek": "Zi a săptămânii",
   "rrulePickerDays": "{count, plural, other{zi(e)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Fiecare}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Fiecare}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Fiecare}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{prima}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{a patra}}",
+  "rrulePickerLastDay": "ultimul",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{ultima}}",
+  "rrulePickerMonths": "{count, plural, other{lună(e)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Zilnic} weekly{Săptămânal} monthly{Lunar} yearly{Anual} other{Niciodată}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{a doua}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{a treia}}",
   "rrulePickerTitle": "Repetă",
   "rrulePickerWeeks": "{count, plural, other{săptămână(i)}}"
 }

@@ -9,6 +9,12 @@ class RRulePickerLocalizationsZh extends RRulePickerLocalizations {
   RRulePickerLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get rrulePickerDayOfMonth => '月的某一天';
+
+  @override
+  String get rrulePickerDayOfWeek => '一周的某一天';
+
+  @override
   String rrulePickerDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -29,11 +35,52 @@ class RRulePickerLocalizationsZh extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryMonthly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '每个',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerEveryWeekly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: '每个',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFirstDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': '第一'});
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFourthDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': '第四'});
+    return '$_temp0';
+  }
+
+  @override
+  String get rrulePickerLastDay => '最后';
+
+  @override
+  String rrulePickerLastDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': '最后一个'});
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '几个月',
     );
     return '$_temp0';
   }
@@ -47,6 +94,18 @@ class RRulePickerLocalizationsZh extends RRulePickerLocalizations {
       'yearly': '年度的',
       'other': '绝不',
     });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerSecondDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': '第二'});
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerThirdDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': '第三'});
     return '$_temp0';
   }
 

@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/widgets/daily.dart';
+import 'package:rrule_picker/widgets/monthly.dart';
 import 'package:rrule_picker/widgets/weekly.dart';
 
 class RRulePicker extends StatefulWidget {
@@ -25,6 +26,7 @@ class _RRulePickerState extends State<RRulePicker> {
 
   late final RRulePickerDailyController dailyController;
   late final RRulePickerWeeklyController weeklyController;
+  late final RRulePickerMonthlyController monthlyController;
 
   @override
   void initState() {
@@ -33,6 +35,7 @@ class _RRulePickerState extends State<RRulePicker> {
 
     dailyController = .new(widget.controller.initialRRule);
     weeklyController = .new(widget.controller.initialRRule);
+    monthlyController = .new(widget.controller.initialRRule);
 
     widget.controller.rruleBuilder = buildRRule;
   }
@@ -91,6 +94,7 @@ class _RRulePickerState extends State<RRulePicker> {
               switch (recurrenceType.value) {
                 .daily => RRulePickerDaily(controller: dailyController),
                 .weekly => RRulePickerWeekly(controller: weeklyController),
+                .monthly => RRulePickerMonthly(controller: monthlyController),
                 _ => const SizedBox.shrink(),
               },
             ],
@@ -125,7 +129,7 @@ class _RRulePickerState extends State<RRulePicker> {
           .never => null,
           .daily => dailyController.buildRRulePart(sb),
           .weekly => weeklyController.buildRRulePart(sb),
-          .monthly => null,
+          .monthly => monthlyController.buildRRulePart(sb),
           .yearly => null,
         }
       : sb.write(widget.controller.initialRRule);

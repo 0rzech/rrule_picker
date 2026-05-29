@@ -1,9 +1,19 @@
 {
   "@@locale": "es",
+  "rrulePickerDayOfMonth": "Día del mes",
+  "rrulePickerDayOfWeek": "Día de la semana",
   "rrulePickerDays": "{count, plural, other{día(s)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Cada}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Cada}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Cada}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{primer}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{cuarto}}",
+  "rrulePickerLastDay": "último",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{último}}",
+  "rrulePickerMonths": "{count, plural, other{mes(es)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Diario} weekly{Semanal} monthly{Mensual} yearly{Anual} other{Nunca}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{segundo}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{tercer}}",
   "rrulePickerTitle": "Repetir",
   "rrulePickerWeeks": "{count, plural, other{semana(s)}}"
 }

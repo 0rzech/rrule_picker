@@ -1,9 +1,19 @@
 {
   "@@locale": "se",
+  "rrulePickerDayOfMonth": "Mánno beaivi",
+  "rrulePickerDayOfWeek": "Beaivvi vahkku",
   "rrulePickerDays": "{count, plural, other{beaivi(t)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Juohke}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Juohke}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Juohke}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{vuosttaš}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{njealját}}",
+  "rrulePickerLastDay": "maŋimuš",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{maŋemus}}",
+  "rrulePickerMonths": "{count, plural, other{mánnu(t)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Beaivválaš} weekly{Vahkkosaš} monthly{Mánnui} yearly{Jahkásaččat} other{Ii goassige}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{nubbi}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{goalmmát}}",
   "rrulePickerTitle": "Geardduhit",
   "rrulePickerWeeks": "{count, plural, other{vahkku(t)}}"
 }

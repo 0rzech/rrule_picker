@@ -9,6 +9,12 @@ class RRulePickerLocalizationsSv extends RRulePickerLocalizations {
   RRulePickerLocalizationsSv([String locale = 'sv']) : super(locale);
 
   @override
+  String get rrulePickerDayOfMonth => 'Dag i månaden';
+
+  @override
+  String get rrulePickerDayOfWeek => 'Veckodag';
+
+  @override
   String rrulePickerDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -29,11 +35,52 @@ class RRulePickerLocalizationsSv extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryMonthly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Varje',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerEveryWeekly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: 'Varje',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFirstDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': 'första'});
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFourthDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': 'fjärde'});
+    return '$_temp0';
+  }
+
+  @override
+  String get rrulePickerLastDay => 'sista';
+
+  @override
+  String rrulePickerLastDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': 'sista'});
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'månader',
     );
     return '$_temp0';
   }
@@ -47,6 +94,18 @@ class RRulePickerLocalizationsSv extends RRulePickerLocalizations {
       'yearly': 'Årligen',
       'other': 'Aldrig',
     });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerSecondDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': 'andra'});
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerThirdDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': 'tredje'});
     return '$_temp0';
   }
 

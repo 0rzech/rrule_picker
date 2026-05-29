@@ -1,9 +1,19 @@
 {
   "@@locale": "hr",
+  "rrulePickerDayOfMonth": "Dan u mjesecu",
+  "rrulePickerDayOfWeek": "Dan u tjednu",
   "rrulePickerDays": "{count, plural, other{dani}}",
   "rrulePickerEveryDaily": "{count, plural, other{Svaki}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Svaki}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Svaki}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, wednesday{prva} saturday{prva} sunday{prva} other{prvi}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, wednesday{četvrta} saturday{četvrta} sunday{četvrta} other{četvrti}}",
+  "rrulePickerLastDay": "zadnji",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, wednesday{posljednja} saturday{posljednja} sunday{posljednja} other{posljednji}}",
+  "rrulePickerMonths": "{count, plural, other{mjeseci}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Dnevno} weekly{Tjedno} monthly{Mjesečno} yearly{Godišnje} other{Nikada}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, wednesday{druga} saturday{druga} sunday{druga} other{drugi}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, wednesday{treća} saturday{treća} sunday{treća} other{treći}}",
   "rrulePickerTitle": "Ponovi",
   "rrulePickerWeeks": "{count, plural, other{tjedni}}"
 }

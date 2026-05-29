@@ -1,9 +1,19 @@
 {
   "@@locale": "sq",
+  "rrulePickerDayOfMonth": "Dita e muajit",
+  "rrulePickerDayOfWeek": "Dita e javës",
   "rrulePickerDays": "{count, plural, other{ditë(ë)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Çdo}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Çdo}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Çdo}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{e parë}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{e katërt}}",
+  "rrulePickerLastDay": "fundit",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{e fundit}}",
+  "rrulePickerMonths": "{count, plural, other{muaj(ë)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Ditor} weekly{Javor} monthly{Mujor} yearly{Vjetor} other{Kurrë}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{e dytë}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{e tretë}}",
   "rrulePickerTitle": "Përsërit",
   "rrulePickerWeeks": "{count, plural, other{javë(ë)}}"
 }

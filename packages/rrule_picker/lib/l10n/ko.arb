@@ -1,9 +1,19 @@
 {
   "@@locale": "ko",
+  "rrulePickerDayOfMonth": "월의 일",
+  "rrulePickerDayOfWeek": "요일",
   "rrulePickerDays": "{count, plural, other{일}}",
   "rrulePickerEveryDaily": "{count, plural, other{매}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{매}}",
   "rrulePickerEveryWeekly": "{count, plural, other{매}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{첫}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{네}}",
+  "rrulePickerLastDay": "마지막",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{마지막}}",
+  "rrulePickerMonths": "{count, plural, other{개월}}",
   "rrulePickerRecurrenceType": "{name, select, daily{매일} weekly{매주} monthly{매월} yearly{매년} other{종료 없음}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{두}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{세}}",
   "rrulePickerTitle": "반복",
   "rrulePickerWeeks": "{count, plural, other{주}}"
 }

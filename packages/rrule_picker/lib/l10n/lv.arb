@@ -1,9 +1,19 @@
 {
   "@@locale": "lv",
+  "rrulePickerDayOfMonth": "Mēnesa diena",
+  "rrulePickerDayOfWeek": "Nedēļas diena",
   "rrulePickerDays": "{count, plural, other{dienas}}",
   "rrulePickerEveryDaily": "{count, plural, other{Katru}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Katru}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Katru}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{pirmā}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{ceturtā}}",
+  "rrulePickerLastDay": "pēdējā",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{pēdējā}}",
+  "rrulePickerMonths": "{count, plural, other{mēnešus}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Ikdienas} weekly{Iknedēļas} monthly{Ikmēneša} yearly{Ik gadu} other{Nekad}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{otrā}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{trešā}}",
   "rrulePickerTitle": "Atkārtot",
   "rrulePickerWeeks": "{count, plural, other{nedēļas}}"
 }

@@ -1,9 +1,19 @@
 {
   "@@locale": "fa",
+  "rrulePickerDayOfMonth": "روز ماه",
+  "rrulePickerDayOfWeek": "روز هفته",
   "rrulePickerDays": "{count, plural, other{روز}}",
   "rrulePickerEveryDaily": "{count, plural, other{هر}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{هر}}",
   "rrulePickerEveryWeekly": "{count, plural, other{هر}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{اول}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{چهارم}}",
+  "rrulePickerLastDay": "آخرین",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{آخر}}",
+  "rrulePickerMonths": "{count, plural, other{ماه}}",
   "rrulePickerRecurrenceType": "{name, select, daily{روزانه} weekly{هفتگی} monthly{ماهانه} yearly{سالانه} other{هرگز}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{دوم}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{سوم}}",
   "rrulePickerTitle": "تکرار",
   "rrulePickerWeeks": "{count, plural, other{هفته}}"
 }

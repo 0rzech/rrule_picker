@@ -9,6 +9,12 @@ class RRulePickerLocalizationsHr extends RRulePickerLocalizations {
   RRulePickerLocalizationsHr([String locale = 'hr']) : super(locale);
 
   @override
+  String get rrulePickerDayOfMonth => 'Dan u mjesecu';
+
+  @override
+  String get rrulePickerDayOfWeek => 'Dan u tjednu';
+
+  @override
   String rrulePickerDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -29,11 +35,67 @@ class RRulePickerLocalizationsHr extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryMonthly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Svaki',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerEveryWeekly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: 'Svaki',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFirstDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'prva',
+      'saturday': 'prva',
+      'sunday': 'prva',
+      'other': 'prvi',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFourthDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'četvrta',
+      'saturday': 'četvrta',
+      'sunday': 'četvrta',
+      'other': 'četvrti',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get rrulePickerLastDay => 'zadnji';
+
+  @override
+  String rrulePickerLastDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'posljednja',
+      'saturday': 'posljednja',
+      'sunday': 'posljednja',
+      'other': 'posljednji',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'mjeseci',
     );
     return '$_temp0';
   }
@@ -46,6 +108,28 @@ class RRulePickerLocalizationsHr extends RRulePickerLocalizations {
       'monthly': 'Mjesečno',
       'yearly': 'Godišnje',
       'other': 'Nikada',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerSecondDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'druga',
+      'saturday': 'druga',
+      'sunday': 'druga',
+      'other': 'drugi',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerThirdDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'wednesday': 'treća',
+      'saturday': 'treća',
+      'sunday': 'treća',
+      'other': 'treći',
     });
     return '$_temp0';
   }

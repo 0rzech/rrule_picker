@@ -1,9 +1,19 @@
 {
   "@@locale": "no",
+  "rrulePickerDayOfMonth": "Dag i måneden",
+  "rrulePickerDayOfWeek": "Ukedag",
   "rrulePickerDays": "{count, plural, other{dag(er)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Hver}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Hver}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Hver}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{første}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{fjerde}}",
+  "rrulePickerLastDay": "siste",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{siste}}",
+  "rrulePickerMonths": "{count, plural, other{måned(er)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Daglig} weekly{Ukentlig} monthly{Månedlig} yearly{Årlig} other{Aldri}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{andre}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{tredje}}",
   "rrulePickerTitle": "Gjenta",
   "rrulePickerWeeks": "{count, plural, other{uke(r)}}"
 }

@@ -9,6 +9,12 @@ class RRulePickerLocalizationsEl extends RRulePickerLocalizations {
   RRulePickerLocalizationsEl([String locale = 'el']) : super(locale);
 
   @override
+  String get rrulePickerDayOfMonth => 'Ημέρα του μήνα';
+
+  @override
+  String get rrulePickerDayOfWeek => 'Ημέρα της εβδομάδας';
+
+  @override
   String rrulePickerDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -29,11 +35,61 @@ class RRulePickerLocalizationsEl extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryMonthly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Κάθε',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerEveryWeekly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: 'Κάθε',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFirstDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'saturday': 'πρώτο',
+      'other': 'πρώτη',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFourthDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'saturday': 'τέταρτο',
+      'other': 'τέταρτη',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get rrulePickerLastDay => 'τελευταία';
+
+  @override
+  String rrulePickerLastDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'saturday': 'τελευταίο',
+      'other': 'τελευταία',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'μήνες',
     );
     return '$_temp0';
   }
@@ -46,6 +102,24 @@ class RRulePickerLocalizationsEl extends RRulePickerLocalizations {
       'monthly': 'Μήνες',
       'yearly': 'Ετη',
       'other': 'Χωρίς επανάληψη',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerSecondDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'saturday': 'δεύτερο',
+      'other': 'δεύτερη',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerThirdDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'saturday': 'τρίτο',
+      'other': 'τρίτη',
     });
     return '$_temp0';
   }

@@ -1,9 +1,19 @@
 {
   "@@locale": "fi",
+  "rrulePickerDayOfMonth": "Kuukauden päivä",
+  "rrulePickerDayOfWeek": "Viikonpäivä",
   "rrulePickerDays": "{count, plural, other{päivä}}",
   "rrulePickerEveryDaily": "{count, plural, other{Joka}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Joka}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Joka}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{ensimmäinen}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{neljäs}}",
+  "rrulePickerLastDay": "viimeinen",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{viimeinen}}",
+  "rrulePickerMonths": "{count, plural, other{kuukausi}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Päivittäin} weekly{Viikoittain} monthly{Kuukausittain} yearly{Vuotuinen} other{Ei koskaan}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{toinen}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{kolmas}}",
   "rrulePickerTitle": "Toistaa",
   "rrulePickerWeeks": "{count, plural, other{viikko}}"
 }

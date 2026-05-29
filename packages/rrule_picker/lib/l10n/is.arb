@@ -1,9 +1,19 @@
 {
   "@@locale": "is",
+  "rrulePickerDayOfMonth": "Dagur mánaðar",
+  "rrulePickerDayOfWeek": "Dagur vikunnar",
   "rrulePickerDays": "{count, plural, other{dagar}}",
   "rrulePickerEveryDaily": "{count, plural, other{Á hverjum}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Á hverjum}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Á hverjum}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{fyrsti}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{fjórði}}",
+  "rrulePickerLastDay": "síðasti",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{síðasti}}",
+  "rrulePickerMonths": "{count, plural, other{mánuðir}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Daglega} weekly{Vikulega} monthly{Mánaðarlega} yearly{Árlega} other{Aldrei}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{annar}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{þriðji}}",
   "rrulePickerTitle": "Endurtekning",
   "rrulePickerWeeks": "{count, plural, other{vikur}}"
 }

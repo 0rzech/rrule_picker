@@ -1,9 +1,19 @@
 {
   "@@locale": "zh",
+  "rrulePickerDayOfMonth": "月的某一天",
+  "rrulePickerDayOfWeek": "一周的某一天",
   "rrulePickerDays": "{count, plural, other{到黎明}}",
   "rrulePickerEveryDaily": "{count, plural, other{每个}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{每个}}",
   "rrulePickerEveryWeekly": "{count, plural, other{每个}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{第一}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{第四}}",
+  "rrulePickerLastDay": "最后",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{最后一个}}",
+  "rrulePickerMonths": "{count, plural, other{几个月}}",
   "rrulePickerRecurrenceType": "{name, select, daily{日常的} weekly{每周} monthly{每月} yearly{年度的} other{绝不}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{第二}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{第三}}",
   "rrulePickerTitle": "重复",
   "rrulePickerWeeks": "{count, plural, other{软化}}"
 }

@@ -1,7 +1,8 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:rrule_picker/widgets/weekly.dart';
+import 'package:rrule_picker/localizations/extensions.dart';
+import 'package:rrule_picker/widgets/monthly.dart';
 
 const defaultInterval = 1;
 
@@ -17,6 +18,38 @@ int parseInterval(
     final value? when value > 0 => value,
     _ => defaultValue,
   };
+}
+
+const byMonthDayMin = 1;
+const byMonthDayMax = 32;
+const defaultByMonthDay = byMonthDayMin;
+
+int parseByMonthDay(
+  final String? value, [
+  final int defaultValue = defaultByMonthDay,
+]) {
+  if (value == null) {
+    return defaultValue;
+  }
+
+  return switch (int.tryParse(value)) {
+    -1 => byMonthDayMax,
+    final value? when value >= byMonthDayMin && value < byMonthDayMax => value,
+    _ => defaultValue,
+  };
+}
+
+const defaultByDaySingle = DayOfWeek.monday;
+
+DayOfWeek parseByDaySingle(
+  final String? value, [
+  final DayOfWeek defaultValue = defaultByDaySingle,
+]) {
+  if (value == null) {
+    return defaultValue;
+  }
+
+  return DayOfWeek.tryParse(value) ?? defaultValue;
 }
 
 const defaultByDayMulti = {DayOfWeek.monday};
@@ -36,4 +69,17 @@ Set<DayOfWeek> parseByDayMulti(
       .toSet();
 
   return byDay.isEmpty ? defaultValue : byDay;
+}
+
+const defaultBySetPosNthWeekDay = DayOfWeekOrdinal.first;
+
+DayOfWeekOrdinal parseBySetPosNthWeekDay(
+  final String? value, [
+  final DayOfWeekOrdinal defaultValue = defaultBySetPosNthWeekDay,
+]) {
+  if (value == null) {
+    return defaultValue;
+  }
+
+  return DayOfWeekOrdinal.tryParse(value) ?? defaultValue;
 }

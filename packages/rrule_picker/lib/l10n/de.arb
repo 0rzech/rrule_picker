@@ -1,9 +1,19 @@
 {
   "@@locale": "de",
+  "rrulePickerDayOfMonth": "Tag des Monats",
+  "rrulePickerDayOfWeek": "Wochentag",
   "rrulePickerDays": "{count, plural, other{Tage}}",
   "rrulePickerEveryDaily": "{count, plural, other{Alle}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Alle}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Alle}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{erster}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{vierter}}",
+  "rrulePickerLastDay": "letzter",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{letzter}}",
+  "rrulePickerMonths": "{count, plural, other{Monate}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Täglich} weekly{Wöchentlich} monthly{Monatlich} yearly{Jährlich} other{Keine Wiederholung}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{zweiter}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{dritter}}",
   "rrulePickerTitle": "Wiederhole",
   "rrulePickerWeeks": "{count, plural, other{Wochen}}"
 }

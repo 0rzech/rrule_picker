@@ -1,9 +1,19 @@
 {
   "@@locale": "sk",
+  "rrulePickerDayOfMonth": "Deň v mesiaci",
+  "rrulePickerDayOfWeek": "Deň v týždni",
   "rrulePickerDays": "{count, plural, other{deň(y)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Každý}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Každý}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Každý}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, wednesday{prvá} saturday{prvá} sunday{prvá} other{prvý}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, wednesday{štvrtá} saturday{štvrtá} sunday{štvrtá} other{štvrtý}}",
+  "rrulePickerLastDay": "posledný",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, wednesday{posledná} saturday{posledná} sunday{posledná} other{posledný}}",
+  "rrulePickerMonths": "{count, plural, other{mesiac(e)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Denne} weekly{Týždenne} monthly{Mesačne} yearly{Ročne} other{Nikdy}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, wednesday{druhá} saturday{druhá} sunday{druhá} other{druhý}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, wednesday{tretia} saturday{tretia} sunday{tretia} other{tretí}}",
   "rrulePickerTitle": "Opakovať",
   "rrulePickerWeeks": "{count, plural, other{týždeň(y)}}"
 }

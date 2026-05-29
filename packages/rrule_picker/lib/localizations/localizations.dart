@@ -168,6 +168,18 @@ abstract class RRulePickerLocalizations {
     Locale('zh'),
   ];
 
+  /// Label for day of month selection
+  ///
+  /// In en, this message translates to:
+  /// **'Day of month'**
+  String get rrulePickerDayOfMonth;
+
+  /// Label for day of week selection
+  ///
+  /// In en, this message translates to:
+  /// **'Day of week'**
+  String get rrulePickerDayOfWeek;
+
   /// No description provided for @rrulePickerDays.
   ///
   /// In en, this message translates to:
@@ -180,17 +192,65 @@ abstract class RRulePickerLocalizations {
   /// **'{count, plural, other{Every}}'**
   String rrulePickerEveryDaily(int count);
 
+  /// No description provided for @rrulePickerEveryMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{Every}}'**
+  String rrulePickerEveryMonthly(int count);
+
   /// No description provided for @rrulePickerEveryWeekly.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, other{Every}}'**
   String rrulePickerEveryWeekly(int count);
 
+  /// Gendered 'first' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'.
+  ///
+  /// In en, this message translates to:
+  /// **'{dayOfWeek, select, monday{first} tuesday{first} wednesday{first} thursday{first} friday{first} saturday{first} other{first}}'**
+  String rrulePickerFirstDayOfWeek(String dayOfWeek);
+
+  /// Gendered 'fourth' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'.
+  ///
+  /// In en, this message translates to:
+  /// **'{dayOfWeek, select, monday{fourth} tuesday{fourth} wednesday{fourth} thursday{fourth} friday{fourth} saturday{fourth} other{fourth}}'**
+  String rrulePickerFourthDayOfWeek(String dayOfWeek);
+
+  /// Label for last day selection
+  ///
+  /// In en, this message translates to:
+  /// **'last'**
+  String get rrulePickerLastDay;
+
+  /// Gendered 'last' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'.
+  ///
+  /// In en, this message translates to:
+  /// **'{dayOfWeek, select, monday{last} tuesday{last} wednesday{last} thursday{last} friday{last} saturday{last} other{last}}'**
+  String rrulePickerLastDayOfWeek(String dayOfWeek);
+
+  /// No description provided for @rrulePickerMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{month} other{months}}'**
+  String rrulePickerMonths(int count);
+
   /// Display values for recurrence type dropdown
   ///
   /// In en, this message translates to:
   /// **'{name, select, daily{Daily} weekly{Weekly} monthly{Monthly} yearly{Yearly} other{Never}}'**
   String rrulePickerRecurrenceType(String name);
+
+  /// Gendered 'second' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'.
+  ///
+  /// In en, this message translates to:
+  /// **'{dayOfWeek, select, monday{second} tuesday{second} wednesday{second} thursday{second} friday{second} saturday{second} other{second}}'**
+  String rrulePickerSecondDayOfWeek(String dayOfWeek);
+
+  /// Gendered 'third' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'.
+  ///
+  /// In en, this message translates to:
+  /// **'{dayOfWeek, select, monday{third} tuesday{third} wednesday{third} thursday{third} friday{third} saturday{third} other{third}}'**
+  String rrulePickerThirdDayOfWeek(String dayOfWeek);
 
   /// Optional title of the whole widget
   ///

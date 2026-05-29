@@ -1,9 +1,19 @@
 {
   "@@locale": "id",
+  "rrulePickerDayOfMonth": "Tanggal bulan",
+  "rrulePickerDayOfWeek": "Hari dalam seminggu",
   "rrulePickerDays": "{count, plural, other{hari}}",
   "rrulePickerEveryDaily": "{count, plural, other{Setiap}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Setiap}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Setiap}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{pertama}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{keempat}}",
+  "rrulePickerLastDay": "terakhir",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{terakhir}}",
+  "rrulePickerMonths": "{count, plural, other{bulan}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Harian} weekly{Mingguan} monthly{Bulanan} yearly{Tahunan} other{Tak pernah}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{kedua}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{ketiga}}",
   "rrulePickerTitle": "Mengulang",
   "rrulePickerWeeks": "{count, plural, other{minggu}}"
 }

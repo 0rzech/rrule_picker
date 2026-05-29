@@ -1,5 +1,14 @@
 {
     "@@locale": "en",
+    "rrulePickerDayOfMonth": "Day of month",
+    "@rrulePickerDayOfMonth": {
+        "description": "Label for day of month selection"
+    },
+    "rrulePickerDayOfWeek": "Day of week",
+    "@rrulePickerDayOfWeek": {
+        "description": "Label for day of week selection"
+    },
+
     "rrulePickerDays": "{count, plural, =1{day} other{days}}",
     "@rrulePickerDays": {
         "placeholders": {
@@ -18,8 +27,64 @@
         }
     },
 
+    "rrulePickerEveryMonthly": "{count, plural, other{Every}}",
+    "@rrulePickerEveryMonthly": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+
     "rrulePickerEveryWeekly": "{count, plural, other{Every}}",
     "@rrulePickerEveryWeekly": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+
+    "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, monday{first} tuesday{first} wednesday{first} thursday{first} friday{first} saturday{first} other{first}}",
+    "@rrulePickerFirstDayOfWeek": {
+        "placeholders": {
+            "dayOfWeek": {
+                "type": "String",
+                "example": "monday"
+            }
+        },
+        "description": "Gendered 'first' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'."
+    },
+
+    "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, monday{fourth} tuesday{fourth} wednesday{fourth} thursday{fourth} friday{fourth} saturday{fourth} other{fourth}}",
+    "@rrulePickerFourthDayOfWeek": {
+        "placeholders": {
+            "dayOfWeek": {
+                "type": "String",
+                "example": "monday"
+            }
+        },
+        "description": "Gendered 'fourth' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'."
+    },
+
+    "rrulePickerLastDay": "last",
+    "@rrulePickerLastDay": {
+        "description": "Label for last day selection"
+    },
+
+    "rrulePickerLastDayOfWeek": "{dayOfWeek, select, monday{last} tuesday{last} wednesday{last} thursday{last} friday{last} saturday{last} other{last}}",
+    "@rrulePickerLastDayOfWeek": {
+        "placeholders": {
+            "dayOfWeek": {
+                "type": "String",
+                "example": "monday"
+            }
+        },
+        "description": "Gendered 'last' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'."
+    },
+
+    "rrulePickerMonths": "{count, plural, =1{month} other{months}}",
+    "@rrulePickerMonths": {
         "placeholders": {
             "count": {
                 "type": "int"
@@ -35,6 +100,28 @@
             }
         },
         "description": "Display values for recurrence type dropdown"
+    },
+
+    "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, monday{second} tuesday{second} wednesday{second} thursday{second} friday{second} saturday{second} other{second}}",
+    "@rrulePickerSecondDayOfWeek": {
+        "placeholders": {
+            "dayOfWeek": {
+                "type": "String",
+                "example": "monday"
+            }
+        },
+        "description": "Gendered 'second' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'."
+    },
+
+    "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, monday{third} tuesday{third} wednesday{third} thursday{third} friday{third} saturday{third} other{third}}",
+    "@rrulePickerThirdDayOfWeek": {
+        "placeholders": {
+            "dayOfWeek": {
+                "type": "String",
+                "example": "monday"
+            }
+        },
+        "description": "Gendered 'third' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'."
     },
 
     "rrulePickerTitle": "Repeat",

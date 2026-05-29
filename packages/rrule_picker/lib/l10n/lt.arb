@@ -1,9 +1,19 @@
 {
   "@@locale": "lt",
+  "rrulePickerDayOfMonth": "Mėnesio diena",
+  "rrulePickerDayOfWeek": "Savaitės diena",
   "rrulePickerDays": "{count, plural, other{dieną}}",
   "rrulePickerEveryDaily": "{count, plural, other{Kiekvieną}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{Kiekvieną}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Kiekvieną}}",
+  "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{pirmas}}",
+  "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{ketvirtas}}",
+  "rrulePickerLastDay": "paskutinis",
+  "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{paskutinis}}",
+  "rrulePickerMonths": "{count, plural, other{mėnesių}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Kasdien} weekly{Kas savaitę} monthly{Kas mėnesį} yearly{Metinis} other{Niekada}}",
+  "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{antras}}",
+  "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{trečias}}",
   "rrulePickerTitle": "Kartoti",
   "rrulePickerWeeks": "{count, plural, other{kad suminkštėtų}}"
 }

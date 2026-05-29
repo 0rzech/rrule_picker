@@ -9,6 +9,12 @@ class RRulePickerLocalizationsCs extends RRulePickerLocalizations {
   RRulePickerLocalizationsCs([String locale = 'cs']) : super(locale);
 
   @override
+  String get rrulePickerDayOfMonth => 'Den v měsíci';
+
+  @override
+  String get rrulePickerDayOfWeek => 'Den v týdnu';
+
+  @override
   String rrulePickerDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -29,11 +35,58 @@ class RRulePickerLocalizationsCs extends RRulePickerLocalizations {
   }
 
   @override
+  String rrulePickerEveryMonthly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Každý',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String rrulePickerEveryWeekly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: 'Každý',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFirstDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': 'první'});
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerFourthDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'monday': 'čtvrté',
+      'tuesday': 'čtvrté',
+      'thursday': 'čtvrtý',
+      'friday': 'čtvrtý',
+      'other': 'čtvrtá',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get rrulePickerLastDay => 'poslední';
+
+  @override
+  String rrulePickerLastDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': 'poslední'});
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'měsíců',
     );
     return '$_temp0';
   }
@@ -47,6 +100,24 @@ class RRulePickerLocalizationsCs extends RRulePickerLocalizations {
       'yearly': 'Ročně',
       'other': 'Nikdy',
     });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerSecondDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
+      'monday': 'druhé',
+      'tuesday': 'druhé',
+      'thursday': 'druhý',
+      'friday': 'druhý',
+      'other': 'druhá',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerThirdDayOfWeek(String dayOfWeek) {
+    String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': 'třetí'});
     return '$_temp0';
   }
 

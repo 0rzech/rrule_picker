@@ -4,7 +4,8 @@
 import 'package:rrule_picker/localizations/extensions.dart';
 import 'package:rrule_picker/widgets/monthly.dart';
 
-const defaultInterval = 1;
+const intervalMin = 1;
+const defaultInterval = intervalMin;
 
 int parseInterval(String? value, [int defaultValue = defaultInterval]) {
   if (value == null) {

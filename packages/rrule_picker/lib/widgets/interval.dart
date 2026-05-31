@@ -34,11 +34,14 @@ class RRulePickerInterval extends StatelessWidget {
       child: TextField(
         controller: intervalController,
         keyboardType: .number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          const _RRulePickerIntervalValueInputFormatter(),
+        ],
         style: config.textFieldStyle.textStyle,
         decoration: config.textFieldStyle.decoration,
         onChanged: (value) {
-          if (int.tryParse(value) case final int count) {
+          if (int.tryParse(value) case final count?) {
             intervalNotifier.value = count;
           }
         },
@@ -95,8 +98,21 @@ mixin RRulePickerIntervalState<T extends StatefulWidget> on State<T> {
     super.dispose();
   }
 
-  int getIntervalValue({int minValue = 1, int? defaultValue}) =>
+  int getIntervalValue({int minValue = intervalMin, int? defaultValue}) =>
       intervalNotifier.value < minValue
       ? (defaultValue ?? initialIntervalValue)
       : intervalNotifier.value;
+}
+
+class _RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
+  const _RRulePickerIntervalValueInputFormatter();
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) => switch (int.tryParse(newValue.text)) {
+    final value? when value < intervalMin => oldValue,
+    _ => newValue,
+  };
 }

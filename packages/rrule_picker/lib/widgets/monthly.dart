@@ -23,11 +23,9 @@ class RRulePickerMonthly extends StatefulWidget {
   State<StatefulWidget> createState() => _RRulePickerMonthlyState();
 }
 
-class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
+class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
+    with RRulePickerIntervalState {
   late final ValueNotifier<Set<_SegmentType>> segmentType;
-
-  late final ValueNotifier<int> interval;
-  late final TextEditingController intervalController;
 
   late final ValueNotifier<int> dayOfMonth;
   late final NumberFormat dayOfMonthFormatter;
@@ -46,8 +44,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
       rrule.dayOfMonth == null ? .relative : .precise,
     });
 
-    interval = ValueNotifier(rrule.interval);
-    intervalController = .new(text: interval.value.toString());
+    initIntervalState(rrule.interval);
 
     dayOfMonth = ValueNotifier(rrule.dayOfMonth ?? defaultByMonthDay);
     dayOfMonthFormatter = NumberFormat('00');
@@ -67,9 +64,6 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
     daysOfWeek.dispose();
 
     dayOfMonth.dispose();
-
-    intervalController.dispose();
-    interval.dispose();
 
     segmentType.dispose();
     super.dispose();
@@ -104,7 +98,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
       everyUnitText: l.rrulePickerEveryMonthly,
       intervalUnitText: l.rrulePickerMonths,
       intervalController: intervalController,
-      intervalNotifier: this.interval,
+      intervalNotifier: intervalNotifier,
       config: widget.config,
     );
 
@@ -248,7 +242,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
   void buildRRulePart(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=MONTHLY;INTERVAL=');
-      sb.write(interval.value > 0 ? interval.value : defaultInterval);
+      sb.write(getIntervalValue());
 
       switch (segmentType.value.first) {
         case .precise:

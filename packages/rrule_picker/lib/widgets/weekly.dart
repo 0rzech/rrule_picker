@@ -23,9 +23,8 @@ class RRulePickerWeekly extends StatefulWidget {
   State<StatefulWidget> createState() => _RRulePickerWeeklyState();
 }
 
-class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
-  late final ValueNotifier<int> interval;
-  late final TextEditingController intervalController;
+class _RRulePickerWeeklyState extends State<RRulePickerWeekly>
+    with RRulePickerIntervalState {
   late final ValueNotifier<Set<DayOfWeek>> selectedDaysOfWeek;
   late DateFormat dayOfWeekFormat;
   late List<(DayOfWeek, String)> daysOfWeek;
@@ -34,8 +33,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
   void initState() {
     super.initState();
     final (weeks, days) = parseRRule(widget.controller.initialRRule);
-    interval = ValueNotifier(weeks);
-    intervalController = .new(text: interval.value.toString());
+    initIntervalState(weeks);
     widget.controller.rrulePartBuilder = buildRRulePart;
     selectedDaysOfWeek = ValueNotifier(days);
   }
@@ -44,8 +42,6 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
   void dispose() {
     selectedDaysOfWeek.dispose();
     widget.controller.rrulePartBuilder = null;
-    intervalController.dispose();
-    interval.dispose();
     super.dispose();
   }
 
@@ -74,7 +70,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
       everyUnitText: localizations.rrulePickerEveryWeekly,
       intervalController: intervalController,
       intervalUnitText: localizations.rrulePickerWeeks,
-      intervalNotifier: this.interval,
+      intervalNotifier: intervalNotifier,
       config: config,
     );
 
@@ -120,7 +116,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
   void buildRRulePart(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=WEEKLY;INTERVAL=');
-      sb.write(interval.value > 0 ? interval.value : defaultInterval);
+      sb.write(getIntervalValue());
       sb.write(';BYDAY=');
       final sorted = selectedDaysOfWeek.value.toList(growable: false)
         ..sort(DayOfWeek.compare);

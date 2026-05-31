@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rrule_picker/parsing.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 
 class RRulePickerInterval extends StatelessWidget {
@@ -60,4 +61,42 @@ class RRulePickerInterval extends StatelessWidget {
       ],
     );
   }
+}
+
+mixin RRulePickerIntervalState<T extends StatefulWidget> on State<T> {
+  late final int initialIntervalValue;
+  late final ValueNotifier<int> intervalNotifier;
+  late final TextEditingController intervalController;
+  bool _isIntervalStateInitialized = false;
+
+  @protected
+  @mustCallSuper
+  void initIntervalState([int initialValue = defaultInterval]) {
+    initialIntervalValue = initialValue;
+    intervalNotifier = .new(initialIntervalValue);
+    intervalController = .new(text: intervalNotifier.value.toString());
+    _isIntervalStateInitialized = true;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    assert(
+      _isIntervalStateInitialized,
+      'RRulePickerIntervalState error: You must call initIntervalState() '
+      "inside your widget's initState() method.",
+    );
+  }
+
+  @override
+  void dispose() {
+    intervalController.dispose();
+    intervalNotifier.dispose();
+    super.dispose();
+  }
+
+  int getIntervalValue({int minValue = 1, int? defaultValue}) =>
+      intervalNotifier.value < minValue
+      ? (defaultValue ?? initialIntervalValue)
+      : intervalNotifier.value;
 }

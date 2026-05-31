@@ -20,23 +20,18 @@ class RRulePickerDaily extends StatefulWidget {
   State<StatefulWidget> createState() => _RRulePickerDailyState();
 }
 
-class _RRulePickerDailyState extends State<RRulePickerDaily> {
-  late final ValueNotifier<int> interval;
-  late final TextEditingController intervalController;
-
+class _RRulePickerDailyState extends State<RRulePickerDaily>
+    with RRulePickerIntervalState {
   @override
   void initState() {
     super.initState();
-    interval = ValueNotifier(parseRRule(widget.controller.initialRRule));
-    intervalController = .new(text: interval.value.toString());
+    initIntervalState(parseRRule(widget.controller.initialRRule));
     widget.controller.rrulePartBuilder = buildRRulePart;
   }
 
   @override
   void dispose() {
     widget.controller.rrulePartBuilder = null;
-    intervalController.dispose();
-    interval.dispose();
     super.dispose();
   }
 
@@ -47,7 +42,7 @@ class _RRulePickerDailyState extends State<RRulePickerDaily> {
     return RRulePickerInterval(
       everyUnitText: localizations.rrulePickerEveryDaily,
       intervalUnitText: localizations.rrulePickerDays,
-      intervalNotifier: interval,
+      intervalNotifier: intervalNotifier,
       intervalController: intervalController,
       config: widget.config,
     );
@@ -64,7 +59,7 @@ class _RRulePickerDailyState extends State<RRulePickerDaily> {
   void buildRRulePart(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=DAILY;INTERVAL=');
-      sb.write(interval.value > 0 ? interval.value : defaultInterval);
+      sb.write(getIntervalValue());
     } else {
       sb.write(widget.controller.initialRRule);
     }

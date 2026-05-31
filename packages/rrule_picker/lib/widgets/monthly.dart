@@ -55,12 +55,12 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
     dayOfWeekOrdinal = ValueNotifier(rrule.dayOfWeekOrdinal ?? .first);
     dayOfWeek = ValueNotifier(rrule.dayOfWeek ?? widget.firstDayOfWeek);
 
-    widget.controller.rruleBuilder = buildRRule;
+    widget.controller.rrulePartBuilder = buildRRulePart;
   }
 
   @override
   void dispose() {
-    widget.controller.rruleBuilder = null;
+    widget.controller.rrulePartBuilder = null;
 
     dayOfWeek.dispose();
     dayOfWeekOrdinal.dispose();
@@ -245,7 +245,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
     }
   }
 
-  void buildRRule(StringBuffer sb) {
+  void buildRRulePart(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=MONTHLY;INTERVAL=');
       sb.write(interval.value > 0 ? interval.value : defaultInterval);
@@ -294,7 +294,8 @@ class RRulePickerMonthlyController
   RRulePickerMonthlyController([super.initialRRule = '']);
 
   @override
-  set rruleBuilder(RRuleBuilder? value) => super.rruleBuilder = value;
+  set rrulePartBuilder(RRulePartBuilder? value) =>
+      super.rrulePartBuilder = value;
 }
 
 enum _SegmentType { precise, relative }

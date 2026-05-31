@@ -37,12 +37,12 @@ class _RRulePickerState extends State<RRulePicker> {
     weeklyController = .new(widget.controller.initialRRule);
     monthlyController = .new(widget.controller.initialRRule);
 
-    widget.controller.rruleBuilder = buildRRule;
+    widget.controller.rrulePartBuilder = buildRRulePart;
   }
 
   @override
   void dispose() {
-    widget.controller.rruleBuilder = null;
+    widget.controller.rrulePartBuilder = null;
     recurrenceType.dispose();
     super.dispose();
   }
@@ -124,7 +124,7 @@ class _RRulePickerState extends State<RRulePicker> {
     }
   }
 
-  void buildRRule(StringBuffer sb) => mounted
+  void buildRRulePart(StringBuffer sb) => mounted
       ? switch (recurrenceType.value) {
           .never => null,
           .daily => dailyController.buildRRulePart(sb),
@@ -139,7 +139,8 @@ class RRulePickerController extends RRuleWidgetController<RRulePicker> {
   RRulePickerController([super.initialRRule = '']);
 
   @override
-  set rruleBuilder(RRuleBuilder? value) => super.rruleBuilder = value;
+  set rrulePartBuilder(RRulePartBuilder? value) =>
+      super.rrulePartBuilder = value;
 
   String buildRRule() {
     final sb = StringBuffer('RRULE:');

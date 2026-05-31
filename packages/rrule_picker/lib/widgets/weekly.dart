@@ -36,14 +36,14 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
     final (weeks, days) = parseRRule(widget.controller.initialRRule);
     interval = ValueNotifier(weeks);
     intervalController = .new(text: interval.value.toString());
-    widget.controller.rruleBuilder = buildRRule;
+    widget.controller.rrulePartBuilder = buildRRulePart;
     selectedDaysOfWeek = ValueNotifier(days);
   }
 
   @override
   void dispose() {
     selectedDaysOfWeek.dispose();
-    widget.controller.rruleBuilder = null;
+    widget.controller.rrulePartBuilder = null;
     intervalController.dispose();
     interval.dispose();
     super.dispose();
@@ -117,7 +117,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
     );
   }
 
-  void buildRRule(StringBuffer sb) {
+  void buildRRulePart(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=WEEKLY;INTERVAL=');
       sb.write(interval.value > 0 ? interval.value : defaultInterval);
@@ -136,5 +136,6 @@ class RRulePickerWeeklyController
   RRulePickerWeeklyController([super.initialRRule = '']);
 
   @override
-  set rruleBuilder(RRuleBuilder? value) => super.rruleBuilder = value;
+  set rrulePartBuilder(RRulePartBuilder? value) =>
+      super.rrulePartBuilder = value;
 }

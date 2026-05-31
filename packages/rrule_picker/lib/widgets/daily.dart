@@ -29,12 +29,12 @@ class _RRulePickerDailyState extends State<RRulePickerDaily> {
     super.initState();
     interval = ValueNotifier(parseRRule(widget.controller.initialRRule));
     intervalController = .new(text: interval.value.toString());
-    widget.controller.rruleBuilder = buildRRule;
+    widget.controller.rrulePartBuilder = buildRRulePart;
   }
 
   @override
   void dispose() {
-    widget.controller.rruleBuilder = null;
+    widget.controller.rrulePartBuilder = null;
     intervalController.dispose();
     interval.dispose();
     super.dispose();
@@ -61,7 +61,7 @@ class _RRulePickerDailyState extends State<RRulePickerDaily> {
     return parseInterval(RegExp(r'INTERVAL=(\d+)').firstMatch(rule)?.group(1));
   }
 
-  void buildRRule(StringBuffer sb) {
+  void buildRRulePart(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=DAILY;INTERVAL=');
       sb.write(interval.value > 0 ? interval.value : defaultInterval);
@@ -76,5 +76,6 @@ class RRulePickerDailyController
   RRulePickerDailyController([super.initialRRule = '']);
 
   @override
-  set rruleBuilder(RRuleBuilder? value) => super.rruleBuilder = value;
+  set rrulePartBuilder(RRulePartBuilder? value) =>
+      super.rrulePartBuilder = value;
 }

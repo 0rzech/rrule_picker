@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 
 abstract class RRuleWidgetController<T extends StatefulWidget> {
   final String initialRRule;
-  RRuleBuilder? _rruleBuilder;
+  RRulePartBuilder? _rrulePartBuilder;
 
   RRuleWidgetController(this.initialRRule);
 
   @protected
-  set rruleBuilder(RRuleBuilder? value) => _rruleBuilder = value;
+  set rrulePartBuilder(RRulePartBuilder? value) => _rrulePartBuilder = value;
 
-  void buildRRulePart(StringBuffer sb) =>
-      _rruleBuilder == null ? sb.write(initialRRule) : _rruleBuilder!.call(sb);
+  void buildRRulePart(StringBuffer sb) {
+    final buildFn = _rrulePartBuilder;
+    return buildFn == null ? sb.write(initialRRule) : buildFn(sb);
+  }
 }
 
-typedef RRuleBuilder = void Function(StringBuffer sb);
+typedef RRulePartBuilder = void Function(StringBuffer sb);

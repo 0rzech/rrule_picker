@@ -53,7 +53,7 @@ class _RRulePickerDailyState extends State<RRulePickerDaily> {
     );
   }
 
-  int parseRRule(final String rule) {
+  int parseRRule(String rule) {
     if (rule.isEmpty) {
       return defaultInterval;
     }
@@ -61,7 +61,7 @@ class _RRulePickerDailyState extends State<RRulePickerDaily> {
     return parseInterval(RegExp(r'INTERVAL=(\d+)').firstMatch(rule)?.group(1));
   }
 
-  void buildRRule(final StringBuffer sb) {
+  void buildRRule(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=DAILY;INTERVAL=');
       sb.write(interval.value > 0 ? interval.value : defaultInterval);

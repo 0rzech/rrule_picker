@@ -18,7 +18,7 @@ enum DayOfWeek {
 
   const DayOfWeek(this.rruleName);
 
-  static DayOfWeek? tryParse(final String text) => switch (text.toUpperCase()) {
+  static DayOfWeek? tryParse(String text) => switch (text.toUpperCase()) {
     'MO' => monday,
     'TU' => tuesday,
     'WE' => wednesday,
@@ -30,27 +30,24 @@ enum DayOfWeek {
   };
 
   static List<(DayOfWeek, String)> buildWeek(
-    final DayOfWeek firstDayOfWeek,
-    final DateFormat formatter,
+    DayOfWeek firstDayOfWeek,
+    DateFormat formatter,
   ) => .generate(DayOfWeek.values.length, (index) {
     final offset = (index + firstDayOfWeek.index) % DayOfWeek.values.length;
     final day = DateTime(2026, 03, 30 + offset);
     return (DayOfWeek.values[offset], formatter.format(day));
   }, growable: false);
 
-  static int compare(final DayOfWeek a, final DayOfWeek b) =>
-      a.index.compareTo(b.index);
+  static int compare(DayOfWeek a, DayOfWeek b) => a.index.compareTo(b.index);
 }
 
 extension ByDayOfWeek on RRulePickerLocalizations {
-  String rrulePickerDayOfWeekOrdinal(
-    final DayOfWeekOrdinal ordinal,
-    final DayOfWeek day,
-  ) => switch (ordinal) {
-    .first => rrulePickerFirstDayOfWeek(day.name),
-    .second => rrulePickerSecondDayOfWeek(day.name),
-    .third => rrulePickerThirdDayOfWeek(day.name),
-    .fourth => rrulePickerFourthDayOfWeek(day.name),
-    .last => rrulePickerLastDayOfWeek(day.name),
-  };
+  String rrulePickerDayOfWeekOrdinal(DayOfWeekOrdinal ordinal, DayOfWeek day) =>
+      switch (ordinal) {
+        .first => rrulePickerFirstDayOfWeek(day.name),
+        .second => rrulePickerSecondDayOfWeek(day.name),
+        .third => rrulePickerThirdDayOfWeek(day.name),
+        .fourth => rrulePickerFourthDayOfWeek(day.name),
+        .last => rrulePickerLastDayOfWeek(day.name),
+      };
 }

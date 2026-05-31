@@ -48,7 +48,7 @@ class _RRulePickerState extends State<RRulePicker> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
     final config = widget.config;
 
@@ -110,7 +110,7 @@ class _RRulePickerState extends State<RRulePicker> {
     );
   }
 
-  _RecurrenceType getRecurrenceType(final String rrule) {
+  _RecurrenceType getRecurrenceType(String rrule) {
     if (rrule.isEmpty) {
       return .never;
     } else if (rrule.contains('DAILY')) {
@@ -124,7 +124,7 @@ class _RRulePickerState extends State<RRulePicker> {
     }
   }
 
-  void buildRRule(final StringBuffer sb) => mounted
+  void buildRRule(StringBuffer sb) => mounted
       ? switch (recurrenceType.value) {
           .never => null,
           .daily => dailyController.buildRRulePart(sb),
@@ -139,7 +139,7 @@ class RRulePickerController extends RRuleWidgetController<RRulePicker> {
   RRulePickerController([super.initialRRule = '']);
 
   @override
-  set rruleBuilder(final RRuleBuilder? value) => super.rruleBuilder = value;
+  set rruleBuilder(RRuleBuilder? value) => super.rruleBuilder = value;
 
   String buildRRule() {
     final sb = StringBuffer('RRULE:');

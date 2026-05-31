@@ -10,9 +10,9 @@ abstract class RRuleWidgetController<T extends StatefulWidget> {
   RRuleWidgetController(this.initialRRule);
 
   @protected
-  set rruleBuilder(final RRuleBuilder? value) => _rruleBuilder = value;
+  set rruleBuilder(RRuleBuilder? value) => _rruleBuilder = value;
 
-  void buildRRulePart(final StringBuffer sb) =>
+  void buildRRulePart(StringBuffer sb) =>
       _rruleBuilder == null ? sb.write(initialRRule) : _rruleBuilder!.call(sb);
 }
 

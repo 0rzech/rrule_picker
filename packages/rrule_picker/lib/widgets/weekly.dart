@@ -58,7 +58,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
   }
 
   @override
-  void didUpdateWidget(covariant final RRulePickerWeekly oldWidget) {
+  void didUpdateWidget(covariant RRulePickerWeekly oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.firstDayOfWeek != widget.firstDayOfWeek) {
       daysOfWeek = DayOfWeek.buildWeek(widget.firstDayOfWeek, dayOfWeekFormat);
@@ -66,7 +66,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final config = widget.config;
     final localizations = RRulePickerLocalizations.of(context);
 
@@ -103,7 +103,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
     return Column(spacing: 8, children: [interval, dayOfWeekSelector]);
   }
 
-  (int, Set<DayOfWeek>) parseRRule(final String rule) {
+  (int, Set<DayOfWeek>) parseRRule(String rule) {
     if (rule.isEmpty) {
       return (defaultInterval, {widget.firstDayOfWeek});
     }
@@ -117,7 +117,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
     );
   }
 
-  void buildRRule(final StringBuffer sb) {
+  void buildRRule(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=WEEKLY;INTERVAL=');
       sb.write(interval.value > 0 ? interval.value : defaultInterval);
@@ -136,5 +136,5 @@ class RRulePickerWeeklyController
   RRulePickerWeeklyController([super.initialRRule = '']);
 
   @override
-  set rruleBuilder(final RRuleBuilder? value) => super.rruleBuilder = value;
+  set rruleBuilder(RRuleBuilder? value) => super.rruleBuilder = value;
 }

@@ -6,10 +6,7 @@ import 'package:rrule_picker/widgets/monthly.dart';
 
 const defaultInterval = 1;
 
-int parseInterval(
-  final String? value, [
-  final int defaultValue = defaultInterval,
-]) {
+int parseInterval(String? value, [int defaultValue = defaultInterval]) {
   if (value == null) {
     return defaultValue;
   }
@@ -24,10 +21,7 @@ const byMonthDayMin = 1;
 const byMonthDayMax = 32;
 const defaultByMonthDay = byMonthDayMin;
 
-int parseByMonthDay(
-  final String? value, [
-  final int defaultValue = defaultByMonthDay,
-]) {
+int parseByMonthDay(String? value, [int defaultValue = defaultByMonthDay]) {
   if (value == null) {
     return defaultValue;
   }
@@ -42,8 +36,8 @@ int parseByMonthDay(
 const defaultByDaySingle = DayOfWeek.monday;
 
 DayOfWeek parseByDaySingle(
-  final String? value, [
-  final DayOfWeek defaultValue = defaultByDaySingle,
+  String? value, [
+  DayOfWeek defaultValue = defaultByDaySingle,
 ]) {
   if (value == null) {
     return defaultValue;
@@ -55,8 +49,8 @@ DayOfWeek parseByDaySingle(
 const defaultByDayMulti = {DayOfWeek.monday};
 
 Set<DayOfWeek> parseByDayMulti(
-  final String? value, [
-  final Set<DayOfWeek> defaultValue = defaultByDayMulti,
+  String? value, [
+  Set<DayOfWeek> defaultValue = defaultByDayMulti,
 ]) {
   if (value == null) {
     return defaultValue;
@@ -74,8 +68,8 @@ Set<DayOfWeek> parseByDayMulti(
 const defaultBySetPosNthWeekDay = DayOfWeekOrdinal.first;
 
 DayOfWeekOrdinal parseBySetPosNthWeekDay(
-  final String? value, [
-  final DayOfWeekOrdinal defaultValue = defaultBySetPosNthWeekDay,
+  String? value, [
+  DayOfWeekOrdinal defaultValue = defaultBySetPosNthWeekDay,
 ]) {
   if (value == null) {
     return defaultValue;

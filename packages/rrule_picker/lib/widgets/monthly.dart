@@ -137,8 +137,9 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
                   return DropdownButton(
                     value: day,
                     isExpanded: true,
-                    items: .generate(byMonthDayMax, (day) {
-                      return switch (++day) {
+                    items: .generate(byMonthDayMax, (i) {
+                      final day = i + 1;
+                      return switch (day) {
                         byMonthDayMax => DropdownMenuItem(
                           value: day,
                           child: Text(l.rrulePickerLastDay),
@@ -221,12 +222,12 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
     var match = RegExp(reInterval).firstMatch(rule);
     final interval = parseInterval(match?.group(1));
 
-    rule = rule.substring(match?.end ?? 0);
+    final rest = rule.substring(match?.end ?? 0);
 
-    match = RegExp(reDayOfMonth).firstMatch(rule);
+    match = RegExp(reDayOfMonth).firstMatch(rest);
     final dayOfMonth = match?.group(1);
 
-    match = RegExp(reDayOfWeek).firstMatch(rule);
+    match = RegExp(reDayOfWeek).firstMatch(rest);
     final dayOfWeek = match?.group(1);
     final dayOfWeekOrdinal = match?.group(2);
 
@@ -244,7 +245,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
     }
   }
 
-  void buildRRule(final StringBuffer sb) {
+  void buildRRule(StringBuffer sb) {
     if (mounted) {
       sb.write('FREQ=MONTHLY;INTERVAL=');
       sb.write(interval.value > 0 ? interval.value : defaultInterval);
@@ -276,7 +277,7 @@ enum DayOfWeekOrdinal {
 
   const DayOfWeekOrdinal(this.rruleValue);
 
-  static DayOfWeekOrdinal? tryParse(final String text) {
+  static DayOfWeekOrdinal? tryParse(String text) {
     return switch (int.tryParse(text)) {
       0 => first,
       1 => second,
@@ -293,7 +294,7 @@ class RRulePickerMonthlyController
   RRulePickerMonthlyController([super.initialRRule = '']);
 
   @override
-  set rruleBuilder(final RRuleBuilder? value) => super.rruleBuilder = value;
+  set rruleBuilder(RRuleBuilder? value) => super.rruleBuilder = value;
 }
 
 enum _SegmentType { precise, relative }

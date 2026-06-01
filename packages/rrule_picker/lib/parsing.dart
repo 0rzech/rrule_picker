@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:rrule_picker/localizations/extensions.dart';
-import 'package:rrule_picker/widgets/monthly.dart';
 
 const intervalMin = 1;
 const defaultInterval = intervalMin;

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rrule_picker/parsing.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/widgets/day_of_month.dart';
+import 'package:rrule_picker/widgets/day_of_week.dart';
 import 'package:rrule_picker/widgets/interval.dart';
 
 class RRulePickerMonthly extends StatefulWidget {
@@ -28,12 +28,8 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
     with
         RRulePickerIntervalSegmentTypeState,
         RRulePickerIntervalState,
-        RRulePickerDayOfMonthState {
-  late final DateFormat dayOfWeekFormatter;
-  late final ValueNotifier<List<(DayOfWeek, String)>> daysOfWeek;
-  late final ValueNotifier<DayOfWeekOrdinal> dayOfWeekOrdinal;
-  late final ValueNotifier<DayOfWeek> dayOfWeek;
-
+        RRulePickerDayOfMonthState,
+        RRulePickerDayOfWeekState {
   @override
   void initState() {
     super.initState();
@@ -44,9 +40,10 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
     );
     initIntervalState(rrule.interval);
     initDayOfMonthState(rrule.dayOfMonth ?? defaultByMonthDay);
-
-    dayOfWeekOrdinal = ValueNotifier(rrule.dayOfWeekOrdinal ?? .first);
-    dayOfWeek = ValueNotifier(rrule.dayOfWeek ?? widget.firstDayOfWeek);
+    initDayOfWeekState(
+      rrule.dayOfWeekOrdinal ?? .first,
+      rrule.dayOfWeek ?? widget.firstDayOfWeek,
+    );
 
     widget.controller.rrulePartBuilder = buildRRulePart;
   }
@@ -54,32 +51,20 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
   @override
   void dispose() {
     widget.controller.rrulePartBuilder = null;
-
-    dayOfWeek.dispose();
-    dayOfWeekOrdinal.dispose();
-    daysOfWeek.dispose();
-
     super.dispose();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final locale = RRulePickerLocalizations.of(context).localeName;
-    dayOfWeekFormatter = DateFormat.EEEE(locale);
-    daysOfWeek = ValueNotifier(
-      DayOfWeek.buildWeek(widget.firstDayOfWeek, dayOfWeekFormatter),
-    );
+    rebuildDaysOfWeek(widget.firstDayOfWeek);
   }
 
   @override
   void didUpdateWidget(covariant RRulePickerMonthly oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.firstDayOfWeek != widget.firstDayOfWeek) {
-      daysOfWeek.value = DayOfWeek.buildWeek(
-        widget.firstDayOfWeek,
-        dayOfWeekFormatter,
-      );
+      rebuildDaysOfWeek(widget.firstDayOfWeek);
     }
   }
 
@@ -250,29 +235,6 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
     } else {
       sb.write(widget.controller.initialRRule);
     }
-  }
-}
-
-enum DayOfWeekOrdinal {
-  first(1),
-  second(2),
-  third(3),
-  fourth(4),
-  last(-1);
-
-  final int rruleValue;
-
-  const DayOfWeekOrdinal(this.rruleValue);
-
-  static DayOfWeekOrdinal? tryParse(String text) {
-    return switch (int.tryParse(text)) {
-      0 => first,
-      1 => second,
-      2 => third,
-      3 => fourth,
-      -1 => last,
-      _ => null,
-    };
   }
 }
 

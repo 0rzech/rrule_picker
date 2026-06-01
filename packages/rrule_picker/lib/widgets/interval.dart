@@ -116,3 +116,37 @@ class _RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
     _ => newValue,
   };
 }
+
+mixin RRulePickerIntervalSegmentTypeState<T extends StatefulWidget>
+    on State<T> {
+  late final ValueNotifier<Set<RRulePickerIntervalSegmentType>>
+  intervalSegmentType;
+  bool _isIntervalSegmentTypeStateInitialized = false;
+
+  @protected
+  @mustCallSuper
+  void initIntervalSegmentTypeState([
+    Set<RRulePickerIntervalSegmentType> segmentType = const {.precise},
+  ]) {
+    intervalSegmentType = ValueNotifier(segmentType);
+    _isIntervalSegmentTypeStateInitialized = true;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    assert(
+      _isIntervalSegmentTypeStateInitialized,
+      'RRulePickerIntervalSegmentTypeState error: You must call '
+      "initIntervalSegmentTypeState() inside your widget's initState() method.",
+    );
+  }
+
+  @override
+  void dispose() {
+    intervalSegmentType.dispose();
+    super.dispose();
+  }
+}
+
+enum RRulePickerIntervalSegmentType { precise, relative }

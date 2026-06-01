@@ -24,9 +24,7 @@ class RRulePickerMonthly extends StatefulWidget {
 }
 
 class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
-    with RRulePickerIntervalState {
-  late final ValueNotifier<Set<_SegmentType>> segmentType;
-
+    with RRulePickerIntervalSegmentTypeState, RRulePickerIntervalState {
   late final ValueNotifier<int> dayOfMonth;
   late final NumberFormat dayOfMonthFormatter;
 
@@ -40,10 +38,9 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
     super.initState();
     final rrule = parseRRule(widget.controller.initialRRule);
 
-    segmentType = ValueNotifier({
-      rrule.dayOfMonth == null ? .relative : .precise,
-    });
-
+    initIntervalSegmentTypeState(
+      rrule.dayOfMonth == null ? const {.relative} : const {.precise},
+    );
     initIntervalState(rrule.interval);
 
     dayOfMonth = ValueNotifier(rrule.dayOfMonth ?? defaultByMonthDay);
@@ -64,8 +61,6 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
     daysOfWeek.dispose();
 
     dayOfMonth.dispose();
-
-    segmentType.dispose();
     super.dispose();
   }
 
@@ -103,15 +98,15 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
     );
 
     return ValueListenableBuilder(
-      valueListenable: segmentType,
-      builder: (context, segment, interval) {
+      valueListenable: intervalSegmentType,
+      builder: (context, segmentType, interval) {
         return Column(
           spacing: 8,
           children: [
             interval!,
-            SegmentedButton<_SegmentType>(
-              onSelectionChanged: (value) => segmentType.value = value,
-              selected: segment,
+            SegmentedButton<RRulePickerIntervalSegmentType>(
+              onSelectionChanged: (value) => intervalSegmentType.value = value,
+              selected: segmentType,
               showSelectedIcon: false,
               segments: [
                 ButtonSegment(
@@ -124,7 +119,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
                 ),
               ],
             ),
-            switch (segment.first) {
+            switch (segmentType.first) {
               .precise => ValueListenableBuilder(
                 valueListenable: dayOfMonth,
                 builder: (context, day, _) {
@@ -244,7 +239,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
       sb.write('FREQ=MONTHLY;INTERVAL=');
       sb.write(getIntervalValue());
 
-      switch (segmentType.value.first) {
+      switch (intervalSegmentType.value.first) {
         case .precise:
           sb.write(';BYMONTHDAY=');
           sb.write(dayOfMonth.value == byMonthDayMax ? -1 : dayOfMonth.value);
@@ -291,8 +286,6 @@ class RRulePickerMonthlyController
   set rrulePartBuilder(RRulePartBuilder? value) =>
       super.rrulePartBuilder = value;
 }
-
-enum _SegmentType { precise, relative }
 
 class _ParsedRRule {
   final int interval;

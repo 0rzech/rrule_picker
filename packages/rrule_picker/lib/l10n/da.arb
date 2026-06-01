@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Ugedag",
   "rrulePickerDays": "{count, plural, other{dag(e)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Hver}}",
+  "rrulePickerEveryMonth": "Hver",
   "rrulePickerEveryMonthly": "{count, plural, other{Hver}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Hver}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{første}}",

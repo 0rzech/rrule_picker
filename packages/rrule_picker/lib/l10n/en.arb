@@ -27,6 +27,11 @@
         }
     },
 
+    "rrulePickerEveryMonth": "Every",
+    "@rrulePickerEveryMonthly": {
+        "description": "'Every' <January/February/March/.../December>"
+    },
+
     "rrulePickerEveryMonthly": "{count, plural, other{Every}}",
     "@rrulePickerEveryMonthly": {
         "placeholders": {

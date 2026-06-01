@@ -192,6 +192,12 @@ abstract class RRulePickerLocalizations {
   /// **'{count, plural, other{Every}}'**
   String rrulePickerEveryDaily(int count);
 
+  /// No description provided for @rrulePickerEveryMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Every'**
+  String get rrulePickerEveryMonth;
+
   /// No description provided for @rrulePickerEveryMonthly.
   ///
   /// In en, this message translates to:

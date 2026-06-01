@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Giorno della settimana",
   "rrulePickerDays": "{count, plural, other{giorni}}",
   "rrulePickerEveryDaily": "{count, plural, other{Ogni}}",
+  "rrulePickerEveryMonth": "Ogni",
   "rrulePickerEveryMonthly": "{count, plural, other{Ogni}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Ogni}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, sunday{prima} other{primo}}",

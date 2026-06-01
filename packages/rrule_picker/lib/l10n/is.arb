@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Dagur vikunnar",
   "rrulePickerDays": "{count, plural, other{dagar}}",
   "rrulePickerEveryDaily": "{count, plural, other{Á hverjum}}",
+  "rrulePickerEveryMonth": "Hver",
   "rrulePickerEveryMonthly": "{count, plural, other{Á hverjum}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Á hverjum}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{fyrsti}}",

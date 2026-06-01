@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Dita e javës",
   "rrulePickerDays": "{count, plural, other{ditë(ë)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Çdo}}",
+  "rrulePickerEveryMonth": "Çdo",
   "rrulePickerEveryMonthly": "{count, plural, other{Çdo}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Çdo}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{e parë}}",

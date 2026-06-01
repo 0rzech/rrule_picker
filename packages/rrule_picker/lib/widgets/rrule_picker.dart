@@ -6,6 +6,7 @@ import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/widgets/daily.dart';
 import 'package:rrule_picker/widgets/monthly.dart';
 import 'package:rrule_picker/widgets/weekly.dart';
+import 'package:rrule_picker/widgets/yearly.dart';
 
 class RRulePicker extends StatefulWidget {
   final RRulePickerController controller;
@@ -27,6 +28,7 @@ class _RRulePickerState extends State<RRulePicker> {
   late final RRulePickerDailyController dailyController;
   late final RRulePickerWeeklyController weeklyController;
   late final RRulePickerMonthlyController monthlyController;
+  late final RRulePickerYearlyController yearlyController;
 
   @override
   void initState() {
@@ -36,6 +38,7 @@ class _RRulePickerState extends State<RRulePicker> {
     dailyController = .new(widget.controller.initialRRule);
     weeklyController = .new(widget.controller.initialRRule);
     monthlyController = .new(widget.controller.initialRRule);
+    yearlyController = .new(widget.controller.initialRRule);
 
     widget.controller.rrulePartBuilder = buildRRulePart;
   }
@@ -92,10 +95,11 @@ class _RRulePickerState extends State<RRulePicker> {
               title!,
               dropdown,
               switch (recurrenceType.value) {
+                .never => const SizedBox.shrink(),
                 .daily => RRulePickerDaily(controller: dailyController),
                 .weekly => RRulePickerWeekly(controller: weeklyController),
                 .monthly => RRulePickerMonthly(controller: monthlyController),
-                _ => const SizedBox.shrink(),
+                .yearly => RRulePickerYearly(controller: yearlyController),
               },
             ],
           );
@@ -130,7 +134,7 @@ class _RRulePickerState extends State<RRulePicker> {
           .daily => dailyController.buildRRulePart(sb),
           .weekly => weeklyController.buildRRulePart(sb),
           .monthly => monthlyController.buildRRulePart(sb),
-          .yearly => null,
+          .yearly => yearlyController.buildRRulePart(sb),
         }
       : sb.write(widget.controller.initialRRule);
 }

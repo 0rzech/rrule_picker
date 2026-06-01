@@ -35,6 +35,9 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEveryMonth => 'Cada';
+
+  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -172,6 +175,9 @@ class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
     );
     return '$_temp0';
   }
+
+  @override
+  String get rrulePickerEveryMonth => 'Cada';
 
   @override
   String rrulePickerEveryMonthly(int count) {

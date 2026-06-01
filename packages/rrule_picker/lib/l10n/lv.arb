@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Nedēļas diena",
   "rrulePickerDays": "{count, plural, other{dienas}}",
   "rrulePickerEveryDaily": "{count, plural, other{Katru}}",
+  "rrulePickerEveryMonth": "Katrs",
   "rrulePickerEveryMonthly": "{count, plural, other{Katru}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Katru}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{pirmā}}",

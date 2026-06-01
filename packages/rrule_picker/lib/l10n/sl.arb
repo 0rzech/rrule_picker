@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Dan v tednu",
   "rrulePickerDays": "{count, plural, other{dni}}",
   "rrulePickerEveryDaily": "{count, plural, other{Každý}}",
+  "rrulePickerEveryMonth": "Vsak",
   "rrulePickerEveryMonthly": "{count, plural, other{Každý}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Každý}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, wednesday{prva} saturday{prva} sunday{prva} other{prvi}}",

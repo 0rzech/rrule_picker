@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:rrule_picker/localizations/extensions.dart';
+import 'package:rrule_picker/widgets/yearly.dart';
 
 const intervalMin = 1;
 const defaultInterval = intervalMin;
@@ -15,6 +16,16 @@ int parseInterval(String? value, [int defaultValue = defaultInterval]) {
     final value? when value > 0 => value,
     _ => defaultValue,
   };
+}
+
+const defaultByMonth = Month.january;
+
+Month parseByMonth(String? value, [Month defaultValue = defaultByMonth]) {
+  if (value == null) {
+    return defaultValue;
+  }
+
+  return Month.tryParse(value) ?? defaultValue;
 }
 
 const byMonthDayMin = 1;

@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Zi a săptămânii",
   "rrulePickerDays": "{count, plural, other{zi(e)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Fiecare}}",
+  "rrulePickerEveryMonth": "Fiecare",
   "rrulePickerEveryMonthly": "{count, plural, other{Fiecare}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Fiecare}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{prima}}",

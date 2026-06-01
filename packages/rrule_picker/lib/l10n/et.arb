@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Nädalapäev",
   "rrulePickerDays": "{count, plural, other{päevadel}}",
   "rrulePickerEveryDaily": "{count, plural, other{Iga}}",
+  "rrulePickerEveryMonth": "Iga",
   "rrulePickerEveryMonthly": "{count, plural, other{Iga}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Iga}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{esimene}}",

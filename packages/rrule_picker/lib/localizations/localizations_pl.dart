@@ -39,6 +39,9 @@ class RRulePickerLocalizationsPl extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEveryMonth => 'Każdy';
+
+  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

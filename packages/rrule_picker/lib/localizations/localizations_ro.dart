@@ -35,6 +35,9 @@ class RRulePickerLocalizationsRo extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEveryMonth => 'Fiecare';
+
+  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

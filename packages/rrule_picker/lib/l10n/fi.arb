@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Viikonpäivä",
   "rrulePickerDays": "{count, plural, other{päivä}}",
   "rrulePickerEveryDaily": "{count, plural, other{Joka}}",
+  "rrulePickerEveryMonth": "Joka",
   "rrulePickerEveryMonthly": "{count, plural, other{Joka}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Joka}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{ensimmäinen}}",

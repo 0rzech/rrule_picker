@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Haftanın günü",
   "rrulePickerDays": "{count, plural, other{gün(ler)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Her}}",
+  "rrulePickerEveryMonth": "Her",
   "rrulePickerEveryMonthly": "{count, plural, other{Her}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Her}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{ilk}}",

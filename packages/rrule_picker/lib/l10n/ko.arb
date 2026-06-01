@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "요일",
   "rrulePickerDays": "{count, plural, other{일}}",
   "rrulePickerEveryDaily": "{count, plural, other{매}}",
+  "rrulePickerEveryMonth": "매",
   "rrulePickerEveryMonthly": "{count, plural, other{매}}",
   "rrulePickerEveryWeekly": "{count, plural, other{매}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{첫}}",

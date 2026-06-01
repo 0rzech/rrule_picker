@@ -35,6 +35,9 @@ class RRulePickerLocalizationsKo extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEveryMonth => '매';
+
+  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

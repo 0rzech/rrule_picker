@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Ημέρα της εβδομάδας",
   "rrulePickerDays": "{count, plural, other{Ημέρες}}",
   "rrulePickerEveryDaily": "{count, plural, other{Κάθε}}",
+  "rrulePickerEveryMonth": "Κάθε",
   "rrulePickerEveryMonthly": "{count, plural, other{Κάθε}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Κάθε}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, saturday{πρώτο} other{πρώτη}}",

@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "روز هفته",
   "rrulePickerDays": "{count, plural, other{روز}}",
   "rrulePickerEveryDaily": "{count, plural, other{هر}}",
+  "rrulePickerEveryMonth": "هر",
   "rrulePickerEveryMonthly": "{count, plural, other{هر}}",
   "rrulePickerEveryWeekly": "{count, plural, other{هر}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{اول}}",

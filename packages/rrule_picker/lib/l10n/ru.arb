@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "День недели",
   "rrulePickerDays": "{count, plural, other{день(и)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Каждый}}",
+  "rrulePickerEveryMonth": "Каждый",
   "rrulePickerEveryMonthly": "{count, plural, other{Каждый}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Каждый}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, wednesday{первая} friday{первая} saturday{первая} sunday{первое} other{первый}}",

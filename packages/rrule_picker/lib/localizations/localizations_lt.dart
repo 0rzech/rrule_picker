@@ -35,11 +35,14 @@ class RRulePickerLocalizationsLt extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEveryMonth => 'Kiekvienas';
+
+  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Kiekvieną',
+      other: 'Kiekvienas',
     );
     return '$_temp0';
   }

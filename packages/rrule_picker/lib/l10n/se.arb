@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "Beaivvi vahkku",
   "rrulePickerDays": "{count, plural, other{beaivi(t)}}",
   "rrulePickerEveryDaily": "{count, plural, other{Juohke}}",
+  "rrulePickerEveryMonth": "Juohke",
   "rrulePickerEveryMonthly": "{count, plural, other{Juohke}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Juohke}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{vuosttaš}}",

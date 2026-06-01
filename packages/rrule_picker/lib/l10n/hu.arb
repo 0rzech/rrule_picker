@@ -4,6 +4,7 @@
   "rrulePickerDayOfWeek": "A hét napja",
   "rrulePickerDays": "{count, plural, other{hajnalra}}",
   "rrulePickerEveryDaily": "{count, plural, other{Minden}}",
+  "rrulePickerEveryMonth": "Minden",
   "rrulePickerEveryMonthly": "{count, plural, other{Minden}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Minden}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{első}}",

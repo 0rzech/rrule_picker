@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rrule_picker/parsing.dart';
 import 'package:rrule_picker/rrule_picker.dart';
+import 'package:rrule_picker/widgets/day_of_month.dart';
 import 'package:rrule_picker/widgets/interval.dart';
 
 class RRulePickerMonthly extends StatefulWidget {
@@ -24,10 +25,10 @@ class RRulePickerMonthly extends StatefulWidget {
 }
 
 class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
-    with RRulePickerIntervalSegmentTypeState, RRulePickerIntervalState {
-  late final ValueNotifier<int> dayOfMonth;
-  late final NumberFormat dayOfMonthFormatter;
-
+    with
+        RRulePickerIntervalSegmentTypeState,
+        RRulePickerIntervalState,
+        RRulePickerDayOfMonthState {
   late final DateFormat dayOfWeekFormatter;
   late final ValueNotifier<List<(DayOfWeek, String)>> daysOfWeek;
   late final ValueNotifier<DayOfWeekOrdinal> dayOfWeekOrdinal;
@@ -42,9 +43,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
       rrule.dayOfMonth == null ? const {.relative} : const {.precise},
     );
     initIntervalState(rrule.interval);
-
-    dayOfMonth = ValueNotifier(rrule.dayOfMonth ?? defaultByMonthDay);
-    dayOfMonthFormatter = NumberFormat('00');
+    initDayOfMonthState(rrule.dayOfMonth ?? defaultByMonthDay);
 
     dayOfWeekOrdinal = ValueNotifier(rrule.dayOfWeekOrdinal ?? .first);
     dayOfWeek = ValueNotifier(rrule.dayOfWeek ?? widget.firstDayOfWeek);
@@ -60,7 +59,6 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
     dayOfWeekOrdinal.dispose();
     daysOfWeek.dispose();
 
-    dayOfMonth.dispose();
     super.dispose();
   }
 

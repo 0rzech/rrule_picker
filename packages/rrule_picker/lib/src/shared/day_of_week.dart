@@ -4,7 +4,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
-import 'package:rrule_picker/src/widgets/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/parsing.dart';
 
 @internal
 mixin RRulePickerDayOfWeekState {

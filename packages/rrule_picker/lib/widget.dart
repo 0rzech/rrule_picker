@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
+import 'package:rrule_picker/config.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
-import 'package:rrule_picker/rrule_picker_config.dart';
-import 'package:rrule_picker/src/widgets/daily.dart';
-import 'package:rrule_picker/src/widgets/monthly.dart';
-import 'package:rrule_picker/src/widgets/weekly.dart';
-import 'package:rrule_picker/src/widgets/yearly.dart';
+import 'package:rrule_picker/src/daily.dart';
+import 'package:rrule_picker/src/monthly.dart';
+import 'package:rrule_picker/src/weekly.dart';
+import 'package:rrule_picker/src/yearly.dart';
 
 class RRulePicker extends StatefulWidget {
   final RRulePickerController controller;

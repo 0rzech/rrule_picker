@@ -3,10 +3,10 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rrule_picker/config.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
-import 'package:rrule_picker/rrule_picker_config.dart';
-import 'package:rrule_picker/src/widgets/shared/interval.dart';
-import 'package:rrule_picker/src/widgets/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/interval.dart';
+import 'package:rrule_picker/src/shared/parsing.dart';
 
 @internal
 class RRulePickerDaily extends StatelessWidget {

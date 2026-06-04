@@ -1,13 +1,17 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rrule_picker/rrule_picker.dart';
-import 'package:rrule_picker/widgets/shared/day_of_month.dart';
-import 'package:rrule_picker/widgets/shared/day_of_week.dart';
-import 'package:rrule_picker/widgets/shared/interval.dart';
-import 'package:rrule_picker/widgets/shared/parsing.dart';
+import 'package:rrule_picker/localizations/localizations.dart';
+import 'package:rrule_picker/rrule_picker_config.dart';
+import 'package:rrule_picker/src/widgets/shared/day_of_month.dart';
+import 'package:rrule_picker/src/widgets/shared/day_of_week.dart';
+import 'package:rrule_picker/src/widgets/shared/extensions.dart';
+import 'package:rrule_picker/src/widgets/shared/interval.dart';
+import 'package:rrule_picker/src/widgets/shared/parsing.dart';
 
+@internal
 class RRulePickerMonthly extends StatefulWidget {
   final RRulePickerConfig config;
   final DayOfWeek firstDayOfWeek;
@@ -164,6 +168,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
   }
 }
 
+@internal
 class RRulePickerMonthlyController
     with
         RRulePickerIntervalSegmentTypeState,

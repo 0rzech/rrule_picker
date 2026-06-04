@@ -1,10 +1,11 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/widgets/shared/parsing.dart';
+import 'package:rrule_picker/src/widgets/shared/parsing.dart';
 
+@internal
 mixin RRulePickerDayOfMonthState {
   late final ValueNotifier<int> dayOfMonth;
   late final NumberFormat dayOfMonthFormatter;

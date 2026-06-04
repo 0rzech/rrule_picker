@@ -1,11 +1,13 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rrule_picker/rrule_picker.dart';
-import 'package:rrule_picker/widgets/shared/parsing.dart';
+import 'package:rrule_picker/rrule_picker_config.dart';
+import 'package:rrule_picker/src/widgets/shared/parsing.dart';
 
+@internal
 class RRulePickerInterval extends StatelessWidget {
   final String Function(int interval) everyUnitText;
   final String Function(int interval) intervalUnitText;
@@ -36,7 +38,7 @@ class RRulePickerInterval extends StatelessWidget {
         keyboardType: .number,
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
-          const _RRulePickerIntervalValueInputFormatter(),
+          const RRulePickerIntervalValueInputFormatter(),
         ],
         style: config.textFieldStyle.textStyle,
         decoration: config.textFieldStyle.decoration,
@@ -66,8 +68,9 @@ class RRulePickerInterval extends StatelessWidget {
   }
 }
 
-class _RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
-  const _RRulePickerIntervalValueInputFormatter();
+@internal
+class RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
+  const RRulePickerIntervalValueInputFormatter();
 
   @override
   TextEditingValue formatEditUpdate(
@@ -79,6 +82,7 @@ class _RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
   };
 }
 
+@internal
 mixin RRulePickerIntervalState {
   late final int initialIntervalValue;
   late final ValueNotifier<int> intervalNotifier;
@@ -105,6 +109,7 @@ mixin RRulePickerIntervalState {
       : intervalNotifier.value;
 }
 
+@internal
 mixin RRulePickerIntervalSegmentTypeState {
   late final ValueNotifier<Set<RRulePickerIntervalSegmentType>>
   intervalSegmentType;

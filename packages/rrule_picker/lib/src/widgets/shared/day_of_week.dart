@@ -1,10 +1,12 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/rrule_picker.dart';
+import 'package:rrule_picker/localizations/localizations.dart';
+import 'package:rrule_picker/src/widgets/shared/parsing.dart';
 
+@internal
 mixin RRulePickerDayOfWeekState {
   late final ValueNotifier<DayOfWeekOrdinal> dayOfWeekOrdinal;
   late final ValueNotifier<DayOfWeek> dayOfWeek;

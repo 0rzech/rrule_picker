@@ -3,14 +3,18 @@
 
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/rrule_picker.dart';
-import 'package:rrule_picker/widgets/shared/day_of_month.dart';
-import 'package:rrule_picker/widgets/shared/day_of_week.dart';
-import 'package:rrule_picker/widgets/shared/interval.dart';
-import 'package:rrule_picker/widgets/shared/parsing.dart';
+import 'package:rrule_picker/localizations/localizations.dart';
+import 'package:rrule_picker/rrule_picker_config.dart';
+import 'package:rrule_picker/src/widgets/shared/day_of_month.dart';
+import 'package:rrule_picker/src/widgets/shared/day_of_week.dart';
+import 'package:rrule_picker/src/widgets/shared/extensions.dart';
+import 'package:rrule_picker/src/widgets/shared/interval.dart';
+import 'package:rrule_picker/src/widgets/shared/parsing.dart';
 
+@internal
 class RRulePickerYearly extends StatefulWidget {
   final RRulePickerConfig config;
   final DayOfWeek firstDayOfWeek;
@@ -192,6 +196,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
   }
 }
 
+@internal
 class RRulePickerYearlyController
     with
         RRulePickerIntervalSegmentTypeState,
@@ -289,42 +294,6 @@ class RRulePickerYearlyController
         sb.write(dayOfWeekOrdinal.value.rruleValue);
     }
   }
-}
-
-enum Month {
-  january('1', 31),
-  february('2', 29),
-  march('3', 31),
-  april('4', 30),
-  may('5', 31),
-  june('6', 30),
-  july('7', 31),
-  august('8', 31),
-  september('9', 30),
-  october('10', 31),
-  november('11', 30),
-  december('12', 31);
-
-  final String rruleValue;
-  final int maxDay;
-
-  const Month(this.rruleValue, this.maxDay);
-
-  static Month? tryParse(String value) => switch (value) {
-    '1' => january,
-    '2' => february,
-    '3' => march,
-    '4' => april,
-    '5' => may,
-    '6' => june,
-    '7' => july,
-    '8' => august,
-    '9' => september,
-    '10' => october,
-    '11' => november,
-    '12' => december,
-    _ => null,
-  };
 }
 
 class _ParsedRRule {

@@ -5,11 +5,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/parsing.dart';
 import 'package:rrule_picker/rrule_picker.dart';
-import 'package:rrule_picker/widgets/day_of_month.dart';
-import 'package:rrule_picker/widgets/day_of_week.dart';
-import 'package:rrule_picker/widgets/interval.dart';
+import 'package:rrule_picker/widgets/shared/day_of_month.dart';
+import 'package:rrule_picker/widgets/shared/day_of_week.dart';
+import 'package:rrule_picker/widgets/shared/interval.dart';
+import 'package:rrule_picker/widgets/shared/parsing.dart';
 
 class RRulePickerYearly extends StatefulWidget {
   final RRulePickerConfig config;

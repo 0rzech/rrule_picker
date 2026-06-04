@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/parsing.dart';
+import 'package:rrule_picker/widgets/shared/parsing.dart';
 
 mixin RRulePickerDayOfMonthState {
   late final ValueNotifier<int> dayOfMonth;

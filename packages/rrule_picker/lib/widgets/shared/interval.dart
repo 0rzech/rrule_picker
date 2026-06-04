@@ -3,8 +3,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rrule_picker/parsing.dart';
 import 'package:rrule_picker/rrule_picker.dart';
+import 'package:rrule_picker/widgets/shared/parsing.dart';
 
 class RRulePickerInterval extends StatelessWidget {
   final String Function(int interval) everyUnitText;

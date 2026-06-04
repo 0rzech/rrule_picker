@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
-import 'package:rrule_picker/parsing.dart';
 import 'package:rrule_picker/rrule_picker.dart';
-import 'package:rrule_picker/widgets/interval.dart';
+import 'package:rrule_picker/widgets/shared/interval.dart';
+import 'package:rrule_picker/widgets/shared/parsing.dart';
 
 class RRulePickerDaily extends StatelessWidget {
   final RRulePickerConfig config;

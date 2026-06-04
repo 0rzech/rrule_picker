@@ -3,9 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/parsing.dart';
 import 'package:rrule_picker/rrule_picker.dart';
-import 'package:rrule_picker/widgets/interval.dart';
+import 'package:rrule_picker/widgets/shared/interval.dart';
+import 'package:rrule_picker/widgets/shared/parsing.dart';
 
 class RRulePickerWeekly extends StatefulWidget {
   final RRulePickerConfig config;

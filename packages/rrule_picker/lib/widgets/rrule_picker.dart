@@ -23,42 +23,16 @@ class RRulePicker extends StatefulWidget {
 }
 
 class _RRulePickerState extends State<RRulePicker> {
-  late final ValueNotifier<_RecurrenceType> recurrenceType;
-
-  late final RRulePickerDailyController dailyController;
-  late final RRulePickerWeeklyController weeklyController;
-  late final RRulePickerMonthlyController monthlyController;
-  late final RRulePickerYearlyController yearlyController;
-
-  @override
-  void initState() {
-    super.initState();
-    recurrenceType = .new(getRecurrenceType(widget.controller.initialRRule));
-
-    dailyController = .new(widget.controller.initialRRule);
-    weeklyController = .new(widget.controller.initialRRule);
-    monthlyController = .new(widget.controller.initialRRule);
-    yearlyController = .new(widget.controller.initialRRule);
-
-    widget.controller.rrulePartBuilder = buildRRulePart;
-  }
-
-  @override
-  void dispose() {
-    widget.controller.rrulePartBuilder = null;
-    recurrenceType.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
+    final controller = widget.controller;
     final config = widget.config;
 
     return Padding(
       padding: config.padding,
       child: ValueListenableBuilder(
-        valueListenable: recurrenceType,
+        valueListenable: controller._recurrenceType,
         builder: (context, type, title) {
           final dropdownButton = DropdownButton(
             style: config.dropdownStyle.textStyle,
@@ -80,7 +54,7 @@ class _RRulePickerState extends State<RRulePicker> {
                   );
                 })
                 .toList(growable: false),
-            onChanged: (type) => recurrenceType.value = type!,
+            onChanged: (type) => controller._recurrenceType.value = type!,
           );
 
           final dropdown = Container(
@@ -94,12 +68,12 @@ class _RRulePickerState extends State<RRulePicker> {
             children: [
               title!,
               dropdown,
-              switch (recurrenceType.value) {
+              switch (controller._recurrenceType.value) {
                 .never => const SizedBox.shrink(),
-                .daily => RRulePickerDaily(controller: dailyController),
-                .weekly => RRulePickerWeekly(controller: weeklyController),
-                .monthly => RRulePickerMonthly(controller: monthlyController),
-                .yearly => RRulePickerYearly(controller: yearlyController),
+                .daily => RRulePickerDaily(controller: controller._daily),
+                .weekly => RRulePickerWeekly(controller: controller._weekly),
+                .monthly => RRulePickerMonthly(controller: controller._monthly),
+                .yearly => RRulePickerYearly(controller: controller._yearly),
               },
             ],
           );
@@ -113,8 +87,35 @@ class _RRulePickerState extends State<RRulePicker> {
       ),
     );
   }
+}
 
-  _RecurrenceType getRecurrenceType(String rrule) {
+class RRulePickerController {
+  late final ValueNotifier<_RecurrenceType> _recurrenceType;
+
+  late final RRulePickerDailyController _daily;
+  late final RRulePickerWeeklyController _weekly;
+  late final RRulePickerMonthlyController _monthly;
+  late final RRulePickerYearlyController _yearly;
+
+  RRulePickerController([String initialRRule = '']) {
+    _recurrenceType = .new(_getRecurrenceType(initialRRule));
+
+    _daily = .new(initialRRule);
+    _weekly = .new(initialRRule);
+    _monthly = .new(initialRRule);
+    _yearly = .new(initialRRule);
+  }
+
+  @mustCallSuper
+  void dispose() {
+    _yearly.dispose();
+    _monthly.dispose();
+    _weekly.dispose();
+    _daily.dispose();
+    _recurrenceType.dispose();
+  }
+
+  _RecurrenceType _getRecurrenceType(String rrule) {
     if (rrule.isEmpty) {
       return .never;
     } else if (rrule.contains('DAILY')) {
@@ -128,30 +129,20 @@ class _RRulePickerState extends State<RRulePicker> {
     }
   }
 
-  void buildRRulePart(StringBuffer sb) => mounted
-      ? switch (recurrenceType.value) {
-          .never => null,
-          .daily => dailyController.buildRRulePart(sb),
-          .weekly => weeklyController.buildRRulePart(sb),
-          .monthly => monthlyController.buildRRulePart(sb),
-          .yearly => yearlyController.buildRRulePart(sb),
-        }
-      : sb.write(widget.controller.initialRRule);
-}
-
-class RRulePickerController extends RRuleWidgetController<RRulePicker> {
-  RRulePickerController([super.initialRRule = '']);
-
-  @override
-  set rrulePartBuilder(RRulePartBuilder? value) =>
-      super.rrulePartBuilder = value;
-
   String buildRRule() {
     final sb = StringBuffer('RRULE:');
     final baseLength = sb.length;
     buildRRulePart(sb);
     return baseLength == sb.length ? '' : sb.toString();
   }
+
+  void buildRRulePart(StringBuffer sb) => switch (_recurrenceType.value) {
+    .never => null,
+    .daily => _daily.buildRRulePart(sb),
+    .weekly => _weekly.buildRRulePart(sb),
+    .monthly => _monthly.buildRRulePart(sb),
+    .yearly => _yearly.buildRRulePart(sb),
+  };
 }
 
 enum _RecurrenceType { never, daily, weekly, monthly, yearly }

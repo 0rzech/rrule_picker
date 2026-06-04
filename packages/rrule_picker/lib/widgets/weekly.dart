@@ -23,41 +23,21 @@ class RRulePickerWeekly extends StatefulWidget {
   State<StatefulWidget> createState() => _RRulePickerWeeklyState();
 }
 
-class _RRulePickerWeeklyState extends State<RRulePickerWeekly>
-    with RRulePickerIntervalState {
-  late final ValueNotifier<Set<DayOfWeek>> selectedDaysOfWeek;
-  late DateFormat dayOfWeekFormat;
-  late List<(DayOfWeek, String)> daysOfWeek;
-
-  @override
-  void initState() {
-    super.initState();
-    final (weeks, days) = parseRRule(widget.controller.initialRRule);
-    initIntervalState(weeks);
-    widget.controller.rrulePartBuilder = buildRRulePart;
-    selectedDaysOfWeek = ValueNotifier(days);
-  }
-
-  @override
-  void dispose() {
-    selectedDaysOfWeek.dispose();
-    widget.controller.rrulePartBuilder = null;
-    super.dispose();
-  }
-
+class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final locale = RRulePickerLocalizations.of(context).localeName;
-    dayOfWeekFormat = DateFormat.E(locale);
-    daysOfWeek = DayOfWeek.buildWeek(widget.firstDayOfWeek, dayOfWeekFormat);
+    widget.controller._updateState(
+      localizations: RRulePickerLocalizations.of(context),
+      firstDayOfWeek: widget.firstDayOfWeek,
+    );
   }
 
   @override
   void didUpdateWidget(covariant RRulePickerWeekly oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.firstDayOfWeek != widget.firstDayOfWeek) {
-      daysOfWeek = DayOfWeek.buildWeek(widget.firstDayOfWeek, dayOfWeekFormat);
+      widget.controller._updateState(firstDayOfWeek: widget.firstDayOfWeek);
     }
   }
 
@@ -68,21 +48,21 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly>
 
     final interval = RRulePickerInterval(
       everyUnitText: localizations.rrulePickerEveryWeekly,
-      intervalController: intervalController,
+      intervalController: widget.controller.intervalController,
       intervalUnitText: localizations.rrulePickerWeeks,
-      intervalNotifier: intervalNotifier,
+      intervalNotifier: widget.controller.intervalNotifier,
       config: config,
     );
 
     final dayOfWeekSelector = SizedBox(
       width: .infinity,
       child: ValueListenableBuilder(
-        valueListenable: selectedDaysOfWeek,
+        valueListenable: widget.controller.selectedDaysOfWeek,
         builder: (context, selected, _) => SegmentedButton(
           style: config.dayOfWeekStyle.buttonStyle,
           multiSelectionEnabled: true,
           showSelectedIcon: false,
-          segments: daysOfWeek
+          segments: widget.controller.daysOfWeek
               .map((day) {
                 return ButtonSegment(
                   value: day.$1,
@@ -91,17 +71,52 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly>
               })
               .toList(growable: false),
           selected: selected,
-          onSelectionChanged: (value) => selectedDaysOfWeek.value = value,
+          onSelectionChanged: (value) =>
+              widget.controller.selectedDaysOfWeek.value = value,
         ),
       ),
     );
 
     return Column(spacing: 8, children: [interval, dayOfWeekSelector]);
   }
+}
 
-  (int, Set<DayOfWeek>) parseRRule(String rule) {
+class RRulePickerWeeklyController with RRulePickerIntervalState {
+  late final ValueNotifier<Set<DayOfWeek>> selectedDaysOfWeek;
+  late DateFormat dayOfWeekFormat;
+  late List<(DayOfWeek, String)> daysOfWeek;
+
+  RRulePickerWeeklyController([
+    String initialRRule = '',
+    DayOfWeek firstDayOfWeek = .monday,
+  ]) {
+    final (weeks, days) = _parseRRule(initialRRule, firstDayOfWeek);
+    initIntervalState(weeks);
+    selectedDaysOfWeek = ValueNotifier(days);
+  }
+
+  @mustCallSuper
+  void dispose() {
+    selectedDaysOfWeek.dispose();
+    disposeIntervalState();
+  }
+
+  void _updateState({
+    RRulePickerLocalizations? localizations,
+    DayOfWeek? firstDayOfWeek,
+  }) {
+    if (localizations != null) {
+      dayOfWeekFormat = DateFormat.E(localizations.localeName);
+    }
+
+    if (firstDayOfWeek != null) {
+      daysOfWeek = DayOfWeek.buildWeek(firstDayOfWeek, dayOfWeekFormat);
+    }
+  }
+
+  (int, Set<DayOfWeek>) _parseRRule(String rule, DayOfWeek firstDayOfWeek) {
     if (rule.isEmpty) {
-      return (defaultInterval, {widget.firstDayOfWeek});
+      return (defaultInterval, {firstDayOfWeek});
     }
 
     const re = r'INTERVAL=(\d+);BYDAY=([AEFHMORSTUW,]+)';
@@ -109,29 +124,16 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly>
 
     return (
       parseInterval(match?.group(1)),
-      parseByDayMulti(match?.group(2), {widget.firstDayOfWeek}),
+      parseByDayMulti(match?.group(2), {firstDayOfWeek}),
     );
   }
 
   void buildRRulePart(StringBuffer sb) {
-    if (mounted) {
-      sb.write('FREQ=WEEKLY;INTERVAL=');
-      sb.write(getIntervalValue());
-      sb.write(';BYDAY=');
-      final sorted = selectedDaysOfWeek.value.toList(growable: false)
-        ..sort(DayOfWeek.compare);
-      sb.write(sorted.map((d) => d.rruleName).join(','));
-    } else {
-      sb.write(widget.controller.initialRRule);
-    }
+    sb.write('FREQ=WEEKLY;INTERVAL=');
+    sb.write(getIntervalValue());
+    sb.write(';BYDAY=');
+    final sorted = selectedDaysOfWeek.value.toList(growable: false)
+      ..sort(DayOfWeek.compare);
+    sb.write(sorted.map((d) => d.rruleName).join(','));
   }
-}
-
-class RRulePickerWeeklyController
-    extends RRuleWidgetController<RRulePickerWeekly> {
-  RRulePickerWeeklyController([super.initialRRule = '']);
-
-  @override
-  set rrulePartBuilder(RRulePartBuilder? value) =>
-      super.rrulePartBuilder = value;
 }

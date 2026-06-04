@@ -66,44 +66,6 @@ class RRulePickerInterval extends StatelessWidget {
   }
 }
 
-mixin RRulePickerIntervalState<T extends StatefulWidget> on State<T> {
-  late final int initialIntervalValue;
-  late final ValueNotifier<int> intervalNotifier;
-  late final TextEditingController intervalController;
-  bool _isIntervalStateInitialized = false;
-
-  @protected
-  @mustCallSuper
-  void initIntervalState([int initialValue = defaultInterval]) {
-    initialIntervalValue = initialValue;
-    intervalNotifier = .new(initialIntervalValue);
-    intervalController = .new(text: intervalNotifier.value.toString());
-    _isIntervalStateInitialized = true;
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    assert(
-      _isIntervalStateInitialized,
-      'RRulePickerIntervalState error: You must call initIntervalState() '
-      "inside your widget's initState() method.",
-    );
-  }
-
-  @override
-  void dispose() {
-    intervalController.dispose();
-    intervalNotifier.dispose();
-    super.dispose();
-  }
-
-  int getIntervalValue({int minValue = intervalMin, int? defaultValue}) =>
-      intervalNotifier.value < minValue
-      ? (defaultValue ?? initialIntervalValue)
-      : intervalNotifier.value;
-}
-
 class _RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
   const _RRulePickerIntervalValueInputFormatter();
 
@@ -117,36 +79,45 @@ class _RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
   };
 }
 
-mixin RRulePickerIntervalSegmentTypeState<T extends StatefulWidget>
-    on State<T> {
+mixin RRulePickerIntervalState {
+  late final int initialIntervalValue;
+  late final ValueNotifier<int> intervalNotifier;
+  late final TextEditingController intervalController;
+
+  @protected
+  @mustCallSuper
+  void initIntervalState([int initialValue = defaultInterval]) {
+    initialIntervalValue = initialValue;
+    intervalNotifier = .new(initialIntervalValue);
+    intervalController = .new(text: intervalNotifier.value.toString());
+  }
+
+  @protected
+  @mustCallSuper
+  void disposeIntervalState() {
+    intervalController.dispose();
+    intervalNotifier.dispose();
+  }
+
+  int getIntervalValue({int minValue = intervalMin, int? defaultValue}) =>
+      intervalNotifier.value < minValue
+      ? (defaultValue ?? initialIntervalValue)
+      : intervalNotifier.value;
+}
+
+mixin RRulePickerIntervalSegmentTypeState {
   late final ValueNotifier<Set<RRulePickerIntervalSegmentType>>
   intervalSegmentType;
-  bool _isIntervalSegmentTypeStateInitialized = false;
 
   @protected
   @mustCallSuper
   void initIntervalSegmentTypeState([
     Set<RRulePickerIntervalSegmentType> segmentType = const {.precise},
-  ]) {
-    intervalSegmentType = ValueNotifier(segmentType);
-    _isIntervalSegmentTypeStateInitialized = true;
-  }
+  ]) => intervalSegmentType = ValueNotifier(segmentType);
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    assert(
-      _isIntervalSegmentTypeStateInitialized,
-      'RRulePickerIntervalSegmentTypeState error: You must call '
-      "initIntervalSegmentTypeState() inside your widget's initState() method.",
-    );
-  }
-
-  @override
-  void dispose() {
-    intervalSegmentType.dispose();
-    super.dispose();
-  }
+  @protected
+  @mustCallSuper
+  void disposeIntervalSegmentTypeState() => intervalSegmentType.dispose();
 }
 
 enum RRulePickerIntervalSegmentType { precise, relative }

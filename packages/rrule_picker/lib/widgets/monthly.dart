@@ -24,71 +24,47 @@ class RRulePickerMonthly extends StatefulWidget {
   State<StatefulWidget> createState() => _RRulePickerMonthlyState();
 }
 
-class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
-    with
-        RRulePickerIntervalSegmentTypeState,
-        RRulePickerIntervalState,
-        RRulePickerDayOfMonthState,
-        RRulePickerDayOfWeekState {
-  @override
-  void initState() {
-    super.initState();
-    final rrule = parseRRule(widget.controller.initialRRule);
-
-    initIntervalSegmentTypeState(
-      rrule.dayOfMonth == null ? const {.relative} : const {.precise},
-    );
-    initIntervalState(rrule.interval);
-    initDayOfMonthState(rrule.dayOfMonth ?? defaultByMonthDay);
-    initDayOfWeekState(
-      rrule.dayOfWeekOrdinal ?? .first,
-      rrule.dayOfWeek ?? widget.firstDayOfWeek,
-    );
-
-    widget.controller.rrulePartBuilder = buildRRulePart;
-  }
-
-  @override
-  void dispose() {
-    widget.controller.rrulePartBuilder = null;
-    super.dispose();
-  }
-
+class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    rebuildDaysOfWeek(widget.firstDayOfWeek);
+    widget.controller._updateState(
+      localizations: RRulePickerLocalizations.of(context),
+      firstDayOfWeek: widget.firstDayOfWeek,
+    );
   }
 
   @override
   void didUpdateWidget(covariant RRulePickerMonthly oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.firstDayOfWeek != widget.firstDayOfWeek) {
-      rebuildDaysOfWeek(widget.firstDayOfWeek);
+      widget.controller._updateState(firstDayOfWeek: widget.firstDayOfWeek);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
+    final controller = widget.controller;
 
     final interval = RRulePickerInterval(
       everyUnitText: l.rrulePickerEveryMonthly,
       intervalUnitText: l.rrulePickerMonths,
-      intervalController: intervalController,
-      intervalNotifier: intervalNotifier,
+      intervalController: controller.intervalController,
+      intervalNotifier: controller.intervalNotifier,
       config: widget.config,
     );
 
     return ValueListenableBuilder(
-      valueListenable: intervalSegmentType,
+      valueListenable: controller.intervalSegmentType,
       builder: (context, segmentType, interval) {
         return Column(
           spacing: 8,
           children: [
             interval!,
             SegmentedButton<RRulePickerIntervalSegmentType>(
-              onSelectionChanged: (value) => intervalSegmentType.value = value,
+              onSelectionChanged: (value) =>
+                  controller.intervalSegmentType.value = value,
               selected: segmentType,
               showSelectedIcon: false,
               segments: [
@@ -104,7 +80,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
             ),
             switch (segmentType.first) {
               .precise => ValueListenableBuilder(
-                valueListenable: dayOfMonth,
+                valueListenable: controller.dayOfMonth,
                 builder: (context, day, _) {
                   return DropdownButton(
                     value: day,
@@ -118,19 +94,25 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
                         ),
                         _ => DropdownMenuItem(
                           value: day,
-                          child: Text(dayOfMonthFormatter.format(day)),
+                          child: Text(
+                            controller.dayOfMonthFormatter.format(day),
+                          ),
                         ),
                       };
                     }),
-                    onChanged: (value) => dayOfMonth.value = value!,
+                    onChanged: (value) => controller.dayOfMonth.value = value!,
                   );
                 },
               ),
               .relative => ListenableBuilder(
-                listenable: .merge([daysOfWeek, dayOfWeekOrdinal, dayOfWeek]),
+                listenable: .merge([
+                  controller.daysOfWeek,
+                  controller.dayOfWeekOrdinal,
+                  controller.dayOfWeek,
+                ]),
                 builder: (context, _) {
-                  final ordinal = dayOfWeekOrdinal.value;
-                  final day = dayOfWeek.value;
+                  final ordinal = controller.dayOfWeekOrdinal.value;
+                  final day = controller.dayOfWeek.value;
 
                   return Row(
                     spacing: 8,
@@ -149,14 +131,15 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
                                 );
                               })
                               .toList(growable: false),
-                          onChanged: (value) => dayOfWeekOrdinal.value = value!,
+                          onChanged: (value) =>
+                              controller.dayOfWeekOrdinal.value = value!,
                         ),
                       ),
                       Flexible(
                         child: DropdownButton(
                           isExpanded: true,
                           value: day,
-                          items: daysOfWeek.value
+                          items: controller.daysOfWeek.value
                               .map((day) {
                                 return DropdownMenuItem(
                                   value: day.$1,
@@ -164,7 +147,8 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
                                 );
                               })
                               .toList(growable: false),
-                          onChanged: (value) => dayOfWeek.value = value!,
+                          onChanged: (value) =>
+                              controller.dayOfWeek.value = value!,
                         ),
                       ),
                     ],
@@ -178,8 +162,48 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
       child: interval,
     );
   }
+}
 
-  _ParsedRRule parseRRule(String rule) {
+class RRulePickerMonthlyController
+    with
+        RRulePickerIntervalSegmentTypeState,
+        RRulePickerIntervalState,
+        RRulePickerDayOfMonthState,
+        RRulePickerDayOfWeekState {
+  RRulePickerMonthlyController([
+    String initialRRule = '',
+    DayOfWeek firstDayOfWeek = .monday,
+  ]) {
+    final rrule = _parseRRule(initialRRule, firstDayOfWeek);
+
+    initIntervalSegmentTypeState(
+      rrule.dayOfMonth == null ? const {.relative} : const {.precise},
+    );
+    initIntervalState(rrule.interval);
+    initDayOfMonthState(rrule.dayOfMonth ?? defaultByMonthDay);
+    initDayOfWeekState(
+      rrule.dayOfWeekOrdinal ?? .first,
+      rrule.dayOfWeek ?? firstDayOfWeek,
+    );
+  }
+
+  @mustCallSuper
+  void dispose() {
+    disposeDayOfWeekState();
+    disposeDayOfMonthState();
+    disposeIntervalState();
+    disposeIntervalSegmentTypeState();
+  }
+
+  void _updateState({
+    RRulePickerLocalizations? localizations,
+    DayOfWeek? firstDayOfWeek,
+  }) => updateDayOfWeekState(
+    localizations: localizations,
+    firstDayOfWeek: firstDayOfWeek,
+  );
+
+  _ParsedRRule _parseRRule(String rule, DayOfWeek firstDayOfWeek) {
     if (rule.isEmpty) {
       return const _ParsedRRule(
         interval: defaultInterval,
@@ -211,40 +235,27 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly>
     } else {
       return _ParsedRRule(
         interval: interval,
-        dayOfWeek: parseByDaySingle(dayOfWeek, widget.firstDayOfWeek),
+        dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
         dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
       );
     }
   }
 
   void buildRRulePart(StringBuffer sb) {
-    if (mounted) {
-      sb.write('FREQ=MONTHLY;INTERVAL=');
-      sb.write(getIntervalValue());
+    sb.write('FREQ=MONTHLY;INTERVAL=');
+    sb.write(getIntervalValue());
 
-      switch (intervalSegmentType.value.first) {
-        case .precise:
-          sb.write(';BYMONTHDAY=');
-          sb.write(dayOfMonth.value == byMonthDayMax ? -1 : dayOfMonth.value);
-        case .relative:
-          sb.write(';BYDAY=');
-          sb.write(dayOfWeek.value.rruleName);
-          sb.write(';BYSETPOS=');
-          sb.write(dayOfWeekOrdinal.value.rruleValue);
-      }
-    } else {
-      sb.write(widget.controller.initialRRule);
+    switch (intervalSegmentType.value.first) {
+      case .precise:
+        sb.write(';BYMONTHDAY=');
+        sb.write(dayOfMonth.value == byMonthDayMax ? -1 : dayOfMonth.value);
+      case .relative:
+        sb.write(';BYDAY=');
+        sb.write(dayOfWeek.value.rruleName);
+        sb.write(';BYSETPOS=');
+        sb.write(dayOfWeekOrdinal.value.rruleValue);
     }
   }
-}
-
-class RRulePickerMonthlyController
-    extends RRuleWidgetController<RRulePickerMonthly> {
-  RRulePickerMonthlyController([super.initialRRule = '']);
-
-  @override
-  set rrulePartBuilder(RRulePartBuilder? value) =>
-      super.rrulePartBuilder = value;
 }
 
 class _ParsedRRule {

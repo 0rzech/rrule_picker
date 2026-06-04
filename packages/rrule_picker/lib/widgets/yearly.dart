@@ -27,60 +27,31 @@ class RRulePickerYearly extends StatefulWidget {
   State<StatefulWidget> createState() => _RRulePickerYearlyState();
 }
 
-class _RRulePickerYearlyState extends State<RRulePickerYearly>
-    with
-        RRulePickerIntervalSegmentTypeState,
-        RRulePickerDayOfMonthState,
-        RRulePickerDayOfWeekState {
-  late final ValueNotifier<Month> month;
-  late DateFormat monthFormatter;
-
-  @override
-  void initState() {
-    super.initState();
-    final rrule = parseRRule(widget.controller.initialRRule);
-
-    initIntervalSegmentTypeState(
-      rrule.dayOfMonth == null ? const {.relative} : const {.precise},
-    );
-    initDayOfMonthState(rrule.dayOfMonth ?? defaultByMonthDay);
-    initDayOfWeekState(
-      rrule.dayOfWeekOrdinal ?? .first,
-      rrule.dayOfWeek ?? widget.firstDayOfWeek,
-    );
-    month = ValueNotifier(rrule.month);
-    widget.controller.rrulePartBuilder = buildRRulePart;
-  }
-
+class _RRulePickerYearlyState extends State<RRulePickerYearly> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    rebuildDaysOfWeek(.monday);
-    final locale = RRulePickerLocalizations.of(context).localeName;
-    monthFormatter = DateFormat.MMMM(locale);
+    widget.controller._updateState(
+      localizations: RRulePickerLocalizations.of(context),
+      firstDayOfWeek: widget.firstDayOfWeek,
+    );
   }
 
   @override
   void didUpdateWidget(covariant RRulePickerYearly oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.firstDayOfWeek != widget.firstDayOfWeek) {
-      rebuildDaysOfWeek(.monday);
+      widget.controller._updateState(firstDayOfWeek: widget.firstDayOfWeek);
     }
-  }
-
-  @override
-  void dispose() {
-    widget.controller.rrulePartBuilder = null;
-    month.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
+    final controller = widget.controller;
 
     final monthWidget = ValueListenableBuilder(
-      valueListenable: month,
+      valueListenable: controller._month,
       builder: (context, day, _) => Flexible(
         child: DropdownButton(
           value: day,
@@ -90,26 +61,30 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly>
                 final date = DateTime(2026, 01 + month.index, 01);
                 return DropdownMenuItem(
                   value: month,
-                  child: Text(monthFormatter.format(date)),
+                  child: Text(controller._monthFormatter.format(date)),
                 );
               })
               .toList(growable: false),
           onChanged: (value) {
-            month.value = value!;
-            dayOfMonth.value = min(dayOfMonth.value, month.value.maxDay);
+            controller._month.value = value!;
+            controller.dayOfMonth.value = min(
+              controller.dayOfMonth.value,
+              controller._month.value.maxDay,
+            );
           },
         ),
       ),
     );
 
     return ValueListenableBuilder(
-      valueListenable: intervalSegmentType,
+      valueListenable: controller.intervalSegmentType,
       builder: (context, segmentType, monthWidget) {
         return Column(
           spacing: 8,
           children: [
             SegmentedButton<RRulePickerIntervalSegmentType>(
-              onSelectionChanged: (value) => intervalSegmentType.value = value,
+              onSelectionChanged: (value) =>
+                  controller.intervalSegmentType.value = value,
               selected: segmentType,
               showSelectedIcon: false,
               segments: [
@@ -131,17 +106,20 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly>
                   monthWidget!,
                   const Text('/'),
                   ValueListenableBuilder(
-                    valueListenable: dayOfMonth,
+                    valueListenable: controller.dayOfMonth,
                     builder: (_, day, _) => Flexible(
                       child: DropdownButton(
                         value: day,
                         isExpanded: true,
-                        items: .generate(month.value.maxDay, (i) {
+                        items: .generate(controller._month.value.maxDay, (i) {
                           final day = i + 1;
-                          final text = Text(dayOfMonthFormatter.format(day));
+                          final text = Text(
+                            controller.dayOfMonthFormatter.format(day),
+                          );
                           return DropdownMenuItem(value: day, child: text);
                         }, growable: false),
-                        onChanged: (value) => dayOfMonth.value = value!,
+                        onChanged: (value) =>
+                            controller.dayOfMonth.value = value!,
                       ),
                     ),
                   ),
@@ -155,14 +133,14 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly>
                   const Text('/'),
                   ListenableBuilder(
                     listenable: .merge([
-                      daysOfWeek,
-                      dayOfWeekOrdinal,
-                      dayOfWeek,
+                      controller.daysOfWeek,
+                      controller.dayOfWeekOrdinal,
+                      controller.dayOfWeek,
                     ]),
                     builder: (_, _) => Flexible(
                       child: DropdownButton(
                         isExpanded: true,
-                        value: dayOfWeekOrdinal.value,
+                        value: controller.dayOfWeekOrdinal.value,
                         items: DayOfWeekOrdinal.values
                             .map((ordinal) {
                               return DropdownMenuItem(
@@ -170,23 +148,27 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly>
                                 child: Text(
                                   l.rrulePickerDayOfWeekOrdinal(
                                     ordinal,
-                                    dayOfWeek.value,
+                                    controller.dayOfWeek.value,
                                   ),
                                 ),
                               );
                             })
                             .toList(growable: false),
-                        onChanged: (value) => dayOfWeekOrdinal.value = value!,
+                        onChanged: (value) =>
+                            controller.dayOfWeekOrdinal.value = value!,
                       ),
                     ),
                   ),
                   ListenableBuilder(
-                    listenable: .merge([daysOfWeek, dayOfWeek]),
+                    listenable: .merge([
+                      controller.daysOfWeek,
+                      controller.dayOfWeek,
+                    ]),
                     builder: (_, _) => Flexible(
                       child: DropdownButton(
                         isExpanded: true,
-                        value: dayOfWeek.value,
-                        items: daysOfWeek.value
+                        value: controller.dayOfWeek.value,
+                        items: controller.daysOfWeek.value
                             .map((day) {
                               return DropdownMenuItem(
                                 value: day.$1,
@@ -194,7 +176,8 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly>
                               );
                             })
                             .toList(growable: false),
-                        onChanged: (value) => dayOfWeek.value = value!,
+                        onChanged: (value) =>
+                            controller.dayOfWeek.value = value!,
                       ),
                     ),
                   ),
@@ -207,8 +190,56 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly>
       child: monthWidget,
     );
   }
+}
 
-  _ParsedRRule parseRRule(String rule) {
+class RRulePickerYearlyController
+    with
+        RRulePickerIntervalSegmentTypeState,
+        RRulePickerDayOfMonthState,
+        RRulePickerDayOfWeekState {
+  late final ValueNotifier<Month> _month;
+  late DateFormat _monthFormatter;
+
+  RRulePickerYearlyController([
+    String initialRRule = '',
+    DayOfWeek firstDayOfWeek = .monday,
+  ]) {
+    final rrule = _parseRRule(initialRRule, firstDayOfWeek);
+
+    initIntervalSegmentTypeState(
+      rrule.dayOfMonth == null ? const {.relative} : const {.precise},
+    );
+    initDayOfMonthState(rrule.dayOfMonth ?? defaultByMonthDay);
+    initDayOfWeekState(
+      rrule.dayOfWeekOrdinal ?? .first,
+      rrule.dayOfWeek ?? firstDayOfWeek,
+    );
+    _month = ValueNotifier(rrule.month);
+  }
+
+  @mustCallSuper
+  void dispose() {
+    _month.dispose();
+    disposeDayOfWeekState();
+    disposeDayOfMonthState();
+    disposeIntervalSegmentTypeState();
+  }
+
+  void _updateState({
+    RRulePickerLocalizations? localizations,
+    DayOfWeek? firstDayOfWeek,
+  }) {
+    updateDayOfWeekState(
+      localizations: localizations,
+      firstDayOfWeek: firstDayOfWeek,
+    );
+
+    if (localizations != null) {
+      _monthFormatter = DateFormat.MMMM(localizations.localeName);
+    }
+  }
+
+  _ParsedRRule _parseRRule(String rule, DayOfWeek firstDayOfWeek) {
     if (rule.isEmpty) {
       return const _ParsedRRule(month: .january, dayOfMonth: defaultByMonthDay);
     }
@@ -237,40 +268,27 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly>
     } else {
       return _ParsedRRule(
         month: month,
-        dayOfWeek: parseByDaySingle(dayOfWeek, widget.firstDayOfWeek),
+        dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
         dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
       );
     }
   }
 
   void buildRRulePart(StringBuffer sb) {
-    if (mounted) {
-      sb.write('FREQ=YEARLY;BYMONTH=');
-      sb.write(month.value.rruleValue);
+    sb.write('FREQ=YEARLY;BYMONTH=');
+    sb.write(_month.value.rruleValue);
 
-      switch (intervalSegmentType.value.first) {
-        case .precise:
-          sb.write(';BYMONTHDAY=');
-          sb.write(dayOfMonth.value);
-        case .relative:
-          sb.write(';BYDAY=');
-          sb.write(dayOfWeek.value.rruleName);
-          sb.write(';BYSETPOS=');
-          sb.write(dayOfWeekOrdinal.value.rruleValue);
-      }
-    } else {
-      sb.write(widget.controller.initialRRule);
+    switch (intervalSegmentType.value.first) {
+      case .precise:
+        sb.write(';BYMONTHDAY=');
+        sb.write(dayOfMonth.value);
+      case .relative:
+        sb.write(';BYDAY=');
+        sb.write(dayOfWeek.value.rruleName);
+        sb.write(';BYSETPOS=');
+        sb.write(dayOfWeekOrdinal.value.rruleValue);
     }
   }
-}
-
-class RRulePickerYearlyController
-    extends RRuleWidgetController<RRulePickerYearly> {
-  RRulePickerYearlyController([super.initialRRule = '']);
-
-  @override
-  set rrulePartBuilder(RRulePartBuilder? value) =>
-      super.rrulePartBuilder = value;
 }
 
 enum Month {

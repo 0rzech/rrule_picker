@@ -92,7 +92,6 @@ class _RRulePickerState extends State<RRulePicker> {
 
 class RRulePickerController {
   late final ValueNotifier<_RecurrenceType> _recurrenceType;
-
   late final RRulePickerDailyController _daily;
   late final RRulePickerWeeklyController _weekly;
   late final RRulePickerMonthlyController _monthly;
@@ -100,7 +99,6 @@ class RRulePickerController {
 
   RRulePickerController([String initialRRule = '']) {
     _recurrenceType = .new(_getRecurrenceType(initialRRule));
-
     _daily = .new(initialRRule);
     _weekly = .new(initialRRule);
     _monthly = .new(initialRRule);
@@ -133,11 +131,11 @@ class RRulePickerController {
   String buildRRule() {
     final sb = StringBuffer('RRULE:');
     final baseLength = sb.length;
-    buildRRulePart(sb);
+    _buildRRulePart(sb);
     return baseLength == sb.length ? '' : sb.toString();
   }
 
-  void buildRRulePart(StringBuffer sb) => switch (_recurrenceType.value) {
+  void _buildRRulePart(StringBuffer sb) => switch (_recurrenceType.value) {
     .never => null,
     .daily => _daily.buildRRulePart(sb),
     .weekly => _weekly.buildRRulePart(sb),

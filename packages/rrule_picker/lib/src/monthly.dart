@@ -3,23 +3,21 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rrule_picker/config.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/shared/day_of_month.dart';
 import 'package:rrule_picker/src/shared/day_of_week.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/theme.dart';
 
 @internal
 class RRulePickerMonthly extends StatefulWidget {
-  final RRulePickerConfig config;
   final DayOfWeek firstDayOfWeek;
   final RRulePickerMonthlyController controller;
 
   const RRulePickerMonthly({
     super.key,
-    this.config = const .new(),
     this.firstDayOfWeek = .monday,
     required this.controller,
   });
@@ -49,6 +47,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
   @override
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
+    final theme = RRulePickerTheme.of(context);
     final controller = widget.controller;
 
     final interval = RRulePickerInterval(
@@ -56,7 +55,6 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
       intervalUnitText: l.rrulePickerMonths,
       intervalController: controller.intervalController,
       intervalNotifier: controller.intervalNotifier,
-      config: widget.config,
     );
 
     return ValueListenableBuilder(
@@ -71,6 +69,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
                   controller.intervalSegmentType.value = value,
               selected: segmentType,
               showSelectedIcon: false,
+              style: theme.segmentedButtonStyle,
               segments: [
                 ButtonSegment(
                   value: .precise,
@@ -89,17 +88,22 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
                   return DropdownButton(
                     value: day,
                     isExpanded: true,
+                    style: theme.dropdownStyle,
                     items: .generate(byMonthDayMax, (i) {
                       final day = i + 1;
                       return switch (day) {
                         byMonthDayMax => DropdownMenuItem(
                           value: day,
-                          child: Text(l.rrulePickerLastDay),
+                          child: Text(
+                            l.rrulePickerLastDay,
+                            style: theme.dropdownMenuItemStyle,
+                          ),
                         ),
                         _ => DropdownMenuItem(
                           value: day,
                           child: Text(
                             controller.dayOfMonthFormatter.format(day),
+                            style: theme.dropdownMenuItemStyle,
                           ),
                         ),
                       };
@@ -125,12 +129,14 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
                         child: DropdownButton(
                           isExpanded: true,
                           value: ordinal,
+                          style: theme.dropdownStyle,
                           items: DayOfWeekOrdinal.values
                               .map((ordinal) {
                                 return DropdownMenuItem(
                                   value: ordinal,
                                   child: Text(
                                     l.rrulePickerDayOfWeekOrdinal(ordinal, day),
+                                    style: theme.dropdownMenuItemStyle,
                                   ),
                                 );
                               })
@@ -143,11 +149,15 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
                         child: DropdownButton(
                           isExpanded: true,
                           value: day,
+                          style: theme.dropdownStyle,
                           items: controller.daysOfWeek.value
                               .map((day) {
                                 return DropdownMenuItem(
                                   value: day.$1,
-                                  child: Text(day.$2),
+                                  child: Text(
+                                    day.$2,
+                                    style: theme.dropdownMenuItemStyle,
+                                  ),
                                 );
                               })
                               .toList(growable: false),

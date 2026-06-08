@@ -4,8 +4,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rrule_picker/config.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/theme.dart';
 
 @internal
 class RRulePickerInterval extends StatelessWidget {
@@ -13,7 +13,6 @@ class RRulePickerInterval extends StatelessWidget {
   final String Function(int interval) intervalUnitText;
   final TextEditingController intervalController;
   final ValueNotifier<int> intervalNotifier;
-  final RRulePickerConfig config;
 
   const RRulePickerInterval({
     super.key,
@@ -21,15 +20,16 @@ class RRulePickerInterval extends StatelessWidget {
     required this.intervalUnitText,
     required this.intervalController,
     required this.intervalNotifier,
-    this.config = const RRulePickerConfig(),
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = RRulePickerTheme.of(context);
+
     final everyLabel = ValueListenableBuilder(
       valueListenable: intervalNotifier,
       builder: (context, count, _) =>
-          Text(everyUnitText(count), style: config.labelStyle),
+          Text(everyUnitText(count), style: theme.labelStyle),
     );
 
     final countField = Expanded(
@@ -40,8 +40,8 @@ class RRulePickerInterval extends StatelessWidget {
           FilteringTextInputFormatter.digitsOnly,
           const RRulePickerIntervalValueInputFormatter(),
         ],
-        style: config.textFieldStyle.textStyle,
-        decoration: config.textFieldStyle.decoration,
+        style: theme.textFieldStyle,
+        decoration: theme.textFieldDecoration,
         onChanged: (value) {
           if (int.tryParse(value) case final count?) {
             intervalNotifier.value = count;
@@ -53,7 +53,7 @@ class RRulePickerInterval extends StatelessWidget {
     final daysLabel = ValueListenableBuilder(
       valueListenable: intervalNotifier,
       builder: (context, count, _) =>
-          Text(intervalUnitText(count), style: config.labelStyle),
+          Text(intervalUnitText(count), style: theme.labelStyle),
     );
 
     return Row(
@@ -125,4 +125,5 @@ mixin RRulePickerIntervalSegmentTypeState {
   void disposeIntervalSegmentTypeState() => intervalSegmentType.dispose();
 }
 
+@internal
 enum RRulePickerIntervalSegmentType { precise, relative }

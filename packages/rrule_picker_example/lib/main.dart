@@ -70,7 +70,7 @@ class _RRuleExampleState extends State<RRuleExample> {
                       children: [
                         RRulePicker(
                           controller: rrulePickerController,
-                          config: const .new(padding: .all(8)),
+                          theme: const .new(padding: .all(8)),
                         ),
                         ElevatedButton(
                           onPressed: buttonPressed,

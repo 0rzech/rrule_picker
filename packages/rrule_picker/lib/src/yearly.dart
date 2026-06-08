@@ -6,23 +6,21 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/config.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/shared/day_of_month.dart';
 import 'package:rrule_picker/src/shared/day_of_week.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/theme.dart';
 
 @internal
 class RRulePickerYearly extends StatefulWidget {
-  final RRulePickerConfig config;
   final DayOfWeek firstDayOfWeek;
   final RRulePickerYearlyController controller;
 
   const RRulePickerYearly({
     super.key,
-    this.config = const .new(),
     this.firstDayOfWeek = .monday,
     required this.controller,
   });
@@ -52,6 +50,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
   @override
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
+    final theme = RRulePickerTheme.of(context);
     final controller = widget.controller;
 
     final monthWidget = ValueListenableBuilder(
@@ -60,12 +59,16 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
         child: DropdownButton(
           value: day,
           isExpanded: true,
+          style: theme.dropdownStyle,
           items: Month.values
               .map((month) {
                 final date = DateTime(2026, 01 + month.index, 01);
                 return DropdownMenuItem(
                   value: month,
-                  child: Text(controller._monthFormatter.format(date)),
+                  child: Text(
+                    controller._monthFormatter.format(date),
+                    style: theme.dropdownMenuItemStyle,
+                  ),
                 );
               })
               .toList(growable: false),
@@ -91,6 +94,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                   controller.intervalSegmentType.value = value,
               selected: segmentType,
               showSelectedIcon: false,
+              style: theme.segmentedButtonStyle,
               segments: [
                 ButtonSegment(
                   value: .precise,
@@ -106,19 +110,21 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
               .precise => Row(
                 spacing: 8,
                 children: [
-                  Text(l.rrulePickerEveryMonth),
+                  Text(l.rrulePickerEveryMonth, style: theme.labelStyle),
                   monthWidget!,
-                  const Text('/'),
+                  Text('/', style: theme.labelStyle),
                   ValueListenableBuilder(
                     valueListenable: controller.dayOfMonth,
                     builder: (_, day, _) => Flexible(
                       child: DropdownButton(
                         value: day,
                         isExpanded: true,
+                        style: theme.dropdownStyle,
                         items: .generate(controller._month.value.maxDay, (i) {
                           final day = i + 1;
                           final text = Text(
                             controller.dayOfMonthFormatter.format(day),
+                            style: theme.dropdownMenuItemStyle,
                           );
                           return DropdownMenuItem(value: day, child: text);
                         }, growable: false),
@@ -132,9 +138,9 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
               .relative => Row(
                 spacing: 9,
                 children: [
-                  Text(l.rrulePickerEveryMonth),
+                  Text(l.rrulePickerEveryMonth, style: theme.labelStyle),
                   monthWidget!,
-                  const Text('/'),
+                  Text('/', style: theme.labelStyle),
                   ListenableBuilder(
                     listenable: .merge([
                       controller.daysOfWeek,
@@ -145,6 +151,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                       child: DropdownButton(
                         isExpanded: true,
                         value: controller.dayOfWeekOrdinal.value,
+                        style: theme.dropdownStyle,
                         items: DayOfWeekOrdinal.values
                             .map((ordinal) {
                               return DropdownMenuItem(
@@ -154,6 +161,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                                     ordinal,
                                     controller.dayOfWeek.value,
                                   ),
+                                  style: theme.dropdownMenuItemStyle,
                                 ),
                               );
                             })
@@ -170,13 +178,17 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                     ]),
                     builder: (_, _) => Flexible(
                       child: DropdownButton(
-                        isExpanded: true,
                         value: controller.dayOfWeek.value,
+                        isExpanded: true,
+                        style: theme.dropdownStyle,
                         items: controller.daysOfWeek.value
                             .map((day) {
                               return DropdownMenuItem(
                                 value: day.$1,
-                                child: Text(day.$2),
+                                child: Text(
+                                  day.$2,
+                                  style: theme.dropdownMenuItemStyle,
+                                ),
                               );
                             })
                             .toList(growable: false),

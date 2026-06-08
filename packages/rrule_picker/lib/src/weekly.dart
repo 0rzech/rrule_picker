@@ -4,20 +4,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/config.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/theme.dart';
 
 @internal
 class RRulePickerWeekly extends StatefulWidget {
-  final RRulePickerConfig config;
   final DayOfWeek firstDayOfWeek;
   final RRulePickerWeeklyController controller;
 
   const RRulePickerWeekly({
     super.key,
-    this.config = const .new(),
     this.firstDayOfWeek = .monday,
     required this.controller,
   });
@@ -46,15 +44,14 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
 
   @override
   Widget build(BuildContext context) {
-    final config = widget.config;
     final localizations = RRulePickerLocalizations.of(context);
+    final theme = RRulePickerTheme.of(context);
 
     final interval = RRulePickerInterval(
       everyUnitText: localizations.rrulePickerEveryWeekly,
       intervalController: widget.controller.intervalController,
       intervalUnitText: localizations.rrulePickerWeeks,
       intervalNotifier: widget.controller.intervalNotifier,
-      config: config,
     );
 
     final dayOfWeekSelector = SizedBox(
@@ -62,7 +59,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
       child: ValueListenableBuilder(
         valueListenable: widget.controller.selectedDaysOfWeek,
         builder: (context, selected, _) => SegmentedButton(
-          style: config.dayOfWeekStyle.buttonStyle,
+          style: theme.segmentedButtonStyle,
           multiSelectionEnabled: true,
           showSelectedIcon: false,
           segments: widget.controller.daysOfWeek

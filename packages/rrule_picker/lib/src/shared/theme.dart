@@ -42,9 +42,9 @@ class RRulePickerResolvedThemeData {
   final TextStyle? headerStyle;
 
   final TextStyle? dropdownStyle;
-  final BoxDecoration? dropdownDecoration;
+  final Decoration? dropdownDecoration;
   final TextStyle? dropdownMenuItemStyle;
-  final BoxDecoration? dropdownMenuItemDecoration;
+  final Decoration? dropdownMenuItemDecoration;
 
   final TextStyle? textFieldStyle;
   final InputDecoration? textFieldDecoration;

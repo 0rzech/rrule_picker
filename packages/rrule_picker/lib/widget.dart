@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/daily.dart';
 import 'package:rrule_picker/src/monthly.dart';
+import 'package:rrule_picker/src/shared/extensions.dart';
 import 'package:rrule_picker/src/shared/theme.dart';
 import 'package:rrule_picker/src/weekly.dart';
 import 'package:rrule_picker/src/yearly.dart';
@@ -25,6 +26,7 @@ class _RRulePickerState extends State<RRulePicker> {
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
     final theme = RRulePickerResolvedThemeData.resolve(context, widget.theme);
+    final decorate = widget.dropdownDecorators(theme);
     final controller = widget.controller;
 
     return RRulePickerTheme(
@@ -34,32 +36,24 @@ class _RRulePickerState extends State<RRulePicker> {
         child: ValueListenableBuilder(
           valueListenable: controller._recurrenceType,
           builder: (context, type, title) {
-            final dropdownButton = DropdownButton(
-              style: theme.dropdownStyle,
-              isExpanded: true,
+            final dropdown = DropdownButton(
               value: type,
+              isExpanded: true,
+              style: theme.dropdownStyle,
               items: _RecurrenceType.values
                   .map((value) {
+                    final text = Text(
+                      localizations.rrulePickerRecurrenceType(value.name),
+                      style: theme.dropdownMenuItemStyle,
+                    );
+
                     return DropdownMenuItem(
                       value: value,
-                      child: Container(
-                        decoration: theme.dropdownMenuItemDecoration,
-                        child: Text(
-                          localizations.rrulePickerRecurrenceType(
-                            value.toString(),
-                          ),
-                          style: theme.dropdownMenuItemStyle,
-                        ),
-                      ),
+                      child: decorate.dropdownMenuItem(text),
                     );
                   })
                   .toList(growable: false),
               onChanged: (type) => controller._recurrenceType.value = type!,
-            );
-
-            final dropdown = Container(
-              decoration: theme.dropdownDecoration,
-              child: DropdownButtonHideUnderline(child: dropdownButton),
             );
 
             return Column(
@@ -67,7 +61,7 @@ class _RRulePickerState extends State<RRulePicker> {
               spacing: 8,
               children: [
                 title!,
-                dropdown,
+                decorate.dropdown(DropdownButtonHideUnderline(child: dropdown)),
                 switch (controller._recurrenceType.value) {
                   .never => const SizedBox.shrink(),
                   .daily => RRulePickerDaily(controller: controller._daily),

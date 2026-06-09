@@ -51,24 +51,27 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
     final theme = RRulePickerTheme.of(context);
+    final decorate = widget.dropdownDecorators(theme);
     final controller = widget.controller;
 
     final monthWidget = ValueListenableBuilder(
       valueListenable: controller._month,
-      builder: (context, day, _) => Flexible(
-        child: DropdownButton(
+      builder: (context, day, _) {
+        final dropdown = DropdownButton(
           value: day,
           isExpanded: true,
           style: theme.dropdownStyle,
           items: Month.values
               .map((month) {
                 final date = DateTime(2026, 01 + month.index, 01);
+                final text = Text(
+                  controller._monthFormatter.format(date),
+                  style: theme.dropdownMenuItemStyle,
+                );
+
                 return DropdownMenuItem(
                   value: month,
-                  child: Text(
-                    controller._monthFormatter.format(date),
-                    style: theme.dropdownMenuItemStyle,
-                  ),
+                  child: decorate.dropdownMenuItem(text),
                 );
               })
               .toList(growable: false),
@@ -79,8 +82,10 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
               controller._month.value.maxDay,
             );
           },
-        ),
-      ),
+        );
+
+        return Flexible(child: decorate.dropdown(dropdown));
+      },
     );
 
     return ValueListenableBuilder(
@@ -115,8 +120,8 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                   Text('/', style: theme.labelStyle),
                   ValueListenableBuilder(
                     valueListenable: controller.dayOfMonth,
-                    builder: (_, day, _) => Flexible(
-                      child: DropdownButton(
+                    builder: (_, day, _) {
+                      final dropdown = DropdownButton(
                         value: day,
                         isExpanded: true,
                         style: theme.dropdownStyle,
@@ -126,12 +131,18 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                             controller.dayOfMonthFormatter.format(day),
                             style: theme.dropdownMenuItemStyle,
                           );
-                          return DropdownMenuItem(value: day, child: text);
+
+                          return DropdownMenuItem(
+                            value: day,
+                            child: decorate.dropdownMenuItem(text),
+                          );
                         }, growable: false),
                         onChanged: (value) =>
                             controller.dayOfMonth.value = value!,
-                      ),
-                    ),
+                      );
+
+                      return Flexible(child: decorate.dropdown(dropdown));
+                    },
                   ),
                 ],
               ),
@@ -147,55 +158,63 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                       controller.dayOfWeekOrdinal,
                       controller.dayOfWeek,
                     ]),
-                    builder: (_, _) => Flexible(
-                      child: DropdownButton(
+                    builder: (_, _) {
+                      final dropdown = DropdownButton(
                         isExpanded: true,
                         value: controller.dayOfWeekOrdinal.value,
                         style: theme.dropdownStyle,
                         items: DayOfWeekOrdinal.values
                             .map((ordinal) {
+                              final text = Text(
+                                l.rrulePickerDayOfWeekOrdinal(
+                                  ordinal,
+                                  controller.dayOfWeek.value,
+                                ),
+                                style: theme.dropdownMenuItemStyle,
+                              );
+
                               return DropdownMenuItem(
                                 value: ordinal,
-                                child: Text(
-                                  l.rrulePickerDayOfWeekOrdinal(
-                                    ordinal,
-                                    controller.dayOfWeek.value,
-                                  ),
-                                  style: theme.dropdownMenuItemStyle,
-                                ),
+                                child: decorate.dropdownMenuItem(text),
                               );
                             })
                             .toList(growable: false),
                         onChanged: (value) =>
                             controller.dayOfWeekOrdinal.value = value!,
-                      ),
-                    ),
+                      );
+
+                      return Flexible(child: decorate.dropdown(dropdown));
+                    },
                   ),
                   ListenableBuilder(
                     listenable: .merge([
                       controller.daysOfWeek,
                       controller.dayOfWeek,
                     ]),
-                    builder: (_, _) => Flexible(
-                      child: DropdownButton(
+                    builder: (_, _) {
+                      final dropdown = DropdownButton(
                         value: controller.dayOfWeek.value,
                         isExpanded: true,
                         style: theme.dropdownStyle,
                         items: controller.daysOfWeek.value
                             .map((day) {
+                              final text = Text(
+                                day.$2,
+                                style: theme.dropdownMenuItemStyle,
+                              );
+
                               return DropdownMenuItem(
                                 value: day.$1,
-                                child: Text(
-                                  day.$2,
-                                  style: theme.dropdownMenuItemStyle,
-                                ),
+                                child: decorate.dropdownMenuItem(text),
                               );
                             })
                             .toList(growable: false),
                         onChanged: (value) =>
                             controller.dayOfWeek.value = value!,
-                      ),
-                    ),
+                      );
+
+                      return Flexible(child: decorate.dropdown(dropdown));
+                    },
                   ),
                 ],
               ),

@@ -22,12 +22,12 @@ extension ByDayOfWeek on RRulePickerLocalizations {
 @internal
 extension ChildDecoration on Widget {
   DropdownDecorators dropdownDecorators(RRulePickerDropdownThemeData theme) {
-    final DropdownDecorator underline = switch (theme.showUnderlineOrDefault) {
+    final WidgetDecorator underline = switch (theme.showUnderlineOrDefault) {
       true => (child) => child,
       false => (child) => DropdownButtonHideUnderline(child: child),
     };
 
-    final DropdownDecorator dropdown = switch (theme.decoration) {
+    final WidgetDecorator dropdown = switch (theme.decoration) {
       null => (child) => underline(child),
       final decoration => (child) => DecoratedBox(
         decoration: decoration,
@@ -35,7 +35,7 @@ extension ChildDecoration on Widget {
       ),
     };
 
-    final DropdownDecorator item = switch (theme.menuItemDecoration) {
+    final WidgetDecorator item = switch (theme.menuItemDecoration) {
       null => (child) => child,
       final decoration => (child) => DecoratedBox(
         decoration: decoration,
@@ -49,12 +49,12 @@ extension ChildDecoration on Widget {
 
 @internal
 typedef DropdownDecorators = ({
-  DropdownDecorator dropdown,
-  DropdownDecorator dropdownMenuItem,
+  WidgetDecorator dropdown,
+  WidgetDecorator dropdownMenuItem,
 });
 
 @internal
-typedef DropdownDecorator = Widget Function(Widget child);
+typedef WidgetDecorator = Widget Function(Widget child);
 
 @internal
 extension DropdownDefaults on RRulePickerDropdownThemeData {

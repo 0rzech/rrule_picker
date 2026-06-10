@@ -84,7 +84,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
       ? RRulePickerThemeData(
           labelStyle: TextStyle.lerp(labelStyle, other.labelStyle, t),
           padding: EdgeInsetsGeometry.lerp(padding, other.padding, t),
-          showHeader: showHeader,
+          showHeader: t < 0.5 ? showHeader : other.showHeader,
           headerStyle: TextStyle.lerp(headerStyle, other.headerStyle, t),
           dropdownLabelStyle: TextStyle.lerp(
             dropdownLabelStyle,
@@ -111,7 +111,9 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
             other.textFieldStyle,
             t,
           ),
-          textFieldDecoration: textFieldDecoration,
+          textFieldDecoration: t < 0.5
+              ? textFieldDecoration
+              : other.textFieldDecoration,
           segmentedButtonStyle: ButtonStyle.lerp(
             segmentedButtonStyle,
             other.segmentedButtonStyle,

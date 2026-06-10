@@ -15,21 +15,21 @@ import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
 @internal
-class RRulePickerYearly extends StatefulWidget {
+class YearlyPicker extends StatefulWidget {
   final DayOfWeek firstDayOfWeek;
-  final RRulePickerYearlyController controller;
+  final YearlyPickerController controller;
 
-  const RRulePickerYearly({
+  const YearlyPicker({
     super.key,
     this.firstDayOfWeek = .monday,
     required this.controller,
   });
 
   @override
-  State<StatefulWidget> createState() => _RRulePickerYearlyState();
+  State<StatefulWidget> createState() => _YearlyPickerState();
 }
 
-class _RRulePickerYearlyState extends State<RRulePickerYearly> {
+class _YearlyPickerState extends State<YearlyPicker> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -40,7 +40,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
   }
 
   @override
-  void didUpdateWidget(covariant RRulePickerYearly oldWidget) {
+  void didUpdateWidget(covariant YearlyPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.firstDayOfWeek != widget.firstDayOfWeek) {
       widget.controller._updateState(firstDayOfWeek: widget.firstDayOfWeek);
@@ -50,7 +50,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
   @override
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
-    final theme = RRulePickerTheme.of(context);
+    final theme = ResolvedTheme.of(context);
     final decorate = widget.dropdownDecorators(theme.dropdownTheme);
     final controller = widget.controller;
 
@@ -94,7 +94,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
         return Column(
           spacing: 8,
           children: [
-            SegmentedButton<RRulePickerIntervalSegmentType>(
+            SegmentedButton<IntervalPickerSegmentType>(
               onSelectionChanged: (value) =>
                   controller.intervalSegmentType.value = value,
               selected: segmentType,
@@ -228,15 +228,12 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
 }
 
 @internal
-class RRulePickerYearlyController
-    with
-        RRulePickerIntervalSegmentTypeState,
-        RRulePickerDayOfMonthState,
-        RRulePickerDayOfWeekState {
+class YearlyPickerController
+    with IntervalPickerSegmentTypeState, DayOfMonthState, DayOfWeekState {
   late final ValueNotifier<Month> _month;
   late DateFormat _monthFormatter;
 
-  RRulePickerYearlyController([
+  YearlyPickerController([
     String initialRRule = '',
     DayOfWeek firstDayOfWeek = .monday,
   ]) {

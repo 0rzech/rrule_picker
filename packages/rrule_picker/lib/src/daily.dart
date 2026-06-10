@@ -8,16 +8,16 @@ import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 
 @internal
-class RRulePickerDaily extends StatelessWidget {
-  final RRulePickerDailyController controller;
+class DailyPicker extends StatelessWidget {
+  final DailyPickerController controller;
 
-  const RRulePickerDaily({super.key, required this.controller});
+  const DailyPicker({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
 
-    return RRulePickerInterval(
+    return IntervalPicker(
       everyUnitText: localizations.rrulePickerEveryDaily,
       intervalUnitText: localizations.rrulePickerDays,
       intervalNotifier: controller.intervalNotifier,
@@ -27,8 +27,8 @@ class RRulePickerDaily extends StatelessWidget {
 }
 
 @internal
-class RRulePickerDailyController with RRulePickerIntervalState {
-  RRulePickerDailyController([String initialRRule = '']) {
+class DailyPickerController with IntervalPickerState {
+  DailyPickerController([String initialRRule = '']) {
     initIntervalState(_parseRRule(initialRRule));
   }
 

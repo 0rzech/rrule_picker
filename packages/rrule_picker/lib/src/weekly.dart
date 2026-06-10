@@ -10,21 +10,21 @@ import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
 @internal
-class RRulePickerWeekly extends StatefulWidget {
+class WeeklyPicker extends StatefulWidget {
   final DayOfWeek firstDayOfWeek;
-  final RRulePickerWeeklyController controller;
+  final WeeklyPickerController controller;
 
-  const RRulePickerWeekly({
+  const WeeklyPicker({
     super.key,
     this.firstDayOfWeek = .monday,
     required this.controller,
   });
 
   @override
-  State<StatefulWidget> createState() => _RRulePickerWeeklyState();
+  State<StatefulWidget> createState() => _WeeklyPickerState();
 }
 
-class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
+class _WeeklyPickerState extends State<WeeklyPicker> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -35,7 +35,7 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
   }
 
   @override
-  void didUpdateWidget(covariant RRulePickerWeekly oldWidget) {
+  void didUpdateWidget(covariant WeeklyPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.firstDayOfWeek != widget.firstDayOfWeek) {
       widget.controller._updateState(firstDayOfWeek: widget.firstDayOfWeek);
@@ -45,9 +45,9 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
   @override
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
-    final theme = RRulePickerTheme.of(context);
+    final theme = ResolvedTheme.of(context);
 
-    final interval = RRulePickerInterval(
+    final interval = IntervalPicker(
       everyUnitText: localizations.rrulePickerEveryWeekly,
       intervalController: widget.controller.intervalController,
       intervalUnitText: localizations.rrulePickerWeeks,
@@ -82,12 +82,12 @@ class _RRulePickerWeeklyState extends State<RRulePickerWeekly> {
 }
 
 @internal
-class RRulePickerWeeklyController with RRulePickerIntervalState {
+class WeeklyPickerController with IntervalPickerState {
   late final ValueNotifier<Set<DayOfWeek>> selectedDaysOfWeek;
   late DateFormat dayOfWeekFormat;
   late List<(DayOfWeek, String)> daysOfWeek;
 
-  RRulePickerWeeklyController([
+  WeeklyPickerController([
     String initialRRule = '',
     DayOfWeek firstDayOfWeek = .monday,
   ]) {

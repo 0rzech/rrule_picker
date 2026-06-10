@@ -7,7 +7,7 @@ import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 
 @internal
-mixin RRulePickerDayOfWeekState {
+mixin DayOfWeekState {
   late final ValueNotifier<DayOfWeekOrdinal> dayOfWeekOrdinal;
   late final ValueNotifier<DayOfWeek> dayOfWeek;
   late final ValueNotifier<List<(DayOfWeek, String)>> daysOfWeek;

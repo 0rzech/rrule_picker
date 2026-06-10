@@ -8,13 +8,13 @@ import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
 @internal
-class RRulePickerInterval extends StatelessWidget {
+class IntervalPicker extends StatelessWidget {
   final String Function(int interval) everyUnitText;
   final String Function(int interval) intervalUnitText;
   final TextEditingController intervalController;
   final ValueNotifier<int> intervalNotifier;
 
-  const RRulePickerInterval({
+  const IntervalPicker({
     super.key,
     required this.everyUnitText,
     required this.intervalUnitText,
@@ -24,7 +24,7 @@ class RRulePickerInterval extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = RRulePickerTheme.of(context);
+    final theme = ResolvedTheme.of(context);
 
     final everyLabel = ValueListenableBuilder(
       valueListenable: intervalNotifier,
@@ -38,7 +38,7 @@ class RRulePickerInterval extends StatelessWidget {
         keyboardType: .number,
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
-          const RRulePickerIntervalValueInputFormatter(),
+          const IntervalPickerValueInputFormatter(),
         ],
         style: theme.textFieldTheme?.style,
         decoration: theme.textFieldTheme?.decoration,
@@ -69,8 +69,8 @@ class RRulePickerInterval extends StatelessWidget {
 }
 
 @internal
-class RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
-  const RRulePickerIntervalValueInputFormatter();
+class IntervalPickerValueInputFormatter extends TextInputFormatter {
+  const IntervalPickerValueInputFormatter();
 
   @override
   TextEditingValue formatEditUpdate(
@@ -83,7 +83,7 @@ class RRulePickerIntervalValueInputFormatter extends TextInputFormatter {
 }
 
 @internal
-mixin RRulePickerIntervalState {
+mixin IntervalPickerState {
   late final int initialIntervalValue;
   late final ValueNotifier<int> intervalNotifier;
   late final TextEditingController intervalController;
@@ -110,14 +110,13 @@ mixin RRulePickerIntervalState {
 }
 
 @internal
-mixin RRulePickerIntervalSegmentTypeState {
-  late final ValueNotifier<Set<RRulePickerIntervalSegmentType>>
-  intervalSegmentType;
+mixin IntervalPickerSegmentTypeState {
+  late final ValueNotifier<Set<IntervalPickerSegmentType>> intervalSegmentType;
 
   @protected
   @mustCallSuper
   void initIntervalSegmentTypeState([
-    Set<RRulePickerIntervalSegmentType> segmentType = const {.precise},
+    Set<IntervalPickerSegmentType> segmentType = const {.precise},
   ]) => intervalSegmentType = ValueNotifier(segmentType);
 
   @protected
@@ -126,4 +125,4 @@ mixin RRulePickerIntervalSegmentTypeState {
 }
 
 @internal
-enum RRulePickerIntervalSegmentType { precise, relative }
+enum IntervalPickerSegmentType { precise, relative }

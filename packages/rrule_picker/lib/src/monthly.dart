@@ -12,21 +12,21 @@ import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
 @internal
-class RRulePickerMonthly extends StatefulWidget {
+class MonthlyPicker extends StatefulWidget {
   final DayOfWeek firstDayOfWeek;
-  final RRulePickerMonthlyController controller;
+  final MonthlyPickerController controller;
 
-  const RRulePickerMonthly({
+  const MonthlyPicker({
     super.key,
     this.firstDayOfWeek = .monday,
     required this.controller,
   });
 
   @override
-  State<StatefulWidget> createState() => _RRulePickerMonthlyState();
+  State<StatefulWidget> createState() => _MonthlyPickerState();
 }
 
-class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
+class _MonthlyPickerState extends State<MonthlyPicker> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -37,7 +37,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
   }
 
   @override
-  void didUpdateWidget(covariant RRulePickerMonthly oldWidget) {
+  void didUpdateWidget(covariant MonthlyPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.firstDayOfWeek != widget.firstDayOfWeek) {
       widget.controller._updateState(firstDayOfWeek: widget.firstDayOfWeek);
@@ -47,11 +47,11 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
   @override
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
-    final theme = RRulePickerTheme.of(context);
+    final theme = ResolvedTheme.of(context);
     final decorate = widget.dropdownDecorators(theme.dropdownTheme);
     final controller = widget.controller;
 
-    final interval = RRulePickerInterval(
+    final interval = IntervalPicker(
       everyUnitText: l.rrulePickerEveryMonthly,
       intervalUnitText: l.rrulePickerMonths,
       intervalController: controller.intervalController,
@@ -65,7 +65,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
           spacing: 8,
           children: [
             interval!,
-            SegmentedButton<RRulePickerIntervalSegmentType>(
+            SegmentedButton<IntervalPickerSegmentType>(
               onSelectionChanged: (value) =>
                   controller.intervalSegmentType.value = value,
               selected: segmentType,
@@ -184,13 +184,13 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
 }
 
 @internal
-class RRulePickerMonthlyController
+class MonthlyPickerController
     with
-        RRulePickerIntervalSegmentTypeState,
-        RRulePickerIntervalState,
-        RRulePickerDayOfMonthState,
-        RRulePickerDayOfWeekState {
-  RRulePickerMonthlyController([
+        IntervalPickerSegmentTypeState,
+        IntervalPickerState,
+        DayOfMonthState,
+        DayOfWeekState {
+  MonthlyPickerController([
     String initialRRule = '',
     DayOfWeek firstDayOfWeek = .monday,
   ]) {

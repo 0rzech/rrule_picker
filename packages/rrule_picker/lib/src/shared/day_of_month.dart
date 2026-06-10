@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 
 @internal
-mixin RRulePickerDayOfMonthState {
+mixin DayOfMonthState {
   late final ValueNotifier<int> dayOfMonth;
   late final NumberFormat dayOfMonthFormatter;
 

@@ -6,17 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:rrule_picker/theme.dart';
 
 @internal
-class RRulePickerTheme extends InheritedWidget {
-  final RRulePickerResolvedThemeData theme;
+class ResolvedTheme extends InheritedWidget {
+  final ResolvedThemeData theme;
 
-  const RRulePickerTheme({
-    super.key,
-    required this.theme,
-    required super.child,
-  });
+  const ResolvedTheme({super.key, required this.theme, required super.child});
 
-  static RRulePickerResolvedThemeData of(BuildContext context) {
-    final self = context.dependOnInheritedWidgetOfExactType<RRulePickerTheme>();
+  static ResolvedThemeData of(BuildContext context) {
+    final self = context.dependOnInheritedWidgetOfExactType<ResolvedTheme>();
 
     if (self == null) {
       throw Exception(
@@ -28,12 +24,12 @@ class RRulePickerTheme extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(covariant RRulePickerTheme oldWidget) =>
+  bool updateShouldNotify(covariant ResolvedTheme oldWidget) =>
       theme != oldWidget.theme;
 }
 
 @internal
-class RRulePickerResolvedThemeData {
+class ResolvedThemeData {
   final TextStyle? labelStyle;
   final EdgeInsetsGeometry padding;
   final RRulePickerHeaderThemeData headerTheme;
@@ -43,7 +39,7 @@ class RRulePickerResolvedThemeData {
   final ButtonStyle? segmentedButtonStyle;
   final ButtonStyle? weekdaySelectionButtonStyle;
 
-  const RRulePickerResolvedThemeData({
+  const ResolvedThemeData({
     this.labelStyle,
     required this.padding,
     required this.headerTheme,
@@ -54,37 +50,36 @@ class RRulePickerResolvedThemeData {
     this.weekdaySelectionButtonStyle,
   });
 
-  factory RRulePickerResolvedThemeData.defaults(ThemeData theme) =>
-      RRulePickerResolvedThemeData(
-        padding: RRulePickerThemeData.defaultPadding,
-        headerTheme: RRulePickerHeaderThemeData(
-          showHeader: RRulePickerHeaderThemeData.defaultShowHeader,
-          style:
-              theme.textTheme.titleSmall?.copyWith(
-                fontSize: RRulePickerHeaderThemeData.defaultFontSize,
-                fontWeight: RRulePickerHeaderThemeData.defaultFontWeight,
-              ) ??
-              RRulePickerHeaderThemeData.fallbackStyle,
-        ),
-        dropdownTheme: const RRulePickerDropdownThemeData(
-          showUnderline: RRulePickerDropdownThemeData.defaultShowUnderline,
-        ),
-        topDropdownTheme: const RRulePickerDropdownThemeData(
-          showUnderline: RRulePickerDropdownThemeData.defaultTopShowUnderline,
-        ),
-        textFieldTheme: const RRulePickerTextFieldThemeData(
-          decoration: RRulePickerTextFieldThemeData.defaultDecoration,
-        ),
-        segmentedButtonStyle: RRulePickerThemeData.defaultSegmentedButtonStyle,
-      );
+  factory ResolvedThemeData.defaults(ThemeData theme) => ResolvedThemeData(
+    padding: RRulePickerThemeData.defaultPadding,
+    headerTheme: RRulePickerHeaderThemeData(
+      showHeader: RRulePickerHeaderThemeData.defaultShowHeader,
+      style:
+          theme.textTheme.titleSmall?.copyWith(
+            fontSize: RRulePickerHeaderThemeData.defaultFontSize,
+            fontWeight: RRulePickerHeaderThemeData.defaultFontWeight,
+          ) ??
+          RRulePickerHeaderThemeData.fallbackStyle,
+    ),
+    dropdownTheme: const RRulePickerDropdownThemeData(
+      showUnderline: RRulePickerDropdownThemeData.defaultShowUnderline,
+    ),
+    topDropdownTheme: const RRulePickerDropdownThemeData(
+      showUnderline: RRulePickerDropdownThemeData.defaultTopShowUnderline,
+    ),
+    textFieldTheme: const RRulePickerTextFieldThemeData(
+      decoration: RRulePickerTextFieldThemeData.defaultDecoration,
+    ),
+    segmentedButtonStyle: RRulePickerThemeData.defaultSegmentedButtonStyle,
+  );
 
-  factory RRulePickerResolvedThemeData.resolve(
+  factory ResolvedThemeData.resolve(
     BuildContext context, [
     RRulePickerThemeData? localTheme,
   ]) {
     final theme = Theme.of(context);
     final globalTheme = theme.extension<RRulePickerThemeData>();
-    final defaultTheme = RRulePickerResolvedThemeData.defaults(theme);
+    final defaultTheme = ResolvedThemeData.defaults(theme);
 
     final dropdownTheme = RRulePickerDropdownThemeData(
       showUnderline:
@@ -114,7 +109,7 @@ class RRulePickerResolvedThemeData {
         globalTheme?.segmentedButtonStyle ??
         defaultTheme.segmentedButtonStyle;
 
-    return RRulePickerResolvedThemeData(
+    return ResolvedThemeData(
       labelStyle:
           localTheme?.labelStyle ??
           globalTheme?.labelStyle ??
@@ -180,7 +175,7 @@ class RRulePickerResolvedThemeData {
   @override
   bool operator ==(Object other) => identical(this, other)
       ? true
-      : other is RRulePickerResolvedThemeData &&
+      : other is ResolvedThemeData &&
             other.labelStyle == labelStyle &&
             other.padding == padding &&
             other.headerTheme == headerTheme &&

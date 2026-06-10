@@ -25,11 +25,11 @@ class _RRulePickerState extends State<RRulePicker> {
   @override
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
-    final theme = RRulePickerResolvedThemeData.resolve(context, widget.theme);
+    final theme = ResolvedThemeData.resolve(context, widget.theme);
     final decorate = widget.dropdownDecorators(theme.topDropdownTheme);
     final controller = widget.controller;
 
-    return RRulePickerTheme(
+    return ResolvedTheme(
       theme: theme,
       child: Padding(
         padding: theme.padding,
@@ -64,12 +64,10 @@ class _RRulePickerState extends State<RRulePicker> {
                 decorate.dropdown(dropdown),
                 switch (controller._recurrenceType.value) {
                   .never => const SizedBox.shrink(),
-                  .daily => RRulePickerDaily(controller: controller._daily),
-                  .weekly => RRulePickerWeekly(controller: controller._weekly),
-                  .monthly => RRulePickerMonthly(
-                    controller: controller._monthly,
-                  ),
-                  .yearly => RRulePickerYearly(controller: controller._yearly),
+                  .daily => DailyPicker(controller: controller._daily),
+                  .weekly => WeeklyPicker(controller: controller._weekly),
+                  .monthly => MonthlyPicker(controller: controller._monthly),
+                  .yearly => YearlyPicker(controller: controller._yearly),
                 },
               ],
             );
@@ -88,10 +86,10 @@ class _RRulePickerState extends State<RRulePicker> {
 
 class RRulePickerController {
   late final ValueNotifier<_RecurrenceType> _recurrenceType;
-  late final RRulePickerDailyController _daily;
-  late final RRulePickerWeeklyController _weekly;
-  late final RRulePickerMonthlyController _monthly;
-  late final RRulePickerYearlyController _yearly;
+  late final DailyPickerController _daily;
+  late final WeeklyPickerController _weekly;
+  late final MonthlyPickerController _monthly;
+  late final YearlyPickerController _yearly;
 
   RRulePickerController([String initialRRule = '']) {
     _recurrenceType = .new(_getRecurrenceType(initialRRule));

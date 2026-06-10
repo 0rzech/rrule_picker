@@ -51,7 +51,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
     final theme = RRulePickerTheme.of(context);
-    final decorate = widget.dropdownDecorators(theme);
+    final decorate = widget.dropdownDecorators(theme.dropdownTheme);
     final controller = widget.controller;
 
     final monthWidget = ValueListenableBuilder(
@@ -60,13 +60,13 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
         final dropdown = DropdownButton(
           value: day,
           isExpanded: true,
-          style: theme.dropdownStyle,
+          style: theme.dropdownTheme.style,
           items: Month.values
               .map((month) {
                 final date = DateTime(2026, 01 + month.index, 01);
                 final text = Text(
                   controller._monthFormatter.format(date),
-                  style: theme.dropdownMenuItemStyle,
+                  style: theme.dropdownTheme.menuItemStyle,
                 );
 
                 return DropdownMenuItem(
@@ -124,12 +124,12 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                       final dropdown = DropdownButton(
                         value: day,
                         isExpanded: true,
-                        style: theme.dropdownStyle,
+                        style: theme.dropdownTheme.style,
                         items: .generate(controller._month.value.maxDay, (i) {
                           final day = i + 1;
                           final text = Text(
                             controller.dayOfMonthFormatter.format(day),
-                            style: theme.dropdownMenuItemStyle,
+                            style: theme.dropdownTheme.menuItemStyle,
                           );
 
                           return DropdownMenuItem(
@@ -162,7 +162,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                       final dropdown = DropdownButton(
                         isExpanded: true,
                         value: controller.dayOfWeekOrdinal.value,
-                        style: theme.dropdownStyle,
+                        style: theme.dropdownTheme.style,
                         items: DayOfWeekOrdinal.values
                             .map((ordinal) {
                               final text = Text(
@@ -170,7 +170,7 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                                   ordinal,
                                   controller.dayOfWeek.value,
                                 ),
-                                style: theme.dropdownMenuItemStyle,
+                                style: theme.dropdownTheme.menuItemStyle,
                               );
 
                               return DropdownMenuItem(
@@ -195,12 +195,12 @@ class _RRulePickerYearlyState extends State<RRulePickerYearly> {
                       final dropdown = DropdownButton(
                         value: controller.dayOfWeek.value,
                         isExpanded: true,
-                        style: theme.dropdownStyle,
+                        style: theme.dropdownTheme.style,
                         items: controller.daysOfWeek.value
                             .map((day) {
                               final text = Text(
                                 day.$2,
-                                style: theme.dropdownMenuItemStyle,
+                                style: theme.dropdownTheme.menuItemStyle,
                               );
 
                               return DropdownMenuItem(

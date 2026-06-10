@@ -26,7 +26,7 @@ class _RRulePickerState extends State<RRulePicker> {
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
     final theme = RRulePickerResolvedThemeData.resolve(context, widget.theme);
-    final decorate = widget.dropdownDecorators(theme);
+    final decorate = widget.dropdownDecorators(theme.topDropdownTheme);
     final controller = widget.controller;
 
     return RRulePickerTheme(
@@ -39,12 +39,12 @@ class _RRulePickerState extends State<RRulePicker> {
             final dropdown = DropdownButton(
               value: type,
               isExpanded: true,
-              style: theme.dropdownStyle,
+              style: theme.topDropdownTheme.style,
               items: _RecurrenceType.values
                   .map((value) {
                     final text = Text(
                       localizations.rrulePickerRecurrenceType(value.name),
-                      style: theme.dropdownMenuItemStyle,
+                      style: theme.topDropdownTheme.menuItemStyle,
                     );
 
                     return DropdownMenuItem(
@@ -61,7 +61,7 @@ class _RRulePickerState extends State<RRulePicker> {
               spacing: 8,
               children: [
                 title!,
-                decorate.dropdown(DropdownButtonHideUnderline(child: dropdown)),
+                decorate.dropdown(dropdown),
                 switch (controller._recurrenceType.value) {
                   .never => const SizedBox.shrink(),
                   .daily => RRulePickerDaily(controller: controller._daily),
@@ -74,8 +74,13 @@ class _RRulePickerState extends State<RRulePicker> {
               ],
             );
           },
-          child: theme.showHeader
-              ? Text(localizations.rrulePickerTitle, style: theme.headerStyle)
+          child:
+              theme.headerTheme.showHeader ??
+                  RRulePickerHeaderThemeData.defaultShowHeader
+              ? Text(
+                  localizations.rrulePickerTitle,
+                  style: theme.headerTheme.style,
+                )
               : const SizedBox.shrink(),
         ),
       ),

@@ -48,7 +48,7 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
     final theme = RRulePickerTheme.of(context);
-    final decorate = widget.dropdownDecorators(theme);
+    final decorate = widget.dropdownDecorators(theme.dropdownTheme);
     final controller = widget.controller;
 
     final interval = RRulePickerInterval(
@@ -89,17 +89,17 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
                   final dropdown = DropdownButton(
                     value: day,
                     isExpanded: true,
-                    style: theme.dropdownStyle,
+                    style: theme.dropdownTheme.style,
                     items: .generate(byMonthDayMax, (i) {
                       final day = i + 1;
                       final text = switch (day) {
                         byMonthDayMax => Text(
                           l.rrulePickerLastDay,
-                          style: theme.dropdownMenuItemStyle,
+                          style: theme.dropdownTheme.menuItemStyle,
                         ),
                         _ => Text(
                           controller.dayOfMonthFormatter.format(day),
-                          style: theme.dropdownMenuItemStyle,
+                          style: theme.dropdownTheme.menuItemStyle,
                         ),
                       };
 
@@ -127,12 +127,12 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
                   final ordinalDropdown = DropdownButton(
                     isExpanded: true,
                     value: ordinal,
-                    style: theme.dropdownStyle,
+                    style: theme.dropdownTheme.style,
                     items: DayOfWeekOrdinal.values
                         .map((ordinal) {
                           final text = Text(
                             l.rrulePickerDayOfWeekOrdinal(ordinal, day),
-                            style: theme.dropdownMenuItemStyle,
+                            style: theme.dropdownTheme.menuItemStyle,
                           );
 
                           return DropdownMenuItem(
@@ -148,12 +148,12 @@ class _RRulePickerMonthlyState extends State<RRulePickerMonthly> {
                   final dayDropdown = DropdownButton(
                     isExpanded: true,
                     value: day,
-                    style: theme.dropdownStyle,
+                    style: theme.dropdownTheme.style,
                     items: controller.daysOfWeek.value
                         .map((day) {
                           final text = Text(
                             day.$2,
-                            style: theme.dropdownMenuItemStyle,
+                            style: theme.dropdownTheme.menuItemStyle,
                           );
 
                           return DropdownMenuItem(

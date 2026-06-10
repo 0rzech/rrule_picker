@@ -3,7 +3,6 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/theme.dart';
 
 @internal
@@ -37,45 +36,45 @@ class RRulePickerTheme extends InheritedWidget {
 class RRulePickerResolvedThemeData {
   final TextStyle? labelStyle;
   final EdgeInsetsGeometry padding;
-
-  final bool showHeader;
-  final TextStyle? headerStyle;
-
-  final TextStyle? dropdownStyle;
-  final Decoration? dropdownDecoration;
-  final TextStyle? dropdownMenuItemStyle;
-  final Decoration? dropdownMenuItemDecoration;
-
-  final TextStyle? textFieldStyle;
-  final InputDecoration? textFieldDecoration;
-
+  final RRulePickerHeaderThemeData headerTheme;
+  final RRulePickerDropdownThemeData dropdownTheme;
+  final RRulePickerDropdownThemeData topDropdownTheme;
+  final RRulePickerTextFieldThemeData? textFieldTheme;
   final ButtonStyle? segmentedButtonStyle;
+  final ButtonStyle? weekdaySelectionButtonStyle;
 
   const RRulePickerResolvedThemeData({
     this.labelStyle,
     required this.padding,
-    required this.showHeader,
-    required this.headerStyle,
-    this.dropdownStyle,
-    this.dropdownDecoration,
-    this.dropdownMenuItemStyle,
-    this.dropdownMenuItemDecoration,
-    this.textFieldStyle,
-    this.textFieldDecoration,
+    required this.headerTheme,
+    required this.dropdownTheme,
+    required this.topDropdownTheme,
+    this.textFieldTheme,
     this.segmentedButtonStyle,
+    this.weekdaySelectionButtonStyle,
   });
 
   factory RRulePickerResolvedThemeData.defaults(ThemeData theme) =>
       RRulePickerResolvedThemeData(
         padding: RRulePickerThemeData.defaultPadding,
-        showHeader: RRulePickerThemeData.defaultShowHeader,
-        headerStyle:
-            theme.textTheme.titleSmall?.copyWith(
-              fontSize: RRulePickerThemeData.defaultHeaderFontSize,
-              fontWeight: RRulePickerThemeData.defaultHeaderFontWeight,
-            ) ??
-            RRulePickerThemeData.fallbackHeaderStyle,
-        textFieldDecoration: RRulePickerThemeData.defaultTextFieldDecoration,
+        headerTheme: RRulePickerHeaderThemeData(
+          showHeader: RRulePickerHeaderThemeData.defaultShowHeader,
+          style:
+              theme.textTheme.titleSmall?.copyWith(
+                fontSize: RRulePickerHeaderThemeData.defaultFontSize,
+                fontWeight: RRulePickerHeaderThemeData.defaultFontWeight,
+              ) ??
+              RRulePickerHeaderThemeData.fallbackStyle,
+        ),
+        dropdownTheme: const RRulePickerDropdownThemeData(
+          showUnderline: RRulePickerDropdownThemeData.defaultShowUnderline,
+        ),
+        topDropdownTheme: const RRulePickerDropdownThemeData(
+          showUnderline: RRulePickerDropdownThemeData.defaultTopShowUnderline,
+        ),
+        textFieldTheme: const RRulePickerTextFieldThemeData(
+          decoration: RRulePickerTextFieldThemeData.defaultDecoration,
+        ),
         segmentedButtonStyle: RRulePickerThemeData.defaultSegmentedButtonStyle,
       );
 
@@ -87,6 +86,34 @@ class RRulePickerResolvedThemeData {
     final globalTheme = theme.extension<RRulePickerThemeData>();
     final defaultTheme = RRulePickerResolvedThemeData.defaults(theme);
 
+    final dropdownTheme = RRulePickerDropdownThemeData(
+      showUnderline:
+          localTheme?.dropdownTheme?.showUnderline ??
+          globalTheme?.dropdownTheme?.showUnderline ??
+          defaultTheme.dropdownTheme.showUnderline,
+      style:
+          localTheme?.dropdownTheme?.style ??
+          globalTheme?.dropdownTheme?.style ??
+          defaultTheme.dropdownTheme.style,
+      decoration:
+          localTheme?.dropdownTheme?.decoration ??
+          globalTheme?.dropdownTheme?.decoration ??
+          defaultTheme.dropdownTheme.decoration,
+      menuItemStyle:
+          localTheme?.dropdownTheme?.menuItemStyle ??
+          globalTheme?.dropdownTheme?.menuItemStyle ??
+          defaultTheme.dropdownTheme.menuItemStyle,
+      menuItemDecoration:
+          localTheme?.dropdownTheme?.menuItemDecoration ??
+          globalTheme?.dropdownTheme?.menuItemDecoration ??
+          defaultTheme.dropdownTheme.menuItemDecoration,
+    );
+
+    final segmentedButtonStyle =
+        localTheme?.segmentedButtonStyle ??
+        globalTheme?.segmentedButtonStyle ??
+        defaultTheme.segmentedButtonStyle;
+
     return RRulePickerResolvedThemeData(
       labelStyle:
           localTheme?.labelStyle ??
@@ -94,42 +121,59 @@ class RRulePickerResolvedThemeData {
           defaultTheme.labelStyle,
       padding:
           localTheme?.padding ?? globalTheme?.padding ?? defaultTheme.padding,
-      showHeader:
-          localTheme?.showHeader ??
-          globalTheme?.showHeader ??
-          defaultTheme.showHeader,
-      headerStyle:
-          localTheme?.headerStyle ??
-          globalTheme?.headerStyle ??
-          defaultTheme.headerStyle,
-      dropdownStyle:
-          localTheme?.dropdownLabelStyle ??
-          globalTheme?.dropdownLabelStyle ??
-          defaultTheme.dropdownStyle,
-      dropdownDecoration:
-          localTheme?.dropdownDecoration ??
-          globalTheme?.dropdownDecoration ??
-          defaultTheme.dropdownDecoration,
-      dropdownMenuItemStyle:
-          localTheme?.dropdownMenuItemStyle ??
-          globalTheme?.dropdownMenuItemStyle ??
-          defaultTheme.dropdownMenuItemStyle,
-      dropdownMenuItemDecoration:
-          localTheme?.dropdownMenuItemDecoration ??
-          globalTheme?.dropdownMenuItemDecoration ??
-          defaultTheme.dropdownMenuItemDecoration,
-      textFieldStyle:
-          localTheme?.textFieldStyle ??
-          globalTheme?.textFieldStyle ??
-          defaultTheme.textFieldStyle,
-      textFieldDecoration:
-          localTheme?.textFieldDecoration ??
-          globalTheme?.textFieldDecoration ??
-          defaultTheme.textFieldDecoration,
-      segmentedButtonStyle:
-          localTheme?.segmentedButtonStyle ??
-          globalTheme?.segmentedButtonStyle ??
-          defaultTheme.segmentedButtonStyle,
+      headerTheme: RRulePickerHeaderThemeData(
+        showHeader:
+            localTheme?.headerTheme?.showHeader ??
+            globalTheme?.headerTheme?.showHeader ??
+            defaultTheme.headerTheme.showHeader,
+        style:
+            localTheme?.headerTheme?.style ??
+            globalTheme?.headerTheme?.style ??
+            defaultTheme.headerTheme.style,
+      ),
+      dropdownTheme: dropdownTheme,
+      topDropdownTheme: RRulePickerDropdownThemeData(
+        showUnderline:
+            localTheme?.topDropdownTheme?.showUnderline ??
+            globalTheme?.topDropdownTheme?.showUnderline ??
+            defaultTheme.topDropdownTheme.showUnderline,
+        style:
+            localTheme?.topDropdownTheme?.style ??
+            globalTheme?.topDropdownTheme?.style ??
+            defaultTheme.topDropdownTheme.style ??
+            dropdownTheme.style,
+        decoration:
+            localTheme?.topDropdownTheme?.decoration ??
+            globalTheme?.topDropdownTheme?.decoration ??
+            defaultTheme.topDropdownTheme.decoration ??
+            dropdownTheme.decoration,
+        menuItemStyle:
+            localTheme?.topDropdownTheme?.menuItemStyle ??
+            globalTheme?.topDropdownTheme?.menuItemStyle ??
+            defaultTheme.topDropdownTheme.menuItemStyle ??
+            dropdownTheme.menuItemStyle,
+        menuItemDecoration:
+            localTheme?.topDropdownTheme?.menuItemDecoration ??
+            globalTheme?.topDropdownTheme?.menuItemDecoration ??
+            defaultTheme.topDropdownTheme.menuItemDecoration ??
+            dropdownTheme.menuItemDecoration,
+      ),
+      textFieldTheme: RRulePickerTextFieldThemeData(
+        style:
+            localTheme?.textFieldTheme?.style ??
+            globalTheme?.textFieldTheme?.style ??
+            defaultTheme.textFieldTheme?.style,
+        decoration:
+            localTheme?.textFieldTheme?.decoration ??
+            globalTheme?.textFieldTheme?.decoration ??
+            defaultTheme.textFieldTheme?.decoration,
+      ),
+      segmentedButtonStyle: segmentedButtonStyle,
+      weekdaySelectionButtonStyle:
+          localTheme?.weekdaySelectionButtonStyle ??
+          globalTheme?.weekdaySelectionButtonStyle ??
+          defaultTheme.weekdaySelectionButtonStyle ??
+          segmentedButtonStyle,
     );
   }
 
@@ -139,28 +183,22 @@ class RRulePickerResolvedThemeData {
       : other is RRulePickerResolvedThemeData &&
             other.labelStyle == labelStyle &&
             other.padding == padding &&
-            other.showHeader == showHeader &&
-            other.headerStyle == headerStyle &&
-            other.dropdownStyle == dropdownStyle &&
-            other.dropdownDecoration == dropdownDecoration &&
-            other.dropdownMenuItemStyle == dropdownMenuItemStyle &&
-            other.dropdownMenuItemDecoration == dropdownMenuItemDecoration &&
-            other.textFieldStyle == textFieldStyle &&
-            other.textFieldDecoration == textFieldDecoration &&
-            other.segmentedButtonStyle == segmentedButtonStyle;
+            other.headerTheme == headerTheme &&
+            other.dropdownTheme == dropdownTheme &&
+            other.topDropdownTheme == topDropdownTheme &&
+            other.textFieldTheme == textFieldTheme &&
+            other.segmentedButtonStyle == segmentedButtonStyle &&
+            other.weekdaySelectionButtonStyle == weekdaySelectionButtonStyle;
 
   @override
   int get hashCode => Object.hash(
     labelStyle,
     padding,
-    showHeader,
-    headerStyle,
-    dropdownStyle,
-    dropdownDecoration,
-    dropdownMenuItemStyle,
-    dropdownMenuItemDecoration,
-    textFieldStyle,
-    textFieldDecoration,
+    headerTheme,
+    dropdownTheme,
+    topDropdownTheme,
+    textFieldTheme,
     segmentedButtonStyle,
+    weekdaySelectionButtonStyle,
   );
 }

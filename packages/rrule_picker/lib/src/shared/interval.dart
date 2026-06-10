@@ -40,8 +40,8 @@ class RRulePickerInterval extends StatelessWidget {
           FilteringTextInputFormatter.digitsOnly,
           const RRulePickerIntervalValueInputFormatter(),
         ],
-        style: theme.textFieldStyle,
-        decoration: theme.textFieldDecoration,
+        style: theme.textFieldTheme?.style,
+        decoration: theme.textFieldTheme?.decoration,
         onChanged: (value) {
           if (int.tryParse(value) case final count?) {
             intervalNotifier.value = count;

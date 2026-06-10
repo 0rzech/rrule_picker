@@ -6,7 +6,7 @@ import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/daily.dart';
 import 'package:rrule_picker/src/monthly.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
-import 'package:rrule_picker/src/shared/theme.dart';
+import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/src/weekly.dart';
 import 'package:rrule_picker/src/yearly.dart';
 import 'package:rrule_picker/theme.dart';
@@ -74,9 +74,7 @@ class _RRulePickerState extends State<RRulePicker> {
               ],
             );
           },
-          child:
-              theme.headerTheme.showHeader ??
-                  RRulePickerHeaderThemeData.defaultShowHeader
+          child: theme.headerTheme.showHeaderOrDefault
               ? Text(
                   localizations.rrulePickerTitle,
                   style: theme.headerTheme.style,

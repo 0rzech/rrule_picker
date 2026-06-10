@@ -57,7 +57,13 @@ typedef DropdownDecorators = ({
 typedef DropdownDecorator = Widget Function(Widget child);
 
 @internal
-extension Defaults on RRulePickerDropdownThemeData {
+extension DropdownDefaults on RRulePickerDropdownThemeData {
   bool get showUnderlineOrDefault =>
       showUnderline ?? RRulePickerDropdownThemeData.defaultShowUnderline;
+}
+
+@internal
+extension HeaderDefaults on RRulePickerHeaderThemeData {
+  bool get showHeaderOrDefault =>
+      showHeader ?? RRulePickerHeaderThemeData.defaultShowHeader;
 }

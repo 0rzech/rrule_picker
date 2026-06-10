@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
-import 'package:rrule_picker/src/shared/theme.dart';
+import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
 @internal
 class RRulePickerWeekly extends StatefulWidget {

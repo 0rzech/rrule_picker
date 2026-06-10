@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
-import 'package:rrule_picker/src/shared/theme.dart';
+import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
 @internal
 class RRulePickerInterval extends StatelessWidget {

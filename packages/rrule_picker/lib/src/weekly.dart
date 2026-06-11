@@ -115,18 +115,24 @@ class WeeklyPickerController with IntervalPickerState {
     }
   }
 
-  (int, Set<DayOfWeek>) _parseRRule(String rule, DayOfWeek firstDayOfWeek) {
-    if (rule.isEmpty) {
+  (int, Set<DayOfWeek>) _parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
+    if (rrule.isEmpty) {
       return (defaultInterval, {firstDayOfWeek});
     }
 
     const re = r'INTERVAL=(\d+);BYDAY=([AEFHMORSTUW,]+)';
-    final match = RegExp(re).firstMatch(rule);
+    final match = RegExp(re).firstMatch(rrule);
 
     return (
       parseInterval(match?.group(1)),
       parseByDayMulti(match?.group(2), {firstDayOfWeek}),
     );
+  }
+
+  void setRRule(String rrule, [DayOfWeek firstDayOfWeek = .monday]) {
+    final (weeks, days) = _parseRRule(rrule, firstDayOfWeek);
+    setIntervalValue(weeks);
+    selectedDaysOfWeek.value = days;
   }
 
   void buildRRulePart(StringBuffer sb) {

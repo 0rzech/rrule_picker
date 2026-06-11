@@ -103,6 +103,12 @@ mixin IntervalPickerState {
     intervalNotifier.dispose();
   }
 
+  @protected
+  void setIntervalValue(int value) {
+    intervalNotifier.value = value;
+    intervalController.text = value.toString();
+  }
+
   int getIntervalValue({int minValue = intervalMin, int? defaultValue}) =>
       intervalNotifier.value < minValue
       ? (defaultValue ?? initialIntervalValue)
@@ -122,6 +128,11 @@ mixin IntervalPickerSegmentTypeState {
   @protected
   @mustCallSuper
   void disposeIntervalSegmentTypeState() => intervalSegmentType.dispose();
+
+  @protected
+  void setIntervalSegmentTypeValue(
+    Set<IntervalPickerSegmentType> segmentType,
+  ) => intervalSegmentType.value = segmentType;
 }
 
 @internal

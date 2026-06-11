@@ -50,4 +50,13 @@ mixin DayOfWeekState {
       );
     }
   }
+
+  @protected
+  void setDayOfWeekValue(
+    DayOfWeekOrdinal dayOfWeekOrdinal,
+    DayOfWeek dayOfWeek,
+  ) {
+    this.dayOfWeekOrdinal.value = dayOfWeekOrdinal;
+    this.dayOfWeek.value = dayOfWeek;
+  }
 }

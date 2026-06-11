@@ -35,13 +35,15 @@ class DailyPickerController with IntervalPickerState {
   @mustCallSuper
   void dispose() => disposeIntervalState();
 
-  int _parseRRule(String rule) {
-    if (rule.isEmpty) {
+  int _parseRRule(String rrule) {
+    if (rrule.isEmpty) {
       return defaultInterval;
     }
 
-    return parseInterval(RegExp(r'INTERVAL=(\d+)').firstMatch(rule)?.group(1));
+    return parseInterval(RegExp(r'INTERVAL=(\d+)').firstMatch(rrule)?.group(1));
   }
+
+  void setRRule(String rrule) => setIntervalValue(_parseRRule(rrule));
 
   void buildRRulePart(StringBuffer sb) {
     sb.write('FREQ=DAILY;INTERVAL=');

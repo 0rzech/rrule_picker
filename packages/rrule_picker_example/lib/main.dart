@@ -42,11 +42,22 @@ class _RRuleExampleState extends State<RRuleExample> {
   @override
   void initState() {
     super.initState();
-    rrulePickerController = .new();
+    rrulePickerController = .new(
+      initialRRule: 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=FR;BYSETPOS=-1',
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final rrulePicker = RRulePicker(
+      // this `initialRRule` value will not be used,
+      // because `rrulePickerController` was initialized with its own non-empty
+      // `initialRRule` value
+      initialRRule: 'RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TH,SU',
+      controller: rrulePickerController,
+      theme: const .new(padding: .all(8)),
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -68,10 +79,7 @@ class _RRuleExampleState extends State<RRuleExample> {
                     padding: const .only(bottom: 8),
                     child: Column(
                       children: [
-                        RRulePicker(
-                          controller: rrulePickerController,
-                          theme: const .new(padding: .all(8)),
-                        ),
+                        rrulePicker,
                         ElevatedButton(
                           onPressed: buttonPressed,
                           child: const Icon(

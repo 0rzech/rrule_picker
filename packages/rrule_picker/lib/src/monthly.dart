@@ -223,8 +223,8 @@ class MonthlyPickerController
     firstDayOfWeek: firstDayOfWeek,
   );
 
-  _ParsedRRule _parseRRule(String rule, DayOfWeek firstDayOfWeek) {
-    if (rule.isEmpty) {
+  _ParsedRRule _parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
+    if (rrule.isEmpty) {
       return const _ParsedRRule(
         interval: defaultInterval,
         dayOfMonth: defaultByMonthDay,
@@ -235,10 +235,10 @@ class MonthlyPickerController
     const reDayOfMonth = r'BYMONTHDAY=(\d+)';
     const reDayOfWeek = r'BYDAY=([AEFHMORSTUW,]+);BYSETPOS=(-?\d+)';
 
-    var match = RegExp(reInterval).firstMatch(rule);
+    var match = RegExp(reInterval).firstMatch(rrule);
     final interval = parseInterval(match?.group(1));
 
-    final rest = rule.substring(match?.end ?? 0);
+    final rest = rrule.substring(match?.end ?? 0);
 
     match = RegExp(reDayOfMonth).firstMatch(rest);
     final dayOfMonth = match?.group(1);
@@ -259,6 +259,20 @@ class MonthlyPickerController
         dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
       );
     }
+  }
+
+  void setRRule(String rrule, [DayOfWeek firstDayOfWeek = .monday]) {
+    final parsed = _parseRRule(rrule, firstDayOfWeek);
+
+    setIntervalSegmentTypeValue(
+      parsed.dayOfMonth == null ? const {.relative} : const {.precise},
+    );
+    setIntervalValue(parsed.interval);
+    setDayOfMonthValue(parsed.dayOfMonth ?? defaultByMonthDay);
+    setDayOfWeekValue(
+      parsed.dayOfWeekOrdinal ?? .first,
+      parsed.dayOfWeek ?? firstDayOfWeek,
+    );
   }
 
   void buildRRulePart(StringBuffer sb) {

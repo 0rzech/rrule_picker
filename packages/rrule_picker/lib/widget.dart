@@ -12,16 +12,31 @@ import 'package:rrule_picker/src/yearly.dart';
 import 'package:rrule_picker/theme.dart';
 
 class RRulePicker extends StatefulWidget {
+  final String initialRRule;
   final RRulePickerController controller;
   final RRulePickerThemeData? theme;
 
-  const RRulePicker({super.key, required this.controller, this.theme});
+  const RRulePicker({
+    super.key,
+    this.initialRRule = '',
+    required this.controller,
+    this.theme,
+  });
 
   @override
   State<StatefulWidget> createState() => _RRulePickerState();
 }
 
 class _RRulePickerState extends State<RRulePicker> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.controller.initialRRule.isEmpty &&
+        widget.initialRRule.isNotEmpty) {
+      widget.controller.setRRule(widget.initialRRule);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
@@ -85,19 +100,20 @@ class _RRulePickerState extends State<RRulePicker> {
 }
 
 class RRulePickerController {
-  late final ValueNotifier<_RecurrenceType> _recurrenceType;
-  late final DailyPickerController _daily;
-  late final WeeklyPickerController _weekly;
-  late final MonthlyPickerController _monthly;
-  late final YearlyPickerController _yearly;
+  final String initialRRule;
+  final ValueNotifier<_RecurrenceType> _recurrenceType;
+  final DailyPickerController _daily;
+  final WeeklyPickerController _weekly;
+  final MonthlyPickerController _monthly;
+  final YearlyPickerController _yearly;
 
-  RRulePickerController([String initialRRule = '']) {
-    _recurrenceType = .new(_getRecurrenceType(initialRRule));
-    _daily = .new(initialRRule);
-    _weekly = .new(initialRRule);
-    _monthly = .new(initialRRule);
-    _yearly = .new(initialRRule);
-  }
+  RRulePickerController({String initialRRule = ''})
+    : initialRRule = initialRRule,
+      _recurrenceType = .new(_RecurrenceType.fromRRule(initialRRule)),
+      _daily = .new(initialRRule),
+      _weekly = .new(initialRRule),
+      _monthly = .new(initialRRule),
+      _yearly = .new(initialRRule);
 
   @mustCallSuper
   void dispose() {
@@ -108,18 +124,12 @@ class RRulePickerController {
     _recurrenceType.dispose();
   }
 
-  _RecurrenceType _getRecurrenceType(String rrule) {
-    if (rrule.isEmpty) {
-      return .never;
-    } else if (rrule.contains('DAILY')) {
-      return .daily;
-    } else if (rrule.contains('WEEKLY')) {
-      return .weekly;
-    } else if (rrule.contains('MONTHLY')) {
-      return .monthly;
-    } else {
-      return .yearly;
-    }
+  void setRRule(String rrule) {
+    _recurrenceType.value = _RecurrenceType.fromRRule(rrule);
+    _daily.setRRule(rrule);
+    _weekly.setRRule(rrule);
+    _monthly.setRRule(rrule);
+    _yearly.setRRule(rrule);
   }
 
   String buildRRule() {
@@ -138,4 +148,24 @@ class RRulePickerController {
   };
 }
 
-enum _RecurrenceType { never, daily, weekly, monthly, yearly }
+enum _RecurrenceType {
+  never,
+  daily,
+  weekly,
+  monthly,
+  yearly;
+
+  static _RecurrenceType fromRRule(String rrule) {
+    if (rrule.isEmpty) {
+      return .never;
+    } else if (rrule.contains('DAILY')) {
+      return .daily;
+    } else if (rrule.contains('WEEKLY')) {
+      return .weekly;
+    } else if (rrule.contains('MONTHLY')) {
+      return .monthly;
+    } else {
+      return .yearly;
+    }
+  }
+}

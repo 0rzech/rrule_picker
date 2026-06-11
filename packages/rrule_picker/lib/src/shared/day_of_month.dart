@@ -23,4 +23,7 @@ mixin DayOfMonthState {
   @protected
   @mustCallSuper
   void disposeDayOfMonthState() => dayOfMonth.dispose();
+
+  @protected
+  void setDayOfMonthValue(int value) => dayOfMonth.value = value;
 }

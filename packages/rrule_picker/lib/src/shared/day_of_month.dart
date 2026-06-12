@@ -12,11 +12,12 @@ mixin DayOfMonthState {
 
   @protected
   @mustCallSuper
-  void initDayOfMonthState([
+  void initDayOfMonthState({
     int initialDayOfMonth = defaultByMonthDay,
     String numberFormat = '00',
-  ]) {
-    dayOfMonth = ValueNotifier(initialDayOfMonth);
+    required VoidCallback listener,
+  }) {
+    dayOfMonth = ValueNotifier(initialDayOfMonth)..addListener(listener);
     dayOfMonthFormatter = NumberFormat(numberFormat);
   }
 

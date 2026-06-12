@@ -1,6 +1,7 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/daily.dart';
@@ -31,8 +32,7 @@ class _RRulePickerState extends State<RRulePicker> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller.initialRRule.isEmpty &&
-        widget.initialRRule.isNotEmpty) {
+    if (widget.controller.value.isEmpty) {
       widget.controller.setRRule(widget.initialRRule);
     }
   }
@@ -99,32 +99,48 @@ class _RRulePickerState extends State<RRulePicker> {
   }
 }
 
-class RRulePickerController {
-  final String initialRRule;
+class RRulePickerController extends ValueListenable<String>
+    with ChangeNotifier {
   final ValueNotifier<_RecurrenceType> _recurrenceType;
-  final DailyPickerController _daily;
-  final WeeklyPickerController _weekly;
-  final MonthlyPickerController _monthly;
-  final YearlyPickerController _yearly;
+  late final DailyPickerController _daily;
+  late final WeeklyPickerController _weekly;
+  late final MonthlyPickerController _monthly;
+  late final YearlyPickerController _yearly;
+  String _rrule;
 
   RRulePickerController({String initialRRule = ''})
-    : initialRRule = initialRRule,
-      _recurrenceType = .new(_RecurrenceType.fromRRule(initialRRule)),
-      _daily = .new(initialRRule),
-      _weekly = .new(initialRRule),
-      _monthly = .new(initialRRule),
-      _yearly = .new(initialRRule);
+    : _rrule = initialRRule,
+      _recurrenceType = .new(_RecurrenceType.fromRRule(initialRRule)) {
+    _recurrenceType.addListener(_rruleChanged);
+    _daily = .new(initialRRule: initialRRule, listener: _rruleChanged);
+    _weekly = .new(initialRRule: initialRRule, listener: _rruleChanged);
+    _monthly = .new(initialRRule: initialRRule, listener: _rruleChanged);
+    _yearly = .new(initialRRule: initialRRule, listener: _rruleChanged);
+  }
 
-  @mustCallSuper
+  @override
   void dispose() {
     _yearly.dispose();
     _monthly.dispose();
     _weekly.dispose();
     _daily.dispose();
     _recurrenceType.dispose();
+    super.dispose();
+  }
+
+  @override
+  String get value => _rrule;
+
+  void _rruleChanged() {
+    _rrule = _buildRRule();
+    notifyListeners();
   }
 
   void setRRule(String rrule) {
+    if (_rrule == rrule) {
+      return;
+    }
+
     _recurrenceType.value = _RecurrenceType.fromRRule(rrule);
     _daily.setRRule(rrule);
     _weekly.setRRule(rrule);
@@ -132,7 +148,7 @@ class RRulePickerController {
     _yearly.setRRule(rrule);
   }
 
-  String buildRRule() {
+  String _buildRRule() {
     final sb = StringBuffer('RRULE:');
     final baseLength = sb.length;
     _buildRRulePart(sb);

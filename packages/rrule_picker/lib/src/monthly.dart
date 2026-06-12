@@ -190,20 +190,28 @@ class MonthlyPickerController
         IntervalPickerState,
         DayOfMonthState,
         DayOfWeekState {
-  MonthlyPickerController([
+  MonthlyPickerController({
     String initialRRule = '',
     DayOfWeek firstDayOfWeek = .monday,
-  ]) {
+    required VoidCallback listener,
+  }) {
     final rrule = _parseRRule(initialRRule, firstDayOfWeek);
 
     initIntervalSegmentTypeState(
-      rrule.dayOfMonth == null ? const {.relative} : const {.precise},
+      initialSegmentType: rrule.dayOfMonth == null
+          ? const {.relative}
+          : const {.precise},
+      listener: listener,
     );
-    initIntervalState(rrule.interval);
-    initDayOfMonthState(rrule.dayOfMonth ?? defaultByMonthDay);
+    initIntervalState(initialValue: rrule.interval, listener: listener);
+    initDayOfMonthState(
+      initialDayOfMonth: rrule.dayOfMonth ?? defaultByMonthDay,
+      listener: listener,
+    );
     initDayOfWeekState(
-      rrule.dayOfWeekOrdinal ?? .first,
-      rrule.dayOfWeek ?? firstDayOfWeek,
+      initialDayOfWeekOrdinal: rrule.dayOfWeekOrdinal ?? .first,
+      initialDayOfWeek: rrule.dayOfWeek ?? firstDayOfWeek,
+      listener: listener,
     );
   }
 

@@ -90,9 +90,12 @@ mixin IntervalPickerState {
 
   @protected
   @mustCallSuper
-  void initIntervalState([int initialValue = defaultInterval]) {
+  void initIntervalState({
+    int initialValue = defaultInterval,
+    required VoidCallback listener,
+  }) {
     initialIntervalValue = initialValue;
-    intervalNotifier = .new(initialIntervalValue);
+    intervalNotifier = .new(initialIntervalValue)..addListener(listener);
     intervalController = .new(text: intervalNotifier.value.toString());
   }
 
@@ -121,9 +124,12 @@ mixin IntervalPickerSegmentTypeState {
 
   @protected
   @mustCallSuper
-  void initIntervalSegmentTypeState([
-    Set<IntervalPickerSegmentType> segmentType = const {.precise},
-  ]) => intervalSegmentType = ValueNotifier(segmentType);
+  void initIntervalSegmentTypeState({
+    Set<IntervalPickerSegmentType> initialSegmentType = const {.precise},
+    required VoidCallback listener,
+  }) =>
+      intervalSegmentType = ValueNotifier(initialSegmentType)
+        ..addListener(listener);
 
   @protected
   @mustCallSuper

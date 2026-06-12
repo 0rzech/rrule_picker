@@ -233,21 +233,29 @@ class YearlyPickerController
   late final ValueNotifier<Month> _month;
   late DateFormat _monthFormatter;
 
-  YearlyPickerController([
+  YearlyPickerController({
     String initialRRule = '',
     DayOfWeek firstDayOfWeek = .monday,
-  ]) {
+    required VoidCallback listener,
+  }) {
     final rrule = _parseRRule(initialRRule, firstDayOfWeek);
 
     initIntervalSegmentTypeState(
-      rrule.dayOfMonth == null ? const {.relative} : const {.precise},
+      initialSegmentType: rrule.dayOfMonth == null
+          ? const {.relative}
+          : const {.precise},
+      listener: listener,
     );
-    initDayOfMonthState(rrule.dayOfMonth ?? defaultByMonthDay);
+    initDayOfMonthState(
+      initialDayOfMonth: rrule.dayOfMonth ?? defaultByMonthDay,
+      listener: listener,
+    );
     initDayOfWeekState(
-      rrule.dayOfWeekOrdinal ?? .first,
-      rrule.dayOfWeek ?? firstDayOfWeek,
+      initialDayOfWeekOrdinal: rrule.dayOfWeekOrdinal ?? .first,
+      initialDayOfWeek: rrule.dayOfWeek ?? firstDayOfWeek,
+      listener: listener,
     );
-    _month = ValueNotifier(rrule.month);
+    _month = ValueNotifier(rrule.month)..addListener(listener);
   }
 
   @mustCallSuper

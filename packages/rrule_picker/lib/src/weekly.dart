@@ -87,13 +87,14 @@ class WeeklyPickerController with IntervalPickerState {
   late DateFormat dayOfWeekFormat;
   late List<(DayOfWeek, String)> daysOfWeek;
 
-  WeeklyPickerController([
+  WeeklyPickerController({
     String initialRRule = '',
     DayOfWeek firstDayOfWeek = .monday,
-  ]) {
+    required VoidCallback listener,
+  }) {
     final (weeks, days) = _parseRRule(initialRRule, firstDayOfWeek);
-    initIntervalState(weeks);
-    selectedDaysOfWeek = ValueNotifier(days);
+    initIntervalState(initialValue: weeks, listener: listener);
+    selectedDaysOfWeek = ValueNotifier(days)..addListener(listener);
   }
 
   @mustCallSuper

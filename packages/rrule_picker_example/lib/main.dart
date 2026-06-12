@@ -101,7 +101,7 @@ class _RRuleExampleState extends State<RRuleExample> {
 
   void buttonPressed() {
     if (context.mounted) {
-      var rrule = rrulePickerController.buildRRule();
+      var rrule = rrulePickerController.value;
       rrule = rrule.isEmpty ? '❌' : rrule;
       final snackBar = SnackBar(content: Text(rrule, textAlign: .center));
 

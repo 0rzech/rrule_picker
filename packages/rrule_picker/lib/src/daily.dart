@@ -28,8 +28,14 @@ class DailyPicker extends StatelessWidget {
 
 @internal
 class DailyPickerController with IntervalPickerState {
-  DailyPickerController([String initialRRule = '']) {
-    initIntervalState(_parseRRule(initialRRule));
+  DailyPickerController({
+    String initialRRule = '',
+    required VoidCallback listener,
+  }) {
+    initIntervalState(
+      initialValue: _parseRRule(initialRRule),
+      listener: listener,
+    );
   }
 
   @mustCallSuper

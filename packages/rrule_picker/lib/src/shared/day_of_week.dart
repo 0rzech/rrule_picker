@@ -15,14 +15,16 @@ mixin DayOfWeekState {
 
   @protected
   @mustCallSuper
-  void initDayOfWeekState([
+  void initDayOfWeekState({
     DayOfWeekOrdinal initialDayOfWeekOrdinal = .first,
     DayOfWeek initialDayOfWeek = .monday,
-  ]) {
-    dayOfWeekOrdinal = ValueNotifier(initialDayOfWeekOrdinal);
-    dayOfWeek = ValueNotifier(initialDayOfWeek);
+    required VoidCallback listener,
+  }) {
+    dayOfWeekOrdinal = ValueNotifier(initialDayOfWeekOrdinal)
+      ..addListener(listener);
+    dayOfWeek = ValueNotifier(initialDayOfWeek)..addListener(listener);
     // dummy values just to instantiate the notifier
-    daysOfWeek = ValueNotifier([(.monday, '')]);
+    daysOfWeek = ValueNotifier([(.monday, '')])..addListener(listener);
   }
 
   @protected

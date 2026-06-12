@@ -14,13 +14,15 @@ import 'package:rrule_picker/theme.dart';
 
 class RRulePicker extends StatefulWidget {
   final String initialRRule;
-  final RRulePickerController controller;
+  final void Function(String)? onRRuleChanged;
+  final RRulePickerController? controller;
   final RRulePickerThemeData? theme;
 
   const RRulePicker({
     super.key,
     this.initialRRule = '',
-    required this.controller,
+    this.onRRuleChanged,
+    this.controller,
     this.theme,
   });
 
@@ -29,20 +31,64 @@ class RRulePicker extends StatefulWidget {
 }
 
 class _RRulePickerState extends State<RRulePicker> {
+  late final RRulePickerController controller;
+
   @override
   void initState() {
     super.initState();
-    if (widget.controller.value.isEmpty) {
-      widget.controller.setRRule(widget.initialRRule);
+
+    if (widget.controller case final controller?) {
+      if (controller.value.isEmpty) {
+        controller.setRRule(widget.initialRRule);
+      }
+      this.controller = controller;
+    } else {
+      controller = RRulePickerController(initialRRule: widget.initialRRule);
+    }
+
+    controller.addListener(onRRuleChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant RRulePicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final oldController = oldWidget.controller;
+    final newController = widget.controller;
+
+    if (oldController != newController) {
+      if (oldController != null && newController != null) {
+        // both controllers provided externally
+        oldController.removeListener(onRRuleChanged);
+        controller = newController..addListener(onRRuleChanged);
+      } else if (oldController != null) {
+        // old controller provided externally, new one provided internally
+        oldController.removeListener(onRRuleChanged);
+        controller = RRulePickerController(initialRRule: widget.initialRRule)
+          ..addListener(onRRuleChanged);
+      } else if (newController != null) {
+        // old controller provided internally, new one provided externally
+        controller.dispose();
+        controller = newController..addListener(onRRuleChanged);
+      }
     }
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (widget.controller == null) {
+      controller.dispose();
+    }
+  }
+
+  void onRRuleChanged() => widget.onRRuleChanged?.call(controller.value);
 
   @override
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
     final theme = ResolvedThemeData.resolve(context, widget.theme);
     final decorate = widget.dropdownDecorators(theme.topDropdownTheme);
-    final controller = widget.controller;
 
     return ResolvedTheme(
       theme: theme,

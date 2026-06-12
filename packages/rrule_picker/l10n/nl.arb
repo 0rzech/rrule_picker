@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{maand(en)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Dagelijks} weekly{Wekelijks} monthly{Maandelijks} yearly{Jaarlijks} other{Nooit}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{tweede}}",
+  "rrulePickerSkip": "Overslaan",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{derde}}",
   "rrulePickerTitle": "Herhaal",
   "rrulePickerWeeks": "{count, plural, other{weken}}"

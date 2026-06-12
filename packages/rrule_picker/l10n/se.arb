@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{mánnu(t)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Beaivválaš} weekly{Vahkkosaš} monthly{Mánnui} yearly{Jahkásaččat} other{Ii goassige}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{nubbi}}",
+  "rrulePickerSkip": "Skoahkka",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{goalmmát}}",
   "rrulePickerTitle": "Geardduhit",
   "rrulePickerWeeks": "{count, plural, other{vahkku(t)}}"

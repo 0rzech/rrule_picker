@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{μήνες}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Ημέρες} weekly{Εβδομάδες} monthly{Μήνες} yearly{Ετη} other{Χωρίς επανάληψη}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, saturday{δεύτερο} other{δεύτερη}}",
+  "rrulePickerSkip": "Παράλειψε",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, saturday{τρίτο} other{τρίτη}}",
   "rrulePickerTitle": "Επανάλαβε",
   "rrulePickerWeeks": "{count, plural, other{Εβδομάδες}}"

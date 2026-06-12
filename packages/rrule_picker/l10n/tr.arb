@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{ay(lar)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Günlük} weekly{Haftalık} monthly{Aylık} yearly{Yıllık} other{Asla}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{ikinci}}",
+  "rrulePickerSkip": "Atla",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{üçüncü}}",
   "rrulePickerTitle": "Tekrarlamak",
   "rrulePickerWeeks": "{count, plural, other{haftalar}}"

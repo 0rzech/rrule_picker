@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{lună(e)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Zilnic} weekly{Săptămânal} monthly{Lunar} yearly{Anual} other{Niciodată}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{a doua}}",
+  "rrulePickerSkip": "Sari",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{a treia}}",
   "rrulePickerTitle": "Repetă",
   "rrulePickerWeeks": "{count, plural, other{săptămână(i)}}"

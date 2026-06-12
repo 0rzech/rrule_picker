@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{Monate}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Täglich} weekly{Wöchentlich} monthly{Monatlich} yearly{Jährlich} other{Keine Wiederholung}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{zweiter}}",
+  "rrulePickerSkip": "Überspringen",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{dritter}}",
   "rrulePickerTitle": "Wiederhole",
   "rrulePickerWeeks": "{count, plural, other{Wochen}}"

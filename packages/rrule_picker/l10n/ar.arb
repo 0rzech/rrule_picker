@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{أشهر}}",
   "rrulePickerRecurrenceType": "{name, select, daily{يوميًا} weekly{أسبوعيًا} monthly{شهريًا} yearly{سنويًا} other{أبدًا}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{الثاني}}",
+  "rrulePickerSkip": "تخطي",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{الثالث}}",
   "rrulePickerTitle": "كرّر",
   "rrulePickerWeeks": "{count, plural, other{أسابيع}}"

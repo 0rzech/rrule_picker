@@ -123,6 +123,9 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerSkip => 'Pular';
+
+  @override
   String rrulePickerThirdDayOfWeek(String dayOfWeek) {
     String _temp0 = intl.Intl.selectLogic(dayOfWeek, {
       'saturday': 'terceiro',
@@ -263,6 +266,9 @@ class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
     });
     return '$_temp0';
   }
+
+  @override
+  String get rrulePickerSkip => 'Pular';
 
   @override
   String rrulePickerThirdDayOfWeek(String dayOfWeek) {

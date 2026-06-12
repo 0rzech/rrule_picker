@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{kuukausi}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Päivittäin} weekly{Viikoittain} monthly{Kuukausittain} yearly{Vuotuinen} other{Ei koskaan}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{toinen}}",
+  "rrulePickerSkip": "Ohita",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{kolmas}}",
   "rrulePickerTitle": "Toistaa",
   "rrulePickerWeeks": "{count, plural, other{viikko}}"

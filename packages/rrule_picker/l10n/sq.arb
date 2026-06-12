@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{muaj(ë)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Ditor} weekly{Javor} monthly{Mujor} yearly{Vjetor} other{Kurrë}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{e dytë}}",
+  "rrulePickerSkip": "Anasho",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{e tretë}}",
   "rrulePickerTitle": "Përsërit",
   "rrulePickerWeeks": "{count, plural, other{javë(ë)}}"

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/daily.dart';
+import 'package:rrule_picker/src/excluded_dates.dart';
 import 'package:rrule_picker/src/monthly.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
@@ -14,6 +15,8 @@ import 'package:rrule_picker/theme.dart';
 
 class RRulePicker extends StatefulWidget {
   final String initialRRule;
+  final String? timezone;
+  final bool enableExcludedDates;
   final void Function(String)? onRRuleChanged;
   final RRulePickerController? controller;
   final RRulePickerThemeData? theme;
@@ -21,6 +24,8 @@ class RRulePicker extends StatefulWidget {
   const RRulePicker({
     super.key,
     this.initialRRule = '',
+    this.timezone,
+    this.enableExcludedDates = true,
     this.onRRuleChanged,
     this.controller,
     this.theme,
@@ -43,7 +48,10 @@ class _RRulePickerState extends State<RRulePicker> {
       }
       this.controller = controller;
     } else {
-      controller = RRulePickerController(initialRRule: widget.initialRRule);
+      controller = RRulePickerController(
+        initialRRule: widget.initialRRule,
+        enableExcludedDates: widget.enableExcludedDates,
+      );
     }
 
     controller.addListener(onRRuleChanged);
@@ -64,13 +72,19 @@ class _RRulePickerState extends State<RRulePicker> {
       } else if (oldController != null) {
         // old controller provided externally, new one provided internally
         oldController.removeListener(onRRuleChanged);
-        controller = RRulePickerController(initialRRule: widget.initialRRule)
-          ..addListener(onRRuleChanged);
+        controller = RRulePickerController(
+          initialRRule: widget.initialRRule,
+          enableExcludedDates: widget.enableExcludedDates,
+        )..addListener(onRRuleChanged);
       } else if (newController != null) {
         // old controller provided internally, new one provided externally
         controller.dispose();
         controller = newController..addListener(onRRuleChanged);
       }
+    }
+
+    if (widget.controller != null) {
+      controller.excludedDatesEnabled = widget.enableExcludedDates;
     }
   }
 
@@ -117,20 +131,22 @@ class _RRulePickerState extends State<RRulePicker> {
               onChanged: (type) => controller._recurrenceType.value = type!,
             );
 
+            final picker = switch (type) {
+              .never => const SizedBox.shrink(),
+              .daily => DailyPicker(controller: controller._daily),
+              .weekly => WeeklyPicker(controller: controller._weekly),
+              .monthly => MonthlyPicker(controller: controller._monthly),
+              .yearly => YearlyPicker(controller: controller._yearly),
+            };
+
+            final excluder = type != .never && controller.excludedDatesEnabled
+                ? ExcludedDates(controller: controller._excludedDates)
+                : const SizedBox.shrink();
+
             return Column(
               crossAxisAlignment: .start,
               spacing: 8,
-              children: [
-                title!,
-                decorate.dropdown(dropdown),
-                switch (controller._recurrenceType.value) {
-                  .never => const SizedBox.shrink(),
-                  .daily => DailyPicker(controller: controller._daily),
-                  .weekly => WeeklyPicker(controller: controller._weekly),
-                  .monthly => MonthlyPicker(controller: controller._monthly),
-                  .yearly => YearlyPicker(controller: controller._yearly),
-                },
-              ],
+              children: [title!, decorate.dropdown(dropdown), picker, excluder],
             );
           },
           child: theme.headerTheme.showHeaderOrDefault
@@ -152,26 +168,56 @@ class RRulePickerController extends ValueListenable<String>
   late final WeeklyPickerController _weekly;
   late final MonthlyPickerController _monthly;
   late final YearlyPickerController _yearly;
+  late final ExcludedDatesController _excludedDates;
   String _rrule;
+  bool _excludedDatesEnabled;
 
-  RRulePickerController({String initialRRule = ''})
-    : _rrule = initialRRule,
-      _recurrenceType = .new(_RecurrenceType.fromRRule(initialRRule)) {
+  RRulePickerController({
+    String initialRRule = '',
+    String defaultTimeZone = ExcludedDatesController.defaultTimeZone,
+    bool enableExcludedDates = true,
+  }) : _rrule = initialRRule,
+       _excludedDatesEnabled = enableExcludedDates,
+       _recurrenceType = .new(_RecurrenceType.fromRRule(initialRRule)) {
     _recurrenceType.addListener(_rruleChanged);
+
     _daily = .new(initialRRule: initialRRule, listener: _rruleChanged);
     _weekly = .new(initialRRule: initialRRule, listener: _rruleChanged);
     _monthly = .new(initialRRule: initialRRule, listener: _rruleChanged);
     _yearly = .new(initialRRule: initialRRule, listener: _rruleChanged);
+
+    _excludedDates = .new(
+      initialRRule: initialRRule,
+      defaultTimeZone: defaultTimeZone,
+    );
+
+    if (_excludedDatesEnabled) {
+      _excludedDates.addListener(_rruleChanged);
+    }
   }
 
   @override
   void dispose() {
+    _excludedDates.dispose();
     _yearly.dispose();
     _monthly.dispose();
     _weekly.dispose();
     _daily.dispose();
     _recurrenceType.dispose();
     super.dispose();
+  }
+
+  bool get excludedDatesEnabled => _excludedDatesEnabled;
+  set excludedDatesEnabled(bool value) {
+    if (_excludedDatesEnabled == value) {
+      return;
+    }
+
+    _excludedDatesEnabled = value;
+
+    value
+        ? _excludedDates.addListener(_rruleChanged)
+        : _excludedDates.removeListener(_rruleChanged);
   }
 
   @override
@@ -182,7 +228,10 @@ class RRulePickerController extends ValueListenable<String>
     notifyListeners();
   }
 
-  void setRRule(String rrule) {
+  void setRRule(
+    String rrule, {
+    String defaultTimeZone = ExcludedDatesController.defaultTimeZone,
+  }) {
     if (_rrule == rrule) {
       return;
     }
@@ -192,6 +241,7 @@ class RRulePickerController extends ValueListenable<String>
     _weekly.setRRule(rrule);
     _monthly.setRRule(rrule);
     _yearly.setRRule(rrule);
+    _excludedDates.setRRule(rrule, defaultTimeZone);
   }
 
   String _buildRRule() {
@@ -201,13 +251,24 @@ class RRulePickerController extends ValueListenable<String>
     return baseLength == sb.length ? '' : sb.toString();
   }
 
-  void _buildRRulePart(StringBuffer sb) => switch (_recurrenceType.value) {
-    .never => null,
-    .daily => _daily.buildRRulePart(sb),
-    .weekly => _weekly.buildRRulePart(sb),
-    .monthly => _monthly.buildRRulePart(sb),
-    .yearly => _yearly.buildRRulePart(sb),
-  };
+  void _buildRRulePart(StringBuffer sb) {
+    switch (_recurrenceType.value) {
+      case .never:
+        ;
+      case .daily:
+        _daily.buildRRulePart(sb);
+      case .weekly:
+        _weekly.buildRRulePart(sb);
+      case .monthly:
+        _monthly.buildRRulePart(sb);
+      case .yearly:
+        _yearly.buildRRulePart(sb);
+    }
+
+    if (_recurrenceType.value != .never && excludedDatesEnabled) {
+      _excludedDates.buildRRulePart(sb);
+    }
+  }
 }
 
 enum _RecurrenceType {

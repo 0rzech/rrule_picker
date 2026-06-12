@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{kuud}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Igapäevane} weekly{Iganädalane} monthly{Igakuine} yearly{Iga-aastane} other{Mitte kunagi}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{teine}}",
+  "rrulePickerSkip": "Välda",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{kolmas}}",
   "rrulePickerTitle": "Korda",
   "rrulePickerWeeks": "{count, plural, other{nädalad}}"

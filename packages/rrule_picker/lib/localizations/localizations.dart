@@ -252,6 +252,12 @@ abstract class RRulePickerLocalizations {
   /// **'{dayOfWeek, select, monday{second} tuesday{second} wednesday{second} thursday{second} friday{second} saturday{second} other{second}}'**
   String rrulePickerSecondDayOfWeek(String dayOfWeek);
 
+  /// Label on a 'skip' button used to skip dates during recurrence period
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get rrulePickerSkip;
+
   /// Gendered 'third' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'.
   ///
   /// In en, this message translates to:

@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{mjeseci}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Dnevno} weekly{Tjedno} monthly{Mjesečno} yearly{Godišnje} other{Nikada}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, wednesday{druga} saturday{druga} sunday{druga} other{drugi}}",
+  "rrulePickerSkip": "Preskoči",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, wednesday{treća} saturday{treća} sunday{treća} other{treći}}",
   "rrulePickerTitle": "Ponovi",
   "rrulePickerWeeks": "{count, plural, other{tjedni}}"

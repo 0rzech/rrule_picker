@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{месяц(ы)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{День} weekly{Неделя} monthly{Месяц} yearly{Год} other{Никогда}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, wednesday{вторая} friday{вторая} saturday{вторая} sunday{второе} other{второй}}",
+  "rrulePickerSkip": "Пропустить",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, wednesday{третья} friday{третья} saturday{третья} sunday{третье} other{третий}}",
   "rrulePickerTitle": "Повторять",
   "rrulePickerWeeks": "{count, plural, other{неделя(и)}}"

@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{měsíců}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Denně} weekly{Týdně} monthly{Měsíčně} yearly{Ročně} other{Nikdy}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, monday{druhé} tuesday{druhé} thursday{druhý} friday{druhý} other{druhá}}",
+  "rrulePickerSkip": "Přeskočit",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{třetí}}",
   "rrulePickerTitle": "Opakovat",
   "rrulePickerWeeks": "{count, plural, other{týdnů}}"

@@ -14,6 +14,7 @@
     "rrulePickerMonths": "{count, plural, =1{miesiąc} few{miesiące} many{miesięcy} other{miesiąca}}",
     "rrulePickerRecurrenceType": "{name, select, daily{Dziennie} weekly{Tygodniowo} monthly{Miesięcznie} yearly{Rocznie} other{Nigdy}}",
     "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, wednesday{druga} saturday{druga} sunday{druga} other{drugi}}",
+    "rrulePickerSkip": "Pomiń",
     "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, wednesday{trzecia} saturday{trzecia} sunday{trzecia} other{trzeci}}",
     "rrulePickerTitle": "Powtarzaj",
     "rrulePickerWeeks": "{count, plural, =1{tydzień} few{tygodnie} many{tygodni} other{tygodnia}}"

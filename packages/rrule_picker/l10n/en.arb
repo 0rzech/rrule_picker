@@ -118,6 +118,11 @@
         "description": "Gendered 'second' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'."
     },
 
+    "rrulePickerSkip": "Skip",
+    "@rrulePickerSkip": {
+        "description": "Label on a 'skip' button used to skip dates during recurrence period"
+    },
+
     "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, monday{third} tuesday{third} wednesday{third} thursday{third} friday{third} saturday{third} other{third}}",
     "@rrulePickerThirdDayOfWeek": {
         "placeholders": {

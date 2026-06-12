@@ -107,6 +107,9 @@ class RRulePickerLocalizationsJa extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerSkip => 'スキップ';
+
+  @override
   String rrulePickerThirdDayOfWeek(String dayOfWeek) {
     String _temp0 = intl.Intl.selectLogic(dayOfWeek, {'other': '第三'});
     return '$_temp0';

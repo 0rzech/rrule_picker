@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{mėnesių}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Kasdien} weekly{Kas savaitę} monthly{Kas mėnesį} yearly{Metinis} other{Niekada}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{antras}}",
+  "rrulePickerSkip": "Praleisti",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{trečias}}",
   "rrulePickerTitle": "Kartoti",
   "rrulePickerWeeks": "{count, plural, other{kad suminkštėtų}}"

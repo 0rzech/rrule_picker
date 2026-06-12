@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{bulan}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Harian} weekly{Mingguan} monthly{Bulanan} yearly{Tahunan} other{Tak pernah}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{kedua}}",
+  "rrulePickerSkip": "Lewati",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{ketiga}}",
   "rrulePickerTitle": "Mengulang",
   "rrulePickerWeeks": "{count, plural, other{minggu}}"

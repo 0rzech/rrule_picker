@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{måned(er)}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Daglig} weekly{Ukentlig} monthly{Månedlig} yearly{Årlig} other{Aldri}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{andre}}",
+  "rrulePickerSkip": "Hopp over",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{tredje}}",
   "rrulePickerTitle": "Gjenta",
   "rrulePickerWeeks": "{count, plural, other{uke(r)}}"

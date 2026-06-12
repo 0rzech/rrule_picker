@@ -14,6 +14,7 @@
   "rrulePickerMonths": "{count, plural, other{几个月}}",
   "rrulePickerRecurrenceType": "{name, select, daily{日常的} weekly{每周} monthly{每月} yearly{年度的} other{绝不}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{第二}}",
+  "rrulePickerSkip": "跳过",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{第三}}",
   "rrulePickerTitle": "重复",
   "rrulePickerWeeks": "{count, plural, other{软化}}"

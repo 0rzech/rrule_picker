@@ -20,6 +20,7 @@ class RRulePickerLocalizationsEt extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'päevadel',
+      one: 'päev',
     );
     return '$_temp0';
   }
@@ -84,6 +85,7 @@ class RRulePickerLocalizationsEt extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'kuud',
+      one: 'kuu',
     );
     return '$_temp0';
   }
@@ -124,6 +126,7 @@ class RRulePickerLocalizationsEt extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'nädalad',
+      one: 'nädal',
     );
     return '$_temp0';
   }

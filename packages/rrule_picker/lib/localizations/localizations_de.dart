@@ -20,6 +20,7 @@ class RRulePickerLocalizationsDe extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'Tage',
+      one: 'Tag',
     );
     return '$_temp0';
   }
@@ -84,6 +85,7 @@ class RRulePickerLocalizationsDe extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'Monate',
+      one: 'Monat',
     );
     return '$_temp0';
   }
@@ -124,6 +126,7 @@ class RRulePickerLocalizationsDe extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'Wochen',
+      one: 'Woche',
     );
     return '$_temp0';
   }

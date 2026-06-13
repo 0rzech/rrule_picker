@@ -2,7 +2,7 @@
   "@@locale": "tr",
   "rrulePickerDayOfMonth": "Ayın günü",
   "rrulePickerDayOfWeek": "Haftanın günü",
-  "rrulePickerDays": "{count, plural, other{gün(ler)}}",
+  "rrulePickerDays": "{count, plural, other{gün}}",
   "rrulePickerEveryDaily": "{count, plural, other{Her}}",
   "rrulePickerEveryMonth": "Her",
   "rrulePickerEveryMonthly": "{count, plural, other{Her}}",
@@ -11,11 +11,11 @@
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{dördüncü}}",
   "rrulePickerLastDay": "son",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{son}}",
-  "rrulePickerMonths": "{count, plural, other{ay(lar)}}",
+  "rrulePickerMonths": "{count, plural, other{ay}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Günlük} weekly{Haftalık} monthly{Aylık} yearly{Yıllık} other{Asla}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{ikinci}}",
   "rrulePickerSkip": "Atla",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{üçüncü}}",
   "rrulePickerTitle": "Tekrarlamak",
-  "rrulePickerWeeks": "{count, plural, other{haftalar}}"
+  "rrulePickerWeeks": "{count, plural, other{hafta}}"
 }

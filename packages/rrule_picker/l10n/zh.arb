@@ -2,7 +2,7 @@
   "@@locale": "zh",
   "rrulePickerDayOfMonth": "月的某一天",
   "rrulePickerDayOfWeek": "一周的某一天",
-  "rrulePickerDays": "{count, plural, other{到黎明}}",
+  "rrulePickerDays": "{count, plural, other{天}}",
   "rrulePickerEveryDaily": "{count, plural, other{每个}}",
   "rrulePickerEveryMonth": "每个",
   "rrulePickerEveryMonthly": "{count, plural, other{每个}}",
@@ -17,5 +17,5 @@
   "rrulePickerSkip": "跳过",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{第三}}",
   "rrulePickerTitle": "重复",
-  "rrulePickerWeeks": "{count, plural, other{软化}}"
+  "rrulePickerWeeks": "{count, plural, other{周}}"
 }

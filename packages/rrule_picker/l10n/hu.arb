@@ -2,7 +2,7 @@
   "@@locale": "hu",
   "rrulePickerDayOfMonth": "A hónap napja",
   "rrulePickerDayOfWeek": "A hét napja",
-  "rrulePickerDays": "{count, plural, other{hajnalra}}",
+  "rrulePickerDays": "{count, plural, other{nap}}",
   "rrulePickerEveryDaily": "{count, plural, other{Minden}}",
   "rrulePickerEveryMonth": "Minden",
   "rrulePickerEveryMonthly": "{count, plural, other{Minden}}",
@@ -11,11 +11,11 @@
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{negyedik}}",
   "rrulePickerLastDay": "utolsó",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{utolsó}}",
-  "rrulePickerMonths": "{count, plural, other{hónap(ok)}}",
+  "rrulePickerMonths": "{count, plural, other{hónap}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Napi} weekly{Heti} monthly{Havi} yearly{Évi} other{Soha}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{második}}",
   "rrulePickerSkip": "Kihagyás",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{harmadik}}",
   "rrulePickerTitle": "Ismétlés",
-  "rrulePickerWeeks": "{count, plural, other{puháni}}"
+  "rrulePickerWeeks": "{count, plural, other{hét}}"
 }

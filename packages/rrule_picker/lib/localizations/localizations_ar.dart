@@ -20,6 +20,8 @@ class RRulePickerLocalizationsAr extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'أيام',
+      two: 'يومان',
+      one: 'يوم',
     );
     return '$_temp0';
   }
@@ -84,6 +86,8 @@ class RRulePickerLocalizationsAr extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'أشهر',
+      two: 'شهران',
+      one: 'شهر',
     );
     return '$_temp0';
   }
@@ -124,6 +128,8 @@ class RRulePickerLocalizationsAr extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'أسابيع',
+      two: 'أسبوعان',
+      one: 'أسبوع',
     );
     return '$_temp0';
   }

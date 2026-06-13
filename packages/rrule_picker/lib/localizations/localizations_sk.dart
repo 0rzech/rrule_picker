@@ -19,7 +19,9 @@ class RRulePickerLocalizationsSk extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'deň(y)',
+      other: 'dní',
+      few: 'dni',
+      one: 'deň',
     );
     return '$_temp0';
   }
@@ -98,7 +100,9 @@ class RRulePickerLocalizationsSk extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'mesiac(e)',
+      other: 'mesiacov',
+      few: 'mesiace',
+      one: 'mesiac',
     );
     return '$_temp0';
   }
@@ -148,7 +152,9 @@ class RRulePickerLocalizationsSk extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'týždeň(y)',
+      other: 'týždňov',
+      few: 'týždne',
+      one: 'týždeň',
     );
     return '$_temp0';
   }

@@ -19,7 +19,7 @@ class RRulePickerLocalizationsZh extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '到黎明',
+      other: '天',
     );
     return '$_temp0';
   }
@@ -123,7 +123,7 @@ class RRulePickerLocalizationsZh extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '软化',
+      other: '周',
     );
     return '$_temp0';
   }

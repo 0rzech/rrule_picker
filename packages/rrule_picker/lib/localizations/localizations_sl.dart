@@ -20,6 +20,9 @@ class RRulePickerLocalizationsSl extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'dni',
+      few: 'dni',
+      two: 'dneva',
+      one: 'dan',
     );
     return '$_temp0';
   }
@@ -99,6 +102,9 @@ class RRulePickerLocalizationsSl extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'mesiacov',
+      few: 'mesice',
+      two: 'mesica',
+      one: 'mesiac',
     );
     return '$_temp0';
   }
@@ -149,6 +155,9 @@ class RRulePickerLocalizationsSl extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'týždňov',
+      few: 'týždni',
+      two: 'týždna',
+      one: 'týžden',
     );
     return '$_temp0';
   }

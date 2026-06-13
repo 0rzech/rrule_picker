@@ -183,7 +183,7 @@ abstract class RRulePickerLocalizations {
   /// [plural noun with case variations]
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{day} other{days}}'**
+  /// **'{count, plural, one{day} other{days}}'**
   String rrulePickerDays(int count);
 
   /// [demonstrative adjective with number/case variations]
@@ -237,7 +237,7 @@ abstract class RRulePickerLocalizations {
   /// [plural noun with case variations]
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{month} other{months}}'**
+  /// **'{count, plural, one{month} other{months}}'**
   String rrulePickerMonths(int count);
 
   /// Display values for recurrence type dropdown. [adverb selection]
@@ -273,7 +273,7 @@ abstract class RRulePickerLocalizations {
   /// [plural noun with case variations]
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{week} other{weeks}}'**
+  /// **'{count, plural, one{week} other{weeks}}'**
   String rrulePickerWeeks(int count);
 }
 

@@ -2,7 +2,7 @@
   "@@locale": "et",
   "rrulePickerDayOfMonth": "Kuupäev",
   "rrulePickerDayOfWeek": "Nädalapäev",
-  "rrulePickerDays": "{count, plural, other{päevadel}}",
+  "rrulePickerDays": "{count, plural, one{päev} other{päevadel}}",
   "rrulePickerEveryDaily": "{count, plural, other{Iga}}",
   "rrulePickerEveryMonth": "Iga",
   "rrulePickerEveryMonthly": "{count, plural, other{Iga}}",
@@ -11,11 +11,11 @@
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{neljas}}",
   "rrulePickerLastDay": "viimane",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{viimane}}",
-  "rrulePickerMonths": "{count, plural, other{kuud}}",
+  "rrulePickerMonths": "{count, plural, one{kuu} other{kuud}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Igapäevane} weekly{Iganädalane} monthly{Igakuine} yearly{Iga-aastane} other{Mitte kunagi}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{teine}}",
   "rrulePickerSkip": "Välda",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{kolmas}}",
   "rrulePickerTitle": "Korda",
-  "rrulePickerWeeks": "{count, plural, other{nädalad}}"
+  "rrulePickerWeeks": "{count, plural, one{nädal} other{nädalad}}"
 }

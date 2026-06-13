@@ -9,7 +9,7 @@
         "description": "Label for day of week selection. [noun phrase (singular nominative + genitive singular)]"
     },
 
-    "rrulePickerDays": "{count, plural, =1{day} other{days}}",
+    "rrulePickerDays": "{count, plural, one{day} other{days}}",
     "@rrulePickerDays": {
         "placeholders": {
             "count": {
@@ -92,7 +92,7 @@
         "description": "Gendered 'last' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'. [ordinal adjective with gender-sensitive case variations]"
     },
 
-    "rrulePickerMonths": "{count, plural, =1{month} other{months}}",
+    "rrulePickerMonths": "{count, plural, one{month} other{months}}",
     "@rrulePickerMonths": {
         "placeholders": {
             "count": {
@@ -144,7 +144,7 @@
         "description": "Optional title of the whole widget. [imperative verb]"
     },
 
-    "rrulePickerWeeks": "{count, plural, =1{week} other{weeks}}",
+    "rrulePickerWeeks": "{count, plural, one{week} other{weeks}}",
     "@rrulePickerWeeks": {
         "placeholders": {
             "count": {

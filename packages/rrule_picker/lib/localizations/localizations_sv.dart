@@ -20,6 +20,7 @@ class RRulePickerLocalizationsSv extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'dagar',
+      one: 'dag',
     );
     return '$_temp0';
   }
@@ -84,6 +85,7 @@ class RRulePickerLocalizationsSv extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'månader',
+      one: 'månad',
     );
     return '$_temp0';
   }
@@ -124,6 +126,7 @@ class RRulePickerLocalizationsSv extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'veckor',
+      one: 'vecka',
     );
     return '$_temp0';
   }

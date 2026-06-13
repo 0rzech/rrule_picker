@@ -19,7 +19,8 @@ class RRulePickerLocalizationsDa extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'dag(e)',
+      other: 'dage',
+      one: 'dag',
     );
     return '$_temp0';
   }
@@ -83,7 +84,8 @@ class RRulePickerLocalizationsDa extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'måned(er)',
+      other: 'måneder',
+      one: 'måned',
     );
     return '$_temp0';
   }
@@ -123,7 +125,8 @@ class RRulePickerLocalizationsDa extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'uge(r)',
+      other: 'uger',
+      one: 'uge',
     );
     return '$_temp0';
   }

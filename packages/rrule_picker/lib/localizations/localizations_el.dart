@@ -20,6 +20,7 @@ class RRulePickerLocalizationsEl extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'Ημέρες',
+      one: 'Ημέρα',
     );
     return '$_temp0';
   }
@@ -93,6 +94,7 @@ class RRulePickerLocalizationsEl extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'μήνες',
+      one: 'μήνας',
     );
     return '$_temp0';
   }
@@ -139,6 +141,7 @@ class RRulePickerLocalizationsEl extends RRulePickerLocalizations {
       count,
       locale: localeName,
       other: 'Εβδομάδες',
+      one: 'Εβδομάδα',
     );
     return '$_temp0';
   }

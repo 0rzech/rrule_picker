@@ -2,7 +2,7 @@
   "@@locale": "ar",
   "rrulePickerDayOfMonth": "يوم من الشهر",
   "rrulePickerDayOfWeek": "يوم من الأسبوع",
-  "rrulePickerDays": "{count, plural, other{أيام}}",
+  "rrulePickerDays": "{count, plural, one{يوم} two{يومان} other{أيام}}",
   "rrulePickerEveryDaily": "{count, plural, other{كل}}",
   "rrulePickerEveryMonth": "كل",
   "rrulePickerEveryMonthly": "{count, plural, other{كل}}",
@@ -11,11 +11,11 @@
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{الرابع}}",
   "rrulePickerLastDay": "آخر",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{الأخير}}",
-  "rrulePickerMonths": "{count, plural, other{أشهر}}",
+  "rrulePickerMonths": "{count, plural, one{شهر} two{شهران} other{أشهر}}",
   "rrulePickerRecurrenceType": "{name, select, daily{يوميًا} weekly{أسبوعيًا} monthly{شهريًا} yearly{سنويًا} other{أبدًا}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{الثاني}}",
   "rrulePickerSkip": "تخطي",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{الثالث}}",
   "rrulePickerTitle": "كرّر",
-  "rrulePickerWeeks": "{count, plural, other{أسابيع}}"
+  "rrulePickerWeeks": "{count, plural, one{أسبوع} two{أسبوعان} other{أسابيع}}"
 }

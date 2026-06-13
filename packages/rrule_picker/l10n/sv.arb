@@ -2,7 +2,7 @@
   "@@locale": "sv",
   "rrulePickerDayOfMonth": "Dag i månaden",
   "rrulePickerDayOfWeek": "Veckodag",
-  "rrulePickerDays": "{count, plural, other{dagar}}",
+  "rrulePickerDays": "{count, plural, one{dag} other{dagar}}",
   "rrulePickerEveryDaily": "{count, plural, other{Varje}}",
   "rrulePickerEveryMonth": "Varje",
   "rrulePickerEveryMonthly": "{count, plural, other{Varje}}",
@@ -11,11 +11,11 @@
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{fjärde}}",
   "rrulePickerLastDay": "sista",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{sista}}",
-  "rrulePickerMonths": "{count, plural, other{månader}}",
+  "rrulePickerMonths": "{count, plural, one{månad} other{månader}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Dagligen} weekly{Veckovis} monthly{Månadsvis} yearly{Årligen} other{Aldrig}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{andra}}",
   "rrulePickerSkip": "Hoppa över",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{tredje}}",
   "rrulePickerTitle": "Upprepa",
-  "rrulePickerWeeks": "{count, plural, other{veckor}}"
+  "rrulePickerWeeks": "{count, plural, one{vecka} other{veckor}}"
 }

@@ -2,7 +2,7 @@
   "@@locale": "el",
   "rrulePickerDayOfMonth": "Ημέρα του μήνα",
   "rrulePickerDayOfWeek": "Ημέρα της εβδομάδας",
-  "rrulePickerDays": "{count, plural, other{Ημέρες}}",
+  "rrulePickerDays": "{count, plural, one{Ημέρα} other{Ημέρες}}",
   "rrulePickerEveryDaily": "{count, plural, other{Κάθε}}",
   "rrulePickerEveryMonth": "Κάθε",
   "rrulePickerEveryMonthly": "{count, plural, other{Κάθε}}",
@@ -11,11 +11,11 @@
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, saturday{τέταρτο} other{τέταρτη}}",
   "rrulePickerLastDay": "τελευταία",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, saturday{τελευταίο} other{τελευταία}}",
-  "rrulePickerMonths": "{count, plural, other{μήνες}}",
+  "rrulePickerMonths": "{count, plural, one{μήνας} other{μήνες}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Ημέρες} weekly{Εβδομάδες} monthly{Μήνες} yearly{Ετη} other{Χωρίς επανάληψη}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, saturday{δεύτερο} other{δεύτερη}}",
   "rrulePickerSkip": "Παράλειψε",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, saturday{τρίτο} other{τρίτη}}",
   "rrulePickerTitle": "Επανάλαβε",
-  "rrulePickerWeeks": "{count, plural, other{Εβδομάδες}}"
+  "rrulePickerWeeks": "{count, plural, one{Εβδομάδα} other{Εβδομάδες}}"
 }

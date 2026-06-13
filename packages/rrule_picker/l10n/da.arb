@@ -2,7 +2,7 @@
   "@@locale": "da",
   "rrulePickerDayOfMonth": "Dag i måneden",
   "rrulePickerDayOfWeek": "Ugedag",
-  "rrulePickerDays": "{count, plural, other{dag(e)}}",
+  "rrulePickerDays": "{count, plural, one{dag} other{dage}}",
   "rrulePickerEveryDaily": "{count, plural, other{Hver}}",
   "rrulePickerEveryMonth": "Hver",
   "rrulePickerEveryMonthly": "{count, plural, other{Hver}}",
@@ -11,11 +11,11 @@
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{fjerde}}",
   "rrulePickerLastDay": "sidste",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{sidste}}",
-  "rrulePickerMonths": "{count, plural, other{måned(er)}}",
+  "rrulePickerMonths": "{count, plural, one{måned} other{måneder}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Daglige} weekly{Ugentlig} monthly{Månedlige} yearly{Årligt} other{Aldrig}}",
   "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, other{anden}}",
   "rrulePickerSkip": "Spring over",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{tredje}}",
   "rrulePickerTitle": "Gentage",
-  "rrulePickerWeeks": "{count, plural, other{uge(r)}}"
+  "rrulePickerWeeks": "{count, plural, one{uge} other{uger}}"
 }

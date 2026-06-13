@@ -71,7 +71,7 @@ class RRulePickerLocalizationsFa extends RRulePickerLocalizations {
   }
 
   @override
-  String get rrulePickerLastDay => 'آخرین';
+  String get rrulePickerLastDay => 'آخر';
 
   @override
   String rrulePickerLastDayOfWeek(String dayOfWeek) {

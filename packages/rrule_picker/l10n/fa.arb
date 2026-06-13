@@ -9,7 +9,7 @@
   "rrulePickerEveryWeekly": "{count, plural, other{هر}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{اول}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{چهارم}}",
-  "rrulePickerLastDay": "آخرین",
+  "rrulePickerLastDay": "آخر",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, other{آخر}}",
   "rrulePickerMonths": "{count, plural, one{ماه} other{ماه‌ها}}",
   "rrulePickerRecurrenceType": "{name, select, daily{روزانه} weekly{هفتگی} monthly{ماهانه} yearly{سالانه} other{هرگز}}",

@@ -67,6 +67,7 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
       'thursday': 'first',
       'friday': 'first',
       'saturday': 'first',
+      'sunday': 'first',
       'other': 'first',
     });
     return '$_temp0';
@@ -81,6 +82,7 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
       'thursday': 'fourth',
       'friday': 'fourth',
       'saturday': 'fourth',
+      'sunday': 'fourth',
       'other': 'fourth',
     });
     return '$_temp0';
@@ -98,6 +100,7 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
       'thursday': 'last',
       'friday': 'last',
       'saturday': 'last',
+      'sunday': 'last',
       'other': 'last',
     });
     return '$_temp0';
@@ -121,6 +124,7 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
       'weekly': 'Weekly',
       'monthly': 'Monthly',
       'yearly': 'Yearly',
+      'never': 'Never',
       'other': 'Never',
     });
     return '$_temp0';
@@ -135,6 +139,7 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
       'thursday': 'second',
       'friday': 'second',
       'saturday': 'second',
+      'sunday': 'second',
       'other': 'second',
     });
     return '$_temp0';
@@ -152,6 +157,7 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
       'thursday': 'third',
       'friday': 'third',
       'saturday': 'third',
+      'sunday': 'third',
       'other': 'third',
     });
     return '$_temp0';

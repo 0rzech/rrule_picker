@@ -54,7 +54,7 @@
         "description": "[demonstrative adjective with number/case variations]"
     },
 
-    "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, monday{first} tuesday{first} wednesday{first} thursday{first} friday{first} saturday{first} other{first}}",
+    "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, monday{first} tuesday{first} wednesday{first} thursday{first} friday{first} saturday{first} sunday{first} other{first}}",
     "@rrulePickerFirstDayOfWeek": {
         "placeholders": {
             "dayOfWeek": {
@@ -62,10 +62,10 @@
                 "example": "monday"
             }
         },
-        "description": "Gendered 'first' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'. [ordinal number with gender-sensitive case variations]"
+        "description": "First `dayOfWeek`. Valid options are: `'monday'`, `'tuesday'`, `'wednesday'`, `'thursday'`, `'friday'`, `'saturday'`, `'sunday'`. [ordinal number with gender-sensitive case variations]"
     },
 
-    "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, monday{fourth} tuesday{fourth} wednesday{fourth} thursday{fourth} friday{fourth} saturday{fourth} other{fourth}}",
+    "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, monday{fourth} tuesday{fourth} wednesday{fourth} thursday{fourth} friday{fourth} saturday{fourth} sunday{fourth} other{fourth}}",
     "@rrulePickerFourthDayOfWeek": {
         "placeholders": {
             "dayOfWeek": {
@@ -73,7 +73,7 @@
                 "example": "monday"
             }
         },
-        "description": "Gendered 'fourth' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'. [ordinal number with gender-sensitive case variations]"
+        "description": "Fourth `dayOfWeek`. Valid options are: `'monday'`, `'tuesday'`, `'wednesday'`, `'thursday'`, `'friday'`, `'saturday'`, `'sunday'`. [ordinal number with gender-sensitive case variations]"
     },
 
     "rrulePickerLastDay": "last",
@@ -81,7 +81,7 @@
         "description": "Label for last day selection. [ordinal adjective]"
     },
 
-    "rrulePickerLastDayOfWeek": "{dayOfWeek, select, monday{last} tuesday{last} wednesday{last} thursday{last} friday{last} saturday{last} other{last}}",
+    "rrulePickerLastDayOfWeek": "{dayOfWeek, select, monday{last} tuesday{last} wednesday{last} thursday{last} friday{last} saturday{last} sunday{last} other{last}}",
     "@rrulePickerLastDayOfWeek": {
         "placeholders": {
             "dayOfWeek": {
@@ -89,7 +89,7 @@
                 "example": "monday"
             }
         },
-        "description": "Gendered 'last' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'. [ordinal adjective with gender-sensitive case variations]"
+        "description": "Last `dayOfWeek`. Valid options are: `'monday'`, `'tuesday'`, `'wednesday'`, `'thursday'`, `'friday'`, `'saturday'`, `'sunday'`. [ordinal adjective with gender-sensitive case variations]"
     },
 
     "rrulePickerMonths": "{count, plural, one{month} other{months}}",
@@ -102,17 +102,17 @@
         "description": "[plural noun with case variations]"
     },
 
-    "rrulePickerRecurrenceType": "{name, select, daily{Daily} weekly{Weekly} monthly{Monthly} yearly{Yearly} other{Never}}",
+    "rrulePickerRecurrenceType": "{name, select, daily{Daily} weekly{Weekly} monthly{Monthly} yearly{Yearly} never{Never} other{Never}}",
     "@rrulePickerRecurrenceType": {
         "placeholders": {
             "name": {
                 "type": "String"
             }
         },
-        "description": "Display values for recurrence type dropdown. [adverb selection]"
+        "description": "Display values for recurrence type dropdown. Valid options are: `'daily'`, `'weekly'`, `'monthly'`, `'yearly'`, `'never'`. [adverb selection]"
     },
 
-    "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, monday{second} tuesday{second} wednesday{second} thursday{second} friday{second} saturday{second} other{second}}",
+    "rrulePickerSecondDayOfWeek": "{dayOfWeek, select, monday{second} tuesday{second} wednesday{second} thursday{second} friday{second} saturday{second} sunday{second} other{second}}",
     "@rrulePickerSecondDayOfWeek": {
         "placeholders": {
             "dayOfWeek": {
@@ -120,7 +120,7 @@
                 "example": "monday"
             }
         },
-        "description": "Gendered 'second' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'. [ordinal number with gender-sensitive case variations]"
+        "description": "Second `dayOfWeek`. Valid options are: `'monday'`, `'tuesday'`, `'wednesday'`, `'thursday'`, `'friday'`, `'saturday'`, `'sunday'`. [ordinal number with gender-sensitive case variations]"
     },
 
     "rrulePickerSkip": "Skip",
@@ -128,7 +128,7 @@
         "description": "Label on a 'skip' button used to skip dates during recurrence period. [imperative verb]"
     },
 
-    "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, monday{third} tuesday{third} wednesday{third} thursday{third} friday{third} saturday{third} other{third}}",
+    "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, monday{third} tuesday{third} wednesday{third} thursday{third} friday{third} saturday{third} sunday{third} other{third}}",
     "@rrulePickerThirdDayOfWeek": {
         "placeholders": {
             "dayOfWeek": {
@@ -136,7 +136,7 @@
                 "example": "monday"
             }
         },
-        "description": "Gendered 'third' day of week. Valid options are: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'. [ordinal number with gender-sensitive case variations]"
+        "description": "Third `dayOfWeek`. Valid options are: `'monday'`, `'tuesday'`, `'wednesday'`, `'thursday'`, `'friday'`, `'saturday'`, `'sunday'`. [ordinal number with gender-sensitive case variations]"
     },
 
     "rrulePickerTitle": "Repeat",

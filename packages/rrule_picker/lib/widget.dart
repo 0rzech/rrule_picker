@@ -15,7 +15,7 @@ import 'package:rrule_picker/theme.dart';
 
 class RRulePicker extends StatefulWidget {
   final String initialRRule;
-  final String? timezone;
+  final String timezone;
   final bool enableExcludedDates;
   final void Function(String)? onRRuleChanged;
   final RRulePickerController? controller;
@@ -24,7 +24,7 @@ class RRulePicker extends StatefulWidget {
   const RRulePicker({
     super.key,
     this.initialRRule = '',
-    this.timezone,
+    this.timezone = '',
     this.enableExcludedDates = true,
     this.onRRuleChanged,
     this.controller,
@@ -50,6 +50,7 @@ class _RRulePickerState extends State<RRulePicker> {
     } else {
       controller = RRulePickerController(
         initialRRule: widget.initialRRule,
+        defaultTimeZone: widget.timezone,
         enableExcludedDates: widget.enableExcludedDates,
       );
     }

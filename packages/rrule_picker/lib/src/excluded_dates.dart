@@ -75,7 +75,7 @@ class _ExcludedDatesState extends State<ExcludedDates> {
 class ExcludedDatesController
     extends ValueListenable<UnmodifiableSetView<DateTime>>
     with ChangeNotifier {
-  static const defaultTimeZone = 'Etc/UTC';
+  static const defaultTimeZone = '';
 
   final _numberFormatter = NumberFormat('00');
 
@@ -87,8 +87,8 @@ class ExcludedDatesController
     String initialRRule = '',
     String defaultTimeZone = defaultTimeZone,
   }) {
-    final (timezone, dates) = _parseRRule(initialRRule);
-    _timezone = timezone ?? defaultTimeZone;
+    final (timezone, dates) = _parseRRule(initialRRule, defaultTimeZone);
+    _timezone = timezone;
     _dates = dates;
     _unmodifiable = UnmodifiableSetView(_dates);
   }
@@ -109,13 +109,16 @@ class ExcludedDatesController
   }
 
   void setRRule(String rrule, [String defaultTimeZone = defaultTimeZone]) {
-    final (timezone, dates) = _parseRRule(rrule);
-    _timezone = timezone ?? defaultTimeZone;
+    final (timezone, dates) = _parseRRule(rrule, defaultTimeZone);
+    _timezone = timezone;
     _dates = dates;
     _unmodifiable = UnmodifiableSetView(_dates);
   }
 
-  (String?, SplayTreeSet<DateTime>) _parseRRule(String rrule) {
+  (String, SplayTreeSet<DateTime>) _parseRRule(
+    String rrule,
+    String defaultTimeZone,
+  ) {
     final dates = SplayTreeSet<DateTime>();
 
     if (rrule.isEmpty) {
@@ -145,8 +148,13 @@ class ExcludedDatesController
       return;
     }
 
-    sb.write(';EXDATE;TZID=');
-    sb.write(_timezone);
+    sb.write(';EXDATE');
+
+    if (_timezone.isNotEmpty) {
+      sb.write(';TZID=');
+      sb.write(_timezone);
+    }
+
     sb.write(';VALUE=DATE:');
 
     for (final (i, date) in _dates.indexed) {

@@ -3,6 +3,11 @@
 
 import 'package:flutter/material.dart';
 
+/// Theme data for customizing the appearance of the RRulePicker widget.
+///
+/// This class provides various styling options for different parts
+/// of the picker, including labels, padding, headers, dropdowns, text fields,
+/// and buttons.
 class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   static const defaultPadding = EdgeInsets.all(0);
   static const defaultSegmentedButtonStyle = ButtonStyle(
@@ -10,15 +15,34 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: .zero)),
   );
 
+  /// The text style for labels in the picker.
   final TextStyle? labelStyle;
+
+  /// The padding around the picker.
   final EdgeInsetsGeometry? padding;
+
+  /// Theme data for the header of the picker.
   final RRulePickerHeaderThemeData? headerTheme;
+
+  /// Theme data for dropdown buttons in the picker.
   final RRulePickerDropdownThemeData? dropdownTheme;
+
+  /// Theme data for dropdown buttons in the top section of the picker.
   final RRulePickerDropdownThemeData? topDropdownTheme;
+
+  /// Theme data for text fields in the picker.
   final RRulePickerTextFieldThemeData? textFieldTheme;
+
+  /// The style for segmented buttons in the picker.
   final ButtonStyle? segmentedButtonStyle;
+
+  /// The style for weekday selection buttons in the picker.
   final ButtonStyle? weekdaySelectionButtonStyle;
 
+  /// Creates a new [RRulePickerThemeData] with the provided styling options.
+  ///
+  /// All parameters are optional and can be null, in which case default values
+  /// will be used.
   const RRulePickerThemeData({
     this.labelStyle,
     this.padding,
@@ -30,6 +54,10 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     this.weekdaySelectionButtonStyle,
   });
 
+  /// Creates a copy of this theme with the given fields replaced
+  /// by the new values.
+  ///
+  /// If a field is not provided, the existing value is retained.
   @override
   ThemeExtension<RRulePickerThemeData> copyWith({
     TextStyle? labelStyle,
@@ -52,6 +80,10 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
         weekdaySelectionButtonStyle ?? this.weekdaySelectionButtonStyle,
   );
 
+  /// Linearly interpolates between this theme and another theme.
+  ///
+  /// The [t] argument is a value between 0 and 1, where 0 returns this theme
+  /// and 1 returns the [other] theme.
   @override
   ThemeExtension<RRulePickerThemeData> lerp(
     covariant ThemeExtension<RRulePickerThemeData>? other,
@@ -123,6 +155,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   );
 }
 
+/// Theme data for customizing the header of the RRulePicker widget.
 class RRulePickerHeaderThemeData {
   static const defaultShowHeader = true;
   static const defaultFontSize = 16.0;
@@ -132,17 +165,33 @@ class RRulePickerHeaderThemeData {
     fontWeight: defaultFontWeight,
   );
 
+  /// Whether to show the header.
   final bool? showHeader;
+
+  /// The text style for the header.
   final TextStyle? style;
 
+  /// Creates a new [RRulePickerHeaderThemeData] with the provided styling
+  /// options.
+  ///
+  /// All parameters are optional and can be null, in which case default values
+  /// will be used.
   const RRulePickerHeaderThemeData({this.showHeader, this.style});
 
+  /// Creates a copy of this theme with the given fields replaced
+  /// by the new values.
+  ///
+  /// If a field is not provided, the existing value is retained.
   RRulePickerHeaderThemeData copyWith({bool? showHeader, TextStyle? style}) =>
       RRulePickerHeaderThemeData(
         showHeader: showHeader ?? this.showHeader,
         style: style ?? this.style,
       );
 
+  /// Linearly interpolates between two header themes.
+  ///
+  /// The [t] argument is a value between 0 and 1, where 0 returns
+  /// the first theme and 1 returns the second theme.
   static RRulePickerHeaderThemeData? lerp(
     RRulePickerHeaderThemeData? a,
     RRulePickerHeaderThemeData? b,
@@ -173,16 +222,31 @@ class RRulePickerHeaderThemeData {
   int get hashCode => Object.hash(showHeader, style);
 }
 
+/// Theme data for customizing dropdown buttons in the RRulePicker widget.
 class RRulePickerDropdownThemeData {
   static const bool defaultShowUnderline = true;
   static const bool defaultTopShowUnderline = false;
 
+  /// Whether to show an underline for the dropdown.
   final bool? showUnderline;
+
+  /// The text style for the dropdown button.
   final TextStyle? style;
+
+  /// The decoration for the dropdown button.
   final BoxDecoration? decoration;
+
+  /// The text style for dropdown menu items.
   final TextStyle? menuItemStyle;
+
+  /// The decoration for dropdown menu items.
   final BoxDecoration? menuItemDecoration;
 
+  /// Creates a new [RRulePickerDropdownThemeData] with the provided styling
+  /// options.
+  ///
+  /// All parameters are optional and can be null, in which case default values
+  /// will be used.
   const RRulePickerDropdownThemeData({
     this.showUnderline,
     this.style,
@@ -191,6 +255,10 @@ class RRulePickerDropdownThemeData {
     this.menuItemDecoration,
   });
 
+  /// Creates a copy of this theme with the given fields replaced
+  /// by the new values.
+  ///
+  /// If a field is not provided, the existing value is retained.
   RRulePickerDropdownThemeData copyWith({
     bool? showUnderline,
     TextStyle? style,
@@ -205,6 +273,10 @@ class RRulePickerDropdownThemeData {
     menuItemDecoration: menuItemDecoration ?? this.menuItemDecoration,
   );
 
+  /// Linearly interpolates between two dropdown themes.
+  ///
+  /// The [t] argument is a value between 0 and 1, where 0 returns the
+  /// first theme and 1 returns the second theme.
   static RRulePickerDropdownThemeData? lerp(
     RRulePickerDropdownThemeData? a,
     RRulePickerDropdownThemeData? b,
@@ -251,14 +323,27 @@ class RRulePickerDropdownThemeData {
   );
 }
 
+/// Theme data for customizing text fields in the RRulePicker widget.
 class RRulePickerTextFieldThemeData {
   static const defaultDecoration = InputDecoration(isDense: true);
 
+  /// The text style for the text field.
   final TextStyle? style;
+
+  /// The decoration for the text field.
   final InputDecoration? decoration;
 
+  /// Creates a new [RRulePickerTextFieldThemeData] with the provided styling
+  /// options.
+  ///
+  /// All parameters are optional and can be null, in which case default values
+  /// will be used.
   const RRulePickerTextFieldThemeData({this.style, this.decoration});
 
+  /// Creates a copy of this theme with the given fields replaced
+  /// by the new values.
+  ///
+  /// If a field is not provided, the existing value is retained.
   RRulePickerTextFieldThemeData copyWith({
     TextStyle? style,
     InputDecoration? decoration,
@@ -267,6 +352,10 @@ class RRulePickerTextFieldThemeData {
     decoration: decoration ?? this.decoration,
   );
 
+  /// Linearly interpolates between two text field themes.
+  ///
+  /// The [t] argument is a value between 0 and 1, where 0 returns
+  /// the first theme and 1 returns the second theme.
   static RRulePickerTextFieldThemeData? lerp(
     RRulePickerTextFieldThemeData? a,
     RRulePickerTextFieldThemeData? b,

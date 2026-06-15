@@ -13,12 +13,52 @@ import 'package:rrule_picker/src/weekly.dart';
 import 'package:rrule_picker/src/yearly.dart';
 import 'package:rrule_picker/theme.dart';
 
+/// A widget that provides a user interface for creating and editing recurrence
+/// rules (RRULE).
+///
+/// This widget allows users to select different recurrence types (daily,
+/// weekly, monthly, yearly) and configure their specific parameters.
+/// It also supports excluding specific dates from the recurrence.
 class RRulePicker extends StatefulWidget {
+  /// The initial recurrence rule string to be displayed in the picker.
+  ///
+  /// Defaults to an empty string, which means no recurrence.
+  ///
+  /// The value set in [controller] takes precedence over this one,
+  /// if not empty.
   final String initialRRule;
+
+  /// The timezone to be used for the recurrence rule. It will *not* be
+  /// validated by this package, but it should be a valid timezone name
+  /// from the [timezone](https://pub.dev/packages/timezone) package database.
+  ///
+  /// If not provided, the default timezone will be used, which currently means
+  /// an empty string, i.e. no timezone at all.
+  ///
+  /// The value set in [controller] takes precedence over this one,
+  /// if not empty.
   final String timezone;
+
+  /// Whether to enable the excluded dates feature.
+  ///
+  /// Defaults to true.
+  ///
+  /// The value set in [controller] will take precedence over this one.
   final bool enableExcludedDates;
+
+  /// Callback function called when the recurrence rule changes.
+  ///
+  /// The callback receives the new recurrence rule string as a parameter.
   final void Function(String)? onRRuleChanged;
+
+  /// An optional controller for managing the state of the picker.
+  ///
+  /// You are responsible for disposing it.
+  ///
+  /// If not provided, a new controller will be created and managed internally.
   final RRulePickerController? controller;
+
+  /// The theme data for customizing the appearance of the picker.
   final RRulePickerThemeData? theme;
 
   const RRulePicker({
@@ -167,6 +207,11 @@ class _RRulePickerState extends State<RRulePicker> {
   }
 }
 
+/// A controller for managing the state of an [RRulePicker].
+///
+/// This controller handles the recurrence rule string and provides methods
+/// for updating it. It also manages the state of the different recurrence type
+/// pickers (daily, weekly, monthly, yearly) and the excluded dates picker.
 class RRulePickerController extends ValueListenable<String>
     with ChangeNotifier {
   final ValueNotifier<_RecurrenceType> _recurrenceType;
@@ -179,6 +224,18 @@ class RRulePickerController extends ValueListenable<String>
 
   String _rrule;
 
+  /// Creates a new [RRulePickerController].
+  ///
+  /// [initialRRule] is the initial recurrence rule string. Defaults to an empty
+  /// string. Takes precedence over [RRulePicker.initialRRule].
+  ///
+  /// [defaultTimeZone] is the default timezone to be used for the excluded
+  /// dates. Defaults to [ExcludedDatesController.defaultTimeZone].
+  /// Takes precedence over [RRulePicker.timezone].
+  ///
+  /// [enableExcludedDates] determines whether the excluded dates feature
+  /// is enabled. Defaults to true. Takes precedence over
+  /// [RRulePicker.enableExcludedDates].
   RRulePickerController({
     String initialRRule = '',
     String defaultTimeZone = ExcludedDatesController.defaultTimeZone,
@@ -215,6 +272,7 @@ class RRulePickerController extends ValueListenable<String>
     super.dispose();
   }
 
+  /// Whether the excluded dates feature is enabled.
   bool get excludedDatesEnabled => _excludedDatesEnabled.value;
 
   set excludedDatesEnabled(bool value) {
@@ -229,6 +287,7 @@ class RRulePickerController extends ValueListenable<String>
         : _excludedDates.removeListener(_rruleChanged);
   }
 
+  /// Current recurrence rule string.
   @override
   String get value => _rrule;
 
@@ -237,6 +296,11 @@ class RRulePickerController extends ValueListenable<String>
     notifyListeners();
   }
 
+  /// Sets the recurrence rule string. Empty string means no timezone.
+  ///
+  /// [rrule] is the new recurrence rule string.
+  /// [defaultTimeZone] is the default timezone to be used for the excluded
+  /// dates.
   void setRRule(
     String rrule, {
     String defaultTimeZone = ExcludedDatesController.defaultTimeZone,

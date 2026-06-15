@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Flutter: clean and generate" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+    <option name="arguments" value="--dummy" />
+    <option name="filePath" value="$PROJECT_DIR$/scripts/clean_and_generate.dart" />
+    <option name="workingDirectory" value="$PROJECT_DIR$" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Flutter: clean" run_configuration_type="DartCommandLineRunConfigurationType" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Flutter: gen-l10n" run_configuration_type="DartCommandLineRunConfigurationType" />
+    </method>
+  </configuration>
+</component>

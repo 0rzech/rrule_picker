@@ -108,9 +108,14 @@ class _RRulePickerState extends State<RRulePicker> {
       theme: theme,
       child: Padding(
         padding: theme.padding,
-        child: ValueListenableBuilder(
-          valueListenable: controller._recurrenceType,
-          builder: (context, type, title) {
+        child: ListenableBuilder(
+          listenable: .merge([
+            controller._recurrenceType,
+            controller._excludedDatesEnabled,
+          ]),
+          builder: (_, title) {
+            final type = controller._recurrenceType.value;
+
             final dropdown = DropdownButton(
               value: type,
               isExpanded: true,
@@ -169,15 +174,16 @@ class RRulePickerController extends ValueListenable<String>
   late final MonthlyPickerController _monthly;
   late final YearlyPickerController _yearly;
   late final ExcludedDatesController _excludedDates;
+  late final ValueNotifier<bool> _excludedDatesEnabled;
+
   String _rrule;
-  bool _excludedDatesEnabled;
 
   RRulePickerController({
     String initialRRule = '',
     String defaultTimeZone = ExcludedDatesController.defaultTimeZone,
     bool enableExcludedDates = true,
   }) : _rrule = initialRRule,
-       _excludedDatesEnabled = enableExcludedDates,
+       _excludedDatesEnabled = ValueNotifier(enableExcludedDates),
        _recurrenceType = .new(_RecurrenceType.fromRRule(initialRRule)) {
     _recurrenceType.addListener(_rruleChanged);
 
@@ -191,13 +197,14 @@ class RRulePickerController extends ValueListenable<String>
       defaultTimeZone: defaultTimeZone,
     );
 
-    if (_excludedDatesEnabled) {
+    if (_excludedDatesEnabled.value) {
       _excludedDates.addListener(_rruleChanged);
     }
   }
 
   @override
   void dispose() {
+    _excludedDatesEnabled.dispose();
     _excludedDates.dispose();
     _yearly.dispose();
     _monthly.dispose();
@@ -207,13 +214,14 @@ class RRulePickerController extends ValueListenable<String>
     super.dispose();
   }
 
-  bool get excludedDatesEnabled => _excludedDatesEnabled;
+  bool get excludedDatesEnabled => _excludedDatesEnabled.value;
+
   set excludedDatesEnabled(bool value) {
-    if (_excludedDatesEnabled == value) {
+    if (_excludedDatesEnabled.value == value) {
       return;
     }
 
-    _excludedDatesEnabled = value;
+    _excludedDatesEnabled.value = value;
 
     value
         ? _excludedDates.addListener(_rruleChanged)

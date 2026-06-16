@@ -9,7 +9,7 @@
   "rrulePickerEveryWeekly": "{count, plural, other{Svaki}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, wednesday{prva} saturday{prva} sunday{prva} other{prvi}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, wednesday{četvrta} saturday{četvrta} sunday{četvrta} other{četvrti}}",
-  "rrulePickerLastDay": "последњи",
+  "rrulePickerLastDay": "poslednji",
   "rrulePickerLastDayOfWeek": "{dayOfWeek, select, wednesday{poslednja} saturday{poslednja} sunday{poslednja} other{poslednji}}",
   "rrulePickerMonths": "{count, plural, one{mesec} few{meseca} other{mjeseci}}",
   "rrulePickerRecurrenceType": "{name, select, daily{Dnevno} weekly{Tjedno} monthly{Mjesečno} yearly{Godišnje} other{Nikada}}",

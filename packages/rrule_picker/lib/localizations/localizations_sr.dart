@@ -82,7 +82,7 @@ class RRulePickerLocalizationsSr extends RRulePickerLocalizations {
   }
 
   @override
-  String get rrulePickerLastDay => 'последњи';
+  String get rrulePickerLastDay => 'poslednji';
 
   @override
   String rrulePickerLastDayOfWeek(String dayOfWeek) {

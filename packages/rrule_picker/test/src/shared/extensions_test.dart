@@ -36,7 +36,7 @@ void main() {
   group('ChildDecoration extension', () {
     const dummyWidget = SizedBox.shrink();
 
-    setUpAll(() async => await loadAppFonts());
+    setUpAll(loadAppFonts);
 
     group('dropdownDecorators', () {
       testWidgets('returns correct decorators with default theme', (

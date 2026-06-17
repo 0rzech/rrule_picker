@@ -11,11 +11,7 @@ import 'package:spot/spot.dart';
 
 void main() {
   group('ByDayOfWeek extension', () {
-    late RRulePickerLocalizationsEn localizations;
-
-    setUp(() {
-      localizations = RRulePickerLocalizationsEn();
-    });
+    final localizations = RRulePickerLocalizationsEn();
 
     test('rrulePickerDayOfWeekOrdinal '
         'returns correct ordinals for all days', () {

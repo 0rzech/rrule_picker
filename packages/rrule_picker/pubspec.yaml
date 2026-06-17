@@ -21,6 +21,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   kiri_check: any
+  spot: any
 
 flutter:
   generate: true

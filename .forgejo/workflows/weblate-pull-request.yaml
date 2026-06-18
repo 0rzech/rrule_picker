@@ -1,0 +1,19 @@
+name: Verification (weblate pull request)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+    paths:
+      - '**'
+      - '!**/*.arb'
+
+concurrency:
+  group: weblate-pull-request
+
+jobs:
+  if-on-weblate-branch:
+    name: Check if on weblate branch
+    if: forgejo.head_ref == 'weblate'
+    uses: ./.forgejo/workflows/verification.yaml

@@ -1,6 +1,7 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rrule_picker/localizations/localizations_en.dart';
@@ -36,7 +37,11 @@ void main() {
   group('ChildDecoration extension', () {
     const dummyWidget = SizedBox.shrink();
 
-    setUpAll(loadAppFonts);
+    setUpAll(() async {
+      if (!kIsWeb) {
+        await loadAppFonts();
+      }
+    });
 
     group('dropdownDecorators', () {
       testWidgets('returns correct decorators with default theme', (

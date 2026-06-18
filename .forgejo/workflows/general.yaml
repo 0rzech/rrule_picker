@@ -1,0 +1,16 @@
+name: Verification (general)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+jobs:
+  if-not-on-weblate-branch:
+    name: Check if not on weblate branch
+    if: forgejo.head_ref != 'weblate'
+    uses: ./.forgejo/workflows/verification.yaml

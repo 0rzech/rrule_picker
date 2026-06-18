@@ -4,8 +4,9 @@
 
 import 'dart:io';
 
-Future<void> main() async {
+Future<void> main(List<String> arguments) async {
   exitCode = await Process.start('flutter', [
     'analyze',
+    ...arguments,
   ], mode: .inheritStdio).then((process) => process.exitCode);
 }

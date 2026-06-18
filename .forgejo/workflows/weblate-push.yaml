@@ -1,0 +1,51 @@
+name: Weblate push
+
+on:
+  push:
+    branches:
+      - weblate
+    paths:
+      - '**/*.arb'
+
+concurrency:
+  group: weblate-push
+
+env:
+  ACTIONS_CHECKOUT_VERSION: df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+  FLUTTER_VERSION: sha256:46691e311715845de03a3ba4753a475476936805b29431b1f00f1816981033f8 # 3.44.0
+
+jobs:
+  verification:
+    name: Generate and commit Dart localizations
+    runs-on: codeberg-small-lazy
+    container:
+      image: ghcr.io/cirruslabs/flutter@${{ env.FLUTTER_VERSION }}
+    steps:
+      - name: Install Node.js
+        run: apt-get update && apt-get --yes install --no-install-recommends --no-install-suggests nodejs
+      - name: Clone repository
+        uses: https://data.forgejo.org/actions/checkout@${{ env.ACTIONS_CHECKOUT_VERSION }}
+        with:
+          ref: weblate
+      - name: Generate l10n
+        run: scripts/flutter_gen_l10n.dart
+      - name: Check l10n changes
+        id: check-l10n-changes
+        run: |
+          set -euo pipefail
+          git add .
+          if git diff --staged --quiet; then
+            echo 'No changes'
+            echo 'has_changes=false' >> $FORGEJO_OUTPUT
+          else
+            git diff --staged --name-status
+            echo 'has_changes=true' >> $FORGEJO_OUTPUT
+          fi
+      - name: Commit l10n
+        if: steps.check-l10n-changes.outputs.has_changes == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name 'Forgejo Actions'
+          git config user.email 'forgejo-actions@noreply.forgejo.org'
+          git commit -m 'Update generated localizations'
+          git push

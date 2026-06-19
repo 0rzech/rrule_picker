@@ -21,6 +21,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   kiri_check: any
+  mocktail: any
   spot: any
 
 flutter:

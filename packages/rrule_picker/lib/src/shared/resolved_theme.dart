@@ -50,9 +50,9 @@ class ResolvedThemeData {
     this.weekdaySelectionButtonStyle,
   });
 
-  factory ResolvedThemeData.defaults(ThemeData theme) => ResolvedThemeData(
+  factory ResolvedThemeData.defaults(ThemeData theme) => .new(
     padding: RRulePickerThemeData.defaultPadding,
-    headerTheme: RRulePickerHeaderThemeData(
+    headerTheme: .new(
       showHeader: RRulePickerHeaderThemeData.defaultShowHeader,
       style:
           theme.textTheme.titleSmall?.copyWith(
@@ -61,13 +61,13 @@ class ResolvedThemeData {
           ) ??
           RRulePickerHeaderThemeData.fallbackStyle,
     ),
-    dropdownTheme: const RRulePickerDropdownThemeData(
+    dropdownTheme: const .new(
       showUnderline: RRulePickerDropdownThemeData.defaultShowUnderline,
     ),
-    topDropdownTheme: const RRulePickerDropdownThemeData(
+    topDropdownTheme: const .new(
       showUnderline: RRulePickerDropdownThemeData.defaultTopShowUnderline,
     ),
-    textFieldTheme: const RRulePickerTextFieldThemeData(
+    textFieldTheme: const .new(
       decoration: RRulePickerTextFieldThemeData.defaultDecoration,
     ),
     segmentedButtonStyle: RRulePickerThemeData.defaultSegmentedButtonStyle,
@@ -109,14 +109,14 @@ class ResolvedThemeData {
         globalTheme?.segmentedButtonStyle ??
         defaultTheme.segmentedButtonStyle;
 
-    return ResolvedThemeData(
+    return .new(
       labelStyle:
           localTheme?.labelStyle ??
           globalTheme?.labelStyle ??
           defaultTheme.labelStyle,
       padding:
           localTheme?.padding ?? globalTheme?.padding ?? defaultTheme.padding,
-      headerTheme: RRulePickerHeaderThemeData(
+      headerTheme: .new(
         showHeader:
             localTheme?.headerTheme?.showHeader ??
             globalTheme?.headerTheme?.showHeader ??
@@ -127,7 +127,7 @@ class ResolvedThemeData {
             defaultTheme.headerTheme.style,
       ),
       dropdownTheme: dropdownTheme,
-      topDropdownTheme: RRulePickerDropdownThemeData(
+      topDropdownTheme: .new(
         showUnderline:
             localTheme?.topDropdownTheme?.showUnderline ??
             globalTheme?.topDropdownTheme?.showUnderline ??
@@ -153,7 +153,7 @@ class ResolvedThemeData {
             defaultTheme.topDropdownTheme.menuItemDecoration ??
             dropdownTheme.menuItemDecoration,
       ),
-      textFieldTheme: RRulePickerTextFieldThemeData(
+      textFieldTheme: .new(
         style:
             localTheme?.textFieldTheme?.style ??
             globalTheme?.textFieldTheme?.style ??

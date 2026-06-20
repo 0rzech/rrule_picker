@@ -76,10 +76,12 @@ class IntervalPickerValueInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
-  ) => switch (int.tryParse(newValue.text)) {
-    final value? when value < intervalMin => oldValue,
-    _ => newValue,
-  };
+  ) => newValue.text.isEmpty
+      ? newValue
+      : switch (int.tryParse(newValue.text)) {
+          null || < intervalMin => oldValue,
+          _ => newValue,
+        };
 }
 
 @internal

@@ -10,6 +10,8 @@ import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/theme.dart';
 import 'package:spot/spot.dart';
 
+import '../../helpers.dart';
+
 void main() {
   group('ByDayOfWeek extension', () {
     final localizations = RRulePickerLocalizationsEn();
@@ -246,12 +248,4 @@ void main() {
       });
     });
   });
-}
-
-extension on WidgetTester {
-  Future<void> pumpWrapped(Widget widget) => pumpWidget(
-    MaterialApp(
-      home: Scaffold(body: Center(child: widget)),
-    ),
-  );
 }

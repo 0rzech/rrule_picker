@@ -61,7 +61,7 @@ void main() {
         spot<DropdownButtonHideUnderline>().doesNotExist();
         spot<DropdownButton<String>>()
             .spot<DropdownMenuItem<String>>()
-            .spotTextWhere((text) => text.equals('abc'))
+            .spotText('abc', exact: true)
             .existsOnce();
       });
 
@@ -82,7 +82,7 @@ void main() {
         spot<DropdownButtonHideUnderline>()
             .spot<DropdownButton<String>>()
             .spot<DropdownMenuItem<String>>()
-            .spotTextWhere((text) => text.equals('abc'))
+            .spotText('abc', exact: true)
             .existsOnce();
       });
 
@@ -130,7 +130,7 @@ void main() {
         button
             .spot<DropdownMenuItem<String>>()
             .spot<DecoratedBox>()
-            .withChild(spotTextWhere((text) => text.equals('abc')))
+            .withChild(spotText('abc', exact: true))
             .existsOnce()
             .hasWidgetProp(
               prop: widgetProp('decoration', (widget) => widget.decoration),
@@ -193,7 +193,7 @@ void main() {
         box
             .spot<DropdownMenuItem<String>>()
             .spot<DecoratedBox>()
-            .withChild(spotTextWhere((text) => text.equals('abc')))
+            .withChild(spotText('abc', exact: true))
             .existsOnce()
             .hasWidgetProp(
               prop: widgetProp('decoration', (widget) => widget.decoration),

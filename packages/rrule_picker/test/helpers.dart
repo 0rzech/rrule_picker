@@ -11,3 +11,15 @@ extension PumpWrapped on WidgetTester {
     ),
   );
 }
+
+extension IgnoreErrors on void Function() {
+  /// Catches and ignores [Error]s. Useful, for example, when calling
+  /// `dispose()` on a `late` instance, that hasn't been initialized.
+  void callIgnoringErrors() {
+    try {
+      call();
+    } on Error {
+      // noop
+    }
+  }
+}

@@ -364,19 +364,13 @@ void main() {
   });
 
   group('$IntervalPickerState mixin', () {
-    late TestIntervalPickerState state;
+    late IntervalPickerState state;
 
-    setUp(() {
-      state = TestIntervalPickerState();
-    });
+    setUp(() => state = TestIntervalPickerState());
 
     tearDown(() {
-      try {
-        // ignore: invalid_use_of_protected_member
-        state.disposeIntervalState();
-      } on Error {
-        // ignore LateInitializationError for per-test state instances
-      }
+      // ignore: invalid_use_of_protected_member
+      state.disposeIntervalState.callIgnoringErrors();
     });
 
     test('initIntervalState initializes with default value', () {
@@ -389,19 +383,23 @@ void main() {
     });
 
     property('initIntervalState initializes with custom value', () {
-      forAll(integer(min: defaultInterval), (customValue) {
-        final state = TestIntervalPickerState();
+      late IntervalPickerState state;
 
-        // ignore: invalid_use_of_protected_member
-        state.initIntervalState(initialValue: customValue, listener: () {});
+      forAll(
+        integer(min: defaultInterval),
+        (interval) {
+          // ignore: invalid_use_of_protected_member
+          state.initIntervalState(initialValue: interval, listener: () {});
 
-        expect(state.initialIntervalValue, customValue);
-        expect(state.intervalNotifier.value, customValue);
-        expect(state.intervalController.text, customValue.toString());
-
-        // ignore: invalid_use_of_protected_member
-        state.disposeIntervalState();
-      });
+          expect(state.initialIntervalValue, interval);
+          expect(state.intervalNotifier.value, interval);
+          expect(state.intervalController.text, interval.toString());
+        },
+        setUp: () => state = TestIntervalPickerState(),
+        tearDown: () =>
+            // ignore: invalid_use_of_protected_member
+            state.disposeIntervalState(),
+      );
     });
 
     test('initIntervalState adds listener to notifier', () {
@@ -513,8 +511,6 @@ void main() {
     );
 
     test('disposeIntervalState disposes controller and notifier', () {
-      final state = TestIntervalPickerState();
-
       // ignore: invalid_use_of_protected_member
       state.initIntervalState(listener: () {});
 
@@ -536,19 +532,13 @@ void main() {
   });
 
   group('IntervalPickerSegmentTypeState', () {
-    late TestIntervalPickerSegmentTypeState state;
+    late IntervalPickerSegmentTypeState state;
 
-    setUp(() {
-      state = TestIntervalPickerSegmentTypeState();
-    });
+    setUp(() => state = TestIntervalPickerSegmentTypeState());
 
     tearDown(() {
-      try {
-        // ignore: invalid_use_of_protected_member
-        state.disposeIntervalSegmentTypeState();
-      } on Error {
-        // ignore LateInitializationError for per-test state instances
-      }
+      // ignore: invalid_use_of_protected_member
+      state.disposeIntervalSegmentTypeState.callIgnoringErrors();
     });
 
     test('initIntervalSegmentTypeState initializes '

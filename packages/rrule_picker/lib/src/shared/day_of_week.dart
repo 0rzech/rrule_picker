@@ -23,8 +23,10 @@ mixin DayOfWeekState {
     dayOfWeekOrdinal = ValueNotifier(initialDayOfWeekOrdinal)
       ..addListener(listener);
     dayOfWeek = ValueNotifier(initialDayOfWeek)..addListener(listener);
-    // dummy values just to instantiate the notifier
-    daysOfWeek = ValueNotifier([(.monday, '')])..addListener(listener);
+    dayOfWeekFormatter = DateFormat.EEEE();
+    daysOfWeek = ValueNotifier(
+      DayOfWeek.buildWeek(initialDayOfWeek, dayOfWeekFormatter),
+    )..addListener(listener);
   }
 
   @protected

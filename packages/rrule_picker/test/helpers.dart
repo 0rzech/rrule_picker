@@ -3,10 +3,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rrule_picker/localizations/localizations.dart';
 
 extension PumpWrapped on WidgetTester {
-  Future<void> pumpWrapped(Widget widget) => pumpWidget(
+  Future<void> pumpWrapped(
+    Widget widget, {
+    Locale locale = const Locale('en'),
+  }) => pumpWidget(
     MaterialApp(
+      locale: locale,
+      localizationsDelegates: RRulePickerLocalizations.localizationsDelegates,
       home: Scaffold(body: Center(child: widget)),
     ),
   );

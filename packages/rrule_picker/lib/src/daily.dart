@@ -33,7 +33,7 @@ class DailyPickerController with IntervalPickerState {
     required VoidCallback listener,
   }) {
     initIntervalState(
-      initialValue: _parseRRule(initialRRule),
+      initialValue: parseRRule(initialRRule),
       listener: listener,
     );
   }
@@ -41,18 +41,20 @@ class DailyPickerController with IntervalPickerState {
   @mustCallSuper
   void dispose() => disposeIntervalState();
 
-  int _parseRRule(String rrule) {
-    if (rrule.isEmpty) {
-      return defaultInterval;
-    }
-
-    return parseInterval(RegExp(r'INTERVAL=(\d+)').firstMatch(rrule)?.group(1));
-  }
-
-  void setRRule(String rrule) => setIntervalValue(_parseRRule(rrule));
+  void setRRule(String rrule) => setIntervalValue(parseRRule(rrule));
 
   void buildRRulePart(StringBuffer sb) {
     sb.write('FREQ=DAILY;INTERVAL=');
     sb.write(getIntervalValue());
   }
+}
+
+@internal
+int parseRRule(String rrule) {
+  if (rrule.isEmpty) {
+    return defaultInterval;
+  }
+
+  const re = r'INTERVAL=(\d+)(?:;|$)';
+  return parseInterval(RegExp(re).firstMatch(rrule)?.group(1));
 }

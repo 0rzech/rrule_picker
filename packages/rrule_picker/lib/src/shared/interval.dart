@@ -111,7 +111,7 @@ mixin IntervalPickerState {
   @protected
   void setIntervalValue(int value) {
     intervalNotifier.value = value;
-    intervalController.text = value.toString();
+    intervalController.value = TextEditingValue(text: value.toString());
   }
 
   int getIntervalValue({int minValue = intervalMin, int? defaultValue}) =>

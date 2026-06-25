@@ -8,7 +8,6 @@ import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
-import 'package:rrule_picker/src/shared/set_value_notifier.dart';
 
 @internal
 class WeeklyPicker extends StatefulWidget {
@@ -95,7 +94,7 @@ class WeeklyPickerController with IntervalPickerState {
   }) {
     final (weeks, days) = _parseRRule(initialRRule, firstDayOfWeek);
     initIntervalState(initialValue: weeks, listener: listener);
-    selectedDaysOfWeek = SetValueNotifier(days)..addListener(listener);
+    selectedDaysOfWeek = ValueNotifier(days)..addListener(listener);
   }
 
   @mustCallSuper

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
-import 'package:rrule_picker/src/shared/set_value_notifier.dart';
 
 @internal
 class IntervalPicker extends StatelessWidget {
@@ -135,7 +134,7 @@ mixin IntervalPickerSegmentTypeState {
     Set<IntervalPickerSegmentType> initialSegmentType = const {.precise},
     required VoidCallback listener,
   }) =>
-      intervalSegmentType = SetValueNotifier(initialSegmentType)
+      intervalSegmentType = ValueNotifier(initialSegmentType)
         ..addListener(listener);
 
   @visibleForTesting

@@ -56,5 +56,7 @@ int parseRRule(String rrule) {
   }
 
   const re = r'INTERVAL=(\d+)(?:;|$)';
-  return parseInterval(RegExp(re).firstMatch(rrule)?.group(1));
+  final interval = RegExp(re, caseSensitive: false).firstMatch(rrule)?.group(1);
+
+  return parseInterval(interval);
 }

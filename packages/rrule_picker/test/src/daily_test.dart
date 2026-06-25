@@ -227,7 +227,7 @@ void main() {
     });
 
     group('buildRRulePart', () {
-      test('builds correct RRULE string with default interval', () {
+      test('builds correct rrule string with default interval', () {
         final sb = StringBuffer();
 
         controller.buildRRulePart(sb);
@@ -235,7 +235,7 @@ void main() {
         expect(sb.toString(), 'FREQ=DAILY;INTERVAL=$defaultInterval');
       });
 
-      test('builds correct RRULE string with intervalMin', () {
+      test('builds correct rrule string with intervalMin', () {
         controller.setIntervalValue(intervalMin);
         final sb = StringBuffer();
 
@@ -244,7 +244,7 @@ void main() {
         expect(sb.toString(), 'FREQ=DAILY;INTERVAL=$intervalMin');
       });
 
-      property('builds correct RRULE string with custom interval', () {
+      property('builds correct rrule string with custom interval', () {
         forAll(integer(min: intervalMin), (interval) {
           controller.setIntervalValue(interval);
           final sb = StringBuffer();
@@ -478,9 +478,9 @@ void main() {
       });
     });
 
-    property('parses lowercase RRULE', () {
+    property('parses lowercase rrule', () {
       forAll(integer(min: intervalMin), (interval) {
-        expect(parseRRule('freq=daily;interval=$interval'), defaultInterval);
+        expect(parseRRule('freq=daily;interval=$interval'), interval);
       });
     });
   });

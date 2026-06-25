@@ -91,6 +91,7 @@ mixin IntervalPickerState {
   late final ValueNotifier<int> intervalNotifier;
   late final TextEditingController intervalController;
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void initIntervalState({
@@ -102,6 +103,7 @@ mixin IntervalPickerState {
     intervalController = .new(text: intervalNotifier.value.toString());
   }
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void disposeIntervalState() {
@@ -109,6 +111,7 @@ mixin IntervalPickerState {
     intervalNotifier.dispose();
   }
 
+  @visibleForTesting
   @protected
   void setIntervalValue(int value) {
     intervalNotifier.value = value;
@@ -125,6 +128,7 @@ mixin IntervalPickerState {
 mixin IntervalPickerSegmentTypeState {
   late final ValueNotifier<Set<IntervalPickerSegmentType>> intervalSegmentType;
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void initIntervalSegmentTypeState({
@@ -134,10 +138,12 @@ mixin IntervalPickerSegmentTypeState {
       intervalSegmentType = SetValueNotifier(initialSegmentType)
         ..addListener(listener);
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void disposeIntervalSegmentTypeState() => intervalSegmentType.dispose();
 
+  @visibleForTesting
   @protected
   void setIntervalSegmentTypeValue(
     Set<IntervalPickerSegmentType> segmentType,

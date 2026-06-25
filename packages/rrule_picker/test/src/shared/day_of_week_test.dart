@@ -35,13 +35,11 @@ void main() {
     });
 
     tearDown(() {
-      // ignore: invalid_use_of_protected_member
       state.disposeDayOfWeekState.callIgnoringErrors();
     });
 
     group('initDayOfWeekState', () {
       test('initializes with default values', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
 
         expect(state.dayOfWeekOrdinal.value, DayOfWeekOrdinal.first);
@@ -63,7 +61,6 @@ void main() {
             ),
           ),
           (t) {
-            // ignore: invalid_use_of_protected_member
             state.initDayOfWeekState(
               initialDayOfWeekOrdinal: t.ordinal,
               initialDayOfWeek: t.day,
@@ -74,14 +71,11 @@ void main() {
             expect(state.dayOfWeek.value, t.day);
           },
           setUp: () => state = TestDayOfWeekState(),
-          tearDown: () =>
-              // ignore: invalid_use_of_protected_member
-              state.disposeDayOfWeekState(),
+          tearDown: () => state.disposeDayOfWeekState(),
         );
       });
 
       test('initializes daysOfWeek with custom initialDayOfWeek', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(initialDayOfWeek: .friday, listener: () {});
 
         expect(state.daysOfWeek.value.first.$1, DayOfWeek.friday);
@@ -100,7 +94,6 @@ void main() {
       });
 
       test('listener is called when ordinal value changes', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(
           listener: () {
             ++listenerCallCount;
@@ -115,7 +108,6 @@ void main() {
       });
 
       test('listener is called when day of week value changes', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(
           listener: () {
             ++listenerCallCount;
@@ -132,14 +124,12 @@ void main() {
 
     group('disposeDayOfWeekState', () {
       test('disposes all ValueNotifiers', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
 
         ChangeNotifier.debugAssertNotDisposed(state.dayOfWeekOrdinal);
         ChangeNotifier.debugAssertNotDisposed(state.dayOfWeek);
         ChangeNotifier.debugAssertNotDisposed(state.daysOfWeek);
 
-        // ignore: invalid_use_of_protected_member
         state.disposeDayOfWeekState();
 
         expect(
@@ -159,21 +149,17 @@ void main() {
 
     group('updateDayOfWeekState', () {
       test('updates dayOfWeekFormatter when localizations provided', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
         final localizations = RRulePickerLocalizationsPl();
 
-        // ignore: invalid_use_of_protected_member
         state.updateDayOfWeekState(localizations: localizations);
 
         expect(state.dayOfWeekFormatter.locale.toString(), 'pl');
       });
 
       test('updates daysOfWeek when firstDayOfWeek provided', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
 
-        // ignore: invalid_use_of_protected_member
         state.updateDayOfWeekState(firstDayOfWeek: .friday);
 
         expect(state.daysOfWeek.value.first.$1, DayOfWeek.friday);
@@ -192,49 +178,40 @@ void main() {
       });
 
       test('does not update dateFormatter when localizations is null', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
 
-        // ignore: invalid_use_of_protected_member
         state.updateDayOfWeekState(firstDayOfWeek: .monday);
 
         expect(state.dayOfWeekFormatter.locale.toString(), 'en');
       });
 
       test('does not update daysOfWeek when firstDayOfWeek is null', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
         final localizations = RRulePickerLocalizationsEn();
 
-        // ignore: invalid_use_of_protected_member
         state.updateDayOfWeekState(localizations: localizations);
 
         expect(state.daysOfWeek.value.first.$1, DayOfWeek.monday);
       });
 
       test('listener is called when daysOfWeek provided', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () => ++listenerCallCount);
 
-        // ignore: invalid_use_of_protected_member
         state.updateDayOfWeekState(firstDayOfWeek: .friday);
 
         expect(listenerCallCount, 1);
       });
 
       test('listener is not called when only localizations provided', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () => ++listenerCallCount);
         final localizations = RRulePickerLocalizationsEn();
 
-        // ignore: invalid_use_of_protected_member
         state.updateDayOfWeekState(localizations: localizations);
 
         expect(listenerCallCount, 0);
       });
 
       test('daysOfWeek formatted strings are not empty', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
 
         expect(
@@ -246,10 +223,8 @@ void main() {
 
     group('setDayOfWeekValue', () {
       test('sets both day of week ordinal and day of week values', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
 
-        // ignore: invalid_use_of_protected_member
         state.setDayOfWeekValue(.third, .wednesday);
 
         expect(state.dayOfWeekOrdinal.value, DayOfWeekOrdinal.third);
@@ -257,7 +232,6 @@ void main() {
       });
 
       property('sets any valid day of week ordinal and day of week', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
 
         forAll(
@@ -271,7 +245,6 @@ void main() {
             ),
           ),
           (t) {
-            // ignore: invalid_use_of_protected_member
             state.setDayOfWeekValue(t.ordinal, t.day);
 
             expect(state.dayOfWeekOrdinal.value, t.ordinal);
@@ -281,7 +254,6 @@ void main() {
       });
 
       test('notifies listeners when value changes', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(
           listener: () {
             ++listenerCallCount;
@@ -290,7 +262,6 @@ void main() {
           },
         );
 
-        // ignore: invalid_use_of_protected_member
         state.setDayOfWeekValue(.second, .tuesday);
 
         expect(listenerCallCount, 2); // both ordinal and day notifiers trigger
@@ -299,23 +270,19 @@ void main() {
       });
 
       test('can set ordinal to first', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(
           initialDayOfWeekOrdinal: .last,
           listener: () {},
         );
 
-        // ignore: invalid_use_of_protected_member
         state.setDayOfWeekValue(.first, .monday);
 
         expect(state.dayOfWeekOrdinal.value, DayOfWeekOrdinal.first);
       });
 
       test('can set ordinal to last', () {
-        // ignore: invalid_use_of_protected_member
         state.initDayOfWeekState(listener: () {});
 
-        // ignore: invalid_use_of_protected_member
         state.setDayOfWeekValue(.last, .sunday);
 
         expect(state.dayOfWeekOrdinal.value, DayOfWeekOrdinal.last);

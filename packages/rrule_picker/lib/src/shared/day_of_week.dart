@@ -13,6 +13,7 @@ mixin DayOfWeekState {
   late final ValueNotifier<List<(DayOfWeek, String)>> daysOfWeek;
   late DateFormat dayOfWeekFormatter;
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void initDayOfWeekState({
@@ -29,6 +30,7 @@ mixin DayOfWeekState {
     )..addListener(listener);
   }
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void disposeDayOfWeekState() {
@@ -37,6 +39,7 @@ mixin DayOfWeekState {
     dayOfWeekOrdinal.dispose();
   }
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void updateDayOfWeekState({
@@ -55,6 +58,7 @@ mixin DayOfWeekState {
     }
   }
 
+  @visibleForTesting
   @protected
   void setDayOfWeekValue(
     DayOfWeekOrdinal dayOfWeekOrdinal,

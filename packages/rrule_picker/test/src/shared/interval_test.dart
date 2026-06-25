@@ -369,12 +369,10 @@ void main() {
     setUp(() => state = TestIntervalPickerState());
 
     tearDown(() {
-      // ignore: invalid_use_of_protected_member
       state.disposeIntervalState.callIgnoringErrors();
     });
 
     test('initIntervalState initializes with default value', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalState(listener: () {});
 
       expect(state.initialIntervalValue, defaultInterval);
@@ -388,7 +386,6 @@ void main() {
       forAll(
         integer(min: defaultInterval),
         (interval) {
-          // ignore: invalid_use_of_protected_member
           state.initIntervalState(initialValue: interval, listener: () {});
 
           expect(state.initialIntervalValue, interval);
@@ -396,15 +393,13 @@ void main() {
           expect(state.intervalController.text, interval.toString());
         },
         setUp: () => state = TestIntervalPickerState(),
-        tearDown: () =>
-            // ignore: invalid_use_of_protected_member
-            state.disposeIntervalState(),
+        tearDown: () => state.disposeIntervalState(),
       );
     });
 
     test('initIntervalState adds listener to notifier', () {
       var callCount = 0;
-      // ignore: invalid_use_of_protected_member
+
       state.initIntervalState(initialValue: 1, listener: () => ++callCount);
 
       state.intervalNotifier.value = 2;
@@ -413,10 +408,8 @@ void main() {
     });
 
     test('setIntervalValue updates controller and notifier', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalState(listener: () {});
 
-      // ignore: invalid_use_of_protected_member
       state.setIntervalValue(10);
 
       expect(state.intervalController.text, '10');
@@ -424,10 +417,8 @@ void main() {
     });
 
     test('getIntervalValue returns notifier value when valid', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalState(listener: () {});
 
-      // ignore: invalid_use_of_protected_member
       state.setIntervalValue(5);
 
       expect(state.getIntervalValue(), 5);
@@ -435,11 +426,9 @@ void main() {
 
     property('getIntervalValue returns defaultValue '
         'when value is below min', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalState(initialValue: 0, listener: () {});
 
       forAll(integer(max: 4), (interval) {
-        // ignore: invalid_use_of_protected_member
         state.setIntervalValue(interval);
 
         final result = state.getIntervalValue(minValue: 5, defaultValue: 10);
@@ -450,11 +439,9 @@ void main() {
 
     property('getIntervalValue returns initialIntervalValue '
         'when value is below minValue and no defaultValue', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalState(initialValue: 10, listener: () {});
 
       forAll(integer(max: 4), (interval) {
-        // ignore: invalid_use_of_protected_member
         state.setIntervalValue(interval);
 
         final result = state.getIntervalValue(minValue: 5);
@@ -465,11 +452,9 @@ void main() {
 
     property('getIntervalValue returns defaultValue '
         'when value is below minValue', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalState(initialValue: 3, listener: () {});
 
       forAll(integer(max: 4), (interval) {
-        // ignore: invalid_use_of_protected_member
         state.setIntervalValue(interval);
 
         final result = state.getIntervalValue(minValue: 5, defaultValue: 10);
@@ -479,11 +464,9 @@ void main() {
     });
 
     property('getIntervalValue returns value when equal to minValue', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalState(listener: () {});
 
       forAll(integer(), (interval) {
-        // ignore: invalid_use_of_protected_member
         state.setIntervalValue(interval);
 
         final result = state.getIntervalValue(minValue: interval);
@@ -496,11 +479,9 @@ void main() {
       'getIntervalValue returns initialIntervalValue '
       'when value is below minValue and initialIntervalValue >= minValue',
       () {
-        // ignore: invalid_use_of_protected_member
         state.initIntervalState(initialValue: -1111, listener: () {});
 
         forAll(integer(min: -1000), (interval) {
-          // ignore: invalid_use_of_protected_member
           state.setIntervalValue(interval - 1);
 
           final result = state.getIntervalValue(minValue: interval);
@@ -511,13 +492,11 @@ void main() {
     );
 
     test('disposeIntervalState disposes controller and notifier', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalState(listener: () {});
 
       ChangeNotifier.debugAssertNotDisposed(state.intervalController);
       ChangeNotifier.debugAssertNotDisposed(state.intervalNotifier);
 
-      // ignore: invalid_use_of_protected_member
       state.disposeIntervalState();
 
       expect(
@@ -537,13 +516,11 @@ void main() {
     setUp(() => state = TestIntervalPickerSegmentTypeState());
 
     tearDown(() {
-      // ignore: invalid_use_of_protected_member
       state.disposeIntervalSegmentTypeState.callIgnoringErrors();
     });
 
     test('initIntervalSegmentTypeState initializes '
         'with precise segment type', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalSegmentTypeState(listener: () {});
 
       expect(state.intervalSegmentType.value, {
@@ -553,7 +530,6 @@ void main() {
 
     test('initIntervalSegmentTypeState initializes '
         'with custom segment type', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalSegmentTypeState(
         initialSegmentType: {.relative},
         listener: () {},
@@ -566,7 +542,6 @@ void main() {
 
     test('initIntervalSegmentTypeState initializes '
         'with multiple segment types', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalSegmentTypeState(
         initialSegmentType: {.precise, .relative},
         listener: () {},
@@ -580,7 +555,7 @@ void main() {
 
     test('initIntervalSegmentTypeState adds listener to notifier', () {
       var callCount = 0;
-      // ignore: invalid_use_of_protected_member
+
       state.initIntervalSegmentTypeState(listener: () => ++callCount);
 
       state.intervalSegmentType.value = {.relative};
@@ -589,10 +564,8 @@ void main() {
     });
 
     test('setIntervalSegmentTypeValue updates notifier value', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalSegmentTypeState(listener: () {});
 
-      // ignore: invalid_use_of_protected_member
       state.setIntervalSegmentTypeValue({.relative});
 
       expect(state.intervalSegmentType.value, {
@@ -601,12 +574,10 @@ void main() {
     });
 
     test('disposeIntervalSegmentTypeState disposes notifier', () {
-      // ignore: invalid_use_of_protected_member
       state.initIntervalSegmentTypeState(listener: () {});
 
       ChangeNotifier.debugAssertNotDisposed(state.intervalSegmentType);
 
-      // ignore: invalid_use_of_protected_member
       state.disposeIntervalSegmentTypeState();
 
       expect(

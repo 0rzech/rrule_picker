@@ -236,7 +236,6 @@ void main() {
       });
 
       test('builds correct RRULE string with intervalMin', () {
-        // ignore: invalid_use_of_protected_member
         controller.setIntervalValue(intervalMin);
         final sb = StringBuffer();
 
@@ -247,7 +246,6 @@ void main() {
 
       property('builds correct RRULE string with custom interval', () {
         forAll(integer(min: intervalMin), (interval) {
-          // ignore: invalid_use_of_protected_member
           controller.setIntervalValue(interval);
           final sb = StringBuffer();
 
@@ -261,7 +259,6 @@ void main() {
     group('setIntervalValue', () {
       property('updates notifier and controller', () {
         forAll(integer(min: intervalMin), (interval) {
-          // ignore: invalid_use_of_protected_member
           controller.setIntervalValue(interval);
 
           expect(controller.intervalNotifier.value, interval);
@@ -275,7 +272,6 @@ void main() {
         forAll(
           integer(min: intervalMin),
           (interval) {
-            // ignore: invalid_use_of_protected_member
             controller.setIntervalValue(interval);
 
             expect(controller.intervalNotifier.value, interval);
@@ -290,7 +286,6 @@ void main() {
     group('getIntervalValue', () {
       property('returns current interval value', () {
         forAll(integer(min: intervalMin), (interval) {
-          // ignore: invalid_use_of_protected_member
           controller.setIntervalValue(interval);
 
           expect(controller.getIntervalValue(), interval);
@@ -299,7 +294,6 @@ void main() {
 
       property('returns default value when below default min', () {
         forAll(integer(max: intervalMin - 1), (interval) {
-          // ignore: invalid_use_of_protected_member
           controller.setIntervalValue(interval);
 
           expect(controller.getIntervalValue(), defaultInterval);
@@ -313,7 +307,6 @@ void main() {
             integer(min: intervalMin),
           ).map((t) => (currentValue: t.$1, defaultValue: t.$2)),
           (t) {
-            // ignore: invalid_use_of_protected_member
             controller.setIntervalValue(t.currentValue);
 
             final result = controller.getIntervalValue(
@@ -332,7 +325,6 @@ void main() {
             integer(min: intervalMin + 1),
           ).map((t) => (currentValue: t.$1, minValue: t.$2)),
           (t) {
-            // ignore: invalid_use_of_protected_member
             controller.setIntervalValue(t.currentValue);
 
             final result = controller.getIntervalValue(minValue: t.minValue);
@@ -352,7 +344,6 @@ void main() {
             return (currentValue: t.$1, minValue: t.$2, defaultValue: t.$3);
           }),
           (t) {
-            // ignore: invalid_use_of_protected_member
             controller.setIntervalValue(t.currentValue);
 
             final result = controller.getIntervalValue(
@@ -376,11 +367,9 @@ void main() {
           integer(min: intervalMin + 1),
         ).filter((t) => t.$1 != t.$2),
         (intervals) {
-          // ignore: invalid_use_of_protected_member
           controller.setIntervalValue(intervals.$1);
           expect(callCount, 1);
 
-          // ignore: invalid_use_of_protected_member
           controller.setIntervalValue(intervals.$2);
           expect(callCount, 2);
         },

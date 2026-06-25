@@ -10,6 +10,7 @@ mixin DayOfMonthState {
   late final ValueNotifier<int> dayOfMonth;
   late final NumberFormat dayOfMonthFormatter;
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void initDayOfMonthState({
@@ -21,10 +22,12 @@ mixin DayOfMonthState {
     dayOfMonthFormatter = NumberFormat(numberFormat);
   }
 
+  @visibleForTesting
   @protected
   @mustCallSuper
   void disposeDayOfMonthState() => dayOfMonth.dispose();
 
+  @visibleForTesting
   @protected
   void setDayOfMonthValue(int value) => dayOfMonth.value = value;
 }

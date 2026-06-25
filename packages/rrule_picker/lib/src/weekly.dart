@@ -92,9 +92,11 @@ class WeeklyPickerController with IntervalPickerState {
     DayOfWeek firstDayOfWeek = .monday,
     required VoidCallback listener,
   }) {
-    final (weeks, days) = _parseRRule(initialRRule, firstDayOfWeek);
+    final (weeks, days) = parseRRule(initialRRule, firstDayOfWeek);
     initIntervalState(initialValue: weeks, listener: listener);
     selectedDaysOfWeek = ValueNotifier(days)..addListener(listener);
+    dayOfWeekFormat = DateFormat.E();
+    daysOfWeek = DayOfWeek.buildWeek(firstDayOfWeek, dayOfWeekFormat);
   }
 
   @mustCallSuper
@@ -116,24 +118,13 @@ class WeeklyPickerController with IntervalPickerState {
     }
   }
 
-  (int, Set<DayOfWeek>) _parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
-    if (rrule.isEmpty) {
-      return (defaultInterval, {firstDayOfWeek});
-    }
-
-    const re = r'INTERVAL=(\d+);BYDAY=([AEFHMORSTUW,]+)';
-    final match = RegExp(re).firstMatch(rrule);
-
-    return (
-      parseInterval(match?.group(1)),
-      parseByDayMulti(match?.group(2), {firstDayOfWeek}),
-    );
-  }
-
   void setRRule(String rrule, [DayOfWeek firstDayOfWeek = .monday]) {
-    final (weeks, days) = _parseRRule(rrule, firstDayOfWeek);
+    final (weeks, days) = parseRRule(rrule, firstDayOfWeek);
     setIntervalValue(weeks);
     selectedDaysOfWeek.value = days;
+    if (daysOfWeek.first.$1 != firstDayOfWeek) {
+      daysOfWeek = DayOfWeek.buildWeek(firstDayOfWeek, dayOfWeekFormat);
+    }
   }
 
   void buildRRulePart(StringBuffer sb) {
@@ -144,4 +135,25 @@ class WeeklyPickerController with IntervalPickerState {
       ..sort(DayOfWeek.compare);
     sb.write(sorted.map((d) => d.rruleName).join(','));
   }
+}
+
+@internal
+(int, Set<DayOfWeek>) parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
+  if (rrule.isEmpty) {
+    return (defaultInterval, {firstDayOfWeek});
+  }
+
+  const reInterval = r'INTERVAL=(\d+)(?:;|$)';
+  const reByDay =
+      r'BYDAY=((?:MO|TU|WE|TH|FR|SA|SU)'
+      r'(?:,(?:MO|TU|WE|TH|FR|SA|SU))*)(?:;|$)';
+
+  var match = RegExp(reInterval, caseSensitive: false).firstMatch(rrule);
+  final interval = parseInterval(match?.group(1));
+
+  final rest = rrule.substring(match?.end ?? 0);
+  match = RegExp(reByDay, caseSensitive: false).firstMatch(rest);
+  final byDayMulti = parseByDayMulti(match?.group(1), {firstDayOfWeek});
+
+  return (interval, byDayMulti);
 }

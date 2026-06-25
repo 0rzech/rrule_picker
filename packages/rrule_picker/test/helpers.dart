@@ -12,6 +12,7 @@ extension PumpWrapped on WidgetTester {
   }) => pumpWidget(
     MaterialApp(
       locale: locale,
+      supportedLocales: RRulePickerLocalizations.supportedLocales,
       localizationsDelegates: RRulePickerLocalizations.localizationsDelegates,
       home: Scaffold(body: Center(child: widget)),
     ),

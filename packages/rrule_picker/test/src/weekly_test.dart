@@ -1,0 +1,1003 @@
+// Copyright 2026 Piotr Orzechowski
+// SPDX-License-Identifier: Apache-2.0
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:kiri_check/kiri_check.dart';
+import 'package:rrule_picker/src/shared/interval.dart';
+import 'package:rrule_picker/src/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/resolved_theme.dart';
+import 'package:rrule_picker/src/weekly.dart';
+import 'package:spot/spot.dart';
+
+import '../helpers.dart';
+
+void main() {
+  group(WeeklyPicker, () {
+    const theme = ResolvedThemeData(
+      padding: .all(8),
+      headerTheme: .new(),
+      dropdownTheme: .new(),
+      topDropdownTheme: .new(),
+      labelStyle: .new(color: Colors.cyan),
+    );
+
+    late WeeklyPickerController controller;
+    late int listenerCallCount;
+
+    setUpAll(() async {
+      if (!kIsWeb) {
+        await loadAppFonts();
+      }
+      Intl.defaultLocale = 'en';
+      initializeDateFormatting();
+    });
+
+    setUp(() {
+      controller = WeeklyPickerController(listener: () => ++listenerCallCount);
+      listenerCallCount = 0;
+    });
+
+    tearDown(() => controller.dispose.callIgnoringErrors());
+
+    testWidgets('renders IntervalPicker '
+        'with correct localizations', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      spot<IntervalPicker>().existsOnce();
+      spotText('Every', exact: true).existsOnce();
+      spotText('week', exact: true).existsAtLeastOnce();
+    });
+
+    testWidgets('renders SegmentedButton '
+        'for day of week selection', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      spot<SegmentedButton<DayOfWeek>>().existsOnce();
+    });
+
+    testWidgets('renders 7 day of week segments', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      final button = spot<SegmentedButton<DayOfWeek>>().existsOnce();
+
+      expect(
+        button.widget.segments.map((segment) => segment.value),
+        orderedEquals(DayOfWeek.values),
+      );
+    });
+
+    testWidgets('uses provided controller', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      await act.enterText(spot<TextField>(), '222');
+
+      expect(controller.getIntervalValue(), 222);
+    });
+
+    testWidgets('applies ResolvedTheme when provided', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      spot<Text>()
+          .whereWidgetProp(
+            widgetProp('style', (widget) => widget.style),
+            (style) => style?.color == theme.labelStyle?.color,
+          )
+          .existsAtLeastOnce();
+    });
+
+    testWidgets('updates selected days when clicking segments', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
+
+      final segments = spot<TextButton>();
+
+      await act.tap(segments.atIndex(0));
+      await act.tap(segments.atIndex(3));
+      await act.tap(segments.atIndex(6));
+
+      await tester.pump();
+
+      expect(controller.selectedDaysOfWeek.value, const <DayOfWeek>{
+        .monday,
+        .thursday,
+        .sunday,
+      });
+    });
+
+    testWidgets('updates daysOfWeek when firstDayOfWeek changes', (
+      tester,
+    ) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller, firstDayOfWeek: .friday),
+        ),
+      );
+
+      final button = spot<SegmentedButton<DayOfWeek>>().existsOnce();
+
+      expect(button.widget.segments.first.value, DayOfWeek.friday);
+    });
+
+    testWidgets('applies ResolvedTheme to SegmentedButton', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      final button = spot<SegmentedButton<DayOfWeek>>().existsOnce();
+
+      expect(button.widget.style, theme.segmentedButtonStyle);
+    });
+
+    testWidgets('updates dayOfWeekFormat when locale changes', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      expect(controller.dayOfWeekFormat.locale.toString(), 'en');
+
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+        locale: const Locale('pl'),
+      );
+
+      expect(controller.dayOfWeekFormat.locale.toString(), 'pl');
+    });
+
+    testWidgets('updates daysOfWeek when locale changes', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      expect(
+        controller.daysOfWeek.map((t) => t.$1),
+        orderedEquals(DayOfWeek.values),
+      );
+
+      final daysOfWeekEn = controller.daysOfWeek.map((t) => t.$2);
+
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+        locale: const Locale('pl'),
+      );
+
+      expect(
+        controller.daysOfWeek.map((t) => t.$2),
+        isNot(unorderedEquals(daysOfWeekEn)),
+      );
+    });
+
+    testWidgets('updates daysOfWeek '
+        'when firstDayOfWeek changes', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      expect(
+        controller.daysOfWeek.map((t) => t.$1),
+        orderedEquals(DayOfWeek.values),
+      );
+
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller, firstDayOfWeek: .friday),
+        ),
+      );
+
+      expect(
+        controller.daysOfWeek.map((t) => t.$1),
+        orderedEquals(const <DayOfWeek>[
+          .friday,
+          .saturday,
+          .sunday,
+          .monday,
+          .tuesday,
+          .wednesday,
+          .thursday,
+        ]),
+      );
+    });
+
+    testWidgets('updates both dateFormatter and daysOfWeek', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      expect(controller.dayOfWeekFormat.locale, 'en');
+      expect(
+        controller.daysOfWeek.map((t) => t.$1),
+        orderedEquals(DayOfWeek.values),
+      );
+
+      final daysOfWeekEn = controller.daysOfWeek.map((t) => t.$2);
+
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller, firstDayOfWeek: .sunday),
+        ),
+        locale: const Locale('pl'),
+      );
+
+      expect(controller.dayOfWeekFormat.locale, 'pl');
+      expect(
+        controller.daysOfWeek.map((t) => t.$1),
+        orderedEquals(const <DayOfWeek>[
+          .sunday,
+          .monday,
+          .tuesday,
+          .wednesday,
+          .thursday,
+          .friday,
+          .saturday,
+        ]),
+      );
+      expect(
+        controller.daysOfWeek.map((t) => t.$2),
+        isNot(unorderedEquals(daysOfWeekEn)),
+      );
+    });
+
+    testWidgets('daysOfWeek formatted strings are not empty', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: WeeklyPicker(controller: controller),
+        ),
+      );
+
+      expect(controller.daysOfWeek.map((t) => t.$2), everyElement(isNotEmpty));
+    });
+  });
+
+  group(WeeklyPickerController, () {
+    late WeeklyPickerController controller;
+
+    setUpAll(() {
+      Intl.defaultLocale = 'en';
+      initializeDateFormatting();
+    });
+
+    setUp(() => controller = WeeklyPickerController(listener: () {}));
+    tearDown(() => controller.dispose());
+
+    group('constructor', () {
+      test('initializes with default interval when initialRRule is empty', () {
+        final controller = WeeklyPickerController(listener: () {});
+
+        expect(controller.getIntervalValue(), defaultInterval);
+        expect(controller.intervalNotifier.value, defaultInterval);
+        expect(controller.intervalController.text, defaultInterval.toString());
+        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
+
+        addTearDown(controller.dispose);
+      });
+
+      test('initializes with firstDayOfWeek when provided', () {
+        final controller = WeeklyPickerController(
+          firstDayOfWeek: .friday,
+          listener: () {},
+        );
+
+        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.friday});
+
+        addTearDown(controller.dispose);
+      });
+
+      property('initializes with correct interval from valid rrule', () {
+        late WeeklyPickerController controller;
+
+        forAll(integer(min: intervalMin), (interval) {
+          controller = WeeklyPickerController(
+            initialRRule: 'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
+            listener: () {},
+          );
+
+          expect(controller.getIntervalValue(), interval);
+          expect(controller.intervalNotifier.value, interval);
+          expect(controller.intervalController.text, interval.toString());
+        }, tearDown: () => controller.dispose());
+      });
+
+      test('initializes with default interval when interval is missing', () {
+        final controller = WeeklyPickerController(
+          initialRRule: 'FREQ=WEEKLY;BYDAY=MO',
+          listener: () {},
+        );
+
+        expect(controller.getIntervalValue(), defaultInterval);
+        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
+
+        addTearDown(controller.dispose);
+      });
+
+      property('initializes with parsed days from rrule', () {
+        late WeeklyPickerController controller;
+
+        forAll(
+          combine2(
+            integer(min: intervalMin),
+            set(constantFrom(DayOfWeek.values), minLength: 1, maxLength: 7),
+          ).map(
+            (t) => (
+              interval: t.$1,
+              daysOfWeek: t.$2.map((d) => d.rruleName),
+              expected: t.$2,
+            ),
+          ),
+          (t) {
+            controller = WeeklyPickerController(
+              initialRRule:
+                  'FREQ=WEEKLY;INTERVAL=${t.interval};'
+                  'BYDAY=${t.daysOfWeek.join(',')}',
+              listener: () {},
+            );
+
+            expect(controller.selectedDaysOfWeek.value, t.expected);
+          },
+          tearDown: () => controller.dispose(),
+        );
+      });
+
+      property('initializes with default interval '
+          'when interval is invalid', () {
+        late WeeklyPickerController controller;
+
+        forAll(
+          string(
+            minLength: 1,
+            maxLength: 5,
+          ).filter((v) => int.tryParse(v) == null),
+          (interval) {
+            controller = WeeklyPickerController(
+              initialRRule: 'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
+              listener: () {},
+            );
+
+            expect(controller.getIntervalValue(), defaultInterval);
+          },
+          tearDown: () => controller.dispose(),
+        );
+      });
+
+      test('initializes with default interval when interval is 0', () {
+        final controller = WeeklyPickerController(
+          initialRRule: 'FREQ=WEEKLY;INTERVAL=0;BYDAY=MO',
+          listener: () {},
+        );
+
+        expect(controller.getIntervalValue(), defaultInterval);
+
+        addTearDown(controller.dispose);
+      });
+
+      property('initializes with default interval '
+          'when interval is negative', () {
+        late WeeklyPickerController controller;
+
+        forAll(integer(max: -1), (interval) {
+          controller = WeeklyPickerController(
+            initialRRule: 'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
+            listener: () {},
+          );
+
+          expect(controller.getIntervalValue(), defaultInterval);
+        }, tearDown: () => controller.dispose());
+      });
+    });
+
+    group('dispose', () {
+      test('disposes intervalNotifier and intervalController', () {
+        final controller = WeeklyPickerController(listener: () {});
+
+        ChangeNotifier.debugAssertNotDisposed(controller.intervalNotifier);
+        ChangeNotifier.debugAssertNotDisposed(controller.intervalController);
+
+        controller.dispose();
+
+        expect(
+          () => ChangeNotifier.debugAssertNotDisposed(
+            controller.intervalNotifier,
+          ),
+          throwsFlutterError,
+        );
+        expect(
+          () => ChangeNotifier.debugAssertNotDisposed(
+            controller.intervalController,
+          ),
+          throwsFlutterError,
+        );
+      });
+
+      test('disposes selectedDaysOfWeek', () {
+        final controller = WeeklyPickerController(listener: () {});
+
+        ChangeNotifier.debugAssertNotDisposed(controller.selectedDaysOfWeek);
+
+        controller.dispose();
+
+        expect(
+          () => ChangeNotifier.debugAssertNotDisposed(
+            controller.selectedDaysOfWeek,
+          ),
+          throwsFlutterError,
+        );
+      });
+    });
+
+    group('setRRule', () {
+      property('updates interval from rrule', () {
+        forAll(integer(min: intervalMin), (interval) {
+          controller.setRRule('FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO');
+
+          expect(controller.intervalNotifier.value, interval);
+          expect(controller.intervalController.text, interval.toString());
+        });
+      });
+
+      test('updates selected days from rrule', () {
+        controller.setRRule('FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE');
+
+        expect(controller.selectedDaysOfWeek.value, <DayOfWeek>{
+          .monday,
+          .tuesday,
+          .wednesday,
+        });
+      });
+
+      test('uses default interval for empty rrule', () {
+        controller.setRRule('');
+
+        expect(controller.intervalNotifier.value, defaultInterval);
+        expect(controller.intervalController.text, defaultInterval.toString());
+        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
+      });
+
+      test('uses default values for invalid rrule', () {
+        controller.setRRule('INVALID_RRULE');
+
+        expect(controller.intervalNotifier.value, defaultInterval);
+        expect(controller.intervalController.text, defaultInterval.toString());
+        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
+      });
+
+      test('uses default interval for empty interval value', () {
+        controller.setRRule('FREQ=WEEKLY;INTERVAL=;BYDAY=MO');
+
+        expect(controller.intervalNotifier.value, defaultInterval);
+        expect(controller.intervalController.text, defaultInterval.toString());
+      });
+
+      test('uses default day when byday is missing', () {
+        controller.setRRule('FREQ=WEEKLY;INTERVAL=1');
+
+        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
+      });
+
+      property('updates with custom firstDayOfWeek', () {
+        forAll(
+          combine2(
+            constantFrom(DayOfWeek.values),
+            constantFrom(DayOfWeek.values),
+          ).map((t) => (selected: t.$1, first: t.$2)),
+          (t) {
+            controller.setRRule(
+              'FREQ=WEEKLY;INTERVAL=1;BYDAY=${t.selected.rruleName}',
+              t.first,
+            );
+
+            expect(controller.selectedDaysOfWeek.value, {t.selected});
+            expect(controller.daysOfWeek.first.$1, t.first);
+          },
+        );
+      });
+    });
+
+    group('buildRRulePart', () {
+      test('builds correct rrule string with default interval and monday', () {
+        final sb = StringBuffer();
+
+        controller.buildRRulePart(sb);
+
+        expect(sb.toString(), 'FREQ=WEEKLY;INTERVAL=$defaultInterval;BYDAY=MO');
+      });
+
+      test('builds correct rrule string with intervalMin', () {
+        controller.setIntervalValue(intervalMin);
+        final sb = StringBuffer();
+
+        controller.buildRRulePart(sb);
+
+        expect(sb.toString(), 'FREQ=WEEKLY;INTERVAL=$intervalMin;BYDAY=MO');
+      });
+
+      property('builds correct rrule string with custom interval', () {
+        forAll(integer(min: intervalMin), (interval) {
+          controller.setIntervalValue(interval);
+          final sb = StringBuffer();
+
+          controller.buildRRulePart(sb);
+
+          expect(sb.toString(), 'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO');
+        });
+      });
+
+      test('builds correct rrule string with multiple days sorted', () {
+        controller.setIntervalValue(1);
+        controller.selectedDaysOfWeek.value = <DayOfWeek>{
+          .wednesday,
+          .monday,
+          .friday,
+        };
+        final sb = StringBuffer();
+
+        controller.buildRRulePart(sb);
+
+        expect(sb.toString(), 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,WE,FR');
+      });
+
+      test('builds correct rrule string with all days', () {
+        controller.setIntervalValue(2);
+        controller.selectedDaysOfWeek.value = DayOfWeek.values.toSet();
+        final sb = StringBuffer();
+
+        controller.buildRRulePart(sb);
+
+        expect(
+          sb.toString(),
+          'FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,TU,WE,TH,FR,SA,SU',
+        );
+      });
+
+      test('builds correct rrule string with single day', () {
+        controller.setIntervalValue(3);
+        controller.selectedDaysOfWeek.value = const {DayOfWeek.sunday};
+        final sb = StringBuffer();
+
+        controller.buildRRulePart(sb);
+
+        expect(sb.toString(), 'FREQ=WEEKLY;INTERVAL=3;BYDAY=SU');
+      });
+    });
+
+    group('setIntervalValue', () {
+      property('updates notifier and controller', () {
+        forAll(integer(min: intervalMin), (interval) {
+          controller.setIntervalValue(interval);
+
+          expect(controller.intervalNotifier.value, interval);
+          expect(controller.intervalController.text, interval.toString());
+        });
+      });
+
+      property('works for all valid intervals', () {
+        late WeeklyPickerController controller;
+
+        forAll(
+          integer(min: intervalMin),
+          (interval) {
+            controller.setIntervalValue(interval);
+
+            expect(controller.intervalNotifier.value, interval);
+            expect(controller.intervalController.text, interval.toString());
+          },
+          setUp: () => controller = WeeklyPickerController(listener: () {}),
+          tearDown: () => controller.dispose(),
+        );
+      });
+    });
+
+    group('getIntervalValue', () {
+      property('returns current interval value', () {
+        forAll(integer(min: intervalMin), (interval) {
+          controller.setIntervalValue(interval);
+
+          expect(controller.getIntervalValue(), interval);
+        });
+      });
+
+      property('returns default value when below default min', () {
+        forAll(integer(max: intervalMin - 1), (interval) {
+          controller.setIntervalValue(interval);
+
+          expect(controller.getIntervalValue(), defaultInterval);
+        });
+      });
+
+      property('returns custom default value when below default min', () {
+        forAll(
+          combine2(
+            integer(max: intervalMin - 1),
+            integer(min: intervalMin),
+          ).map((t) => (currentValue: t.$1, defaultValue: t.$2)),
+          (t) {
+            controller.setIntervalValue(t.currentValue);
+
+            final result = controller.getIntervalValue(
+              defaultValue: t.defaultValue,
+            );
+
+            expect(result, t.defaultValue);
+          },
+        );
+      });
+
+      property('returns default value when below custom min', () {
+        forAll(
+          combine2(
+            integer(max: intervalMin),
+            integer(min: intervalMin + 1),
+          ).map((t) => (currentValue: t.$1, minValue: t.$2)),
+          (t) {
+            controller.setIntervalValue(t.currentValue);
+
+            final result = controller.getIntervalValue(minValue: t.minValue);
+
+            expect(result, intervalMin);
+          },
+        );
+      });
+
+      property('returns custom default value when below custom min', () {
+        forAll(
+          combine3(
+            integer(max: intervalMin),
+            integer(min: intervalMin + 1),
+            integer(),
+          ).map((t) {
+            return (currentValue: t.$1, minValue: t.$2, defaultValue: t.$3);
+          }),
+          (t) {
+            controller.setIntervalValue(t.currentValue);
+
+            final result = controller.getIntervalValue(
+              minValue: t.minValue,
+              defaultValue: t.defaultValue,
+            );
+
+            expect(result, t.defaultValue);
+          },
+        );
+      });
+    });
+
+    property('listener is called when interval changes', () async {
+      late WeeklyPickerController controller;
+      late int callCount;
+
+      forAll(
+        combine2(
+          integer(min: intervalMin + 1),
+          integer(min: intervalMin + 1),
+        ).filter((t) => t.$1 != t.$2),
+        (intervals) {
+          controller.setIntervalValue(intervals.$1);
+          expect(callCount, 1);
+
+          controller.setIntervalValue(intervals.$2);
+          expect(callCount, 2);
+        },
+        setUp: () {
+          controller = WeeklyPickerController(listener: () => ++callCount);
+          callCount = 0;
+        },
+        tearDown: () => controller.dispose(),
+      );
+    });
+
+    property('listener is called when selectedDaysOfWeek is set', () async {
+      late WeeklyPickerController controller;
+      late int callCount;
+
+      forAll(
+        combine3(
+          integer(min: intervalMin),
+          constantFrom(DayOfWeek.values),
+          constantFrom(DayOfWeek.values),
+        ).map((t) => (interval: t.$1, oldDay: t.$2, newDay: t.$3)),
+        (t) {
+          controller = WeeklyPickerController(
+            initialRRule: 'INTERVAL=${t.interval};BYDAY=${t.oldDay.rruleName}',
+            listener: () => ++callCount,
+          );
+
+          controller.selectedDaysOfWeek.value = {t.newDay};
+
+          expect(callCount, 1);
+        },
+        setUp: () => callCount = 0,
+        tearDown: () => controller.dispose(),
+      );
+    });
+  });
+
+  group('parseRRule', () {
+    test('returns default interval and firstDayOfWeek for empty string', () {
+      final (interval, daysOfWeek) = parseRRule('', .monday);
+      expect(interval, defaultInterval);
+      expect(daysOfWeek, const {DayOfWeek.monday});
+    });
+
+    property('returns default interval and custom firstDayOfWeek '
+        'for empty string', () {
+      forAll(constantFrom(DayOfWeek.values), (day) {
+        final (interval, daysOfWeek) = parseRRule('', day);
+
+        expect(interval, defaultInterval);
+        expect(daysOfWeek, {day});
+      });
+    });
+
+    property('returns correct interval for valid interval', () {
+      forAll(integer(min: intervalMin), (expectedInterval) {
+        final (interval, daysOfWeek) = parseRRule(
+          'FREQ=WEEKLY;INTERVAL=$expectedInterval;BYDAY=MO',
+          .monday,
+        );
+        expect(interval, expectedInterval);
+      });
+    });
+
+    test('returns defaultInterval when interval is missing', () {
+      final (interval, daysOfWeek) = parseRRule(
+        'FREQ=WEEKLY;BYDAY=MO',
+        .monday,
+      );
+
+      expect(interval, defaultInterval);
+    });
+
+    property('parses single day', () {
+      forAll(constantFrom(DayOfWeek.values), (day) {
+        final (interval, daysOfWeek) = parseRRule(
+          'FREQ=WEEKLY;INTERVAL=1;BYDAY=${day.rruleName}',
+          .monday,
+        );
+
+        expect(interval, 1);
+        expect(daysOfWeek, {day});
+      });
+    });
+
+    test('parses multiple days', () {
+      final (interval, daysOfWeek) = parseRRule(
+        'FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,TU,WE',
+        .monday,
+      );
+
+      expect(interval, 2);
+      expect(daysOfWeek, <DayOfWeek>{.monday, .tuesday, .wednesday});
+    });
+
+    test('parses all days', () {
+      final (interval, daysOfWeek) = parseRRule(
+        'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU',
+        .monday,
+      );
+      expect(interval, 1);
+      expect(daysOfWeek, DayOfWeek.values.toSet());
+    });
+
+    property('returns defaultInterval when interval is not a number', () {
+      forAll(
+        string(
+          minLength: 1,
+          maxLength: 5,
+        ).filter((v) => v.isNotEmpty && int.tryParse(v) == null),
+        (interval) {
+          final (intervalResult, daysOfWeek) = parseRRule(
+            'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
+            .monday,
+          );
+          expect(intervalResult, defaultInterval);
+        },
+      );
+    });
+
+    test('returns defaultInterval when interval is 0', () {
+      final (interval, daysOfWeek) = parseRRule(
+        'FREQ=WEEKLY;INTERVAL=0;BYDAY=MO',
+        .monday,
+      );
+      expect(interval, defaultInterval);
+    });
+
+    property('returns defaultInterval when interval is negative', () {
+      forAll(integer(max: -1), (interval) {
+        final (intervalResult, daysOfWeek) = parseRRule(
+          'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
+          .monday,
+        );
+        expect(intervalResult, defaultInterval);
+      });
+    });
+
+    property('extracts interval and days of week from complex rrule', () {
+      forAll(
+        combine2(
+          integer(min: intervalMin),
+          set(constantFrom(DayOfWeek.values), minLength: 1, maxLength: 7),
+        ).map(
+          (t) => (
+            interval: t.$1,
+            days: t.$2.map((d) => d.rruleName).join(','),
+            expected: t.$2,
+          ),
+        ),
+        (t) {
+          final (interval, daysOfWeek) = parseRRule(
+            'FREQ=WEEKLY;INTERVAL=${t.interval};'
+            'BYDAY=${t.days};DTSTART:20240101',
+            .monday,
+          );
+
+          expect(interval, t.interval);
+          expect(daysOfWeek, t.expected);
+        },
+      );
+    });
+
+    property('returns defaultInterval when interval value is empty', () {
+      forAll(
+        set(
+          constantFrom(DayOfWeek.values).map((d) => d.rruleName),
+          minLength: 1,
+          maxLength: 7,
+        ),
+        (daysOfWeek) {
+          final (interval, daysOfWeekResult) = parseRRule(
+            'FREQ=WEEKLY;INTERVAL=;BYDAY=${daysOfWeek.join(',')}',
+            .monday,
+          );
+          expect(interval, defaultInterval);
+        },
+      );
+    });
+
+    property('parses interval with leading zeros', () {
+      forAll(integer(min: intervalMin), (interval) {
+        final (intervalResult, daysOfWeek) = parseRRule(
+          'FREQ=WEEKLY;INTERVAL=00$interval;BYDAY=MO',
+          DayOfWeek.monday,
+        );
+        expect(intervalResult, interval);
+      });
+    });
+
+    test('uses firstDayOfWeek as default when byday is missing', () {
+      final (interval, daysOfWeek) = parseRRule(
+        'FREQ=WEEKLY;INTERVAL=1',
+        .wednesday,
+      );
+      expect(interval, 1);
+      expect(daysOfWeek, const {DayOfWeek.wednesday});
+    });
+
+    property('returns default days of week when invalid days', () {
+      final upper = DayOfWeek.values
+          .map((d) => d.rruleName)
+          .toList(growable: false);
+      final lower = upper.map((d) => d.toLowerCase()).toList(growable: false);
+      final excluded = [...upper, ...lower];
+
+      forAll(
+        string(
+          minLength: 1,
+          maxLength: 5,
+          characterSet: .all(.utf8),
+        ).filter((v) => !excluded.contains(v)),
+        (invalid) {
+          final (interval, daysOfWeek) = parseRRule(
+            'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,$invalid,WE',
+            .monday,
+          );
+
+          expect(interval, 1);
+          expect(daysOfWeek, const {DayOfWeek.monday});
+        },
+      );
+    });
+
+    test('returns default day when byday contains only invalid days', () {
+      final (interval, daysOfWeek) = parseRRule(
+        'FREQ=WEEKLY;INTERVAL=1;BYDAY=INVALID1,INVALID2',
+        .monday,
+      );
+
+      expect(interval, 1);
+      expect(daysOfWeek, const {DayOfWeek.monday});
+    });
+
+    property('extracts interval and days of week '
+        'from complex lowercase rrule', () {
+      forAll(
+        combine2(
+          integer(min: intervalMin),
+          set(constantFrom(DayOfWeek.values), minLength: 1, maxLength: 7),
+        ).map(
+          (t) => (
+            interval: t.$1,
+            days: t.$2.map((d) => d.rruleName.toLowerCase()).join(','),
+            expected: t.$2,
+          ),
+        ),
+        (t) {
+          final (interval, daysOfWeek) = parseRRule(
+            'freq=weekly;interval=${t.interval};'
+            'byday=${t.days};dtstart:20240101',
+            .monday,
+          );
+
+          expect(interval, t.interval);
+          expect(daysOfWeek, t.expected);
+        },
+      );
+    });
+
+    test('parses mixed case day names', () {
+      final (interval, daysOfWeek) = parseRRule(
+        'FREQ=WEEKLY;INTERVAL=1;BYDAY=mo,Tu,we',
+        .monday,
+      );
+      expect(interval, 1);
+      expect(daysOfWeek, <DayOfWeek>{.monday, .tuesday, .wednesday});
+    });
+  });
+}

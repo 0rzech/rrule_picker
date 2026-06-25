@@ -34,9 +34,7 @@ void main() {
       lastListenerDayOfWeekOrdinal = null;
     });
 
-    tearDown(() {
-      state.disposeDayOfWeekState.callIgnoringErrors();
-    });
+    tearDown(() => state.disposeDayOfWeekState.callIgnoringErrors());
 
     group('initDayOfWeekState', () {
       test('initializes with default values', () {

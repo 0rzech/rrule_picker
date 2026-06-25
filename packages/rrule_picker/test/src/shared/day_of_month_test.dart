@@ -23,9 +23,7 @@ void main() {
       state = TestDayOfMonthState();
     });
 
-    tearDown(() {
-      state.disposeDayOfMonthState.callIgnoringErrors();
-    });
+    tearDown(() => state.disposeDayOfMonthState.callIgnoringErrors());
 
     group('initDayOfMonthState', () {
       test('initializes with default day of month value', () {

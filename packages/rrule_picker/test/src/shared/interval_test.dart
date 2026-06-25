@@ -368,9 +368,7 @@ void main() {
 
     setUp(() => state = TestIntervalPickerState());
 
-    tearDown(() {
-      state.disposeIntervalState.callIgnoringErrors();
-    });
+    tearDown(() => state.disposeIntervalState.callIgnoringErrors());
 
     test('initIntervalState initializes with default value', () {
       state.initIntervalState(listener: () {});
@@ -399,7 +397,6 @@ void main() {
 
     test('initIntervalState adds listener to notifier', () {
       var callCount = 0;
-
       state.initIntervalState(initialValue: 1, listener: () => ++callCount);
 
       state.intervalNotifier.value = 2;
@@ -515,9 +512,7 @@ void main() {
 
     setUp(() => state = TestIntervalPickerSegmentTypeState());
 
-    tearDown(() {
-      state.disposeIntervalSegmentTypeState.callIgnoringErrors();
-    });
+    tearDown(() => state.disposeIntervalSegmentTypeState.callIgnoringErrors());
 
     test('initIntervalSegmentTypeState initializes '
         'with precise segment type', () {
@@ -555,7 +550,6 @@ void main() {
 
     test('initIntervalSegmentTypeState adds listener to notifier', () {
       var callCount = 0;
-
       state.initIntervalSegmentTypeState(listener: () => ++callCount);
 
       state.intervalSegmentType.value = {.relative};

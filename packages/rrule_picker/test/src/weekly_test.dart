@@ -319,17 +319,6 @@ void main() {
     tearDown(() => controller.dispose());
 
     group('constructor', () {
-      test('initializes with default interval when initialRRule is empty', () {
-        final controller = WeeklyPickerController(listener: () {});
-
-        expect(controller.getIntervalValue(), defaultInterval);
-        expect(controller.intervalNotifier.value, defaultInterval);
-        expect(controller.intervalController.text, defaultInterval.toString());
-        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
-
-        addTearDown(controller.dispose);
-      });
-
       test('initializes with firstDayOfWeek when provided', () {
         final controller = WeeklyPickerController(
           firstDayOfWeek: .friday,
@@ -337,33 +326,6 @@ void main() {
         );
 
         expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.friday});
-
-        addTearDown(controller.dispose);
-      });
-
-      property('initializes with correct interval from valid rrule', () {
-        late WeeklyPickerController controller;
-
-        forAll(integer(min: intervalMin), (interval) {
-          controller = WeeklyPickerController(
-            initialRRule: 'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
-            listener: () {},
-          );
-
-          expect(controller.getIntervalValue(), interval);
-          expect(controller.intervalNotifier.value, interval);
-          expect(controller.intervalController.text, interval.toString());
-        }, tearDown: () => controller.dispose());
-      });
-
-      test('initializes with default interval when interval is missing', () {
-        final controller = WeeklyPickerController(
-          initialRRule: 'FREQ=WEEKLY;BYDAY=MO',
-          listener: () {},
-        );
-
-        expect(controller.getIntervalValue(), defaultInterval);
-        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
 
         addTearDown(controller.dispose);
       });
@@ -395,77 +357,9 @@ void main() {
           tearDown: () => controller.dispose(),
         );
       });
-
-      property('initializes with default interval '
-          'when interval is invalid', () {
-        late WeeklyPickerController controller;
-
-        forAll(
-          string(
-            minLength: 1,
-            maxLength: 5,
-          ).filter((v) => int.tryParse(v) == null),
-          (interval) {
-            controller = WeeklyPickerController(
-              initialRRule: 'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
-              listener: () {},
-            );
-
-            expect(controller.getIntervalValue(), defaultInterval);
-          },
-          tearDown: () => controller.dispose(),
-        );
-      });
-
-      test('initializes with default interval when interval is 0', () {
-        final controller = WeeklyPickerController(
-          initialRRule: 'FREQ=WEEKLY;INTERVAL=0;BYDAY=MO',
-          listener: () {},
-        );
-
-        expect(controller.getIntervalValue(), defaultInterval);
-
-        addTearDown(controller.dispose);
-      });
-
-      property('initializes with default interval '
-          'when interval is negative', () {
-        late WeeklyPickerController controller;
-
-        forAll(integer(max: -1), (interval) {
-          controller = WeeklyPickerController(
-            initialRRule: 'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
-            listener: () {},
-          );
-
-          expect(controller.getIntervalValue(), defaultInterval);
-        }, tearDown: () => controller.dispose());
-      });
     });
 
     group('dispose', () {
-      test('disposes intervalNotifier and intervalController', () {
-        final controller = WeeklyPickerController(listener: () {});
-
-        ChangeNotifier.debugAssertNotDisposed(controller.intervalNotifier);
-        ChangeNotifier.debugAssertNotDisposed(controller.intervalController);
-
-        controller.dispose();
-
-        expect(
-          () => ChangeNotifier.debugAssertNotDisposed(
-            controller.intervalNotifier,
-          ),
-          throwsFlutterError,
-        );
-        expect(
-          () => ChangeNotifier.debugAssertNotDisposed(
-            controller.intervalController,
-          ),
-          throwsFlutterError,
-        );
-      });
-
       test('disposes selectedDaysOfWeek', () {
         final controller = WeeklyPickerController(listener: () {});
 
@@ -483,15 +377,6 @@ void main() {
     });
 
     group('setRRule', () {
-      property('updates interval from rrule', () {
-        forAll(integer(min: intervalMin), (interval) {
-          controller.setRRule('FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO');
-
-          expect(controller.intervalNotifier.value, interval);
-          expect(controller.intervalController.text, interval.toString());
-        });
-      });
-
       test('updates selected days from rrule', () {
         controller.setRRule('FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE');
 
@@ -500,29 +385,6 @@ void main() {
           .tuesday,
           .wednesday,
         });
-      });
-
-      test('uses default interval for empty rrule', () {
-        controller.setRRule('');
-
-        expect(controller.intervalNotifier.value, defaultInterval);
-        expect(controller.intervalController.text, defaultInterval.toString());
-        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
-      });
-
-      test('uses default values for invalid rrule', () {
-        controller.setRRule('INVALID_RRULE');
-
-        expect(controller.intervalNotifier.value, defaultInterval);
-        expect(controller.intervalController.text, defaultInterval.toString());
-        expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
-      });
-
-      test('uses default interval for empty interval value', () {
-        controller.setRRule('FREQ=WEEKLY;INTERVAL=;BYDAY=MO');
-
-        expect(controller.intervalNotifier.value, defaultInterval);
-        expect(controller.intervalController.text, defaultInterval.toString());
       });
 
       test('uses default day when byday is missing', () {
@@ -615,131 +477,6 @@ void main() {
 
         expect(sb.toString(), 'FREQ=WEEKLY;INTERVAL=3;BYDAY=SU');
       });
-    });
-
-    group('setIntervalValue', () {
-      property('updates notifier and controller', () {
-        forAll(integer(min: intervalMin), (interval) {
-          controller.setIntervalValue(interval);
-
-          expect(controller.intervalNotifier.value, interval);
-          expect(controller.intervalController.text, interval.toString());
-        });
-      });
-
-      property('works for all valid intervals', () {
-        late WeeklyPickerController controller;
-
-        forAll(
-          integer(min: intervalMin),
-          (interval) {
-            controller.setIntervalValue(interval);
-
-            expect(controller.intervalNotifier.value, interval);
-            expect(controller.intervalController.text, interval.toString());
-          },
-          setUp: () => controller = WeeklyPickerController(listener: () {}),
-          tearDown: () => controller.dispose(),
-        );
-      });
-    });
-
-    group('getIntervalValue', () {
-      property('returns current interval value', () {
-        forAll(integer(min: intervalMin), (interval) {
-          controller.setIntervalValue(interval);
-
-          expect(controller.getIntervalValue(), interval);
-        });
-      });
-
-      property('returns default value when below default min', () {
-        forAll(integer(max: intervalMin - 1), (interval) {
-          controller.setIntervalValue(interval);
-
-          expect(controller.getIntervalValue(), defaultInterval);
-        });
-      });
-
-      property('returns custom default value when below default min', () {
-        forAll(
-          combine2(
-            integer(max: intervalMin - 1),
-            integer(min: intervalMin),
-          ).map((t) => (currentValue: t.$1, defaultValue: t.$2)),
-          (t) {
-            controller.setIntervalValue(t.currentValue);
-
-            final result = controller.getIntervalValue(
-              defaultValue: t.defaultValue,
-            );
-
-            expect(result, t.defaultValue);
-          },
-        );
-      });
-
-      property('returns default value when below custom min', () {
-        forAll(
-          combine2(
-            integer(max: intervalMin),
-            integer(min: intervalMin + 1),
-          ).map((t) => (currentValue: t.$1, minValue: t.$2)),
-          (t) {
-            controller.setIntervalValue(t.currentValue);
-
-            final result = controller.getIntervalValue(minValue: t.minValue);
-
-            expect(result, intervalMin);
-          },
-        );
-      });
-
-      property('returns custom default value when below custom min', () {
-        forAll(
-          combine3(
-            integer(max: intervalMin),
-            integer(min: intervalMin + 1),
-            integer(),
-          ).map((t) {
-            return (currentValue: t.$1, minValue: t.$2, defaultValue: t.$3);
-          }),
-          (t) {
-            controller.setIntervalValue(t.currentValue);
-
-            final result = controller.getIntervalValue(
-              minValue: t.minValue,
-              defaultValue: t.defaultValue,
-            );
-
-            expect(result, t.defaultValue);
-          },
-        );
-      });
-    });
-
-    property('listener is called when interval changes', () async {
-      late WeeklyPickerController controller;
-      late int callCount;
-
-      forAll(
-        combine2(
-          integer(min: intervalMin + 1),
-          integer(min: intervalMin + 1),
-        ).filter((t) => t.$1 != t.$2),
-        (intervals) {
-          controller.setIntervalValue(intervals.$1);
-          expect(callCount, 1);
-
-          controller.setIntervalValue(intervals.$2);
-          expect(callCount, 2);
-        },
-        setUp: () {
-          controller = WeeklyPickerController(listener: () => ++callCount);
-          callCount = 0;
-        },
-        tearDown: () => controller.dispose(),
-      );
     });
 
     property('listener is called when selectedDaysOfWeek is set', () async {

@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
+import 'package:spot/spot.dart';
 
 extension PumpWrapped on WidgetTester {
   Future<void> pumpWrapped(
@@ -17,6 +18,13 @@ extension PumpWrapped on WidgetTester {
       home: Scaffold(body: Center(child: widget)),
     ),
   );
+}
+
+extension Localizations on WidgetTester {
+  RRulePickerLocalizations localizations<T extends Widget>() {
+    final widget = spot<T>().existsOnce().element;
+    return RRulePickerLocalizations.of(widget);
+  }
 }
 
 extension IgnoreErrors on void Function() {

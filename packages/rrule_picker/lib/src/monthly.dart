@@ -239,21 +239,26 @@ class MonthlyPickerController
       );
     }
 
-    const reInterval = r'INTERVAL=(\d+)';
-    const reDayOfMonth = r'BYMONTHDAY=(\d+)';
-    const reDayOfWeek = r'BYDAY=([AEFHMORSTUW,]+);BYSETPOS=(-?\d+)';
+    const reInterval = r'INTERVAL=(\d+)(?:;|$)';
+    const reByMonthDay = r'BYMONTHDAY=(-?\d+)(?:;|$)';
+    const reByDay =
+        r'BYDAY=((?:MO|TU|WE|TH|FR|SA|SU)'
+        r'(?:,(?:MO|TU|WE|TH|FR|SA|SU))*)(?:;|$)';
+    const reBySetPos = r'BYSETPOS=(-?\d+)(?:;|$)';
 
-    var match = RegExp(reInterval).firstMatch(rrule);
+    var match = RegExp(reInterval, caseSensitive: false).firstMatch(rrule);
     final interval = parseInterval(match?.group(1));
 
     final rest = rrule.substring(match?.end ?? 0);
 
-    match = RegExp(reDayOfMonth).firstMatch(rest);
+    match = RegExp(reByMonthDay, caseSensitive: false).firstMatch(rest);
     final dayOfMonth = match?.group(1);
 
-    match = RegExp(reDayOfWeek).firstMatch(rest);
+    match = RegExp(reByDay, caseSensitive: false).firstMatch(rest);
     final dayOfWeek = match?.group(1);
-    final dayOfWeekOrdinal = match?.group(2);
+
+    match = RegExp(reBySetPos, caseSensitive: false).firstMatch(rest);
+    final dayOfWeekOrdinal = match?.group(1);
 
     if (dayOfWeek == null) {
       return _ParsedRRule(
@@ -280,6 +285,7 @@ class MonthlyPickerController
     setDayOfWeekValue(
       parsed.dayOfWeekOrdinal ?? .first,
       parsed.dayOfWeek ?? firstDayOfWeek,
+      firstDayOfWeek,
     );
   }
 

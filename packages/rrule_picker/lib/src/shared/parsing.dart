@@ -51,7 +51,7 @@ int parseByMonthDay(
   }
 
   return switch (int.tryParse(value)) {
-    -1 => byMonthDayMax,
+    -1 => maxValue + 1,
     final value? when value >= byMonthDayMin && value <= maxValue => value,
     _ => defaultValue,
   };

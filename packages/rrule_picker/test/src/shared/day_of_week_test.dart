@@ -50,14 +50,9 @@ void main() {
 
         forAll(
           combine2(
-            integer(min: 0, max: DayOfWeekOrdinal.values.length - 1),
-            integer(min: 0, max: DayOfWeek.values.length - 1),
-          ).map(
-            (indices) => (
-              ordinal: DayOfWeekOrdinal.values[indices.$1],
-              day: DayOfWeek.values[indices.$2],
-            ),
-          ),
+            constantFrom(DayOfWeekOrdinal.values),
+            constantFrom(DayOfWeek.values),
+          ).map((t) => (ordinal: t.$1, day: t.$2)),
           (t) {
             state.initDayOfWeekState(
               initialDayOfWeekOrdinal: t.ordinal,
@@ -73,50 +68,93 @@ void main() {
         );
       });
 
-      test('initializes daysOfWeek with custom initialDayOfWeek', () {
-        state.initDayOfWeekState(initialDayOfWeek: .friday, listener: () {});
+      property('initializes daysOfWeek with custom initialDayOfWeek', () {
+        late DayOfWeekState state;
 
-        expect(state.daysOfWeek.value.first.$1, DayOfWeek.friday);
-        expect(
-          state.daysOfWeek.value.map((t) => t.$1),
-          orderedEquals(const <DayOfWeek>[
-            .friday,
-            .saturday,
-            .sunday,
-            .monday,
-            .tuesday,
-            .wednesday,
-            .thursday,
-          ]),
+        forAll(
+          constantFrom(DayOfWeek.values),
+          (day) {
+            state.initDayOfWeekState(initialDayOfWeek: day, listener: () {});
+
+            expect(
+              state.daysOfWeek.value.map((t) => t.$1),
+              orderedEquals(
+                List.generate(DayOfWeek.values.length, (i) {
+                  final index = (day.index + i) % DayOfWeek.values.length;
+                  return DayOfWeek.values[index];
+                }),
+              ),
+            );
+          },
+          setUp: () => state = TestDayOfWeekState(),
+          tearDown: () => state.disposeDayOfWeekState(),
         );
       });
 
-      test('listener is called when ordinal value changes', () {
-        state.initDayOfWeekState(
-          listener: () {
-            ++listenerCallCount;
-            lastListenerDayOfWeekOrdinal = state.dayOfWeekOrdinal.value;
+      property('listener is called when ordinal value changes', () {
+        late DayOfWeekState state;
+        late int listenerCallCount;
+
+        forAll(
+          combine2(
+                constantFrom(DayOfWeekOrdinal.values),
+                constantFrom(DayOfWeekOrdinal.values),
+              )
+              .filter((t) => t.$1 != t.$2)
+              .map((t) => (initial: t.$1, target: t.$2)),
+          (t) {
+            state.initDayOfWeekState(
+              initialDayOfWeekOrdinal: t.initial,
+              listener: () {
+                ++listenerCallCount;
+                lastListenerDayOfWeekOrdinal = state.dayOfWeekOrdinal.value;
+              },
+            );
+
+            state.dayOfWeekOrdinal.value = t.target;
+
+            expect(listenerCallCount, 1);
+            expect(lastListenerDayOfWeekOrdinal, t.target);
           },
+          setUp: () {
+            state = TestDayOfWeekState();
+            listenerCallCount = 0;
+          },
+          tearDown: () => state.disposeDayOfWeekState(),
         );
-
-        state.dayOfWeekOrdinal.value = .second;
-
-        expect(listenerCallCount, 1);
-        expect(lastListenerDayOfWeekOrdinal, DayOfWeekOrdinal.second);
       });
 
-      test('listener is called when day of week value changes', () {
-        state.initDayOfWeekState(
-          listener: () {
-            ++listenerCallCount;
-            lastListenerDayOfWeek = state.dayOfWeek.value;
+      property('listener is called when day of week value changes', () {
+        late DayOfWeekState state;
+        late int listenerCallCount;
+
+        forAll(
+          combine2(
+                constantFrom(DayOfWeek.values),
+                constantFrom(DayOfWeek.values),
+              )
+              .filter((t) => t.$1 != t.$2)
+              .map((t) => (initial: t.$1, target: t.$2)),
+          (t) {
+            state.initDayOfWeekState(
+              initialDayOfWeek: t.initial,
+              listener: () {
+                ++listenerCallCount;
+                lastListenerDayOfWeek = state.dayOfWeek.value;
+              },
+            );
+
+            state.dayOfWeek.value = t.target;
+
+            expect(listenerCallCount, 1);
+            expect(lastListenerDayOfWeek, t.target);
           },
+          setUp: () {
+            state = TestDayOfWeekState();
+            listenerCallCount = 0;
+          },
+          tearDown: () => state.disposeDayOfWeekState(),
         );
-
-        state.dayOfWeek.value = .tuesday;
-
-        expect(listenerCallCount, 1);
-        expect(lastListenerDayOfWeek, DayOfWeek.tuesday);
       });
     });
 
@@ -160,7 +198,6 @@ void main() {
 
         state.updateDayOfWeekState(firstDayOfWeek: .friday);
 
-        expect(state.daysOfWeek.value.first.$1, DayOfWeek.friday);
         expect(
           state.daysOfWeek.value.map((t) => t.$1),
           orderedEquals(const <DayOfWeek>[
@@ -234,14 +271,9 @@ void main() {
 
         forAll(
           combine2(
-            integer(min: 0, max: DayOfWeekOrdinal.values.length - 1),
-            integer(min: 0, max: DayOfWeek.values.length - 1),
-          ).map(
-            (indices) => (
-              ordinal: DayOfWeekOrdinal.values[indices.$1],
-              day: DayOfWeek.values[indices.$2],
-            ),
-          ),
+            constantFrom(DayOfWeekOrdinal.values),
+            constantFrom(DayOfWeek.values),
+          ).map((t) => (ordinal: t.$1, day: t.$2)),
           (t) {
             state.setDayOfWeekValue(t.ordinal, t.day);
 
@@ -249,6 +281,24 @@ void main() {
             expect(state.dayOfWeek.value, t.day);
           },
         );
+      });
+
+      property('sets daysOfWeek when firstDayOfWeek provided', () {
+        state.initDayOfWeekState(listener: () {});
+
+        forAll(constantFrom(DayOfWeek.values), (firstDay) {
+          state.setDayOfWeekValue(.first, .monday, firstDay);
+
+          expect(
+            state.daysOfWeek.value.map((t) => t.$1),
+            orderedEquals(
+              DayOfWeek.buildWeek(
+                firstDay,
+                state.dayOfWeekFormatter,
+              ).map((t) => t.$1),
+            ),
+          );
+        });
       });
 
       test('notifies listeners when value changes', () {

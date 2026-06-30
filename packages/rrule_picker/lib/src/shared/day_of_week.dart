@@ -62,9 +62,16 @@ mixin DayOfWeekState {
   @protected
   void setDayOfWeekValue(
     DayOfWeekOrdinal dayOfWeekOrdinal,
-    DayOfWeek dayOfWeek,
-  ) {
+    DayOfWeek dayOfWeek, [
+    DayOfWeek? firstDayOfWeek,
+  ]) {
     this.dayOfWeekOrdinal.value = dayOfWeekOrdinal;
     this.dayOfWeek.value = dayOfWeek;
+    if (firstDayOfWeek != null) {
+      daysOfWeek.value = DayOfWeek.buildWeek(
+        firstDayOfWeek,
+        dayOfWeekFormatter,
+      );
+    }
   }
 }

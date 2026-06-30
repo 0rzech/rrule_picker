@@ -41,14 +41,18 @@ const byMonthDayMax = 32;
 const defaultByMonthDay = byMonthDayMin;
 
 @internal
-int parseByMonthDay(String? value, [int defaultValue = defaultByMonthDay]) {
+int parseByMonthDay(
+  String? value, {
+  int maxValue = byMonthDayMax - 1,
+  int defaultValue = defaultByMonthDay,
+}) {
   if (value == null) {
     return defaultValue;
   }
 
   return switch (int.tryParse(value)) {
     -1 => byMonthDayMax,
-    final value? when value >= byMonthDayMin && value < byMonthDayMax => value,
+    final value? when value >= byMonthDayMin && value <= maxValue => value,
     _ => defaultValue,
   };
 }

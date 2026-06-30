@@ -72,7 +72,7 @@ class _YearlyPickerState extends State<YearlyPicker> {
               .map((month) {
                 final date = DateTime(2026, 01 + month.index, 01);
                 final text = Text(
-                  controller._monthFormatter.format(date),
+                  controller.monthFormatter.format(date),
                   style: theme.dropdownTheme.menuItemStyle,
                 );
 
@@ -243,7 +243,7 @@ class YearlyPickerController
         DayOfMonthState,
         DayOfWeekState {
   late final ValueNotifier<Month> month;
-  late DateFormat _monthFormatter;
+  late DateFormat monthFormatter;
 
   YearlyPickerController({
     String initialRRule = '',
@@ -290,7 +290,7 @@ class YearlyPickerController
     );
 
     if (localizations != null) {
-      _monthFormatter = DateFormat.MMMM(localizations.localeName);
+      monthFormatter = DateFormat.MMMM(localizations.localeName);
     }
   }
 
@@ -332,7 +332,7 @@ class YearlyPickerController
       return _ParsedRRule(
         interval: interval,
         month: month,
-        dayOfMonth: parseByMonthDay(dayOfMonth),
+        dayOfMonth: parseByMonthDay(dayOfMonth, maxValue: month.maxDay),
       );
     } else {
       return _ParsedRRule(

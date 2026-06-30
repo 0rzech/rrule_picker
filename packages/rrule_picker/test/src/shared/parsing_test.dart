@@ -134,7 +134,7 @@ void main() {
       expect(parseByMonthDay(null), defaultByMonthDay);
 
       forAll(integer(min: byMonthDayMin, max: byMonthDayMax), (day) {
-        expect(parseByMonthDay(null, day), day);
+        expect(parseByMonthDay(null, defaultValue: day), day);
       });
     });
 
@@ -155,10 +155,29 @@ void main() {
       });
     });
 
-    property('returns default value for values greater than valid range', () {
+    property('returns default value '
+        'for values greater than default valid range', () {
       forAll(integer(min: byMonthDayMax), (day) {
         expect(parseByMonthDay(day.toString()), defaultByMonthDay);
       });
+    });
+
+    property('returns default value '
+        'for values greater than custom valid range', () {
+      forAll(
+        constantFrom(Month.values).flatMap((month) {
+          return combine2(
+            integer(min: month.maxDay + 1),
+            constant(month.maxDay),
+          ).map((t) => (day: t.$1.toString(), maxValue: t.$2));
+        }),
+        (t) {
+          expect(
+            parseByMonthDay(t.day, maxValue: t.maxValue),
+            defaultByMonthDay,
+          );
+        },
+      );
     });
 
     property('returns default value for non-day ascii strings', () {

@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Dagur vikunnar",
   "rrulePickerDays": "{count, plural, one{dagur} other{dagar}}",
   "rrulePickerEveryDaily": "{count, plural, other{Á hverjum}}",
-  "rrulePickerEveryMonth": "Hver",
   "rrulePickerEveryMonthly": "{count, plural, other{Á hverjum}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Á hverjum}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Á hverjum}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{fyrsti}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{fjórði}}",
   "rrulePickerLastDay": "síðasti",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Sleppa",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{þriðji}}",
   "rrulePickerTitle": "Endurtekning",
-  "rrulePickerWeeks": "{count, plural, one{vika} other{vikur}}"
+  "rrulePickerWeeks": "{count, plural, one{vika} other{vikur}}",
+  "rrulePickerYears": "{count, plural, one{ár} other{ár}}"
 }

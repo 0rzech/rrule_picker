@@ -36,9 +36,6 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
   }
 
   @override
-  String get rrulePickerEveryMonth => 'Every';
-
-  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -50,6 +47,16 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
 
   @override
   String rrulePickerEveryWeekly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Every',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerEveryYearly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -173,6 +180,17 @@ class RRulePickerLocalizationsEn extends RRulePickerLocalizations {
       locale: localeName,
       other: 'weeks',
       one: 'week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'years',
+      one: 'year',
     );
     return '$_temp0';
   }

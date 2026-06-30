@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Nädalapäev",
   "rrulePickerDays": "{count, plural, one{päev} other{päevadel}}",
   "rrulePickerEveryDaily": "{count, plural, other{Iga}}",
-  "rrulePickerEveryMonth": "Iga",
   "rrulePickerEveryMonthly": "{count, plural, other{Iga}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Iga}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Iga}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{esimene}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{neljas}}",
   "rrulePickerLastDay": "viimane",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Välda",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{kolmas}}",
   "rrulePickerTitle": "Korda",
-  "rrulePickerWeeks": "{count, plural, one{nädal} other{nädalad}}"
+  "rrulePickerWeeks": "{count, plural, one{nädal} other{nädalad}}",
+  "rrulePickerYears": "{count, plural, one{aasta} other{aastat}}"
 }

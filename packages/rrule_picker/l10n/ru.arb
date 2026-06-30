@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "День недели",
   "rrulePickerDays": "{count, plural, one{день} few{дня} other{дней}}",
   "rrulePickerEveryDaily": "{count, plural, one{Каждый} other{Каждые}}",
-  "rrulePickerEveryMonth": "Каждый",
   "rrulePickerEveryMonthly": "{count, plural, one{Каждый} other{Каждые}}",
   "rrulePickerEveryWeekly": "{count, plural, one{Каждая} other{Каждые}}",
+  "rrulePickerEveryYearly": "{count, plural, one{Каждый} other{Каждые}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, wednesday{первая} friday{первая} saturday{первая} sunday{первое} other{первый}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, wednesday{четвёртая} friday{четвёртая} saturday{четвёртая} sunday{четвёртое} other{четвёртый}}",
   "rrulePickerLastDay": "последний",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Пропустить",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, wednesday{третья} friday{третья} saturday{третья} sunday{третье} other{третий}}",
   "rrulePickerTitle": "Повторять",
-  "rrulePickerWeeks": "{count, plural, one{неделя} few{недели} other{недель}}"
+  "rrulePickerWeeks": "{count, plural, one{неделя} few{недели} other{недель}}",
+  "rrulePickerYears": "{count, plural, one{год} few{года} other{лет}}"
 }

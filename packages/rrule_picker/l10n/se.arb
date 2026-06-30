@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Beaivvi vahkku",
   "rrulePickerDays": "{count, plural, one{beaivi} two{beaivvit} other{beaivvi}}",
   "rrulePickerEveryDaily": "{count, plural, other{Juohke}}",
-  "rrulePickerEveryMonth": "Juohke",
   "rrulePickerEveryMonthly": "{count, plural, other{Juohke}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Juohke}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Juohke}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{vuosttaš}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{njealját}}",
   "rrulePickerLastDay": "maŋimuš",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Skoahkka",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{goalmmát}}",
   "rrulePickerTitle": "Geardduhit",
-  "rrulePickerWeeks": "{count, plural, one{vahkku} other{vahkut}}"
+  "rrulePickerWeeks": "{count, plural, one{vahkku} other{vahkut}}",
+  "rrulePickerYears": "{count, plural, one{jahki} other{jagit}}"
 }

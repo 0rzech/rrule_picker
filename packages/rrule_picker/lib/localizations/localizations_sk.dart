@@ -37,9 +37,6 @@ class RRulePickerLocalizationsSk extends RRulePickerLocalizations {
   }
 
   @override
-  String get rrulePickerEveryMonth => 'Každý';
-
-  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -51,6 +48,16 @@ class RRulePickerLocalizationsSk extends RRulePickerLocalizations {
 
   @override
   String rrulePickerEveryWeekly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Každý',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerEveryYearly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -155,6 +162,18 @@ class RRulePickerLocalizationsSk extends RRulePickerLocalizations {
       other: 'týždňov',
       few: 'týždne',
       one: 'týždeň',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'rokov',
+      few: 'roky',
+      one: 'rok',
     );
     return '$_temp0';
   }

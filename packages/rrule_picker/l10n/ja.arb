@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "曜日",
   "rrulePickerDays": "{count, plural, other{日}}",
   "rrulePickerEveryDaily": "{count, plural, other{毎}}",
-  "rrulePickerEveryMonth": "毎",
   "rrulePickerEveryMonthly": "{count, plural, other{毎}}",
   "rrulePickerEveryWeekly": "{count, plural, other{毎}}",
+  "rrulePickerEveryYearly": "{count, plural, other{毎}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{第一}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{第四}}",
   "rrulePickerLastDay": "最後",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "スキップ",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{第三}}",
   "rrulePickerTitle": "繰り返し",
-  "rrulePickerWeeks": "{count, plural, other{週}}"
+  "rrulePickerWeeks": "{count, plural, other{週}}",
+  "rrulePickerYears": "{count, plural, other{年}}"
 }

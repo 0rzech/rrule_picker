@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Hari dalam seminggu",
   "rrulePickerDays": "{count, plural, other{hari}}",
   "rrulePickerEveryDaily": "{count, plural, other{Setiap}}",
-  "rrulePickerEveryMonth": "Setiap",
   "rrulePickerEveryMonthly": "{count, plural, other{Setiap}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Setiap}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Setiap}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{pertama}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{keempat}}",
   "rrulePickerLastDay": "terakhir",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Lewati",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{ketiga}}",
   "rrulePickerTitle": "Mengulang",
-  "rrulePickerWeeks": "{count, plural, other{minggu}}"
+  "rrulePickerWeeks": "{count, plural, other{minggu}}",
+  "rrulePickerYears": "{count, plural, other{tahun}}"
 }

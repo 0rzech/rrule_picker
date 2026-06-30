@@ -36,9 +36,6 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
   }
 
   @override
-  String get rrulePickerEveryMonth => 'Cada';
-
-  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -50,6 +47,16 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
 
   @override
   String rrulePickerEveryWeekly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Todo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerEveryYearly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -147,6 +154,17 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
       locale: localeName,
       other: 'semanas',
       one: 'semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'anos',
+      one: 'ano',
     );
     return '$_temp0';
   }
@@ -184,9 +202,6 @@ class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
   }
 
   @override
-  String get rrulePickerEveryMonth => 'Cada';
-
-  @override
   String rrulePickerEveryMonthly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -198,6 +213,16 @@ class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
 
   @override
   String rrulePickerEveryWeekly(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Todo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerEveryYearly(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -295,6 +320,17 @@ class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
       locale: localeName,
       other: 'semanas',
       one: 'semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rrulePickerYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'anos',
+      one: 'ano',
     );
     return '$_temp0';
   }

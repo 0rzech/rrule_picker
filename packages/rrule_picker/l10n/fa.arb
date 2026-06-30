@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "روز هفته",
   "rrulePickerDays": "{count, plural, one{روز} other{روزها}}",
   "rrulePickerEveryDaily": "{count, plural, other{هر}}",
-  "rrulePickerEveryMonth": "هر",
   "rrulePickerEveryMonthly": "{count, plural, other{هر}}",
   "rrulePickerEveryWeekly": "{count, plural, other{هر}}",
+  "rrulePickerEveryYearly": "{count, plural, other{هر}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{اول}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{چهارم}}",
   "rrulePickerLastDay": "آخر",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "رد کردن",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{سوم}}",
   "rrulePickerTitle": "تکرار",
-  "rrulePickerWeeks": "{count, plural, one{هفته} other{هفته‌ها}}"
+  "rrulePickerWeeks": "{count, plural, one{هفته} other{هفته‌ها}}",
+  "rrulePickerYears": "{count, plural, one{سال} other{سال‌ها}}"
 }

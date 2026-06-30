@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Dan u tjednu",
   "rrulePickerDays": "{count, plural, one{dan} few{dana} other{dani}}",
   "rrulePickerEveryDaily": "{count, plural, other{Svaki}}",
-  "rrulePickerEveryMonth": "Svaki",
   "rrulePickerEveryMonthly": "{count, plural, other{Svaki}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Svaki}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Svaki}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, wednesday{prva} saturday{prva} sunday{prva} other{prvi}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, wednesday{četvrta} saturday{četvrta} sunday{četvrta} other{četvrti}}",
   "rrulePickerLastDay": "zadnji",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Preskoči",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, wednesday{treća} saturday{treća} sunday{treća} other{treći}}",
   "rrulePickerTitle": "Ponovi",
-  "rrulePickerWeeks": "{count, plural, one{tjedan} few{tjedna} other{tjedni}}"
+  "rrulePickerWeeks": "{count, plural, one{tjedan} few{tjedna} other{tjedni}}",
+  "rrulePickerYears": "{count, plural, one{godina} few{godine} other{godina}}"
 }

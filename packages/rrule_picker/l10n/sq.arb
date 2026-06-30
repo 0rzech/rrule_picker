@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Dita e javës",
   "rrulePickerDays": "{count, plural, other{ditë}}",
   "rrulePickerEveryDaily": "{count, plural, other{Çdo}}",
-  "rrulePickerEveryMonth": "Çdo",
   "rrulePickerEveryMonthly": "{count, plural, other{Çdo}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Çdo}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Çdo}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{e parë}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{e katërt}}",
   "rrulePickerLastDay": "fundit",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Anasho",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{e tretë}}",
   "rrulePickerTitle": "Përsërit",
-  "rrulePickerWeeks": "{count, plural, other{javë}}"
+  "rrulePickerWeeks": "{count, plural, other{javë}}",
+  "rrulePickerYears": "{count, plural, other{vjet}}"
 }

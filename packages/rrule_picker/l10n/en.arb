@@ -31,11 +31,6 @@
     "description": "[demonstrative adjective with number/case variations]"
   },
 
-  "rrulePickerEveryMonth": "Every",
-  "@rrulePickerEveryMonth": {
-    "description": "'Every' <January/February/March/.../December>. [demonstrative adjective]"
-  },
-
   "rrulePickerEveryMonthly": "{count, plural, other{Every}}",
   "@rrulePickerEveryMonthly": {
     "placeholders": {
@@ -48,6 +43,16 @@
 
   "rrulePickerEveryWeekly": "{count, plural, other{Every}}",
   "@rrulePickerEveryWeekly": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "[demonstrative adjective with number/case variations]"
+  },
+
+  "rrulePickerEveryYearly": "{count, plural, other{Every}}",
+  "@rrulePickerEveryYearly": {
     "placeholders": {
       "count": {
         "type": "int"
@@ -148,6 +153,16 @@
 
   "rrulePickerWeeks": "{count, plural, one{week} other{weeks}}",
   "@rrulePickerWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "[plural noun with case variations]"
+  },
+
+  "rrulePickerYears": "{count, plural, one{year} other{years}}",
+  "@rrulePickerYears": {
     "placeholders": {
       "count": {
         "type": "int"

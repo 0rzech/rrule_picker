@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Nedēļas diena",
   "rrulePickerDays": "{count, plural, one{diena} other{dienas}}",
   "rrulePickerEveryDaily": "{count, plural, other{Katru}}",
-  "rrulePickerEveryMonth": "Katrs",
   "rrulePickerEveryMonthly": "{count, plural, other{Katru}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Katru}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Katru}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{pirmā}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{ceturtā}}",
   "rrulePickerLastDay": "pēdējā",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Izlaist",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{trešā}}",
   "rrulePickerTitle": "Atkārtot",
-  "rrulePickerWeeks": "{count, plural, one{nedēļa} other{nedēļas}}"
+  "rrulePickerWeeks": "{count, plural, one{nedēļa} other{nedēļas}}",
+  "rrulePickerYears": "{count, plural, one{gads} other{gadi}}"
 }

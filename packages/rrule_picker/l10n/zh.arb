@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "一周的某一天",
   "rrulePickerDays": "{count, plural, other{天}}",
   "rrulePickerEveryDaily": "{count, plural, other{每个}}",
-  "rrulePickerEveryMonth": "每个",
   "rrulePickerEveryMonthly": "{count, plural, other{每个}}",
   "rrulePickerEveryWeekly": "{count, plural, other{每个}}",
+  "rrulePickerEveryYearly": "{count, plural, other{每个}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{第一}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{第四}}",
   "rrulePickerLastDay": "最后",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "跳过",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{第三}}",
   "rrulePickerTitle": "重复",
-  "rrulePickerWeeks": "{count, plural, other{周}}"
+  "rrulePickerWeeks": "{count, plural, other{周}}",
+  "rrulePickerYears": "{count, plural, other{年}}"
 }

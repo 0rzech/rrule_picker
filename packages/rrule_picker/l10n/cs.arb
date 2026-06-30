@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Den v týdnu",
   "rrulePickerDays": "{count, plural, one{den} few{dny} other{dnů}}",
   "rrulePickerEveryDaily": "{count, plural, other{Každý}}",
-  "rrulePickerEveryMonth": "Každý",
   "rrulePickerEveryMonthly": "{count, plural, other{Každý}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Každý}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Každý}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{první}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, monday{čtvrté} tuesday{čtvrté} thursday{čtvrtý} friday{čtvrtý} other{čtvrtá}}",
   "rrulePickerLastDay": "poslední",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Přeskočit",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{třetí}}",
   "rrulePickerTitle": "Opakovat",
-  "rrulePickerWeeks": "{count, plural, one{týden} few{týdny} other{týdnů}}"
+  "rrulePickerWeeks": "{count, plural, one{týden} few{týdny} other{týdnů}}",
+  "rrulePickerYears": "{count, plural, one{rok} few{roky} other{let}}"
 }

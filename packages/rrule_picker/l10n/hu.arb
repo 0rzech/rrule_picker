@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "A hét napja",
   "rrulePickerDays": "{count, plural, other{nap}}",
   "rrulePickerEveryDaily": "{count, plural, other{Minden}}",
-  "rrulePickerEveryMonth": "Minden",
   "rrulePickerEveryMonthly": "{count, plural, other{Minden}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Minden}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Minden}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{első}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{negyedik}}",
   "rrulePickerLastDay": "utolsó",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Kihagyás",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{harmadik}}",
   "rrulePickerTitle": "Ismétlés",
-  "rrulePickerWeeks": "{count, plural, other{hét}}"
+  "rrulePickerWeeks": "{count, plural, other{hét}}",
+  "rrulePickerYears": "{count, plural, other{év}}"
 }

@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Ukedag",
   "rrulePickerDays": "{count, plural, one{dag} other{dager}}",
   "rrulePickerEveryDaily": "{count, plural, other{Hver}}",
-  "rrulePickerEveryMonth": "Hver",
   "rrulePickerEveryMonthly": "{count, plural, other{Hver}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Hver}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Hvert}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{første}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{fjerde}}",
   "rrulePickerLastDay": "siste",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Hopp over",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{tredje}}",
   "rrulePickerTitle": "Gjenta",
-  "rrulePickerWeeks": "{count, plural, one{uke} other{uker}}"
+  "rrulePickerWeeks": "{count, plural, one{uke} other{uker}}",
+  "rrulePickerYears": "{count, plural, one{år} other{år}}"
 }

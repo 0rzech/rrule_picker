@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Dag van de week",
   "rrulePickerDays": "{count, plural, one{dag} other{dagen}}",
   "rrulePickerEveryDaily": "{count, plural, other{Elke}}",
-  "rrulePickerEveryMonth": "Elke",
   "rrulePickerEveryMonthly": "{count, plural, other{Elke}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Elke}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Elke}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{eerste}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{vierde}}",
   "rrulePickerLastDay": "laatste",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Overslaan",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{derde}}",
   "rrulePickerTitle": "Herhaal",
-  "rrulePickerWeeks": "{count, plural, one{week} other{weken}}"
+  "rrulePickerWeeks": "{count, plural, one{week} other{weken}}",
+  "rrulePickerYears": "{count, plural, one{jaar} other{jaren}}"
 }

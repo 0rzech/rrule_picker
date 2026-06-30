@@ -192,12 +192,6 @@ abstract class RRulePickerLocalizations {
   /// **'{count, plural, other{Every}}'**
   String rrulePickerEveryDaily(int count);
 
-  /// 'Every' <January/February/March/.../December>. [demonstrative adjective]
-  ///
-  /// In en, this message translates to:
-  /// **'Every'**
-  String get rrulePickerEveryMonth;
-
   /// [demonstrative adjective with number/case variations]
   ///
   /// In en, this message translates to:
@@ -209,6 +203,12 @@ abstract class RRulePickerLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, other{Every}}'**
   String rrulePickerEveryWeekly(int count);
+
+  /// [demonstrative adjective with number/case variations]
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{Every}}'**
+  String rrulePickerEveryYearly(int count);
 
   /// First `dayOfWeek`. Valid options are: `'monday'`, `'tuesday'`, `'wednesday'`, `'thursday'`, `'friday'`, `'saturday'`, `'sunday'`. [ordinal number with gender-sensitive case variations]
   ///
@@ -275,6 +275,12 @@ abstract class RRulePickerLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, one{week} other{weeks}}'**
   String rrulePickerWeeks(int count);
+
+  /// [plural noun with case variations]
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{year} other{years}}'**
+  String rrulePickerYears(int count);
 }
 
 class _RRulePickerLocalizationsDelegate

@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Viikonpäivä",
   "rrulePickerDays": "{count, plural, one{päivä} other{päiviä}}",
   "rrulePickerEveryDaily": "{count, plural, other{Joka}}",
-  "rrulePickerEveryMonth": "Joka",
   "rrulePickerEveryMonthly": "{count, plural, other{Joka}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Joka}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Joka}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{ensimmäinen}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{neljäs}}",
   "rrulePickerLastDay": "viimeinen",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Ohita",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{kolmas}}",
   "rrulePickerTitle": "Toistaa",
-  "rrulePickerWeeks": "{count, plural, one{viikko} other{viikkoja}}"
+  "rrulePickerWeeks": "{count, plural, one{viikko} other{viikkoja}}",
+  "rrulePickerYears": "{count, plural, one{vuosi} other{vuotta}}"
 }

@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Dia da semana",
   "rrulePickerDays": "{count, plural, one{dia} other{dias}}",
   "rrulePickerEveryDaily": "{count, plural, other{Todo}}",
-  "rrulePickerEveryMonth": "Cada",
   "rrulePickerEveryMonthly": "{count, plural, other{Todo}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Todo}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Todo}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, saturday{primeiro} sunday{primeiro} other{primeira}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, saturday{quarto} sunday{quarto} other{quarta}}",
   "rrulePickerLastDay": "último",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Pular",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, saturday{terceiro} sunday{terceiro} other{terceira}}",
   "rrulePickerTitle": "Repetir",
-  "rrulePickerWeeks": "{count, plural, one{semana} other{semanas}}"
+  "rrulePickerWeeks": "{count, plural, one{semana} other{semanas}}",
+  "rrulePickerYears": "{count, plural, one{ano} other{anos}}"
 }

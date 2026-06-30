@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "요일",
   "rrulePickerDays": "{count, plural, other{일}}",
   "rrulePickerEveryDaily": "{count, plural, other{매}}",
-  "rrulePickerEveryMonth": "매",
   "rrulePickerEveryMonthly": "{count, plural, other{매}}",
   "rrulePickerEveryWeekly": "{count, plural, other{매}}",
+  "rrulePickerEveryYearly": "{count, plural, other{매}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, other{첫}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, other{네}}",
   "rrulePickerLastDay": "마지막",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "건너뛰기",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, other{세}}",
   "rrulePickerTitle": "반복",
-  "rrulePickerWeeks": "{count, plural, other{주}}"
+  "rrulePickerWeeks": "{count, plural, other{주}}",
+  "rrulePickerYears": "{count, plural, other{년}}"
 }

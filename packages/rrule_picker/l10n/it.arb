@@ -4,9 +4,9 @@
   "rrulePickerDayOfWeek": "Giorno della settimana",
   "rrulePickerDays": "{count, plural, one{giorno} other{giorni}}",
   "rrulePickerEveryDaily": "{count, plural, other{Ogni}}",
-  "rrulePickerEveryMonth": "Ogni",
   "rrulePickerEveryMonthly": "{count, plural, other{Ogni}}",
   "rrulePickerEveryWeekly": "{count, plural, other{Ogni}}",
+  "rrulePickerEveryYearly": "{count, plural, other{Ogni}}",
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, sunday{prima} other{primo}}",
   "rrulePickerFourthDayOfWeek": "{dayOfWeek, select, sunday{quarta} other{quarto}}",
   "rrulePickerLastDay": "ultimo",
@@ -17,5 +17,6 @@
   "rrulePickerSkip": "Salta",
   "rrulePickerThirdDayOfWeek": "{dayOfWeek, select, sunday{terza} other{terzo}}",
   "rrulePickerTitle": "Ripetere",
-  "rrulePickerWeeks": "{count, plural, one{settimana} other{settimane}}"
+  "rrulePickerWeeks": "{count, plural, one{settimana} other{settimane}}",
+  "rrulePickerYears": "{count, plural, one{anno} other{anni}}"
 }

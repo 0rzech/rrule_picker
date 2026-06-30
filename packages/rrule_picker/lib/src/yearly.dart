@@ -54,8 +54,15 @@ class _YearlyPickerState extends State<YearlyPicker> {
     final decorate = widget.dropdownDecorators(theme.dropdownTheme);
     final controller = widget.controller;
 
+    final interval = IntervalPicker(
+      everyUnitText: l.rrulePickerEveryYearly,
+      intervalUnitText: l.rrulePickerYears,
+      intervalController: controller.intervalController,
+      intervalNotifier: controller.intervalNotifier,
+    );
+
     final monthWidget = ValueListenableBuilder(
-      valueListenable: controller._month,
+      valueListenable: controller.month,
       builder: (context, day, _) {
         final dropdown = DropdownButton(
           value: day,
@@ -76,10 +83,10 @@ class _YearlyPickerState extends State<YearlyPicker> {
               })
               .toList(growable: false),
           onChanged: (value) {
-            controller._month.value = value!;
+            controller.month.value = value!;
             controller.dayOfMonth.value = min(
               controller.dayOfMonth.value,
-              controller._month.value.maxDay,
+              controller.month.value.maxDay,
             );
           },
         );
@@ -90,10 +97,11 @@ class _YearlyPickerState extends State<YearlyPicker> {
 
     return ValueListenableBuilder(
       valueListenable: controller.intervalSegmentType,
-      builder: (context, segmentType, monthWidget) {
+      builder: (context, segmentType, _) {
         return Column(
           spacing: 8,
           children: [
+            interval,
             SegmentedButton<IntervalPickerSegmentType>(
               onSelectionChanged: (value) =>
                   controller.intervalSegmentType.value = value,
@@ -115,17 +123,19 @@ class _YearlyPickerState extends State<YearlyPicker> {
               .precise => Row(
                 spacing: 8,
                 children: [
-                  Text(l.rrulePickerEveryMonth, style: theme.labelStyle),
-                  monthWidget!,
+                  monthWidget,
                   Text('/', style: theme.labelStyle),
-                  ValueListenableBuilder(
-                    valueListenable: controller.dayOfMonth,
-                    builder: (_, day, _) {
+                  ListenableBuilder(
+                    listenable: .merge([
+                      controller.month,
+                      controller.dayOfMonth,
+                    ]),
+                    builder: (_, _) {
                       final dropdown = DropdownButton(
-                        value: day,
+                        value: controller.dayOfMonth.value,
                         isExpanded: true,
                         style: theme.dropdownTheme.style,
-                        items: .generate(controller._month.value.maxDay, (i) {
+                        items: .generate(controller.month.value.maxDay, (i) {
                           final day = i + 1;
                           final text = Text(
                             controller.dayOfMonthFormatter.format(day),
@@ -149,8 +159,7 @@ class _YearlyPickerState extends State<YearlyPicker> {
               .relative => Row(
                 spacing: 9,
                 children: [
-                  Text(l.rrulePickerEveryMonth, style: theme.labelStyle),
-                  monthWidget!,
+                  monthWidget,
                   Text('/', style: theme.labelStyle),
                   ListenableBuilder(
                     listenable: .merge([
@@ -222,15 +231,18 @@ class _YearlyPickerState extends State<YearlyPicker> {
           ],
         );
       },
-      child: monthWidget,
     );
   }
 }
 
 @internal
 class YearlyPickerController
-    with IntervalPickerSegmentTypeState, DayOfMonthState, DayOfWeekState {
-  late final ValueNotifier<Month> _month;
+    with
+        IntervalPickerSegmentTypeState,
+        IntervalPickerState,
+        DayOfMonthState,
+        DayOfWeekState {
+  late final ValueNotifier<Month> month;
   late DateFormat _monthFormatter;
 
   YearlyPickerController({
@@ -246,6 +258,7 @@ class YearlyPickerController
           : const {.precise},
       listener: listener,
     );
+    initIntervalState(initialValue: rrule.interval, listener: listener);
     initDayOfMonthState(
       initialDayOfMonth: rrule.dayOfMonth ?? defaultByMonthDay,
       listener: listener,
@@ -255,14 +268,15 @@ class YearlyPickerController
       initialDayOfWeek: rrule.dayOfWeek ?? firstDayOfWeek,
       listener: listener,
     );
-    _month = ValueNotifier(rrule.month)..addListener(listener);
+    month = ValueNotifier(rrule.month)..addListener(listener);
   }
 
   @mustCallSuper
   void dispose() {
-    _month.dispose();
+    month.dispose();
     disposeDayOfWeekState();
     disposeDayOfMonthState();
+    disposeIntervalState();
     disposeIntervalSegmentTypeState();
   }
 
@@ -282,32 +296,47 @@ class YearlyPickerController
 
   _ParsedRRule _parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
     if (rrule.isEmpty) {
-      return const _ParsedRRule(month: .january, dayOfMonth: defaultByMonthDay);
+      return const _ParsedRRule(
+        interval: defaultInterval,
+        month: .january,
+        dayOfMonth: defaultByMonthDay,
+      );
     }
 
-    const reMonth = r'BYMONTH=(\d+)';
-    const reDayOfMonth = r'BYMONTHDAY=(\d+)';
-    const reDayOfWeek = r'BYDAY=([AEFHMORSTUW,]+);BYSETPOS=(-?\d+)';
+    const reInterval = r'INTERVAL=(\d+)(?:;|$)';
+    const reMonth = r'BYMONTH=(\d+)(?:;|$)';
+    const reDayOfMonth = r'BYMONTHDAY=(\d+)(?:;|$)';
+    const reDayOfWeek =
+        r'BYDAY=((?:MO|TU|WE|TH|FR|SA|SU)'
+        r'(?:,(?:MO|TU|WE|TH|FR|SA|SU))*)(?:;|$)';
+    const reBySetPos = r'BYSETPOS=(-?\d+)(?:;|$)';
 
-    var match = RegExp(reMonth).firstMatch(rrule);
-    final month = parseByMonth(match?.group(1));
+    var match = RegExp(reInterval, caseSensitive: false).firstMatch(rrule);
+    final interval = parseInterval(match?.group(1));
 
     final rest = rrule.substring(match?.end ?? 0);
 
-    match = RegExp(reDayOfMonth).firstMatch(rest);
+    match = RegExp(reMonth, caseSensitive: false).firstMatch(rrule);
+    final month = parseByMonth(match?.group(1));
+
+    match = RegExp(reDayOfMonth, caseSensitive: false).firstMatch(rest);
     final dayOfMonth = match?.group(1);
 
-    match = RegExp(reDayOfWeek).firstMatch(rest);
+    match = RegExp(reDayOfWeek, caseSensitive: false).firstMatch(rest);
     final dayOfWeek = match?.group(1);
-    final dayOfWeekOrdinal = match?.group(2);
+
+    match = RegExp(reBySetPos, caseSensitive: false).firstMatch(rest);
+    final dayOfWeekOrdinal = match?.group(1);
 
     if (dayOfWeek == null) {
       return _ParsedRRule(
+        interval: interval,
         month: month,
         dayOfMonth: parseByMonthDay(dayOfMonth),
       );
     } else {
       return _ParsedRRule(
+        interval: interval,
         month: month,
         dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
         dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
@@ -321,17 +350,21 @@ class YearlyPickerController
     setIntervalSegmentTypeValue(
       parsed.dayOfMonth == null ? const {.relative} : const {.precise},
     );
+    setIntervalValue(parsed.interval);
     setDayOfMonthValue(parsed.dayOfMonth ?? defaultByMonthDay);
     setDayOfWeekValue(
       parsed.dayOfWeekOrdinal ?? .first,
       parsed.dayOfWeek ?? firstDayOfWeek,
+      firstDayOfWeek,
     );
-    _month.value = parsed.month;
+    month.value = parsed.month;
   }
 
   void buildRRulePart(StringBuffer sb) {
-    sb.write('FREQ=YEARLY;BYMONTH=');
-    sb.write(_month.value.rruleValue);
+    sb.write('FREQ=YEARLY;INTERVAL=');
+    sb.write(intervalNotifier.value);
+    sb.write(';BYMONTH=');
+    sb.write(month.value.rruleValue);
 
     switch (intervalSegmentType.value.first) {
       case .precise:
@@ -347,12 +380,14 @@ class YearlyPickerController
 }
 
 class _ParsedRRule {
+  final int interval;
   final Month month;
   final int? dayOfMonth;
   final DayOfWeek? dayOfWeek;
   final DayOfWeekOrdinal? dayOfWeekOrdinal;
 
   const _ParsedRRule({
+    required this.interval,
     required this.month,
     this.dayOfMonth,
     this.dayOfWeek,

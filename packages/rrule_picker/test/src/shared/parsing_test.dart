@@ -8,18 +8,21 @@ import 'package:rrule_picker/src/shared/parsing.dart';
 void main() {
   group('parseInterval', () {
     property('returns parsed value for valid positive integers', () {
-      forAll(integer(min: 1, max: 10000), (interval) {
+      forAll(integer(min: 1), (interval) {
         expect(parseInterval(interval.toString()), interval);
       });
     });
 
-    test('returns default value when value is null', () {
+    property('returns default value when value is null', () {
       expect(parseInterval(null), defaultInterval);
-      expect(parseInterval(null, 5), 5);
+
+      forAll(integer(min: 1), (interval) {
+        expect(parseInterval(null, interval), interval);
+      });
     });
 
     property('returns default value for non-positive integers', () {
-      forAll(integer(min: -10000, max: 0), (interval) {
+      forAll(integer(max: 0), (interval) {
         expect(parseInterval(interval.toString()), defaultInterval);
       });
     });
@@ -51,9 +54,10 @@ void main() {
         ('', defaultInterval),
         ('0', defaultInterval),
         ('0.0', defaultInterval),
-        ('1.0', defaultInterval),
+        ('1.0', 1),
         ('+1', 1),
         ('001', 1),
+        ('-001', 1),
       ]) {
         expect(parseInterval(input), expected, reason: 'Input: <$input>');
       }
@@ -61,47 +65,48 @@ void main() {
   });
 
   group('parseByMonth', () {
-    test('returns default value when value is null', () {
+    property('returns default value when value is null', () {
       expect(parseByMonth(null), defaultByMonth);
-      expect(parseByMonth(null, Month.march), Month.march);
+
+      forAll(constantFrom(Month.values), (month) {
+        expect(parseByMonth(null, month), month);
+      });
     });
 
     test('returns correct Month for valid month strings', () {
-      expect(parseByMonth('1'), Month.january);
-      expect(parseByMonth('2'), Month.february);
-      expect(parseByMonth('3'), Month.march);
-      expect(parseByMonth('4'), Month.april);
-      expect(parseByMonth('5'), Month.may);
-      expect(parseByMonth('6'), Month.june);
-      expect(parseByMonth('7'), Month.july);
-      expect(parseByMonth('8'), Month.august);
-      expect(parseByMonth('9'), Month.september);
-      expect(parseByMonth('10'), Month.october);
-      expect(parseByMonth('11'), Month.november);
-      expect(parseByMonth('12'), Month.december);
-    });
-
-    test('returns default value for edge cases', () {
-      expect(parseByMonth(''), defaultByMonth);
-      expect(parseByMonth('0'), defaultByMonth);
-      expect(parseByMonth('13'), defaultByMonth);
+      for (final (value, month) in const <(String, Month)>[
+        ('1', .january),
+        ('2', .february),
+        ('3', .march),
+        ('4', .april),
+        ('5', .may),
+        ('6', .june),
+        ('7', .july),
+        ('8', .august),
+        ('9', .september),
+        ('10', .october),
+        ('11', .november),
+        ('12', .december),
+      ]) {
+        expect(parseByMonth(value), month);
+      }
     });
 
     property('returns default value for values smaller than valid range', () {
-      forAll(integer(min: -10000, max: 0), (month) {
+      forAll(integer(max: 0), (month) {
         expect(parseByMonth(month.toString()), defaultByMonth);
       });
     });
 
     property('returns default value for values greater than valid range', () {
-      forAll(integer(min: 13, max: 10000), (month) {
+      forAll(integer(min: Month.values.length + 1), (month) {
         expect(parseByMonth(month.toString()), defaultByMonth);
       });
     });
 
     property('returns default value for non-month ascii strings', () {
       forAll(
-        string(minLength: 1, maxLength: 5, characterSet: .all(.ascii)).filter(
+        string(minLength: 0, maxLength: 5, characterSet: .all(.ascii)).filter(
           (month) => switch (int.tryParse(month)) {
             null || < 1 || > 12 => true,
             _ => false,
@@ -113,7 +118,7 @@ void main() {
 
     property('returns default value for non-month utf-8 strings', () {
       forAll(
-        string(minLength: 1, maxLength: 5, characterSet: .all(.utf8)).filter(
+        string(minLength: 0, maxLength: 5, characterSet: .all(.utf8)).filter(
           (month) => switch (int.tryParse(month)) {
             null || < 1 || > 12 => true,
             _ => false,
@@ -125,29 +130,33 @@ void main() {
   });
 
   group('parseByMonthDay', () {
-    test('returns default value when value is null', () {
+    property('returns default value when value is null', () {
       expect(parseByMonthDay(null), defaultByMonthDay);
-      expect(parseByMonthDay(null, 15), 15);
-    });
 
-    property('returns parsed value for valid day values (1-31)', () {
-      forAll(integer(min: byMonthDayMin, max: byMonthDayMax - 1), (day) {
-        expect(parseByMonthDay(day.toString()), day);
+      forAll(integer(min: byMonthDayMin, max: byMonthDayMax), (day) {
+        expect(parseByMonthDay(null, day), day);
       });
     });
 
-    test('returns byMonthDayMax (32) when value is -1', () {
-      expect(parseByMonthDay('-1'), byMonthDayMax);
+    property('returns parsed value for valid day values', () {
+      forAll(
+        integer(min: byMonthDayMin, max: byMonthDayMax).map((day) {
+          return (string: '${day < byMonthDayMax ? day : -1}', value: day);
+        }),
+        (t) {
+          expect(parseByMonthDay(t.string), t.value);
+        },
+      );
     });
 
     property('returns default value for values smaller than valid range', () {
-      forAll(integer(min: -10000, max: 0).filter((day) => day != -1), (day) {
+      forAll(integer(max: 0).filter((day) => day != -1), (day) {
         expect(parseByMonthDay(day.toString()), defaultByMonthDay);
       });
     });
 
     property('returns default value for values greater than valid range', () {
-      forAll(integer(min: 32, max: 10000), (day) {
+      forAll(integer(min: byMonthDayMax), (day) {
         expect(parseByMonthDay(day.toString()), defaultByMonthDay);
       });
     });
@@ -178,9 +187,12 @@ void main() {
   });
 
   group('parseByDaySingle', () {
-    test('returns default value when value is null', () {
+    property('returns default value when value is null', () {
       expect(parseByDaySingle(null), defaultByDaySingle);
-      expect(parseByDaySingle(null, DayOfWeek.tuesday), DayOfWeek.tuesday);
+
+      forAll(constantFrom(DayOfWeek.values), (day) {
+        expect(parseByDaySingle(null, day), day);
+      });
     });
 
     test('returns correct DayOfWeek for valid codes', () {
@@ -233,26 +245,48 @@ void main() {
   });
 
   group('parseByDayMulti', () {
-    test('returns default value when value is null', () {
-      final result = parseByDayMulti(null);
-      expect(result, defaultByDayMulti);
-      expect(result, {DayOfWeek.monday});
+    property('returns default value when value is null', () {
+      expect(parseByDayMulti(null), defaultByDayMulti);
+
+      forAll(
+        set(
+          constantFrom(DayOfWeek.values),
+          minLength: 1,
+          maxLength: DayOfWeek.values.length,
+        ).map((days) {
+          return (
+            strings: days.map((day) => day.rruleName).join(','),
+            values: days,
+          );
+        }),
+        (t) {
+          expect(parseByDayMulti(t.strings), t.values);
+        },
+      );
     });
 
-    test('returns set with single DayOfWeek', () {
-      expect(parseByDayMulti('MO'), {DayOfWeek.monday});
-    });
-
-    test('returns set with multiple DayOfWeek values', () {
-      expect(parseByDayMulti('MO,TU,WE'), {
-        DayOfWeek.monday,
-        DayOfWeek.tuesday,
-        DayOfWeek.wednesday,
+    property('returns set with single DayOfWeek', () {
+      forAll(constantFrom(DayOfWeek.values), (day) {
+        expect(parseByDayMulti(day.rruleName), {day});
       });
     });
 
-    test('returns set with all days of week', () {
-      expect(parseByDayMulti('MO,TU,WE,TH,FR,SA,SU'), DayOfWeek.values.toSet());
+    property('returns set with multiple DayOfWeek values', () {
+      forAll(
+        set(
+          constantFrom(DayOfWeek.values),
+          minLength: 1,
+          maxLength: DayOfWeek.values.length,
+        ).map((days) {
+          return (
+            strings: days.map((day) => day.rruleName).join(','),
+            values: days,
+          );
+        }),
+        (t) {
+          expect(parseByDayMulti(t.strings), t.values);
+        },
+      );
     });
 
     test('returns default value when no valid days are parsed', () {
@@ -293,34 +327,45 @@ void main() {
       });
     });
 
-    test('uses custom default value', () {
-      final customDefault = {DayOfWeek.friday, DayOfWeek.saturday};
-      expect(parseByDayMulti('XX', customDefault), customDefault);
+    property('uses custom default value', () {
+      forAll(
+        set(
+          constantFrom(DayOfWeek.values),
+          minLength: 1,
+          maxLength: DayOfWeek.values.length,
+        ),
+        (days) {
+          expect(parseByDayMulti('XX', days), days);
+        },
+      );
     });
   });
 
   group('parseBySetPosNthWeekDay', () {
-    test('returns default value when value is null', () {
+    property('returns default value when value is null', () {
       expect(parseBySetPosNthWeekDay(null), defaultBySetPosNthWeekDay);
-      expect(parseBySetPosNthWeekDay(null, .second), DayOfWeekOrdinal.second);
+
+      forAll(constantFrom(DayOfWeekOrdinal.values), (ordinal) {
+        expect(parseBySetPosNthWeekDay(null, ordinal), ordinal);
+      });
     });
 
     test('returns correct DayOfWeekOrdinal for valid values', () {
-      expect(parseBySetPosNthWeekDay('0'), DayOfWeekOrdinal.first);
-      expect(parseBySetPosNthWeekDay('1'), DayOfWeekOrdinal.second);
-      expect(parseBySetPosNthWeekDay('2'), DayOfWeekOrdinal.third);
-      expect(parseBySetPosNthWeekDay('3'), DayOfWeekOrdinal.fourth);
+      expect(parseBySetPosNthWeekDay('1'), DayOfWeekOrdinal.first);
+      expect(parseBySetPosNthWeekDay('2'), DayOfWeekOrdinal.second);
+      expect(parseBySetPosNthWeekDay('3'), DayOfWeekOrdinal.third);
+      expect(parseBySetPosNthWeekDay('4'), DayOfWeekOrdinal.fourth);
       expect(parseBySetPosNthWeekDay('-1'), DayOfWeekOrdinal.last);
     });
 
     test('returns default value for invalid edge cases', () {
       expect(parseBySetPosNthWeekDay(''), defaultBySetPosNthWeekDay);
       expect(parseBySetPosNthWeekDay('-2'), defaultBySetPosNthWeekDay);
-      expect(parseBySetPosNthWeekDay('4'), defaultBySetPosNthWeekDay);
+      expect(parseBySetPosNthWeekDay('5'), defaultBySetPosNthWeekDay);
     });
 
     property('returns default value for values smaller than valid range', () {
-      forAll(integer(min: -10000, max: -2), (ordinal) {
+      forAll(integer(max: 0).filter((ordinal) => ordinal != -1), (ordinal) {
         expect(
           parseBySetPosNthWeekDay(ordinal.toString()),
           defaultBySetPosNthWeekDay,
@@ -329,7 +374,7 @@ void main() {
     });
 
     property('returns default value for values greater than valid range', () {
-      forAll(integer(min: 4, max: 10000), (ordinal) {
+      forAll(integer(min: DayOfWeekOrdinal.values.length), (ordinal) {
         expect(
           parseBySetPosNthWeekDay(ordinal.toString()),
           defaultBySetPosNthWeekDay,
@@ -358,8 +403,9 @@ void main() {
             _ => false,
           },
         ),
-        (ordinal) =>
-            expect(parseBySetPosNthWeekDay(ordinal), defaultBySetPosNthWeekDay),
+        (ordinal) {
+          expect(parseBySetPosNthWeekDay(ordinal), defaultBySetPosNthWeekDay);
+        },
       );
     });
   });
@@ -443,27 +489,31 @@ void main() {
   group(DayOfWeekOrdinal, () {
     group('tryParse', () {
       test('returns correct DayOfWeekOrdinal for valid values', () {
-        expect(DayOfWeekOrdinal.tryParse('0'), DayOfWeekOrdinal.first);
-        expect(DayOfWeekOrdinal.tryParse('1'), DayOfWeekOrdinal.second);
-        expect(DayOfWeekOrdinal.tryParse('2'), DayOfWeekOrdinal.third);
-        expect(DayOfWeekOrdinal.tryParse('3'), DayOfWeekOrdinal.fourth);
+        expect(DayOfWeekOrdinal.tryParse('1'), DayOfWeekOrdinal.first);
+        expect(DayOfWeekOrdinal.tryParse('2'), DayOfWeekOrdinal.second);
+        expect(DayOfWeekOrdinal.tryParse('3'), DayOfWeekOrdinal.third);
+        expect(DayOfWeekOrdinal.tryParse('4'), DayOfWeekOrdinal.fourth);
         expect(DayOfWeekOrdinal.tryParse('-1'), DayOfWeekOrdinal.last);
       });
 
       test('returns null for invalid edge cases', () {
         expect(DayOfWeekOrdinal.tryParse(''), null);
         expect(DayOfWeekOrdinal.tryParse('-2'), null);
-        expect(DayOfWeekOrdinal.tryParse('4'), null);
+        expect(DayOfWeekOrdinal.tryParse('0'), null);
+        expect(
+          DayOfWeekOrdinal.tryParse(DayOfWeekOrdinal.values.length.toString()),
+          null,
+        );
       });
 
       property('returns null for values smaller than valid range', () {
-        forAll(integer(min: -10000, max: -2), (ordinal) {
+        forAll(integer(max: 0).filter((ordinal) => ordinal != -1), (ordinal) {
           expect(DayOfWeekOrdinal.tryParse(ordinal.toString()), null);
         });
       });
 
       property('returns null for values greater than valid range', () {
-        forAll(integer(min: 4, max: 10000), (ordinal) {
+        forAll(integer(min: DayOfWeekOrdinal.values.length), (ordinal) {
           expect(DayOfWeekOrdinal.tryParse(ordinal.toString()), null);
         });
       });
@@ -472,7 +522,7 @@ void main() {
         forAll(
           string(minLength: 1, maxLength: 5, characterSet: .all(.ascii)).filter(
             (ordinal) => switch (int.tryParse(ordinal)) {
-              null || < -1 || > 3 => true,
+              null || < -1 || > 4 => true,
               _ => false,
             },
           ),
@@ -519,27 +569,21 @@ void main() {
         expect(Month.tryParse('12'), Month.december);
       });
 
-      test('returns null for edge cases', () {
-        expect(Month.tryParse(''), null);
-        expect(Month.tryParse('0'), null);
-        expect(Month.tryParse('13'), null);
-      });
-
       property('returns null for values smaller than valid range', () {
-        forAll(integer(min: -10000, max: 0), (month) {
+        forAll(integer(max: 0), (month) {
           expect(Month.tryParse(month.toString()), null);
         });
       });
 
       property('returns null for values greater than valid range', () {
-        forAll(integer(min: 13, max: 10000), (month) {
+        forAll(integer(min: Month.values.length + 1), (month) {
           expect(Month.tryParse(month.toString()), null);
         });
       });
 
       property('returns null for non-month ascii strings', () {
         forAll(
-          string(minLength: 1, maxLength: 5, characterSet: .all(.ascii)).filter(
+          string(minLength: 0, maxLength: 5, characterSet: .all(.ascii)).filter(
             (month) => switch (int.tryParse(month)) {
               null || < 1 || > 12 => true,
               _ => false,
@@ -551,7 +595,7 @@ void main() {
 
       property('returns null for non-month utf-8 strings', () {
         forAll(
-          string(minLength: 1, maxLength: 5, characterSet: .all(.utf8)).filter(
+          string(minLength: 0, maxLength: 5, characterSet: .all(.utf8)).filter(
             (month) => switch (int.tryParse(month)) {
               null || < 1 || > 12 => true,
               _ => false,

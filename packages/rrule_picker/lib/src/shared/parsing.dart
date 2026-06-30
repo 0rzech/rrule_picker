@@ -155,10 +155,10 @@ enum DayOfWeekOrdinal {
 
   static DayOfWeekOrdinal? tryParse(String text) {
     return switch (int.tryParse(text)) {
-      0 => first,
-      1 => second,
-      2 => third,
-      3 => fourth,
+      1 => first,
+      2 => second,
+      3 => third,
+      4 => fourth,
       -1 => last,
       _ => null,
     };

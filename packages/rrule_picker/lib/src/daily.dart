@@ -20,29 +20,20 @@ class DailyPicker extends StatelessWidget {
     return IntervalPicker(
       everyUnitText: localizations.rrulePickerEveryDaily,
       intervalUnitText: localizations.rrulePickerDays,
-      intervalNotifier: controller.intervalNotifier,
-      intervalController: controller.intervalController,
+      controller: controller,
     );
   }
 }
 
 @internal
-class DailyPickerController with IntervalPickerState {
-  DailyPickerController({
-    String initialRRule = '',
-    required VoidCallback listener,
-  }) {
-    initIntervalState(
-      initialValue: parseRRule(initialRRule),
-      listener: listener,
-    );
-  }
+class DailyPickerController extends IntervalPickerController {
+  DailyPickerController({required super.listener, String initialRRule = ''})
+    : super(initialInterval: parseRRule(initialRRule));
 
-  @mustCallSuper
-  void dispose() => disposeIntervalState();
-
+  @override
   void setRRule(String rrule) => setIntervalValue(parseRRule(rrule));
 
+  @override
   void buildRRulePart(StringBuffer sb) {
     sb.write('FREQ=DAILY;INTERVAL=');
     sb.write(getIntervalValue());

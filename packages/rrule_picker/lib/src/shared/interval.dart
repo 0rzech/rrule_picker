@@ -4,22 +4,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:rrule_picker/localizations/localizations.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/picker.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
 @internal
 class IntervalPicker extends StatelessWidget {
   final String Function(int interval) everyUnitText;
   final String Function(int interval) intervalUnitText;
-  final TextEditingController intervalController;
-  final ValueNotifier<int> intervalNotifier;
+  final IntervalPickerController controller;
 
   const IntervalPicker({
     super.key,
     required this.everyUnitText,
     required this.intervalUnitText,
-    required this.intervalController,
-    required this.intervalNotifier,
+    required this.controller,
   });
 
   @override
@@ -27,14 +28,14 @@ class IntervalPicker extends StatelessWidget {
     final theme = ResolvedTheme.of(context);
 
     final everyLabel = ValueListenableBuilder(
-      valueListenable: intervalNotifier,
+      valueListenable: controller.intervalNotifier,
       builder: (context, count, _) =>
           Text(everyUnitText(count), style: theme.labelStyle),
     );
 
     final countField = Expanded(
       child: TextField(
-        controller: intervalController,
+        controller: controller.intervalController,
         keyboardType: .number,
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
@@ -44,14 +45,14 @@ class IntervalPicker extends StatelessWidget {
         decoration: theme.textFieldTheme?.decoration,
         onChanged: (value) {
           if (int.tryParse(value) case final count?) {
-            intervalNotifier.value = count;
+            controller.intervalNotifier.value = count;
           }
         },
       ),
     );
 
     final daysLabel = ValueListenableBuilder(
-      valueListenable: intervalNotifier,
+      valueListenable: controller.intervalNotifier,
       builder: (context, count, _) =>
           Text(intervalUnitText(count), style: theme.labelStyle),
     );
@@ -85,27 +86,24 @@ class IntervalPickerValueInputFormatter extends TextInputFormatter {
 }
 
 @internal
-mixin IntervalPickerState {
-  late final int initialIntervalValue;
+abstract class IntervalPickerController extends PickerController {
+  final int initialInterval;
   late final ValueNotifier<int> intervalNotifier;
   late final TextEditingController intervalController;
 
   @visibleForTesting
   @protected
-  @mustCallSuper
-  void initIntervalState({
-    int initialValue = defaultInterval,
+  IntervalPickerController({
     required VoidCallback listener,
-  }) {
-    initialIntervalValue = initialValue;
-    intervalNotifier = .new(initialIntervalValue)..addListener(listener);
+    int initialInterval = defaultInterval,
+  }) : initialInterval = initialInterval {
+    intervalNotifier = .new(initialInterval)..addListener(listener);
     intervalController = .new(text: intervalNotifier.value.toString());
   }
 
-  @visibleForTesting
-  @protected
   @mustCallSuper
-  void disposeIntervalState() {
+  @override
+  void dispose() {
     intervalController.dispose();
     intervalNotifier.dispose();
   }
@@ -119,34 +117,103 @@ mixin IntervalPickerState {
 
   int getIntervalValue({int minValue = intervalMin, int? defaultValue}) =>
       intervalNotifier.value < minValue
-      ? (defaultValue ?? initialIntervalValue)
+      ? (defaultValue ?? initialInterval)
       : intervalNotifier.value;
 }
 
 @internal
-mixin IntervalPickerSegmentTypeState {
-  late final ValueNotifier<Set<IntervalPickerSegmentType>> intervalSegmentType;
+abstract class IntervalPickerSegmentController
+    extends IntervalPickerController {
+  final ValueNotifier<Set<IntervalPickerSegmentType>> intervalSegmentType;
 
-  @visibleForTesting
-  @protected
-  @mustCallSuper
-  void initIntervalSegmentTypeState({
+  late final ValueNotifier<int> dayOfMonth;
+  late final NumberFormat dayOfMonthFormatter;
+  late final ValueNotifier<DayOfWeekOrdinal> dayOfWeekOrdinal;
+
+  late final ValueNotifier<DayOfWeek> dayOfWeek;
+  late DateFormat dayOfWeekFormatter;
+  late final ValueNotifier<List<(DayOfWeek, String)>> daysOfWeek;
+
+  IntervalPickerSegmentController({
+    super.initialInterval,
     Set<IntervalPickerSegmentType> initialSegmentType = const {.precise},
+    int initialDayOfMonth = defaultByMonthDay,
+    String dayOfMonthFormat = '00',
+    DayOfWeekOrdinal initialDayOfWeekOrdinal = .first,
+    DayOfWeek initialDayOfWeek = .monday,
     required VoidCallback listener,
-  }) =>
-      intervalSegmentType = ValueNotifier(initialSegmentType)
-        ..addListener(listener);
+  }) : intervalSegmentType = ValueNotifier(initialSegmentType)
+         ..addListener(listener),
 
-  @visibleForTesting
-  @protected
-  @mustCallSuper
-  void disposeIntervalSegmentTypeState() => intervalSegmentType.dispose();
+       dayOfMonth = ValueNotifier(initialDayOfMonth)..addListener(listener),
+       dayOfMonthFormatter = NumberFormat(dayOfMonthFormat),
+       dayOfWeekOrdinal = ValueNotifier(initialDayOfWeekOrdinal)
+         ..addListener(listener),
+
+       dayOfWeek = ValueNotifier(initialDayOfWeek)..addListener(listener),
+       dayOfWeekFormatter = DateFormat.EEEE(),
+
+       super(listener: listener) {
+    daysOfWeek = ValueNotifier(
+      DayOfWeek.buildWeek(initialDayOfWeek, dayOfWeekFormatter),
+    )..addListener(listener);
+  }
+
+  @override
+  void dispose() {
+    daysOfWeek.dispose();
+    dayOfWeek.dispose();
+    dayOfWeekOrdinal.dispose();
+    dayOfMonth.dispose();
+    intervalSegmentType.dispose();
+    super.dispose();
+  }
 
   @visibleForTesting
   @protected
   void setIntervalSegmentTypeValue(
     Set<IntervalPickerSegmentType> segmentType,
   ) => intervalSegmentType.value = segmentType;
+
+  @visibleForTesting
+  @protected
+  void setDayOfMonthValue(int value) => dayOfMonth.value = value;
+
+  @visibleForTesting
+  @protected
+  @mustCallSuper
+  void updateDayOfWeekState({
+    RRulePickerLocalizations? localizations,
+    DayOfWeek? firstDayOfWeek,
+  }) {
+    if (localizations != null) {
+      dayOfWeekFormatter = DateFormat.EEEE(localizations.localeName);
+    }
+
+    if (firstDayOfWeek != null) {
+      daysOfWeek.value = DayOfWeek.buildWeek(
+        firstDayOfWeek,
+        dayOfWeekFormatter,
+      );
+    }
+  }
+
+  @visibleForTesting
+  @protected
+  void setDayOfWeekValue(
+    DayOfWeekOrdinal dayOfWeekOrdinal,
+    DayOfWeek dayOfWeek, [
+    DayOfWeek? firstDayOfWeek,
+  ]) {
+    this.dayOfWeekOrdinal.value = dayOfWeekOrdinal;
+    this.dayOfWeek.value = dayOfWeek;
+    if (firstDayOfWeek != null) {
+      daysOfWeek.value = DayOfWeek.buildWeek(
+        firstDayOfWeek,
+        dayOfWeekFormatter,
+      );
+    }
+  }
 }
 
 @internal

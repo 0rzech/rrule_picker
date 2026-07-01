@@ -49,9 +49,8 @@ class _WeeklyPickerState extends State<WeeklyPicker> {
 
     final interval = IntervalPicker(
       everyUnitText: localizations.rrulePickerEveryWeekly,
-      intervalController: widget.controller.intervalController,
       intervalUnitText: localizations.rrulePickerWeeks,
-      intervalNotifier: widget.controller.intervalNotifier,
+      controller: widget.controller,
     );
 
     final dayOfWeekSelector = SizedBox(
@@ -82,27 +81,40 @@ class _WeeklyPickerState extends State<WeeklyPicker> {
 }
 
 @internal
-class WeeklyPickerController with IntervalPickerState {
-  late final ValueNotifier<Set<DayOfWeek>> selectedDaysOfWeek;
-  late DateFormat dayOfWeekFormat;
-  late List<(DayOfWeek, String)> daysOfWeek;
+class WeeklyPickerController extends IntervalPickerController {
+  final ValueNotifier<Set<DayOfWeek>> selectedDaysOfWeek;
+  DateFormat dayOfWeekFormat;
+  List<(DayOfWeek, String)> daysOfWeek;
 
-  WeeklyPickerController({
+  factory WeeklyPickerController({
+    required VoidCallback listener,
     String initialRRule = '',
     DayOfWeek firstDayOfWeek = .monday,
-    required VoidCallback listener,
   }) {
     final (weeks, days) = parseRRule(initialRRule, firstDayOfWeek);
-    initIntervalState(initialValue: weeks, listener: listener);
-    selectedDaysOfWeek = ValueNotifier(days)..addListener(listener);
-    dayOfWeekFormat = DateFormat.E();
-    daysOfWeek = DayOfWeek.buildWeek(firstDayOfWeek, dayOfWeekFormat);
+    final dayOfWeekFormat = DateFormat.E();
+
+    return WeeklyPickerController._(
+      listener: listener,
+      initialInterval: weeks,
+      selectedDaysOfWeek: ValueNotifier(days)..addListener(listener),
+      dayOfWeekFormat: dayOfWeekFormat,
+      daysOfWeek: DayOfWeek.buildWeek(firstDayOfWeek, dayOfWeekFormat),
+    );
   }
 
-  @mustCallSuper
+  WeeklyPickerController._({
+    required super.listener,
+    required super.initialInterval,
+    required this.selectedDaysOfWeek,
+    required this.dayOfWeekFormat,
+    required this.daysOfWeek,
+  });
+
+  @override
   void dispose() {
     selectedDaysOfWeek.dispose();
-    disposeIntervalState();
+    super.dispose();
   }
 
   void _updateState({
@@ -118,6 +130,7 @@ class WeeklyPickerController with IntervalPickerState {
     }
   }
 
+  @override
   void setRRule(String rrule, [DayOfWeek firstDayOfWeek = .monday]) {
     final (weeks, days) = parseRRule(rrule, firstDayOfWeek);
     setIntervalValue(weeks);
@@ -127,6 +140,7 @@ class WeeklyPickerController with IntervalPickerState {
     }
   }
 
+  @override
   void buildRRulePart(StringBuffer sb) {
     sb.write('FREQ=WEEKLY;INTERVAL=');
     sb.write(getIntervalValue());

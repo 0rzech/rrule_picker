@@ -4,8 +4,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
-import 'package:rrule_picker/src/shared/day_of_month.dart';
-import 'package:rrule_picker/src/shared/day_of_week.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
@@ -54,8 +52,7 @@ class _MonthlyPickerState extends State<MonthlyPicker> {
     final interval = IntervalPicker(
       everyUnitText: l.rrulePickerEveryMonthly,
       intervalUnitText: l.rrulePickerMonths,
-      intervalController: controller.intervalController,
-      intervalNotifier: controller.intervalNotifier,
+      controller: controller,
     );
 
     return ValueListenableBuilder(
@@ -184,44 +181,33 @@ class _MonthlyPickerState extends State<MonthlyPicker> {
 }
 
 @internal
-class MonthlyPickerController
-    with
-        IntervalPickerSegmentTypeState,
-        IntervalPickerState,
-        DayOfMonthState,
-        DayOfWeekState {
-  MonthlyPickerController({
+class MonthlyPickerController extends IntervalPickerSegmentController {
+  factory MonthlyPickerController({
+    required VoidCallback listener,
     String initialRRule = '',
     DayOfWeek firstDayOfWeek = .monday,
-    required VoidCallback listener,
   }) {
-    final rrule = _parseRRule(initialRRule, firstDayOfWeek);
-
-    initIntervalSegmentTypeState(
+    final rrule = parseRRule(initialRRule, firstDayOfWeek);
+    return MonthlyPickerController._(
+      listener: listener,
+      initialInterval: rrule.interval,
       initialSegmentType: rrule.dayOfMonth == null
           ? const {.relative}
           : const {.precise},
-      listener: listener,
-    );
-    initIntervalState(initialValue: rrule.interval, listener: listener);
-    initDayOfMonthState(
       initialDayOfMonth: rrule.dayOfMonth ?? defaultByMonthDay,
-      listener: listener,
-    );
-    initDayOfWeekState(
       initialDayOfWeekOrdinal: rrule.dayOfWeekOrdinal ?? .first,
       initialDayOfWeek: rrule.dayOfWeek ?? firstDayOfWeek,
-      listener: listener,
     );
   }
 
-  @mustCallSuper
-  void dispose() {
-    disposeDayOfWeekState();
-    disposeDayOfMonthState();
-    disposeIntervalState();
-    disposeIntervalSegmentTypeState();
-  }
+  MonthlyPickerController._({
+    required super.listener,
+    required super.initialInterval,
+    required super.initialSegmentType,
+    required super.initialDayOfMonth,
+    required super.initialDayOfWeekOrdinal,
+    required super.initialDayOfWeek,
+  });
 
   void _updateState({
     RRulePickerLocalizations? localizations,
@@ -231,51 +217,9 @@ class MonthlyPickerController
     firstDayOfWeek: firstDayOfWeek,
   );
 
-  _ParsedRRule _parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
-    if (rrule.isEmpty) {
-      return const _ParsedRRule(
-        interval: defaultInterval,
-        dayOfMonth: defaultByMonthDay,
-      );
-    }
-
-    const reInterval = r'INTERVAL=(\d+)(?:;|$)';
-    const reByMonthDay = r'BYMONTHDAY=(-?\d+)(?:;|$)';
-    const reByDay =
-        r'BYDAY=((?:MO|TU|WE|TH|FR|SA|SU)'
-        r'(?:,(?:MO|TU|WE|TH|FR|SA|SU))*)(?:;|$)';
-    const reBySetPos = r'BYSETPOS=(-?\d+)(?:;|$)';
-
-    var match = RegExp(reInterval, caseSensitive: false).firstMatch(rrule);
-    final interval = parseInterval(match?.group(1));
-
-    final rest = rrule.substring(match?.end ?? 0);
-
-    match = RegExp(reByMonthDay, caseSensitive: false).firstMatch(rest);
-    final dayOfMonth = match?.group(1);
-
-    match = RegExp(reByDay, caseSensitive: false).firstMatch(rest);
-    final dayOfWeek = match?.group(1);
-
-    match = RegExp(reBySetPos, caseSensitive: false).firstMatch(rest);
-    final dayOfWeekOrdinal = match?.group(1);
-
-    if (dayOfWeek == null) {
-      return _ParsedRRule(
-        interval: interval,
-        dayOfMonth: parseByMonthDay(dayOfMonth),
-      );
-    } else {
-      return _ParsedRRule(
-        interval: interval,
-        dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
-        dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
-      );
-    }
-  }
-
+  @override
   void setRRule(String rrule, [DayOfWeek firstDayOfWeek = .monday]) {
-    final parsed = _parseRRule(rrule, firstDayOfWeek);
+    final parsed = parseRRule(rrule, firstDayOfWeek);
 
     setIntervalSegmentTypeValue(
       parsed.dayOfMonth == null ? const {.relative} : const {.precise},
@@ -289,6 +233,7 @@ class MonthlyPickerController
     );
   }
 
+  @override
   void buildRRulePart(StringBuffer sb) {
     sb.write('FREQ=MONTHLY;INTERVAL=');
     sb.write(getIntervalValue());
@@ -306,13 +251,58 @@ class MonthlyPickerController
   }
 }
 
-class _ParsedRRule {
+@internal
+ParsedRRule parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
+  if (rrule.isEmpty) {
+    return const ParsedRRule(
+      interval: defaultInterval,
+      dayOfMonth: defaultByMonthDay,
+    );
+  }
+
+  const reInterval = r'INTERVAL=(\d+)(?:;|$)';
+  const reByMonthDay = r'BYMONTHDAY=(-?\d+)(?:;|$)';
+  const reByDay =
+      r'BYDAY=((?:MO|TU|WE|TH|FR|SA|SU)'
+      r'(?:,(?:MO|TU|WE|TH|FR|SA|SU))*)(?:;|$)';
+  const reBySetPos = r'BYSETPOS=(-?\d+)(?:;|$)';
+
+  var match = RegExp(reInterval, caseSensitive: false).firstMatch(rrule);
+  final interval = parseInterval(match?.group(1));
+
+  final rest = rrule.substring(match?.end ?? 0);
+
+  match = RegExp(reByMonthDay, caseSensitive: false).firstMatch(rest);
+  final dayOfMonth = match?.group(1);
+
+  match = RegExp(reByDay, caseSensitive: false).firstMatch(rest);
+  final dayOfWeek = match?.group(1);
+
+  match = RegExp(reBySetPos, caseSensitive: false).firstMatch(rest);
+  final dayOfWeekOrdinal = match?.group(1);
+
+  if (dayOfWeek == null) {
+    return ParsedRRule(
+      interval: interval,
+      dayOfMonth: parseByMonthDay(dayOfMonth),
+    );
+  } else {
+    return ParsedRRule(
+      interval: interval,
+      dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
+      dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
+    );
+  }
+}
+
+@internal
+class ParsedRRule {
   final int interval;
   final int? dayOfMonth;
   final DayOfWeek? dayOfWeek;
   final DayOfWeekOrdinal? dayOfWeekOrdinal;
 
-  const _ParsedRRule({
+  const ParsedRRule({
     required this.interval,
     this.dayOfMonth,
     this.dayOfWeek,

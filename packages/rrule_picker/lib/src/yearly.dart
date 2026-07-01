@@ -359,20 +359,18 @@ ParsedRRule parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
   match = RegExp(reBySetPos, caseSensitive: false).firstMatch(rest);
   final dayOfWeekOrdinal = match?.group(1);
 
-  if (dayOfWeek == null) {
-    return ParsedRRule(
-      interval: interval,
-      month: month,
-      dayOfMonth: parseByMonthDay(dayOfMonth, maxValue: month.maxDay),
-    );
-  } else {
-    return ParsedRRule(
-      interval: interval,
-      month: month,
-      dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
-      dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
-    );
-  }
+  return dayOfWeek == null
+      ? ParsedRRule(
+          interval: interval,
+          month: month,
+          dayOfMonth: parseByMonthDay(dayOfMonth, maxValue: month.maxDay),
+        )
+      : ParsedRRule(
+          interval: interval,
+          month: month,
+          dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
+          dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
+        );
 }
 
 @internal

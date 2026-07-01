@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 abstract class PickerController {
   const PickerController();
 
+  @mustCallSuper
   void dispose();
   void setRRule(String rrule);
   void buildRRulePart(StringBuffer sb);

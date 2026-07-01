@@ -188,6 +188,7 @@ class MonthlyPickerController extends IntervalPickerSegmentController {
     DayOfWeek firstDayOfWeek = .monday,
   }) {
     final rrule = parseRRule(initialRRule, firstDayOfWeek);
+
     return MonthlyPickerController._(
       listener: listener,
       initialInterval: rrule.interval,
@@ -281,18 +282,13 @@ ParsedRRule parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
   match = RegExp(reBySetPos, caseSensitive: false).firstMatch(rest);
   final dayOfWeekOrdinal = match?.group(1);
 
-  if (dayOfWeek == null) {
-    return ParsedRRule(
-      interval: interval,
-      dayOfMonth: parseByMonthDay(dayOfMonth),
-    );
-  } else {
-    return ParsedRRule(
-      interval: interval,
-      dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
-      dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
-    );
-  }
+  return dayOfWeek == null
+      ? ParsedRRule(interval: interval, dayOfMonth: parseByMonthDay(dayOfMonth))
+      : ParsedRRule(
+          interval: interval,
+          dayOfWeek: parseByDaySingle(dayOfWeek, firstDayOfWeek),
+          dayOfWeekOrdinal: parseBySetPosNthWeekDay(dayOfWeekOrdinal),
+        );
 }
 
 @internal

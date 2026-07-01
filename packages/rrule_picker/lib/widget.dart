@@ -245,10 +245,10 @@ class RRulePickerController extends ValueListenable<String>
        _recurrenceType = .new(_RecurrenceType.fromRRule(initialRRule)) {
     _recurrenceType.addListener(_rruleChanged);
 
-    _daily = .new(initialRRule: initialRRule, listener: _rruleChanged);
-    _weekly = .new(initialRRule: initialRRule, listener: _rruleChanged);
-    _monthly = .new(initialRRule: initialRRule, listener: _rruleChanged);
-    _yearly = .new(initialRRule: initialRRule, listener: _rruleChanged);
+    _daily = .new(listener: _rruleChanged, initialRRule: initialRRule);
+    _weekly = .new(listener: _rruleChanged, initialRRule: initialRRule);
+    _monthly = .new(listener: _rruleChanged, initialRRule: initialRRule);
+    _yearly = .new(listener: _rruleChanged, initialRRule: initialRRule);
 
     _excludedDates = .new(
       initialRRule: initialRRule,

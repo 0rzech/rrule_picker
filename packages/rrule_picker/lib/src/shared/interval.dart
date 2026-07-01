@@ -101,7 +101,6 @@ abstract class IntervalPickerController extends PickerController {
     intervalController = .new(text: intervalNotifier.value.toString());
   }
 
-  @mustCallSuper
   @override
   void dispose() {
     intervalController.dispose();

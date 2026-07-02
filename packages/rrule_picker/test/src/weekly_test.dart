@@ -330,14 +330,11 @@ void main() {
         addTearDown(controller.dispose);
       });
 
-      property('initializes with parsed days from rrule', () {
+      property('initializes with parsed BYDAY from rrule', () {
         late WeeklyPickerController controller;
 
         forAll(
-          combine2(
-            integer(min: intervalMin),
-            set(constantFrom(DayOfWeek.values), minLength: 1, maxLength: 7),
-          ).map(
+          combine2(interval(), dayOfWeekSet()).map(
             (t) => (
               interval: t.$1,
               daysOfWeek: t.$2.map((d) => d.rruleName),
@@ -377,7 +374,7 @@ void main() {
     });
 
     group('setRRule', () {
-      test('updates selected days from rrule', () {
+      test('updates selected BYDAY from rrule', () {
         controller.setRRule('FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE');
 
         expect(controller.selectedDaysOfWeek.value, <DayOfWeek>{
@@ -387,7 +384,7 @@ void main() {
         });
       });
 
-      test('uses default day when byday is missing', () {
+      test('uses default day when BYDAY is missing', () {
         controller.setRRule('FREQ=WEEKLY;INTERVAL=1');
 
         expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
@@ -396,8 +393,8 @@ void main() {
       property('updates with custom firstDayOfWeek', () {
         forAll(
           combine2(
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeek.values),
+            dayOfWeek(),
+            dayOfWeek(),
           ).map((t) => (selected: t.$1, first: t.$2)),
           (t) {
             controller.setRRule(
@@ -431,7 +428,7 @@ void main() {
       });
 
       property('builds correct rrule string with custom interval', () {
-        forAll(integer(min: intervalMin), (interval) {
+        forAll(interval(), (interval) {
           controller.setIntervalValue(interval);
           final sb = StringBuffer();
 
@@ -441,7 +438,7 @@ void main() {
         });
       });
 
-      test('builds correct rrule string with multiple days sorted', () {
+      test('builds correct rrule string with multiple BYDAY sorted', () {
         controller.setIntervalValue(1);
         controller.selectedDaysOfWeek.value = <DayOfWeek>{
           .wednesday,
@@ -455,7 +452,7 @@ void main() {
         expect(sb.toString(), 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,WE,FR');
       });
 
-      test('builds correct rrule string with all days', () {
+      test('builds correct rrule string with all BYDAY', () {
         controller.setIntervalValue(2);
         controller.selectedDaysOfWeek.value = DayOfWeek.values.toSet();
         final sb = StringBuffer();
@@ -485,9 +482,9 @@ void main() {
 
       forAll(
         combine3(
-          integer(min: intervalMin),
-          constantFrom(DayOfWeek.values),
-          constantFrom(DayOfWeek.values),
+          interval(),
+          dayOfWeek(),
+          dayOfWeek(),
         ).map((t) => (interval: t.$1, oldDay: t.$2, newDay: t.$3)),
         (t) {
           controller = WeeklyPickerController(
@@ -514,7 +511,7 @@ void main() {
 
     property('returns default interval and custom firstDayOfWeek '
         'for empty string', () {
-      forAll(constantFrom(DayOfWeek.values), (day) {
+      forAll(dayOfWeek(), (day) {
         final (interval, daysOfWeek) = parseRRule('', day);
 
         expect(interval, defaultInterval);
@@ -522,8 +519,8 @@ void main() {
       });
     });
 
-    property('returns correct interval for valid interval', () {
-      forAll(integer(min: intervalMin), (expectedInterval) {
+    property('returns correct interval for valid INTERVAL', () {
+      forAll(interval(), (expectedInterval) {
         final (interval, daysOfWeek) = parseRRule(
           'FREQ=WEEKLY;INTERVAL=$expectedInterval;BYDAY=MO',
           .monday,
@@ -532,7 +529,7 @@ void main() {
       });
     });
 
-    test('returns defaultInterval when interval is missing', () {
+    test('returns defaultInterval when INTERVAL is missing', () {
       final (interval, daysOfWeek) = parseRRule(
         'FREQ=WEEKLY;BYDAY=MO',
         .monday,
@@ -542,7 +539,7 @@ void main() {
     });
 
     property('parses single day', () {
-      forAll(constantFrom(DayOfWeek.values), (day) {
+      forAll(dayOfWeek(), (day) {
         final (interval, daysOfWeek) = parseRRule(
           'FREQ=WEEKLY;INTERVAL=1;BYDAY=${day.rruleName}',
           .monday,
@@ -553,7 +550,7 @@ void main() {
       });
     });
 
-    test('parses multiple days', () {
+    test('parses multiple BYDAY', () {
       final (interval, daysOfWeek) = parseRRule(
         'FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,TU,WE',
         .monday,
@@ -563,7 +560,7 @@ void main() {
       expect(daysOfWeek, <DayOfWeek>{.monday, .tuesday, .wednesday});
     });
 
-    test('parses all days', () {
+    test('parses all BYDAY', () {
       final (interval, daysOfWeek) = parseRRule(
         'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU',
         .monday,
@@ -572,12 +569,9 @@ void main() {
       expect(daysOfWeek, DayOfWeek.values.toSet());
     });
 
-    property('returns defaultInterval when interval is not a number', () {
+    property('returns defaultInterval when INTERVAL is not a number', () {
       forAll(
-        string(
-          minLength: 1,
-          maxLength: 5,
-        ).filter((v) => v.isNotEmpty && int.tryParse(v) == null),
+        utf8String().filter((v) => v.isNotEmpty && int.tryParse(v) == null),
         (interval) {
           final (intervalResult, daysOfWeek) = parseRRule(
             'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
@@ -588,7 +582,7 @@ void main() {
       );
     });
 
-    test('returns defaultInterval when interval is 0', () {
+    test('returns defaultInterval when INTERVAL is 0', () {
       final (interval, daysOfWeek) = parseRRule(
         'FREQ=WEEKLY;INTERVAL=0;BYDAY=MO',
         .monday,
@@ -596,7 +590,7 @@ void main() {
       expect(interval, defaultInterval);
     });
 
-    property('returns defaultInterval when interval is negative', () {
+    property('returns defaultInterval when INTERVAL is negative', () {
       forAll(integer(max: -1), (interval) {
         final (intervalResult, daysOfWeek) = parseRRule(
           'FREQ=WEEKLY;INTERVAL=$interval;BYDAY=MO',
@@ -606,12 +600,9 @@ void main() {
       });
     });
 
-    property('extracts interval and days of week from complex rrule', () {
+    property('extracts INTERVAL and BYDAY from complex rrule', () {
       forAll(
-        combine2(
-          integer(min: intervalMin),
-          set(constantFrom(DayOfWeek.values), minLength: 1, maxLength: 7),
-        ).map(
+        combine2(interval(), dayOfWeekSet()).map(
           (t) => (
             interval: t.$1,
             days: t.$2.map((d) => d.rruleName).join(','),
@@ -621,7 +612,7 @@ void main() {
         (t) {
           final (interval, daysOfWeek) = parseRRule(
             'FREQ=WEEKLY;INTERVAL=${t.interval};'
-            'BYDAY=${t.days};DTSTART:20240101',
+            'BYDAY=${t.days};DTSTART:20260101',
             .monday,
           );
 
@@ -631,12 +622,11 @@ void main() {
       );
     });
 
-    property('returns defaultInterval when interval value is empty', () {
+    property('returns defaultInterval when INTERVAL value is empty', () {
       forAll(
-        set(
-          constantFrom(DayOfWeek.values).map((d) => d.rruleName),
-          minLength: 1,
-          maxLength: 7,
+        standardSet(
+          dayOfWeek().map((d) => d.rruleName),
+          maxLength: DayOfWeek.values.length,
         ),
         (daysOfWeek) {
           final (interval, daysOfWeekResult) = parseRRule(
@@ -648,8 +638,8 @@ void main() {
       );
     });
 
-    property('parses interval with leading zeros', () {
-      forAll(integer(min: intervalMin), (interval) {
+    property('parses INTERVAL with leading zeros', () {
+      forAll(interval(), (interval) {
         final (intervalResult, daysOfWeek) = parseRRule(
           'FREQ=WEEKLY;INTERVAL=00$interval;BYDAY=MO',
           DayOfWeek.monday,
@@ -658,7 +648,7 @@ void main() {
       });
     });
 
-    test('uses firstDayOfWeek as default when byday is missing', () {
+    test('uses firstDayOfWeek as default when BYDAY is missing', () {
       final (interval, daysOfWeek) = parseRRule(
         'FREQ=WEEKLY;INTERVAL=1',
         .wednesday,
@@ -667,32 +657,25 @@ void main() {
       expect(daysOfWeek, const {DayOfWeek.wednesday});
     });
 
-    property('returns default days of week when invalid days', () {
+    property('returns default daysOfWeek when invalid BYDAY', () {
       final upper = DayOfWeek.values
           .map((d) => d.rruleName)
           .toList(growable: false);
       final lower = upper.map((d) => d.toLowerCase()).toList(growable: false);
       final excluded = [...upper, ...lower];
 
-      forAll(
-        string(
-          minLength: 1,
-          maxLength: 5,
-          characterSet: .all(.utf8),
-        ).filter((v) => !excluded.contains(v)),
-        (invalid) {
-          final (interval, daysOfWeek) = parseRRule(
-            'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,$invalid,WE',
-            .monday,
-          );
+      forAll(utf8String().filter((v) => !excluded.contains(v)), (invalid) {
+        final (interval, daysOfWeek) = parseRRule(
+          'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,$invalid,WE',
+          .monday,
+        );
 
-          expect(interval, 1);
-          expect(daysOfWeek, const {DayOfWeek.monday});
-        },
-      );
+        expect(interval, 1);
+        expect(daysOfWeek, const {DayOfWeek.monday});
+      });
     });
 
-    test('returns default day when byday contains only invalid days', () {
+    test('returns default day when BYDAY contains only invalid days', () {
       final (interval, daysOfWeek) = parseRRule(
         'FREQ=WEEKLY;INTERVAL=1;BYDAY=INVALID1,INVALID2',
         .monday,
@@ -702,13 +685,9 @@ void main() {
       expect(daysOfWeek, const {DayOfWeek.monday});
     });
 
-    property('extracts interval and days of week '
-        'from complex lowercase rrule', () {
+    property('extracts INTERVAL and BYDAY from complex lowercase rrule', () {
       forAll(
-        combine2(
-          integer(min: intervalMin),
-          set(constantFrom(DayOfWeek.values), minLength: 1, maxLength: 7),
-        ).map(
+        combine2(interval(), dayOfWeekSet()).map(
           (t) => (
             interval: t.$1,
             days: t.$2.map((d) => d.rruleName.toLowerCase()).join(','),
@@ -718,7 +697,7 @@ void main() {
         (t) {
           final (interval, daysOfWeek) = parseRRule(
             'freq=weekly;interval=${t.interval};'
-            'byday=${t.days};dtstart:20240101',
+            'byday=${t.days};dtstart:20260101',
             .monday,
           );
 

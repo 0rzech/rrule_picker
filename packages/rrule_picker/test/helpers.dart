@@ -1,9 +1,14 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
+import 'package:kiri_check/kiri_check.dart';
 import 'package:rrule_picker/localizations/localizations.dart';
+import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:spot/spot.dart';
 
 extension PumpWrapped on WidgetTester {
@@ -38,3 +43,69 @@ extension IgnoreErrors on void Function() {
     }
   }
 }
+
+Arbitrary<int> interval() => integer(min: intervalMin);
+
+Arbitrary<String> asciiString({int minLength = 1, int maxLength = 5}) => string(
+  minLength: minLength,
+  maxLength: maxLength,
+  characterSet: .all(.ascii),
+);
+
+Arbitrary<String> utf8String({int minLength = 1, int maxLength = 5}) => string(
+  minLength: minLength,
+  maxLength: maxLength,
+  characterSet: .all(.utf8),
+);
+
+Arbitrary<DateTime> date({DateTime? min, DateTime? max}) {
+  final minimum = min ?? DateTime(0000, 01, 01);
+  final maximum = max ?? DateTime(5000, 12, 31);
+
+  return combine3(
+    integer(min: minimum.year, max: maximum.year),
+    integer(min: minimum.month, max: maximum.month),
+    integer(min: minimum.day, max: maximum.day),
+  ).map((t) {
+    return DateTime(t.$1, t.$2, switch (t.$2) {
+      4 || 6 || 9 || 11 => math.min(t.$3, 30),
+      2 => math.min(t.$3, 28),
+      _ => t.$3,
+    });
+  });
+}
+
+Arbitrary<({String string, Set<DateTime> dates})> stringDateSet({
+  DateTime? min,
+  DateTime? max,
+  int minLength = 1,
+  int maxLength = 5,
+}) {
+  return set(
+    date(min: min, max: max),
+    minLength: minLength,
+    maxLength: maxLength,
+  ).map((dates) {
+    return (string: dates.map(exdateFormatter.format).join(','), dates: dates);
+  });
+}
+
+Arbitrary<DayOfWeek> dayOfWeek() => constantFrom(DayOfWeek.values);
+
+Arbitrary<Set<DayOfWeek>> dayOfWeekSet() =>
+    set(dayOfWeek(), minLength: 1, maxLength: DayOfWeek.values.length);
+
+Arbitrary<DayOfWeekOrdinal> dayOfWeekOrdinal() =>
+    constantFrom(DayOfWeekOrdinal.values);
+
+Arbitrary<int> byMonthDay() => integer(min: byMonthDayMin, max: byMonthDayMax);
+
+Arbitrary<Month> month() => constantFrom(Month.values);
+
+Arbitrary<Set<T>> standardSet<T>(
+  Arbitrary<T> element, {
+  int minLength = 1,
+  int maxLength = 5,
+}) => set(element, minLength: minLength, maxLength: maxLength);
+
+final exdateFormatter = DateFormat('yyyyMMdd');

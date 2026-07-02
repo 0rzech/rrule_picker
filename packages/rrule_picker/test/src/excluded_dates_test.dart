@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'dart:collection';
-import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
 import 'package:rrule_picker/src/excluded_dates.dart';
 import 'package:spot/spot.dart';
@@ -61,7 +59,7 @@ void main() {
     });
 
     testWidgets('removes date when delete button is pressed', (tester) async {
-      controller.addDate(DateTime(2024, 1, 15));
+      controller.addDate(DateTime(2059, 11, 01));
       await tester.pumpWrapped(ExcludedDates(controller: controller));
       await tester.pumpAndSettle();
       expect(controller.value.length, 1);
@@ -75,9 +73,9 @@ void main() {
 
     testWidgets('displays multiple dates in list', (tester) async {
       final dates = [
-        DateTime(2024, 1, 15),
-        DateTime(2024, 2, 20),
-        DateTime(2024, 3, 25),
+        DateTime(2956, 11, 12),
+        DateTime(2059, 11, 01),
+        DateTime(2087, 05, 10),
       ]..forEach(controller.addDate);
 
       await tester.pumpWrapped(ExcludedDates(controller: controller));
@@ -103,7 +101,7 @@ void main() {
     });
 
     testWidgets('respects initial rrule with excluded dates', (tester) async {
-      final rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:20240115,20240220';
+      final rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:20561112,20591101';
       final controller = ExcludedDatesController(initialRRule: rrule);
 
       await tester.pumpWrapped(ExcludedDates(controller: controller));
@@ -143,7 +141,7 @@ void main() {
       test('parses timeZone from rrule', () {
         const rrule =
             'FREQ=DAILY;EXDATE;TZID=America/Argentina/Buenos_Aires;'
-            'VALUE=DATE:20240115';
+            'VALUE=DATE:20870510';
 
         final controller = ExcludedDatesController(initialRRule: rrule);
 
@@ -155,7 +153,7 @@ void main() {
       property('parses dates from rrule', () {
         late ExcludedDatesController controller;
 
-        forAll(stringDateArbitrary(), (t) {
+        forAll(stringDateSet(), (t) {
           final rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:${t.string}';
 
           controller = ExcludedDatesController(initialRRule: rrule);
@@ -165,7 +163,7 @@ void main() {
       });
 
       test('uses default timeZone when rrule has no timeZone', () {
-        const rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:20240115';
+        const rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:20870510';
         const defaultTimeZone = 'Europe/Warsaw';
 
         final controller = ExcludedDatesController(
@@ -184,17 +182,13 @@ void main() {
       property('adds date to dates set', () {
         late ExcludedDatesController controller;
 
-        forAll(
-          set(dateArbitrary(), minLength: 1, maxLength: 5),
-          (dates) {
-            controller = ExcludedDatesController();
+        forAll(standardSet(date()), (dates) {
+          controller = ExcludedDatesController();
 
-            dates.forEach(controller.addDate);
+          dates.forEach(controller.addDate);
 
-            expect(controller.value, dates);
-          },
-          tearDown: () => controller.dispose(),
-        );
+          expect(controller.value, dates);
+        }, tearDown: () => controller.dispose());
       });
 
       test('does not add duplicate date', () {
@@ -212,7 +206,7 @@ void main() {
         late int listenerCallCount;
 
         forAll(
-          set(dateArbitrary(), minLength: 1, maxLength: 5),
+          standardSet(date()),
           (dates) {
             dates.forEach(controller.addDate);
 
@@ -243,7 +237,7 @@ void main() {
         late ExcludedDatesController controller;
 
         forAll(
-          set(dateArbitrary(), minLength: 2, maxLength: 10).map((dates) {
+          set(date(), minLength: 2, maxLength: 10).map((dates) {
             return (
               random: dates,
               sorted: dates.toList(growable: false)..sort(),
@@ -265,7 +259,7 @@ void main() {
         late ExcludedDatesController controller;
 
         forAll(
-          set(dateArbitrary(), minLength: 1, maxLength: 5),
+          standardSet(date()),
           (dates) {
             dates.forEach(controller.addDate);
             dates.forEach(controller.removeDate);
@@ -282,11 +276,7 @@ void main() {
         late ExcludedDatesController controller;
 
         forAll(
-          set(
-            dateArbitrary().filter((date) => date != testDate),
-            minLength: 1,
-            maxLength: 5,
-          ),
+          standardSet(date().filter((date) => date != testDate)),
           (dates) {
             controller.removeDate(testDate);
 
@@ -303,7 +293,7 @@ void main() {
         late int listenerCallCount;
 
         forAll(
-          set(dateArbitrary(), minLength: 1, maxLength: 5).map((dates) {
+          standardSet(date()).map((dates) {
             final controller = ExcludedDatesController()
               ..addListener(() => ++listenerCallCount);
             dates.forEach(controller.addDate);
@@ -330,11 +320,7 @@ void main() {
           late int listenerCallCount;
 
           forAll(
-            set(
-              dateArbitrary().filter((date) => date != testDate),
-              minLength: 1,
-              maxLength: 5,
-            ),
+            standardSet(date().filter((date) => date != testDate)),
             (dates) {
               dates.forEach(controller.removeDate);
 
@@ -354,7 +340,7 @@ void main() {
 
     group('setRRule', () {
       property('updates timeZone and dates from rrule', () {
-        forAll(stringDateArbitrary(), (t) {
+        forAll(stringDateSet(), (t) {
           final rrule =
               'FREQ=DAILY;EXDATE;TZID=Europe/Warsaw;VALUE=DATE:${t.string}';
 
@@ -366,7 +352,7 @@ void main() {
       });
 
       property('uses default timeZone when rrule has no timeZone', () {
-        forAll(stringDateArbitrary(), (t) {
+        forAll(stringDateSet(), (t) {
           final rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:${t.string}';
           const defaultTimeZone = 'Europe/Warsaw';
           controller.setRRule(rrule, defaultTimeZone);
@@ -386,13 +372,10 @@ void main() {
 
       property('replaces existing dates with new ones from rrule', () {
         forAll(
-          combine2(
-            set(dateArbitrary(), minLength: 1, maxLength: 5),
-            set(dateArbitrary(), minLength: 1, maxLength: 5),
-          ).map((t) {
+          combine2(standardSet(date()), standardSet(date())).map((t) {
             return (
               oldDates: t.$1,
-              newString: t.$2.map(formatter.format).join(','),
+              newString: t.$2.map(exdateFormatter.format).join(','),
               newDates: t.$2,
             );
           }),
@@ -408,7 +391,7 @@ void main() {
       });
 
       property('parses complex rrule with multiple components', () {
-        forAll(stringDateArbitrary(), (t) {
+        forAll(stringDateSet(), (t) {
           final rrule =
               'FREQ=WEEKLY;BYDAY=MO,TU,WE;'
               'EXDATE;TZID=America/Los_Angeles;VALUE=DATE:${t.string}';
@@ -431,12 +414,12 @@ void main() {
       });
 
       test('builds correct rrule with single date', () {
-        controller.addDate(DateTime(2024, 1, 15));
+        controller.addDate(DateTime(2087, 05, 10));
         final sb = StringBuffer();
 
         controller.buildRRulePart(sb);
 
-        expect(sb.toString(), ';EXDATE;VALUE=DATE:20240115');
+        expect(sb.toString(), ';EXDATE;VALUE=DATE:20870510');
       });
 
       property('builds correct rrule with multiple dates', () {
@@ -444,12 +427,12 @@ void main() {
         late ExcludedDatesController controller;
 
         forAll(
-          stringDateArbitrary().map(
-            (t) => (
+          stringDateSet().map((t) {
+            return (
               string: (t.string.split(',')..sort()).join(','),
               dates: t.dates,
-            ),
-          ),
+            );
+          }),
           (t) {
             controller = ExcludedDatesController();
             t.dates.forEach(controller.addDate);
@@ -468,28 +451,28 @@ void main() {
       test('includes timeZone when set', () {
         controller.setRRule(
           'FREQ=DAILY;EXDATE;TZID=Europe/Warsaw;'
-          'VALUE=DATE:20240115',
+          'VALUE=DATE:20561112',
         );
-        controller.addDate(DateTime(2024, 2, 20));
+        controller.addDate(DateTime(2059, 11, 01));
         final sb = StringBuffer();
 
         controller.buildRRulePart(sb);
 
         expect(
           sb.toString(),
-          ';EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20240115,20240220',
+          ';EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20561112,20591101',
         );
       });
 
       test('formats month and day with leading zeros', () {
-        controller.addDate(DateTime(2024, 1, 5));
-        controller.addDate(DateTime(2024, 3, 3));
-        controller.addDate(DateTime(2024, 12, 25));
+        controller.addDate(DateTime(2026, 1, 5));
+        controller.addDate(DateTime(2026, 3, 3));
+        controller.addDate(DateTime(2026, 12, 25));
         final sb = StringBuffer();
 
         controller.buildRRulePart(sb);
 
-        expect(sb.toString(), ';EXDATE;VALUE=DATE:20240105,20240303,20241225');
+        expect(sb.toString(), ';EXDATE;VALUE=DATE:20260105,20260303,20261225');
       });
 
       property('maintains date order in output', () {
@@ -497,12 +480,12 @@ void main() {
         late ExcludedDatesController controller;
 
         forAll(
-          stringDateArbitrary().map(
-            (t) => (
+          stringDateSet().map((t) {
+            return (
               string: (t.string.split(',')..sort()).join(','),
               dates: t.dates,
-            ),
-          ),
+            );
+          }),
           (t) {
             controller = ExcludedDatesController();
             t.dates.forEach(controller.addDate);
@@ -521,12 +504,12 @@ void main() {
 
     group('value getter', () {
       test('returns unmodifiable view of dates', () {
-        controller.addDate(DateTime(2024, 1, 15));
+        controller.addDate(DateTime(2056, 11, 12));
         final value = controller.value;
 
-        expect(() => value.add(DateTime(2024, 2, 20)), throwsUnsupportedError);
+        expect(() => value.add(DateTime(2059, 11, 01)), throwsUnsupportedError);
         expect(
-          () => value.remove(DateTime(2024, 1, 15)),
+          () => value.remove(DateTime(2056, 11, 12)),
           throwsUnsupportedError,
         );
       });
@@ -534,10 +517,10 @@ void main() {
       test('reflects changes to underlying dates', () {
         expect(controller.value.length, 0);
 
-        controller.addDate(DateTime(2024, 1, 15));
+        controller.addDate(DateTime(2056, 11, 12));
         expect(controller.value.length, 1);
 
-        controller.removeDate(DateTime(2024, 1, 15));
+        controller.removeDate(DateTime(2056, 11, 12));
         expect(controller.value.length, 0);
       });
     });
@@ -555,7 +538,7 @@ void main() {
     test('parses timeZone from rrule', () {
       const rrule =
           'FREQ=DAILY;EXDATE;TZID=America/Argentina/Buenos_Aires;'
-          'VALUE=DATE:20240115';
+          'VALUE=DATE:20840330';
 
       final (timeZone, dates) = parseRRule(rrule, 'UTC');
 
@@ -564,15 +547,15 @@ void main() {
 
     test('parses timeZone and dates from rrule', () {
       const rrule =
-          'FREQ=DAILY;EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20240115,20240220';
+          'FREQ=DAILY;EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20561112,20591101';
       final (timeZone, dates) = parseRRule(rrule, 'UTC');
 
       expect(timeZone, 'Europe/Warsaw');
-      expect(dates, [DateTime(2024, 1, 15), DateTime(2024, 2, 20)]);
+      expect(dates, [DateTime(2056, 11, 12), DateTime(2059, 11, 01)]);
     });
 
     test('uses default timeZone when no timeZone in rrule', () {
-      const rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:20240115';
+      const rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:20840330';
       const defaultTimeZone = 'America/Chicago';
       final (timeZone, dates) = parseRRule(rrule, defaultTimeZone);
 
@@ -581,7 +564,7 @@ void main() {
     });
 
     test('handles timeZone at different positions in rrule', () {
-      const rrule = 'FREQ=DAILY;TZID=Asia/Tokyo;EXDATE;VALUE=DATE:20240115';
+      const rrule = 'FREQ=DAILY;TZID=Asia/Tokyo;EXDATE;VALUE=DATE:20840330';
       final (timeZone, dates) = parseRRule(rrule, 'UTC');
 
       expect(timeZone, 'Asia/Tokyo');
@@ -590,14 +573,14 @@ void main() {
 
     test('handles timeZone at end of rrule', () {
       const rrule =
-          'FREQ=DAILY;EXDATE;VALUE=DATE:20240115;TZID=Pacific/Auckland';
+          'FREQ=DAILY;EXDATE;VALUE=DATE:20840330;TZID=Pacific/Auckland';
       final (timeZone, dates) = parseRRule(rrule, 'UTC');
 
       expect(timeZone, 'Pacific/Auckland');
     });
 
     test('ignores EXDATE with malformed date entries', () {
-      const rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:20240115,invalid,20240220';
+      const rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:20591101,invalid,20561112';
 
       final (timeZone, dates) = parseRRule(rrule, 'UTC');
 
@@ -615,7 +598,7 @@ void main() {
     test('parses rrule with complex structure', () {
       const rrule =
           'FREQ=MONTHLY;BYMONTH=1,2,3;EXDATE;TZID=UTC;'
-          'VALUE=DATE:20240101,20240201,20240301;DTSTART:20240101';
+          'VALUE=DATE:20591101,20840330,20870510;DTSTART:20561112';
       final (timeZone, dates) = parseRRule(
         rrule,
         'America/Argentina/Buenos_Aires',
@@ -623,23 +606,23 @@ void main() {
 
       expect(timeZone, 'UTC');
       expect(dates, [
-        DateTime(2024, 1, 1),
-        DateTime(2024, 2, 1),
-        DateTime(2024, 3, 1),
+        DateTime(2059, 11, 01),
+        DateTime(2084, 03, 30),
+        DateTime(2087, 05, 10),
       ]);
     });
 
     test('handles timeZone with special characters', () {
       const rrule =
           'FREQ=DAILY;EXDATE;TZID=America/Argentina/Buenos_Aires;'
-          'VALUE=DATE:20240115';
+          'VALUE=DATE:20840330';
       final (timeZone, dates) = parseRRule(rrule, 'UTC');
 
       expect(timeZone, 'America/Argentina/Buenos_Aires');
     });
 
     property('parses valid dates correctly', () {
-      forAll(stringDateArbitrary(), (t) {
+      forAll(stringDateSet(), (t) {
         final rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:${t.string}';
 
         final (_, dates) = parseRRule(rrule, 'UTC');
@@ -650,10 +633,8 @@ void main() {
 
     property('returns empty dates for rrule without dates', () {
       forAll(
-        string(
-          minLength: 1,
+        asciiString(
           maxLength: 50,
-          characterSet: .all(.ascii),
         ).filter((rrule) => !rrule.contains('VALUE=DATE:')),
         (rrule) {
           final (_, dates) = parseRRule(rrule, 'UTC');
@@ -663,37 +644,3 @@ void main() {
     });
   });
 }
-
-Arbitrary<DateTime> dateArbitrary({DateTime? min, DateTime? max}) {
-  final minimum = min ?? DateTime(0000, 01, 01);
-  final maximum = max ?? DateTime(5000, 12, 31);
-
-  return combine3(
-    integer(min: minimum.year, max: maximum.year),
-    integer(min: minimum.month, max: maximum.month),
-    integer(min: minimum.day, max: maximum.day),
-  ).map((t) {
-    return DateTime(t.$1, t.$2, switch (t.$2) {
-      4 || 6 || 9 || 11 => math.min(t.$3, 30),
-      2 => math.min(t.$3, 28),
-      _ => t.$3,
-    });
-  });
-}
-
-Arbitrary<({String string, Set<DateTime> dates})> stringDateArbitrary({
-  DateTime? min,
-  DateTime? max,
-  int minLength = 1,
-  int maxLength = 5,
-}) {
-  return set(
-    dateArbitrary(min: min, max: max),
-    minLength: minLength,
-    maxLength: maxLength,
-  ).map((dates) {
-    return (string: dates.map(formatter.format).join(','), dates: dates);
-  });
-}
-
-final formatter = DateFormat('yyyyMMdd');

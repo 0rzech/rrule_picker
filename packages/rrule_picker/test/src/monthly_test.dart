@@ -407,7 +407,7 @@ void main() {
       property('initializes with firstDayOfWeek when provided', () {
         late MonthlyPickerController controller;
 
-        forAll(constantFrom(DayOfWeek.values), (day) {
+        forAll(dayOfWeek(), (day) {
           controller = MonthlyPickerController(
             firstDayOfWeek: day,
             listener: () {},
@@ -423,8 +423,8 @@ void main() {
 
         forAll(
           combine2(
-            integer(min: intervalMin),
-            integer(min: byMonthDayMin, max: byMonthDayMax),
+            interval(),
+            byMonthDay(),
           ).map((t) => (interval: t.$1, day: t.$2)),
           (t) {
             controller = MonthlyPickerController(
@@ -449,9 +449,9 @@ void main() {
 
         forAll(
           combine3(
-            integer(min: intervalMin),
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeekOrdinal.values),
+            interval(),
+            dayOfWeek(),
+            dayOfWeekOrdinal(),
           ).map((t) => (interval: t.$1, day: t.$2, ordinal: t.$3)),
           (t) {
             controller = MonthlyPickerController(
@@ -471,7 +471,7 @@ void main() {
         );
       });
 
-      test('initializes with default interval when interval is missing', () {
+      test('initializes with default interval when INTERVAL is missing', () {
         final controller = MonthlyPickerController(
           initialRRule: 'FREQ=MONTHLY;BYMONTHDAY=15',
           listener: () {},
@@ -486,26 +486,22 @@ void main() {
       property('initializes with precise segment type for BYMONTHDAY', () {
         late MonthlyPickerController controller;
 
-        forAll(
-          integer(min: byMonthDayMin, max: byMonthDayMax),
-          (day) {
-            controller = MonthlyPickerController(
-              initialRRule: 'FREQ=MONTHLY;BYMONTHDAY=$day',
-              listener: () {},
-            );
+        forAll(byMonthDay(), (day) {
+          controller = MonthlyPickerController(
+            initialRRule: 'FREQ=MONTHLY;BYMONTHDAY=$day',
+            listener: () {},
+          );
 
-            expect(controller.intervalSegmentType.value, const {
-              IntervalPickerSegmentType.precise,
-            });
-          },
-          tearDown: () => controller.dispose(),
-        );
+          expect(controller.intervalSegmentType.value, const {
+            IntervalPickerSegmentType.precise,
+          });
+        }, tearDown: () => controller.dispose());
       });
 
       property('initializes with relative segment type for BYDAY', () {
         late MonthlyPickerController controller;
 
-        forAll(constantFrom(DayOfWeek.values), (day) {
+        forAll(dayOfWeek(), (day) {
           controller = MonthlyPickerController(
             initialRRule: 'FREQ=MONTHLY;BYDAY=${day.rruleName};BYSETPOS=1',
             listener: () {},
@@ -548,7 +544,7 @@ void main() {
       property('initializes with parsed dayOfWeek from rrule', () {
         late MonthlyPickerController controller;
 
-        forAll(constantFrom(DayOfWeek.values), (day) {
+        forAll(dayOfWeek(), (day) {
           controller = MonthlyPickerController(
             initialRRule: 'FREQ=MONTHLY;BYDAY=${day.rruleName};BYSETPOS=1',
             listener: () {},
@@ -561,19 +557,15 @@ void main() {
       property('initializes with parsed dayOfWeekOrdinal from rrule', () {
         late MonthlyPickerController controller;
 
-        forAll(
-          constantFrom(DayOfWeekOrdinal.values),
-          (ordinal) {
-            controller = MonthlyPickerController(
-              initialRRule:
-                  'FREQ=MONTHLY;BYDAY=MO;BYSETPOS=${ordinal.rruleValue}',
-              listener: () {},
-            );
+        forAll(dayOfWeekOrdinal(), (ordinal) {
+          controller = MonthlyPickerController(
+            initialRRule:
+                'FREQ=MONTHLY;BYDAY=MO;BYSETPOS=${ordinal.rruleValue}',
+            listener: () {},
+          );
 
-            expect(controller.dayOfWeekOrdinal.value, ordinal);
-          },
-          tearDown: () => controller.dispose(),
-        );
+          expect(controller.dayOfWeekOrdinal.value, ordinal);
+        }, tearDown: () => controller.dispose());
       });
     });
 
@@ -583,8 +575,8 @@ void main() {
 
         forAll(
           combine2(
-            integer(min: intervalMin),
-            integer(min: byMonthDayMin, max: byMonthDayMax),
+            interval(),
+            byMonthDay(),
           ).map((t) => (interval: t.$1, day: t.$2)),
           (t) {
             controller.setRRule(
@@ -606,9 +598,9 @@ void main() {
 
         forAll(
           combine3(
-            integer(min: intervalMin),
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeekOrdinal.values),
+            interval(),
+            dayOfWeek(),
+            dayOfWeekOrdinal(),
           ).map((t) => (interval: t.$1, day: t.$2, ordinal: t.$3)),
           (t) {
             controller.setRRule(
@@ -665,7 +657,7 @@ void main() {
         });
       });
 
-      test('uses default interval for empty interval value', () {
+      test('uses default interval for empty INTERVAL value', () {
         controller.setRRule('FREQ=MONTHLY;INTERVAL=;BYMONTHDAY=15');
 
         expect(controller.intervalNotifier.value, defaultInterval);
@@ -691,8 +683,8 @@ void main() {
 
         forAll(
           combine2(
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeek.values),
+            dayOfWeek(),
+            dayOfWeek(),
           ).map((t) => (selected: t.$1, first: t.$2)),
           (t) {
             controller.setRRule(
@@ -711,7 +703,7 @@ void main() {
 
       test('handles complex rrule with BYDAY and BYSETPOS', () {
         controller.setRRule(
-          'FREQ=MONTHLY;INTERVAL=2;BYDAY=FR;BYSETPOS=-1;DTSTART:20240101',
+          'FREQ=MONTHLY;INTERVAL=2;BYDAY=FR;BYSETPOS=-1;DTSTART:20260101',
         );
 
         expect(controller.intervalNotifier.value, 2);
@@ -724,7 +716,7 @@ void main() {
 
       test('handles complex rrule with BYMONTHDAY', () {
         controller.setRRule(
-          'FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=25;DTSTART:20240101',
+          'FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=25;DTSTART:20260101',
         );
 
         expect(controller.intervalNotifier.value, 3);
@@ -777,7 +769,8 @@ void main() {
 
       test('handles extra parameters in rrule', () {
         controller.setRRule(
-          'FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=10;DTSTART:20240101;UNTIL:20250101',
+          'FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=10;'
+          'DTSTART:20260101;UNTIL:20270101',
         );
 
         expect(controller.getIntervalValue(), 2);
@@ -821,8 +814,8 @@ void main() {
 
         forAll(
           combine2(
-            integer(min: intervalMin),
-            integer(min: byMonthDayMin, max: byMonthDayMax),
+            interval(),
+            byMonthDay(),
           ).map((t) => (interval: t.$1, day: t.$2)),
           (t) {
             controller.setIntervalValue(t.interval);
@@ -850,9 +843,9 @@ void main() {
 
         forAll(
           combine3(
-            integer(min: intervalMin),
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeekOrdinal.values),
+            interval(),
+            dayOfWeek(),
+            dayOfWeekOrdinal(),
           ).map((t) => (interval: t.$1, day: t.$2, ordinal: t.$3)),
           (t) {
             controller.intervalSegmentType.value = const {.relative};

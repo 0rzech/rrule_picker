@@ -565,7 +565,7 @@ void main() {
       property('initializes with firstDayOfWeek when provided', () {
         late YearlyPickerController controller;
 
-        forAll(constantFrom(DayOfWeek.values), (day) {
+        forAll(dayOfWeek(), (day) {
           controller = YearlyPickerController(
             firstDayOfWeek: day,
             listener: () {},
@@ -580,7 +580,7 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          constantFrom(Month.values).flatMap((month) {
+          month().flatMap((month) {
             return combine2(
               constant(month),
               integer(min: byMonthDayMin, max: month.maxDay),
@@ -609,9 +609,9 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          constantFrom(Month.values).flatMap((month) {
+          month().flatMap((month) {
             return combine3(
-              integer(min: intervalMin),
+              interval(),
               constant(month),
               integer(min: byMonthDayMin, max: month.maxDay),
             ).map((t) => (interval: t.$1, month: t.$2, day: t.$3));
@@ -641,10 +641,10 @@ void main() {
 
         forAll(
           combine4(
-            integer(min: intervalMin),
-            constantFrom(Month.values),
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeekOrdinal.values),
+            interval(),
+            month(),
+            dayOfWeek(),
+            dayOfWeekOrdinal(),
           ).map((t) => (interval: t.$1, month: t.$2, day: t.$3, ordinal: t.$4)),
           (t) {
             controller = YearlyPickerController(
@@ -708,7 +708,7 @@ void main() {
       property('initializes with parsed month from rrule', () {
         late YearlyPickerController controller;
 
-        forAll(constantFrom(Month.values), (month) {
+        forAll(month(), (month) {
           controller = YearlyPickerController(
             initialRRule:
                 'FREQ=YEARLY;BYMONTH=${month.rruleValue};BYMONTHDAY=1',
@@ -739,7 +739,7 @@ void main() {
       property('initializes with parsed dayOfWeek from rrule', () {
         late YearlyPickerController controller;
 
-        forAll(constantFrom(DayOfWeek.values), (day) {
+        forAll(dayOfWeek(), (day) {
           controller = YearlyPickerController(
             initialRRule:
                 'FREQ=YEARLY;BYMONTH=1;BYDAY=${day.rruleName};BYSETPOS=1',
@@ -753,20 +753,16 @@ void main() {
       property('initializes with parsed dayOfWeekOrdinal from rrule', () {
         late YearlyPickerController controller;
 
-        forAll(
-          constantFrom(DayOfWeekOrdinal.values),
-          (ordinal) {
-            controller = YearlyPickerController(
-              initialRRule:
-                  'FREQ=YEARLY;BYMONTH=1;'
-                  'BYDAY=MO;BYSETPOS=${ordinal.rruleValue}',
-              listener: () {},
-            );
+        forAll(dayOfWeekOrdinal(), (ordinal) {
+          controller = YearlyPickerController(
+            initialRRule:
+                'FREQ=YEARLY;BYMONTH=1;'
+                'BYDAY=MO;BYSETPOS=${ordinal.rruleValue}',
+            listener: () {},
+          );
 
-            expect(controller.dayOfWeekOrdinal.value, ordinal);
-          },
-          tearDown: () => controller.dispose(),
-        );
+          expect(controller.dayOfWeekOrdinal.value, ordinal);
+        }, tearDown: () => controller.dispose());
       });
     });
 
@@ -775,10 +771,7 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          combine2(
-            constantFrom(Month.values),
-            integer(min: byMonthDayMin, max: byMonthDayMax),
-          ).map((t) => (month: t.$1, day: t.$2)),
+          combine2(month(), byMonthDay()).map((t) => (month: t.$1, day: t.$2)),
           (t) {
             final maxDay = t.month.maxDay;
             final day = t.day <= maxDay ? t.day : maxDay;
@@ -803,10 +796,10 @@ void main() {
 
         forAll(
           combine4(
-            integer(min: intervalMin),
-            constantFrom(Month.values),
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeekOrdinal.values),
+            interval(),
+            month(),
+            dayOfWeek(),
+            dayOfWeekOrdinal(),
           ).map((t) => (interval: t.$1, month: t.$2, day: t.$3, ordinal: t.$4)),
           (t) {
             controller.setRRule(
@@ -874,7 +867,7 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          constantFrom(DayOfWeek.values),
+          dayOfWeek(),
           (day) {
             controller.setRRule('FREQ=YEARLY;BYMONTH=1', day);
 
@@ -894,8 +887,8 @@ void main() {
 
         forAll(
           combine2(
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeek.values),
+            dayOfWeek(),
+            dayOfWeek(),
           ).map((t) => (selected: t.$1, first: t.$2)),
           (t) {
             controller.setRRule(
@@ -913,7 +906,7 @@ void main() {
 
       test('handles complex rrule with BYDAY and BYSETPOS', () {
         controller.setRRule(
-          'FREQ=YEARLY;BYMONTH=12;BYDAY=FR;BYSETPOS=-1;DTSTART:20240101',
+          'FREQ=YEARLY;BYMONTH=12;BYDAY=FR;BYSETPOS=-1;DTSTART:20260101',
         );
 
         expect(controller.month.value, Month.december);
@@ -926,7 +919,7 @@ void main() {
 
       test('handles complex rrule with BYMONTHDAY', () {
         controller.setRRule(
-          'FREQ=YEARLY;BYMONTH=6;BYMONTHDAY=25;DTSTART:20240101',
+          'FREQ=YEARLY;BYMONTH=6;BYMONTHDAY=25;DTSTART:20260101',
         );
 
         expect(controller.month.value, Month.june);
@@ -979,7 +972,7 @@ void main() {
       test('handles extra parameters in rrule', () {
         controller.setRRule(
           'FREQ=YEARLY;INTERVAL=5;BYMONTH=1;BYMONTHDAY=10;'
-          'DTSTART:20240101;UNTIL:20250101',
+          'DTSTART:20260101;UNTIL:20270101',
         );
 
         expect(controller.month.value, Month.january);
@@ -1023,7 +1016,7 @@ void main() {
 
       property('handles invalid BYMONTHDAY for month', () {
         forAll(
-          constantFrom(Month.values).flatMap((month) {
+          month().flatMap((month) {
             return combine2(
               constant(month),
               integer(min: month.maxDay + 1),
@@ -1065,9 +1058,9 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          constantFrom(Month.values).flatMap((month) {
+          month().flatMap((month) {
             return combine3(
-              integer(min: intervalMin),
+              interval(),
               constant(month),
               integer(min: byMonthDayMin, max: month.maxDay),
             ).map((t) => (interval: t.$1, month: t.$2, day: t.$3));
@@ -1102,10 +1095,10 @@ void main() {
 
         forAll(
           combine4(
-            integer(min: intervalMin),
-            constantFrom(Month.values),
-            constantFrom(DayOfWeek.values),
-            constantFrom(DayOfWeekOrdinal.values),
+            interval(),
+            month(),
+            dayOfWeek(),
+            dayOfWeekOrdinal(),
           ).map((t) => (interval: t.$1, month: t.$2, day: t.$3, ordinal: t.$4)),
           (t) {
             controller.setRRule(

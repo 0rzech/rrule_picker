@@ -64,7 +64,7 @@
 ///
 /// By default, the widget additionally allows picking multiple excluded dates,
 /// for example
-/// `EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20561112,20591102,20870510`.
+/// `EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20561112,20591101,20840330,20870510`.
 ///
 /// ### RRULE Parsing
 ///

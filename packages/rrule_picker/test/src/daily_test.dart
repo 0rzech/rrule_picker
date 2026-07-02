@@ -88,7 +88,7 @@ void main() {
 
     group('setRRule', () {
       property('updates interval from rrule', () {
-        forAll(integer(min: intervalMin), (interval) {
+        forAll(interval(), (interval) {
           controller.setRRule('FREQ=DAILY;INTERVAL=$interval');
 
           expect(controller.intervalNotifier.value, interval);
@@ -137,7 +137,7 @@ void main() {
       });
 
       property('builds correct rrule string with custom interval', () {
-        forAll(integer(min: intervalMin), (interval) {
+        forAll(interval(), (interval) {
           controller.setIntervalValue(interval);
           final sb = StringBuffer();
 
@@ -155,24 +155,20 @@ void main() {
       expect(result, defaultInterval);
     });
 
-    property('returns correct interval for valid interval', () {
-      forAll(integer(min: intervalMin), (interval) {
+    property('returns correct interval for valid INTERVAL', () {
+      forAll(interval(), (interval) {
         expect(parseRRule('FREQ=DAILY;INTERVAL=$interval'), interval);
       });
     });
 
-    test('returns defaultInterval when interval is missing', () {
+    test('returns defaultInterval when INTERVAL is missing', () {
       expect(parseRRule('FREQ=DAILY'), defaultInterval);
     });
 
     property('returns defaultInterval '
-        'when interval is not a number (ascii)', () {
+        'when INTERVAL is not a number (ascii)', () {
       forAll(
-        string(
-          minLength: 1,
-          maxLength: 5,
-          characterSet: .all(.ascii),
-        ).filter((v) => v.isNotEmpty && int.tryParse(v) == null),
+        asciiString().filter((v) => v.isNotEmpty && int.tryParse(v) == null),
         (interval) => expect(
           parseRRule('FREQ=DAILY;INTERVAL=$interval'),
           defaultInterval,
@@ -181,13 +177,9 @@ void main() {
     });
 
     property('returns defaultInterval '
-        'when interval is not a number (utf-8)', () {
+        'when INTERVAL is not a number (utf-8)', () {
       forAll(
-        string(
-          minLength: 1,
-          maxLength: 5,
-          characterSet: .all(.utf8),
-        ).filter((v) => v != '' && int.tryParse(v) == null),
+        utf8String().filter((v) => v != '' && int.tryParse(v) == null),
         (interval) => expect(
           parseRRule('FREQ=DAILY;INTERVAL=$interval'),
           defaultInterval,
@@ -195,37 +187,37 @@ void main() {
       );
     });
 
-    test('returns defaultInterval when interval is 0', () {
+    test('returns defaultInterval when INTERVAL is 0', () {
       expect(parseRRule('FREQ=DAILY;INTERVAL=0'), defaultInterval);
     });
 
-    property('returns defaultInterval when interval is negative', () {
+    property('returns defaultInterval when INTERVAL is negative', () {
       forAll(integer(max: -1), (interval) {
         expect(parseRRule('FREQ=DAILY;INTERVAL=$interval'), defaultInterval);
       });
     });
 
-    property('extracts interval from complex rrule', () {
-      forAll(integer(min: intervalMin), (interval) {
+    property('extracts INTERVAL from complex rrule', () {
+      forAll(interval(), (interval) {
         expect(
-          parseRRule('FREQ=DAILY;INTERVAL=$interval;DTSTART:20240101'),
+          parseRRule('FREQ=DAILY;INTERVAL=$interval;DTSTART:20260101'),
           interval,
         );
       });
     });
 
-    test('returns defaultInterval when interval value is empty', () {
+    test('returns defaultInterval when INTERVAL value is empty', () {
       expect(parseRRule('FREQ=DAILY;INTERVAL='), defaultInterval);
     });
 
-    property('parses interval with leading zeros', () {
-      forAll(integer(min: intervalMin), (interval) {
+    property('parses INTERVAL with leading zeros', () {
+      forAll(interval(), (interval) {
         expect(parseRRule('FREQ=DAILY;INTERVAL=00$interval'), interval);
       });
     });
 
     property('parses lowercase rrule', () {
-      forAll(integer(min: intervalMin), (interval) {
+      forAll(interval(), (interval) {
         expect(parseRRule('freq=daily;interval=$interval'), interval);
       });
     });

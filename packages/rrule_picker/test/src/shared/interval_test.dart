@@ -312,7 +312,7 @@ void main() {
     });
 
     property('allows values greater than or equal to intervalMin', () {
-      forAll(integer(min: intervalMin).map((v) => v.toString()), (interval) {
+      forAll(interval().map((v) => v.toString()), (interval) {
         final oldValue = const TextEditingValue(text: '');
         final newValue = TextEditingValue(text: interval);
 
@@ -343,37 +343,27 @@ void main() {
     });
 
     property('rejects non-numeric ascii string', () {
-      forAll(
-        string(
-          minLength: 1,
-          maxLength: 5,
-          characterSet: .all(.ascii),
-        ).filter((v) => v != '' && int.tryParse(v) == null),
-        (interval) {
-          final newValue = TextEditingValue(text: interval);
+      forAll(asciiString().filter((v) => v != '' && int.tryParse(v) == null), (
+        interval,
+      ) {
+        final newValue = TextEditingValue(text: interval);
 
-          final result = formatter.formatEditUpdate(intervalMinValue, newValue);
+        final result = formatter.formatEditUpdate(intervalMinValue, newValue);
 
-          expect(result.text, intervalMinValue.text);
-        },
-      );
+        expect(result.text, intervalMinValue.text);
+      });
     });
 
     property('rejects non-numeric utf-8 string', () {
-      forAll(
-        string(
-          minLength: 1,
-          maxLength: 5,
-          characterSet: .all(.utf8),
-        ).filter((v) => v != '' && int.tryParse(v) == null),
-        (interval) {
-          final newValue = TextEditingValue(text: interval);
+      forAll(utf8String().filter((v) => v != '' && int.tryParse(v) == null), (
+        interval,
+      ) {
+        final newValue = TextEditingValue(text: interval);
 
-          final result = formatter.formatEditUpdate(intervalMinValue, newValue);
+        final result = formatter.formatEditUpdate(intervalMinValue, newValue);
 
-          expect(result.text, intervalMinValue.text);
-        },
-      );
+        expect(result.text, intervalMinValue.text);
+      });
     });
   });
 
@@ -394,7 +384,7 @@ void main() {
       property('initializes with custom value', () {
         late IntervalPickerController controller;
 
-        forAll(integer(min: defaultInterval), (interval) {
+        forAll(interval(), (interval) {
           controller = TestIntervalPickerController(initialInterval: interval);
 
           expect(controller.initialInterval, interval);
@@ -776,8 +766,8 @@ void main() {
 
         forAll(
           combine2(
-            constantFrom(DayOfWeekOrdinal.values),
-            constantFrom(DayOfWeek.values),
+            dayOfWeekOrdinal(),
+            dayOfWeek(),
           ).map((t) => (ordinal: t.$1, day: t.$2)),
           (t) {
             controller = TestIntervalPickerSegmentController(
@@ -795,7 +785,7 @@ void main() {
       property('initializes daysOfWeek with custom initialDayOfWeek', () {
         late IntervalPickerSegmentController controller;
 
-        forAll(constantFrom(DayOfWeek.values), (day) {
+        forAll(dayOfWeek(), (day) {
           controller = TestIntervalPickerSegmentController(
             initialDayOfWeek: day,
           );
@@ -817,10 +807,7 @@ void main() {
         late int listenerCallCount;
 
         forAll(
-          combine2(
-                constantFrom(DayOfWeekOrdinal.values),
-                constantFrom(DayOfWeekOrdinal.values),
-              )
+          combine2(dayOfWeekOrdinal(), dayOfWeekOrdinal())
               .filter((t) => t.$1 != t.$2)
               .map((t) => (initial: t.$1, target: t.$2)),
           (t) {
@@ -843,10 +830,7 @@ void main() {
         late int listenerCallCount;
 
         forAll(
-          combine2(
-                constantFrom(DayOfWeek.values),
-                constantFrom(DayOfWeek.values),
-              )
+          combine2(dayOfWeek(), dayOfWeek())
               .filter((t) => t.$1 != t.$2)
               .map((t) => (initial: t.$1, target: t.$2)),
           (t) {
@@ -960,8 +944,8 @@ void main() {
       property('sets any valid day of week ordinal and day of week', () {
         forAll(
           combine2(
-            constantFrom(DayOfWeekOrdinal.values),
-            constantFrom(DayOfWeek.values),
+            dayOfWeekOrdinal(),
+            dayOfWeek(),
           ).map((t) => (ordinal: t.$1, day: t.$2)),
           (t) {
             controller.setDayOfWeekValue(t.ordinal, t.day);
@@ -973,7 +957,7 @@ void main() {
       });
 
       property('sets daysOfWeek when firstDayOfWeek provided', () {
-        forAll(constantFrom(DayOfWeek.values), (firstDay) {
+        forAll(dayOfWeek(), (firstDay) {
           controller.setDayOfWeekValue(.first, .monday, firstDay);
 
           expect(

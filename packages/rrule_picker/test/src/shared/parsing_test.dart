@@ -5,10 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kiri_check/kiri_check.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 
+import '../../helpers.dart';
+
 void main() {
   group('parseInterval', () {
     property('returns parsed value for valid positive integers', () {
-      forAll(integer(min: 1), (interval) {
+      forAll(interval(), (interval) {
         expect(parseInterval(interval.toString()), interval);
       });
     });
@@ -16,7 +18,7 @@ void main() {
     property('returns default value when value is null', () {
       expect(parseInterval(null), defaultInterval);
 
-      forAll(integer(min: 1), (interval) {
+      forAll(interval(), (interval) {
         expect(parseInterval(null, interval), interval);
       });
     });
@@ -29,22 +31,14 @@ void main() {
 
     property('returns default value for non-numeric ascii strings', () {
       forAll(
-        string(
-          minLength: 1,
-          maxLength: 5,
-          characterSet: .all(.ascii),
-        ).filter((value) => int.tryParse(value) == null),
+        asciiString().filter((value) => int.tryParse(value) == null),
         (interval) => expect(parseInterval(interval), defaultInterval),
       );
     });
 
     property('returns default value for non-numeric utf-8 strings', () {
       forAll(
-        string(
-          minLength: 1,
-          maxLength: 5,
-          characterSet: .all(.utf8),
-        ).filter((value) => int.tryParse(value) == null),
+        utf8String().filter((value) => int.tryParse(value) == null),
         (interval) => expect(parseInterval(interval), defaultInterval),
       );
     });
@@ -68,7 +62,7 @@ void main() {
     property('returns default value when value is null', () {
       expect(parseByMonth(null), defaultByMonth);
 
-      forAll(constantFrom(Month.values), (month) {
+      forAll(month(), (month) {
         expect(parseByMonth(null, month), month);
       });
     });
@@ -106,7 +100,7 @@ void main() {
 
     property('returns default value for non-month ascii strings', () {
       forAll(
-        string(minLength: 0, maxLength: 5, characterSet: .all(.ascii)).filter(
+        asciiString(minLength: 0).filter(
           (month) => switch (int.tryParse(month)) {
             null || < 1 || > 12 => true,
             _ => false,
@@ -118,7 +112,7 @@ void main() {
 
     property('returns default value for non-month utf-8 strings', () {
       forAll(
-        string(minLength: 0, maxLength: 5, characterSet: .all(.utf8)).filter(
+        utf8String(minLength: 0).filter(
           (month) => switch (int.tryParse(month)) {
             null || < 1 || > 12 => true,
             _ => false,
@@ -133,14 +127,14 @@ void main() {
     property('returns default value when value is null', () {
       expect(parseByMonthDay(null), defaultByMonthDay);
 
-      forAll(integer(min: byMonthDayMin, max: byMonthDayMax), (day) {
+      forAll(byMonthDay(), (day) {
         expect(parseByMonthDay(null, defaultValue: day), day);
       });
     });
 
     property('returns parsed value for valid day values', () {
       forAll(
-        integer(min: byMonthDayMin, max: byMonthDayMax).map((day) {
+        byMonthDay().map((day) {
           return (string: '${day < byMonthDayMax ? day : -1}', value: day);
         }),
         (t) {
@@ -165,7 +159,7 @@ void main() {
     property('returns default value '
         'for values greater than custom valid range', () {
       forAll(
-        constantFrom(Month.values).flatMap((month) {
+        month().flatMap((month) {
           return combine2(
             integer(min: month.maxDay + 1),
             constant(month.maxDay),
@@ -182,24 +176,24 @@ void main() {
 
     property('returns default value for non-day ascii strings', () {
       forAll(
-        string(minLength: 1, maxLength: 5, characterSet: .all(.ascii)).filter(
-          (day) => switch (int.tryParse(day)) {
+        asciiString().filter((day) {
+          return switch (int.tryParse(day)) {
             null || < byMonthDayMin || > byMonthDayMax => true,
             _ => false,
-          },
-        ),
+          };
+        }),
         (day) => expect(parseByMonthDay(day), defaultByMonthDay),
       );
     });
 
     property('returns default value for non-day utf-8 strings', () {
       forAll(
-        string(minLength: 1, maxLength: 5, characterSet: .all(.utf8)).filter(
-          (day) => switch (int.tryParse(day)) {
+        utf8String().filter((day) {
+          return switch (int.tryParse(day)) {
             null || < byMonthDayMin || > byMonthDayMax => true,
             _ => false,
-          },
-        ),
+          };
+        }),
         (day) => expect(parseByMonthDay(day), defaultByMonthDay),
       );
     });
@@ -209,7 +203,7 @@ void main() {
     property('returns default value when value is null', () {
       expect(parseByDaySingle(null), defaultByDaySingle);
 
-      forAll(constantFrom(DayOfWeek.values), (day) {
+      forAll(dayOfWeek(), (day) {
         expect(parseByDaySingle(null, day), day);
       });
     });
@@ -240,24 +234,24 @@ void main() {
 
     property('returns default value for invalid ascii codes', () {
       forAll(
-        string(minLength: 1, maxLength: 5, characterSet: .all(.ascii)).filter(
-          (day) => switch (day.toUpperCase()) {
+        asciiString().filter((day) {
+          return switch (day.toUpperCase()) {
             'MO' || 'TU' || 'WE' || 'TH' || 'FR' || 'SA' || 'SU' => false,
             _ => true,
-          },
-        ),
+          };
+        }),
         (day) => expect(parseByDaySingle(day), defaultByDaySingle),
       );
     });
 
     property('returns default value for invalid utf-8 codes', () {
       forAll(
-        string(minLength: 1, maxLength: 5, characterSet: .all(.utf8)).filter(
-          (day) => switch (day.toUpperCase()) {
+        utf8String().filter((day) {
+          return switch (day.toUpperCase()) {
             'MO' || 'TU' || 'WE' || 'TH' || 'FR' || 'SA' || 'SU' => false,
             _ => true,
-          },
-        ),
+          };
+        }),
         (day) => expect(parseByDaySingle(day), defaultByDaySingle),
       );
     });
@@ -268,11 +262,7 @@ void main() {
       expect(parseByDayMulti(null), defaultByDayMulti);
 
       forAll(
-        set(
-          constantFrom(DayOfWeek.values),
-          minLength: 1,
-          maxLength: DayOfWeek.values.length,
-        ).map((days) {
+        dayOfWeekSet().map((days) {
           return (
             strings: days.map((day) => day.rruleName).join(','),
             values: days,
@@ -285,18 +275,14 @@ void main() {
     });
 
     property('returns set with single DayOfWeek', () {
-      forAll(constantFrom(DayOfWeek.values), (day) {
+      forAll(dayOfWeek(), (day) {
         expect(parseByDayMulti(day.rruleName), {day});
       });
     });
 
     property('returns set with multiple DayOfWeek values', () {
       forAll(
-        set(
-          constantFrom(DayOfWeek.values),
-          minLength: 1,
-          maxLength: DayOfWeek.values.length,
-        ).map((days) {
+        dayOfWeekSet().map((days) {
           return (
             strings: days.map((day) => day.rruleName).join(','),
             values: days,
@@ -347,16 +333,9 @@ void main() {
     });
 
     property('uses custom default value', () {
-      forAll(
-        set(
-          constantFrom(DayOfWeek.values),
-          minLength: 1,
-          maxLength: DayOfWeek.values.length,
-        ),
-        (days) {
-          expect(parseByDayMulti('XX', days), days);
-        },
-      );
+      forAll(dayOfWeekSet(), (days) {
+        expect(parseByDayMulti('XX', days), days);
+      });
     });
   });
 
@@ -364,7 +343,7 @@ void main() {
     property('returns default value when value is null', () {
       expect(parseBySetPosNthWeekDay(null), defaultBySetPosNthWeekDay);
 
-      forAll(constantFrom(DayOfWeekOrdinal.values), (ordinal) {
+      forAll(dayOfWeekOrdinal(), (ordinal) {
         expect(parseBySetPosNthWeekDay(null, ordinal), ordinal);
       });
     });
@@ -403,12 +382,12 @@ void main() {
 
     property('returns default value for non-day ascii strings', () {
       forAll(
-        string(minLength: 1, maxLength: 5, characterSet: .all(.ascii)).filter(
-          (ordinal) => switch (int.tryParse(ordinal)) {
+        asciiString().filter((ordinal) {
+          return switch (int.tryParse(ordinal)) {
             null || < -1 || > 3 => true,
             _ => false,
-          },
-        ),
+          };
+        }),
         (ordinal) =>
             expect(parseBySetPosNthWeekDay(ordinal), defaultBySetPosNthWeekDay),
       );
@@ -416,12 +395,12 @@ void main() {
 
     property('returns default value for non-day utf-8 strings', () {
       forAll(
-        string(minLength: 1, maxLength: 5, characterSet: .all(.utf8)).filter(
-          (ordinal) => switch (int.tryParse(ordinal)) {
+        utf8String().filter((ordinal) {
+          return switch (int.tryParse(ordinal)) {
             null || < -1 || > 3 => true,
             _ => false,
-          },
-        ),
+          };
+        }),
         (ordinal) {
           expect(parseBySetPosNthWeekDay(ordinal), defaultBySetPosNthWeekDay);
         },
@@ -449,24 +428,24 @@ void main() {
 
       property('returns null for invalid ascii codes', () {
         forAll(
-          string(minLength: 1, maxLength: 5, characterSet: .all(.ascii)).filter(
-            (day) => switch (day.toUpperCase()) {
+          asciiString().filter((day) {
+            return switch (day.toUpperCase()) {
               'MO' || 'TU' || 'WE' || 'TH' || 'FR' || 'SA' || 'SU' => false,
               _ => true,
-            },
-          ),
+            };
+          }),
           (day) => expect(DayOfWeek.tryParse(day), null),
         );
       });
 
       property('returns null for invalid utf-8 codes', () {
         forAll(
-          string(minLength: 1, maxLength: 5, characterSet: .all(.utf8)).filter(
-            (day) => switch (day.toUpperCase()) {
+          utf8String().filter((day) {
+            return switch (day.toUpperCase()) {
               'MO' || 'TU' || 'WE' || 'TH' || 'FR' || 'SA' || 'SU' => false,
               _ => true,
-            },
-          ),
+            };
+          }),
           (day) => expect(DayOfWeek.tryParse(day), null),
         );
       });
@@ -539,24 +518,24 @@ void main() {
 
       property('returns null for non-day ascii strings', () {
         forAll(
-          string(minLength: 1, maxLength: 5, characterSet: .all(.ascii)).filter(
-            (ordinal) => switch (int.tryParse(ordinal)) {
+          asciiString().filter((ordinal) {
+            return switch (int.tryParse(ordinal)) {
               null || < -1 || > 4 => true,
               _ => false,
-            },
-          ),
+            };
+          }),
           (ordinal) => expect(DayOfWeekOrdinal.tryParse(ordinal), null),
         );
       });
 
       property('returns null for non-day utf-8 strings', () {
         forAll(
-          string(minLength: 1, maxLength: 5, characterSet: .all(.utf8)).filter(
-            (ordinal) => switch (int.tryParse(ordinal)) {
+          utf8String().filter((ordinal) {
+            return switch (int.tryParse(ordinal)) {
               null || < -1 || > 3 => true,
               _ => false,
-            },
-          ),
+            };
+          }),
           (ordinal) => expect(DayOfWeekOrdinal.tryParse(ordinal), null),
         );
       });
@@ -602,24 +581,24 @@ void main() {
 
       property('returns null for non-month ascii strings', () {
         forAll(
-          string(minLength: 0, maxLength: 5, characterSet: .all(.ascii)).filter(
-            (month) => switch (int.tryParse(month)) {
+          asciiString(minLength: 0).filter((month) {
+            return switch (int.tryParse(month)) {
               null || < 1 || > 12 => true,
               _ => false,
-            },
-          ),
+            };
+          }),
           (month) => expect(Month.tryParse(month), null),
         );
       });
 
       property('returns null for non-month utf-8 strings', () {
         forAll(
-          string(minLength: 0, maxLength: 5, characterSet: .all(.utf8)).filter(
-            (month) => switch (int.tryParse(month)) {
+          utf8String(minLength: 0).filter((month) {
+            return switch (int.tryParse(month)) {
               null || < 1 || > 12 => true,
               _ => false,
-            },
-          ),
+            };
+          }),
           (month) => expect(Month.tryParse(month), null),
         );
       });

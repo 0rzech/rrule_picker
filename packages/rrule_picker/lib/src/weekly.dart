@@ -151,6 +151,7 @@ class WeeklyPickerController extends IntervalPickerController {
   }
 }
 
+@visibleForTesting
 @internal
 (int, Set<DayOfWeek>) parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
   if (rrule.isEmpty) {

@@ -69,6 +69,7 @@ class IntervalPicker extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 @internal
 class IntervalPickerValueInputFormatter extends TextInputFormatter {
   const IntervalPickerValueInputFormatter();
@@ -91,8 +92,6 @@ abstract class IntervalPickerController extends PickerController {
   late final ValueNotifier<int> intervalNotifier;
   late final TextEditingController intervalController;
 
-  @visibleForTesting
-  @protected
   IntervalPickerController({
     required VoidCallback listener,
     int initialInterval = defaultInterval,
@@ -114,6 +113,8 @@ abstract class IntervalPickerController extends PickerController {
     intervalController.value = TextEditingValue(text: value.toString());
   }
 
+  @visibleForTesting
+  @protected
   int getIntervalValue({int minValue = intervalMin, int? defaultValue}) =>
       intervalNotifier.value < minValue
       ? (defaultValue ?? initialInterval)

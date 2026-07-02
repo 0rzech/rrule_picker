@@ -40,6 +40,7 @@ class DailyPickerController extends IntervalPickerController {
   }
 }
 
+@visibleForTesting
 @internal
 int parseRRule(String rrule) {
   if (rrule.isEmpty) {

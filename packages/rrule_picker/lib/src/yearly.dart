@@ -324,6 +324,7 @@ class YearlyPickerController extends IntervalPickerSegmentController {
   }
 }
 
+@visibleForTesting
 @internal
 ParsedRRule parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
   if (rrule.isEmpty) {
@@ -373,6 +374,7 @@ ParsedRRule parseRRule(String rrule, DayOfWeek firstDayOfWeek) {
         );
 }
 
+@visibleForTesting
 @internal
 class ParsedRRule {
   final int interval;

@@ -39,6 +39,7 @@ class ResolvedThemeData {
   final ButtonStyle? segmentedButtonStyle;
   final ButtonStyle? weekdaySelectionButtonStyle;
 
+  @visibleForTesting
   const ResolvedThemeData({
     this.labelStyle,
     required this.padding,
@@ -50,6 +51,7 @@ class ResolvedThemeData {
     this.weekdaySelectionButtonStyle,
   });
 
+  @visibleForTesting
   factory ResolvedThemeData.defaults(ThemeData theme) => .new(
     padding: RRulePickerThemeData.defaultPadding,
     headerTheme: .new(

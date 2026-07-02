@@ -59,7 +59,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   ///
   /// If a field is not provided, the existing value is retained.
   @override
-  ThemeExtension<RRulePickerThemeData> copyWith({
+  RRulePickerThemeData copyWith({
     TextStyle? labelStyle,
     EdgeInsetsGeometry? padding,
     RRulePickerHeaderThemeData? headerTheme,
@@ -85,11 +85,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   /// The [t] argument is a value between 0 and 1, where 0 returns this theme
   /// and 1 returns the [other] theme.
   @override
-  ThemeExtension<RRulePickerThemeData> lerp(
-    covariant ThemeExtension<RRulePickerThemeData>? other,
-    double t,
-  ) {
-    if (identical(this, other) || other is! RRulePickerThemeData) {
+  RRulePickerThemeData lerp(covariant RRulePickerThemeData? other, double t) {
+    if (other == null || identical(this, other)) {
       return this;
     }
 

@@ -33,8 +33,8 @@
 ///       initialRRule:
 ///           'RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TH,SU;'
 ///           'EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20840330,20870510',
-///       // Optional timezone:
-///       timezone: 'Europe/Warsaw',
+///       // Optional time zone:
+///       timeZone: 'Europe/Warsaw',
 ///       // Optional 'RRULE changed' callback:
 ///       onRRuleChanged: (rrule) {
 ///         final snackBar = SnackBar(content: Text(rrule));

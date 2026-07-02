@@ -28,16 +28,16 @@ class RRulePicker extends StatefulWidget {
   /// if not empty.
   final String initialRRule;
 
-  /// The timezone to be used for the recurrence rule. It will *not* be
-  /// validated by this package, but it should be a valid timezone name
+  /// The time zone to be used for the recurrence rule. It will *not* be
+  /// validated by this package, but it should be a valid time zone name
   /// from the [timezone](https://pub.dev/packages/timezone) package database.
   ///
-  /// If not provided, the default timezone will be used, which currently means
-  /// an empty string, i.e. no timezone at all.
+  /// If not provided, the default time zone will be used, which currently means
+  /// an empty string, i.e. no time zone at all.
   ///
   /// The value set in [controller] takes precedence over this one,
   /// if not empty.
-  final String timezone;
+  final String timeZone;
 
   /// Whether to enable the excluded dates feature.
   ///
@@ -64,7 +64,7 @@ class RRulePicker extends StatefulWidget {
   const RRulePicker({
     super.key,
     this.initialRRule = '',
-    this.timezone = '',
+    this.timeZone = '',
     this.enableExcludedDates = true,
     this.onRRuleChanged,
     this.controller,
@@ -90,7 +90,7 @@ class _RRulePickerState extends State<RRulePicker> {
     } else {
       controller = RRulePickerController(
         initialRRule: widget.initialRRule,
-        defaultTimeZone: widget.timezone,
+        defaultTimeZone: widget.timeZone,
         enableExcludedDates: widget.enableExcludedDates,
       );
     }
@@ -229,9 +229,9 @@ class RRulePickerController extends ValueListenable<String>
   /// [initialRRule] is the initial recurrence rule string. Defaults to an empty
   /// string. Takes precedence over [RRulePicker.initialRRule].
   ///
-  /// [defaultTimeZone] is the default timezone to be used for the excluded
+  /// [defaultTimeZone] is the default time zone to be used for the excluded
   /// dates. Defaults to [ExcludedDatesController.defaultTimeZone].
-  /// Takes precedence over [RRulePicker.timezone].
+  /// Takes precedence over [RRulePicker.timeZone].
   ///
   /// [enableExcludedDates] determines whether the excluded dates feature
   /// is enabled. Defaults to true. Takes precedence over
@@ -296,10 +296,10 @@ class RRulePickerController extends ValueListenable<String>
     notifyListeners();
   }
 
-  /// Sets the recurrence rule string. Empty string means no timezone.
+  /// Sets the recurrence rule string. Empty string means no time zone.
   ///
   /// [rrule] is the new recurrence rule string.
-  /// [defaultTimeZone] is the default timezone to be used for the excluded
+  /// [defaultTimeZone] is the default time zone to be used for the excluded
   /// dates.
   void setRRule(
     String rrule, {

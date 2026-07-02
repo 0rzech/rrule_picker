@@ -77,21 +77,22 @@ class ExcludedDatesController
     with ChangeNotifier {
   static const defaultTimeZone = '';
 
-  final _numberFormatter = NumberFormat('00');
-
-  late final String _timezone;
-  late final SplayTreeSet<DateTime> _dates;
-  late final UnmodifiableSetView<DateTime> _unmodifiable;
+  final DateFormat _dateFormat;
+  late String _timeZone;
+  late SplayTreeSet<DateTime> _dates;
+  late UnmodifiableSetView<DateTime> _unmodifiable;
 
   ExcludedDatesController({
     String initialRRule = '',
     String defaultTimeZone = defaultTimeZone,
-  }) {
-    final (timezone, dates) = _parseRRule(initialRRule, defaultTimeZone);
-    _timezone = timezone;
+  }) : _dateFormat = DateFormat('yyyyMMdd') {
+    final (timeZone, dates) = parseRRule(initialRRule, defaultTimeZone);
+    _timeZone = timeZone;
     _dates = dates;
-    _unmodifiable = UnmodifiableSetView(_dates);
+    _unmodifiable = UnmodifiableSetView(dates);
   }
+
+  String get timeZone => _timeZone;
 
   @override
   UnmodifiableSetView<DateTime> get value => _unmodifiable;
@@ -109,38 +110,10 @@ class ExcludedDatesController
   }
 
   void setRRule(String rrule, [String defaultTimeZone = defaultTimeZone]) {
-    final (timezone, dates) = _parseRRule(rrule, defaultTimeZone);
-    _timezone = timezone;
+    final (timeZone, dates) = parseRRule(rrule, defaultTimeZone);
+    _timeZone = timeZone;
     _dates = dates;
-    _unmodifiable = UnmodifiableSetView(_dates);
-  }
-
-  (String, SplayTreeSet<DateTime>) _parseRRule(
-    String rrule,
-    String defaultTimeZone,
-  ) {
-    final dates = SplayTreeSet<DateTime>();
-
-    if (rrule.isEmpty) {
-      return (defaultTimeZone, dates);
-    }
-
-    const reTimeZone = r'TZID=([a-zA-Z/]{7-})';
-    const reDates = r'VALUE=DATE:(\d{8})(?:,(\d{8}))*';
-
-    var match = RegExp(reTimeZone).firstMatch(rrule);
-    final timeZone = match?.group(1);
-
-    match = RegExp(reDates).firstMatch(rrule);
-    if (match != null) {
-      for (var i = 0; i < match.groupCount; ++i) {
-        if (match.group(i + 1) case final text?) {
-          dates.add(DateTime.parse(text.replaceFirst(',', '')));
-        }
-      }
-    }
-
-    return (timeZone ?? defaultTimeZone, dates);
+    _unmodifiable = UnmodifiableSetView(dates);
   }
 
   void buildRRulePart(StringBuffer sb) {
@@ -150,20 +123,36 @@ class ExcludedDatesController
 
     sb.write(';EXDATE');
 
-    if (_timezone.isNotEmpty) {
+    if (_timeZone.isNotEmpty) {
       sb.write(';TZID=');
-      sb.write(_timezone);
+      sb.write(_timeZone);
     }
 
     sb.write(';VALUE=DATE:');
-
-    for (final (i, date) in _dates.indexed) {
-      if (i > 0) {
-        sb.write(',');
-      }
-      sb.write(date.year);
-      sb.write(_numberFormatter.format(date.month));
-      sb.write(_numberFormatter.format(date.day));
-    }
+    sb.write(_dates.map(_dateFormat.format).join(','));
   }
+}
+
+@visibleForTesting
+@internal
+(String, SplayTreeSet<DateTime>) parseRRule(
+  String rrule,
+  String defaultTimeZone,
+) {
+  final dates = SplayTreeSet<DateTime>();
+
+  if (rrule.isEmpty) {
+    return (defaultTimeZone, dates);
+  }
+
+  const reTimeZone = r'TZID=([a-zA-Z_/]{3,})(?:;|$)';
+  const reDates = r'VALUE=DATE:(\d{8}(?:,\d{8})*)(?:;|$)';
+
+  final timeZone = RegExp(reTimeZone).firstMatch(rrule)?.group(1);
+
+  if (RegExp(reDates).firstMatch(rrule)?.group(1) case final group?) {
+    dates.addAll(group.split(',').map(DateTime.tryParse).whereType<DateTime>());
+  }
+
+  return (timeZone ?? defaultTimeZone, dates);
 }

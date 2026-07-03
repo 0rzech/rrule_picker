@@ -1,4 +1,4 @@
-name: Weblate push
+name: Weblate Push
 
 on:
   push:
@@ -15,7 +15,7 @@ env:
   FLUTTER_VERSION: sha256:46691e311715845de03a3ba4753a475476936805b29431b1f00f1816981033f8 # 3.44.0
 
 jobs:
-  verification:
+  weblate-push:
     name: Generate and commit Dart localizations
     runs-on: codeberg-small-lazy
     container:
@@ -32,7 +32,7 @@ jobs:
       - name: Check l10n changes
         id: check-l10n-changes
         run: |
-          set -euo pipefail
+          set -u
           git add .
           if git diff --staged --quiet; then
             echo 'No changes'
@@ -44,7 +44,6 @@ jobs:
       - name: Commit l10n
         if: steps.check-l10n-changes.outputs.has_changes == 'true'
         run: |
-          set -euo pipefail
           git config user.name 'Forgejo Actions'
           git config user.email 'forgejo-actions@noreply.forgejo.org'
           git commit -m 'Update generated localizations'

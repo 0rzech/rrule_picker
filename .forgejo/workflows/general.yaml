@@ -1,4 +1,4 @@
-name: Verification (general)
+name: General Verification
 
 on:
   push:

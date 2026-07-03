@@ -1,4 +1,4 @@
-name: Verification (weblate pull request)
+name: Weblate Pull Request Verification
 
 on:
   pull_request:

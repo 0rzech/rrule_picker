@@ -9,13 +9,15 @@ env:
 
 jobs:
   verification:
-    name: Test, analyze and check formatting
+    name: Verify
     runs-on: codeberg-medium-lazy
     container:
       image: ghcr.io/cirruslabs/flutter@${{ env.FLUTTER_VERSION }}
     steps:
       - name: Install Node.js
-        run: apt-get update && apt-get --yes install --no-install-recommends --no-install-suggests nodejs
+        run: |
+          apt-get update
+          apt-get --yes install --no-install-recommends --no-install-suggests nodejs
       - name: Clone repository
         uses: https://data.forgejo.org/actions/checkout@${{ env.ACTIONS_CHECKOUT_VERSION }}
       - name: Get packages

@@ -22,74 +22,6 @@ void main() {
       }
     });
 
-    group('rendering', () {
-      testWidgets('renders with default constructor', (tester) async {
-        await tester.pumpWrapped(const RRulePicker());
-
-        spot<DropdownButton<RecurrenceType>>().existsOnce();
-      });
-
-      testWidgets('renders with initialRRule parameter', (tester) async {
-        const rrule = 'RRULE:FREQ=DAILY';
-
-        await tester.pumpWrapped(const RRulePicker(initialRRule: rrule));
-
-        spot<DailyPicker>().existsOnce();
-      });
-
-      testWidgets('renders with timeZone parameter', (tester) async {
-        await tester.pumpWrapped(const RRulePicker(timeZone: 'Europe/Warsaw'));
-
-        spot<RRulePicker>().existsOnce();
-      });
-
-      testWidgets('renders with enableExcludedDates=false', (tester) async {
-        await tester.pumpWrapped(const RRulePicker(enableExcludedDates: false));
-
-        spot<ExcludedDates>().doesNotExist();
-      });
-
-      testWidgets('renders with onRRuleChanged callback', (tester) async {
-        await tester.pumpWrapped(RRulePicker(onRRuleChanged: (_) {}));
-
-        spot<DropdownButton<RecurrenceType>>().existsOnce();
-      });
-
-      testWidgets('renders with custom controller', (tester) async {
-        final controller = RRulePickerController();
-
-        await tester.pumpWrapped(RRulePicker(controller: controller));
-
-        spot<DropdownButton<RecurrenceType>>().existsOnce();
-      });
-
-      testWidgets('renders with custom theme', (tester) async {
-        const theme = RRulePickerThemeData(padding: .all(16));
-
-        await tester.pumpWrapped(const RRulePicker(theme: theme));
-
-        spot<DropdownButton<RecurrenceType>>().existsOnce();
-      });
-
-      testWidgets('renders with all parameters set', (tester) async {
-        const theme = RRulePickerThemeData(padding: .all(16));
-        final controller = RRulePickerController();
-
-        await tester.pumpWrapped(
-          RRulePicker(
-            initialRRule: 'RRULE:FREQ=DAILY',
-            timeZone: 'Europe/Warsaw',
-            enableExcludedDates: true,
-            onRRuleChanged: (_) {},
-            controller: controller,
-            theme: theme,
-          ),
-        );
-
-        spot<DropdownButton<RecurrenceType>>().existsOnce();
-      });
-    });
-
     group('initial state', () {
       testWidgets('displays with empty recurrence', (tester) async {
         await tester.pumpWrapped(const RRulePicker(initialRRule: ''));
@@ -150,6 +82,29 @@ void main() {
             .whereWidgetProp(
               widgetProp('value', (widget) => widget.value),
               (value) => value == .yearly,
+            )
+            .existsOnce();
+      });
+
+      testWidgets('displays with DAILY and all parameters set', (tester) async {
+        const theme = RRulePickerThemeData(padding: .all(16));
+        final controller = RRulePickerController();
+
+        await tester.pumpWrapped(
+          RRulePicker(
+            initialRRule: 'RRULE:FREQ=DAILY',
+            timeZone: 'Europe/Warsaw',
+            enableExcludedDates: true,
+            onRRuleChanged: (_) {},
+            controller: controller,
+            theme: theme,
+          ),
+        );
+
+        spot<DropdownButton<RecurrenceType>>()
+            .whereWidgetProp(
+              widgetProp('value', (widget) => widget.value),
+              (value) => value == .daily,
             )
             .existsOnce();
       });

@@ -150,11 +150,59 @@ void main() {
         addTearDown(controller.dispose);
       });
 
+      test('parses timeZone from lower-case rrule', () {
+        const rrule =
+            'freq=daily;exdate;tzid=america/argentina/buenos_aires;'
+            'value=date:20561112';
+
+        final controller = ExcludedDatesController(initialRRule: rrule);
+
+        expect(controller.timeZone, 'america/argentina/buenos_aires');
+
+        addTearDown(controller.dispose);
+      });
+
+      test('parses timeZone from mixed-case rrule', () {
+        const rrule =
+            'FrEQ=Daily;EXDATE;TZID=America/Argentina/Buenos_Aires;'
+            'VALUE=Date:20591101';
+
+        final controller = ExcludedDatesController(initialRRule: rrule);
+
+        expect(controller.timeZone, 'America/Argentina/Buenos_Aires');
+
+        addTearDown(controller.dispose);
+      });
+
       property('parses dates from rrule', () {
         late ExcludedDatesController controller;
 
         forAll(stringDateSet(), (t) {
           final rrule = 'FREQ=DAILY;EXDATE;VALUE=DATE:${t.string}';
+
+          controller = ExcludedDatesController(initialRRule: rrule);
+
+          expect(controller.value, t.dates);
+        }, tearDown: () => controller.dispose());
+      });
+
+      property('parses dates from lower-case rrule', () {
+        late ExcludedDatesController controller;
+
+        forAll(stringDateSet(), (t) {
+          final rrule = 'freq=daily;exdate;value=date:${t.string}';
+
+          controller = ExcludedDatesController(initialRRule: rrule);
+
+          expect(controller.value, t.dates);
+        }, tearDown: () => controller.dispose());
+      });
+
+      property('parses dates from mixed-case rrule', () {
+        late ExcludedDatesController controller;
+
+        forAll(stringDateSet(), (t) {
+          final rrule = 'FREQ=Daily;EXdATE;Value=Date:${t.string}';
 
           controller = ExcludedDatesController(initialRRule: rrule);
 
@@ -312,30 +360,28 @@ void main() {
         );
       });
 
-      property(
-        'does not notify listeners when non-existent date is removed',
-        () {
-          final testDate = DateTime.now();
-          late ExcludedDatesController controller;
-          late int listenerCallCount;
+      property('does not notify listeners '
+          'when non-existent date is removed', () {
+        final testDate = DateTime.now();
+        late ExcludedDatesController controller;
+        late int listenerCallCount;
 
-          forAll(
-            standardSet(date().filter((date) => date != testDate)),
-            (dates) {
-              dates.forEach(controller.removeDate);
+        forAll(
+          standardSet(date().filter((date) => date != testDate)),
+          (dates) {
+            dates.forEach(controller.removeDate);
 
-              expect(listenerCallCount, 0);
-            },
-            setUp: () {
-              controller = ExcludedDatesController()
-                ..addListener(() => ++listenerCallCount)
-                ..addDate(testDate);
-              listenerCallCount = 0;
-            },
-            tearDown: () => controller.dispose(),
-          );
-        },
-      );
+            expect(listenerCallCount, 0);
+          },
+          setUp: () {
+            controller = ExcludedDatesController()
+              ..addListener(() => ++listenerCallCount)
+              ..addDate(testDate);
+            listenerCallCount = 0;
+          },
+          tearDown: () => controller.dispose(),
+        );
+      });
     });
 
     group('setRRule', () {
@@ -401,6 +447,52 @@ void main() {
           expect(controller.timeZone, 'America/Los_Angeles');
           expect(controller.value, t.dates);
         });
+      });
+
+      property('parses complex rrule '
+          'with multiple components in lower-case', () {
+        forAll(stringDateSet(), (t) {
+          final rrule =
+              'freq=weekly;byday=mo,tu,we;'
+              'exdate;tzid=america/los_angeles;value=date:${t.string}';
+
+          controller.setRRule(rrule);
+
+          expect(controller.timeZone, 'america/los_angeles');
+          expect(controller.value, t.dates);
+        });
+      });
+
+      property('parses complex rrule '
+          'with multiple components in mixed-case', () {
+        forAll(stringDateSet(), (t) {
+          final rrule =
+              'freq=wEEkly;bydaY=Mo,tu,we;'
+              'eXdAte;tZiD=america/los_angeles;ValuE=date:${t.string}';
+
+          controller.setRRule(rrule);
+
+          expect(controller.timeZone, 'america/los_angeles');
+          expect(controller.value, t.dates);
+        });
+      });
+
+      test('notifies listeners when called with different value', () {
+        var listenerCallCount = 0;
+        controller.addListener(() => ++listenerCallCount);
+
+        controller.setRRule('EXDATE;VALUE=DATE:20260703');
+
+        expect(listenerCallCount, 1);
+      });
+
+      test('does not notify listeners when called with the same value', () {
+        var listenerCallCount = 0;
+        controller.addListener(() => ++listenerCallCount);
+
+        controller.setRRule('');
+
+        expect(listenerCallCount, 0);
       });
     });
 
@@ -610,6 +702,32 @@ void main() {
         DateTime(2084, 03, 30),
         DateTime(2087, 05, 10),
       ]);
+    });
+
+    test('parses rrule with complex structure in lower-case', () {
+      const rrule =
+          'freq=monthly;bymonth=1,2,3;exdate;tzid=utc;'
+          'value=date:20840330,20870510;dtstart:20561112';
+      final (timeZone, dates) = parseRRule(
+        rrule,
+        'America/Argentina/Buenos_Aires',
+      );
+
+      expect(timeZone, 'utc');
+      expect(dates, [DateTime(2084, 03, 30), DateTime(2087, 05, 10)]);
+    });
+
+    test('parses rrule with complex structure in mixed-case', () {
+      const rrule =
+          'fREq=montHly;bymonth=1,2,3;exdAte;tzId=utc;'
+          'vaLUE=Date:20840330,20870510;dTstart:20591101';
+      final (timeZone, dates) = parseRRule(
+        rrule,
+        'America/Argentina/Buenos_Aires',
+      );
+
+      expect(timeZone, 'utc');
+      expect(dates, [DateTime(2084, 03, 30), DateTime(2087, 05, 10)]);
     });
 
     test('handles timeZone with special characters', () {

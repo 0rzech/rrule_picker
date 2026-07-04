@@ -1,11 +1,11 @@
 {
-    "name": "rrule_picker_example",
+    "name": "rrule_picker Example",
     "short_name": "rrule_picker_example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "An example RRulePicker app.",
+    "description": "rrule_picker example web app.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

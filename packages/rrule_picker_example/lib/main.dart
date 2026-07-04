@@ -1,20 +1,19 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 
-void main() {
-  runApp(const RRuleExampleApp());
-}
+void main() => runApp(const RRuleExampleApp());
 
 class RRuleExampleApp extends StatelessWidget {
   const RRuleExampleApp({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'RRulePicker Example',
+    title: 'rrule_picker Example',
     theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.cyan)),
     localizationsDelegates: [
       RRulePickerLocalizations.delegate,
@@ -23,7 +22,7 @@ class RRuleExampleApp extends StatelessWidget {
       GlobalWidgetsLocalizations.delegate,
     ],
     supportedLocales: RRulePickerLocalizations.supportedLocales,
-    home: const RRuleExample(title: 'RRulePicker Example'),
+    home: const RRuleExample(title: 'rrule_picker Example'),
   );
 }
 
@@ -44,19 +43,19 @@ class _RRuleExampleState extends State<RRuleExample> {
     super.initState();
     rrulePickerController = .new(
       initialRRule:
-          'RRULE:FREQ=YEARLY;INTERVAL=10;BYMONTH=3;BYDAY=FR;BYSETPOS=-1'
-          'EXDATE;TZID=Etc/UTC;VALUE=DATE:20561112,20591101',
+          'RRULE:FREQ=YEARLY;INTERVAL=10;BYMONTH=3;BYDAY=FR;BYSETPOS=-1;'
+          'EXDATE;VALUE=DATE:20561112,20591101',
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final rrulePicker = RRulePicker(
-      // this `initialRRule` value will not be used,
-      // because `rrulePickerController` was initialized with its own non-empty
+      // this `initialRRule` value will not be used, because
+      // `rrulePickerController` was initialized with its own non-empty
       // `initialRRule` value
       initialRRule:
-          'RRULE:FREQ=WEEKLY;INTERVAL=30;BYDAY=MO,TH,SU'
+          'RRULE:FREQ=WEEKLY;INTERVAL=30;BYDAY=MO,TH,SU;'
           'EXDATE;TZID=Etc/UTC;VALUE=DATE:20840330,20870510',
       controller: rrulePickerController,
       theme: const .new(padding: .all(8)),
@@ -65,7 +64,7 @@ class _RRuleExampleState extends State<RRuleExample> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: kIsWeb ? Center(child: Text(widget.title)) : Text(widget.title),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(

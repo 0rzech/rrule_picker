@@ -8,12 +8,14 @@ environment:
 resolution: workspace
 
 dependencies:
-  cupertino_icons: ^1.0.8
+  cupertino_icons: any
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_svg: any
   rrule_picker: any
+  url_launcher: any
 
 dev_dependencies:
   flutter_lints: any
@@ -22,3 +24,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/

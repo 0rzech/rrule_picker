@@ -10,11 +10,14 @@ workspace:
   - packages/rrule_picker_example
 
 dependencies:
+  cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.3.0
   intl: any
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_lints: ^6.0.0

@@ -4,7 +4,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rrule_picker/rrule_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(const RRuleExampleApp());
 
@@ -36,6 +38,8 @@ class RRuleExample extends StatefulWidget {
 }
 
 class _RRuleExampleState extends State<RRuleExample> {
+  static const codebergBadge = 'assets/images/codeberg-badge.svg';
+  final codebergUrl = Uri.parse('https://codeberg.org/0rzech/rrule_picker');
   late final RRulePickerController rrulePickerController;
 
   @override
@@ -64,7 +68,28 @@ class _RRuleExampleState extends State<RRuleExample> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: kIsWeb ? Center(child: Text(widget.title)) : Text(widget.title),
+        title: Text(widget.title),
+        centerTitle: kIsWeb,
+        actions: [
+          Padding(
+            padding: const .directional(end: NavigationToolbar.kMiddleSpacing),
+            child: Stack(
+              children: [
+                SvgPicture.asset(
+                  codebergBadge,
+                  height: kToolbarHeight - kToolbarHeight / 5,
+                  semanticsLabel: 'Fork me on Codeberg badge',
+                ),
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(onTap: () => launchUrl(codebergUrl)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(
@@ -88,6 +113,7 @@ class _RRuleExampleState extends State<RRuleExample> {
                           child: const Icon(
                             Icons.play_arrow,
                             color: Colors.green,
+                            semanticLabel: 'Generate RRULE button',
                           ),
                         ),
                       ],

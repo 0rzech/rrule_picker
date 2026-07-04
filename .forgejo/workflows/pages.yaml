@@ -9,6 +9,7 @@ on:
       - '**/pubspec.yaml'
       - '**/pubspec.lock'
       - 'packages/rrule_picker/lib/**'
+      - 'packages/rrule_picker_example/assets/**'
       - 'packages/rrule_picker_example/lib/**'
       - 'packages/rrule_picker_example/web/**'
 

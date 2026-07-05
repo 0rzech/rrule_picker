@@ -4,9 +4,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vector_graphics/vector_graphics_compat.dart';
 
 void main() => runApp(const RRuleExampleApp());
 
@@ -38,7 +38,7 @@ class RRuleExample extends StatefulWidget {
 }
 
 class _RRuleExampleState extends State<RRuleExample> {
-  static const codebergBadge = 'assets/images/codeberg-badge.svg';
+  static const codebergBadge = 'assets/codeberg-badge.svg';
   final codebergUrl = Uri.parse('https://codeberg.org/0rzech/rrule_picker');
   late final RRulePickerController rrulePickerController;
 
@@ -75,9 +75,10 @@ class _RRuleExampleState extends State<RRuleExample> {
             padding: const .directional(end: NavigationToolbar.kMiddleSpacing),
             child: Stack(
               children: [
-                SvgPicture.asset(
-                  codebergBadge,
+                createCompatVectorGraphic(
+                  loader: const AssetBytesLoader(codebergBadge),
                   height: kToolbarHeight - kToolbarHeight / 5,
+                  strategy: .picture,
                   semanticsLabel: 'Fork me on Codeberg badge',
                 ),
                 Positioned.fill(

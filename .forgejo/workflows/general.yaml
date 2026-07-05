@@ -12,5 +12,5 @@ on:
 jobs:
   if-not-on-weblate-branch:
     name: Check if not on weblate branch
-    if: (forgejo.head_ref || forgejo.ref_name) != 'weblate'
+    if: forgejo.head_ref != 'weblate'
     uses: ./.forgejo/workflows/verification-and-pages.yaml

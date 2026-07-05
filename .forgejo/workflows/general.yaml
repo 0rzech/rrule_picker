@@ -1,4 +1,4 @@
-name: General Verification
+name: General Verification and Pages
 
 on:
   push:
@@ -13,4 +13,4 @@ jobs:
   if-not-on-weblate-branch:
     name: Check if not on weblate branch
     if: (forgejo.head_ref || forgejo.ref_name) != 'weblate'
-    uses: ./.forgejo/workflows/verification.yaml
+    uses: ./.forgejo/workflows/verification-and-pages.yaml

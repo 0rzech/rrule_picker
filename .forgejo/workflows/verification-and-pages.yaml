@@ -1,4 +1,4 @@
-name: Verification
+name: Verification and Pages
 
 on: workflow_call
 

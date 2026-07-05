@@ -9,6 +9,9 @@ on:
     branches:
       - main
 
+concurrency:
+  cancel-in-progress: ${{ forgejo.event_name != 'push' }}
+
 jobs:
   if-not-on-weblate-branch:
     name: Check if not on weblate branch

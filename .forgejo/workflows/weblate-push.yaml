@@ -7,9 +7,6 @@ on:
     paths:
       - '**/*.arb'
 
-concurrency:
-  group: weblate-push
-
 env:
   ACTIONS_CHECKOUT_VERSION: df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
   FLUTTER_VERSION: sha256:46691e311715845de03a3ba4753a475476936805b29431b1f00f1816981033f8 # 3.44.0

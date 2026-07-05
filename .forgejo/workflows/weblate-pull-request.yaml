@@ -9,9 +9,6 @@ on:
       - '**'
       - '!**/*.arb'
 
-concurrency:
-  group: weblate-pull-request
-
 jobs:
   if-on-weblate-branch:
     name: Check if on weblate branch

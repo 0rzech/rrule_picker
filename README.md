@@ -1,39 +1,56 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# RRULE Picker
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Flutter widget for RRULE manipulation.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+* No external dependencies apart from [intl](https://pub.dev/packages/intl).
+* Supports the following types or recurrence rules:
+
+  * Daily, for example `RRULE:FREQ=DAILY;INTERVAL=1`.
+  * Weekly, by selected days of each nth week, for example `RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,TH,SU`.
+  * Monthly, by nth day of each nth month, for example `RRULE:FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=4`.
+  * Monthly, by weekday of nth week of nth month, for example `RRULE:FREQ=MONTHLY;INTERVAL=5;BYDAY=FR;BYSETPOS=-1`.
+  * Yearly, by nth day of nth month, for example `RRULE:FREQ=YEARLY;BYMONTH=7;BYMONTHDAY=8`.
+  * Yearly, by weekday of nth week of nth month, for example `RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=WE;BYSETPOS=4`.
+
+* Allows picking multiple excluded dates,
+for example `EXDATE;VALUE=DATE:20561112,20591101,20840330,20870510`.
+* Translated to 36 languages.
+* Uses [flutter_localizations](https://api.flutter.dev/flutter/flutter_localizations/) and [intl](https://pub.dev/packages/intl) for fluent translations.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+```shell
+dart pub add rrule_picker
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
-const like = 'sample';
+final rrulePicker = RRUlePicker(onRRuleChanged: (rrule) => print(rrule));
 ```
+
+More elaborate example can be found in the demo web app's [source code](https://codeberg.org/0rzech/rrule_picker/src/branch/main/packages/rrule_picker_example/lib/main.dart).
 
 ## Additional information
 
+* This package is still in development, and compatibility may be broken from time to time.
+* **IMPORTANT:** The parser uses regular expressions and does not sanitize the data before processing.
+  It is your responsibility to make sure the RRULEs are safe before passing them to `RRulePicker` or `RRulePickerController`.
+* The RRULE parser does not care about entry ordering and is case-insensitive but otherwise is strict when parsing values.
+* When parsing fails, the parser falls back to defaults of each FREQ.
+* The widget always returns RRULE entries in upper-case whenever it's recommended by the RFC and sticks to RFC-recommended ordering of the entries.
+
+You can check the interactive [demo web app](https://0rzech.codeberg.page/rrule_picker/).
+
+Example screenshot:
+
+![Yearly recurrence rule screenshot](https://codeberg.org/0rzech/rrule_picker/raw/branch/main/screenshot.png)
+
 ### Translations
+
+Currently, most translations are machine-made.
+Translations are open to contributions on [Weblate](https://translate.codeberg.org/projects/rrule_picker/).
 
 [![Translation status badge](https://translate.codeberg.org/widget/rrule_picker/multi-auto.svg)](https://translate.codeberg.org/engage/rrule_picker/)

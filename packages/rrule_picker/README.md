@@ -74,3 +74,7 @@ Currently, most translations are machine-made.
 Translations are open to contributions on [Weblate](https://translate.codeberg.org/projects/rrule_picker/).
 
 [![Translation status badge](https://translate.codeberg.org/widget/rrule_picker/multi-auto.svg)](https://translate.codeberg.org/engage/rrule_picker/)
+
+###
+
+[<img alt="Fork it on Codeberg badge" src="https://codeberg.org/0rzech/rrule_picker/raw/branch/main/packages/rrule_picker_example/assets/codeberg-badge.svg" width="200"/>](https://codeberg.org/0rzech/rrule_picker)

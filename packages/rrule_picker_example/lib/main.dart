@@ -8,10 +8,10 @@ import 'package:rrule_picker/rrule_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vector_graphics/vector_graphics_compat.dart';
 
-void main() => runApp(const RRuleExampleApp());
+void main() => runApp(const RRulePickerExampleApp());
 
-class RRuleExampleApp extends StatelessWidget {
-  const RRuleExampleApp({super.key});
+class RRulePickerExampleApp extends StatelessWidget {
+  const RRulePickerExampleApp({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp(

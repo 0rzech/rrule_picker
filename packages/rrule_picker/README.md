@@ -28,10 +28,32 @@ dart pub add rrule_picker
 ## Usage
 
 ```dart
-final rrulePicker = RRUlePicker(onRRuleChanged: (rrule) => print(rrule));
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:rrule_picker/rrule_picker.dart';
+
+void main() => runApp(const RRulePickerExampleApp());
+
+class RRulePickerExampleApp extends StatelessWidget {
+  const RRulePickerExampleApp({super.key});
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+    localizationsDelegates: [
+      RRulePickerLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+    ],
+    supportedLocales: RRulePickerLocalizations.supportedLocales,
+    home: Scaffold(body: RRulePicker(onRRuleChanged: (rrule) => print(rrule))),
+  );
+}
 ```
 
 More elaborate example can be found in the demo web app's [source code](https://codeberg.org/0rzech/rrule_picker/src/branch/main/packages/rrule_picker_example/lib/main.dart).
+
+You can also check the interactive [demo web app](https://0rzech.codeberg.page/rrule_picker/).
 
 ## Additional information
 
@@ -41,8 +63,6 @@ More elaborate example can be found in the demo web app's [source code](https://
 * The RRULE parser does not care about entry ordering and is case-insensitive but otherwise is strict when parsing values.
 * When parsing fails, the parser falls back to defaults of each FREQ.
 * The widget always returns RRULE entries in upper-case whenever it's recommended by the RFC and sticks to RFC-recommended ordering of the entries.
-
-You can check the interactive [demo web app](https://0rzech.codeberg.page/rrule_picker/).
 
 Example screenshot:
 

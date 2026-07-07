@@ -4,7 +4,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rrule_picker/localizations/localizations_en.dart';
+import 'package:rrule_picker/l10n/l10n_en.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/theme.dart';

@@ -3,7 +3,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rrule_picker/localizations/localizations.dart';
+import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/daily.dart';
 import 'package:rrule_picker/src/excluded_dates.dart';
 import 'package:rrule_picker/src/monthly.dart';

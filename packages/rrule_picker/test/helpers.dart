@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
-import 'package:rrule_picker/localizations/localizations.dart';
+import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:spot/spot.dart';
 

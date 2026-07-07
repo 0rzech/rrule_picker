@@ -91,6 +91,6 @@
 /// [MaterialApp].
 library;
 
-export 'package:rrule_picker/localizations/localizations.dart';
+export 'package:rrule_picker/l10n/l10n.dart';
 export 'package:rrule_picker/theme.dart';
 export 'package:rrule_picker/widget.dart';

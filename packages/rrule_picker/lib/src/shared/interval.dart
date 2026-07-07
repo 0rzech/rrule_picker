@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:rrule_picker/localizations/localizations.dart';
+import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/picker.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';

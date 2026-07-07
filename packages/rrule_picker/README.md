@@ -46,7 +46,7 @@ You can check the interactive [demo web app](https://0rzech.codeberg.page/rrule_
 
 Example screenshot:
 
-![Yearly recurrence rule screenshot](https://codeberg.org/0rzech/rrule_picker/raw/branch/main/screenshot.png)
+![Yearly recurrence rule screenshot](https://codeberg.org/0rzech/rrule_picker/raw/branch/main/packages/rrule_picker/screenshot.png)
 
 ### Translations
 

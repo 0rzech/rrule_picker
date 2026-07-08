@@ -82,12 +82,7 @@ void main() {
       expect(RRulePickerThemeData.defaultPadding, const EdgeInsets.all(0));
       expect(
         RRulePickerThemeData.defaultSegmentedButtonStyle,
-        const ButtonStyle(
-          visualDensity: .standard,
-          shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: .zero),
-          ),
-        ),
+        const ButtonStyle(visualDensity: .standard),
       );
     });
 

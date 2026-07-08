@@ -30,7 +30,7 @@ class _ExcludedDatesState extends State<ExcludedDates> {
 
   @override
   Widget build(BuildContext context) {
-    final addButton = ElevatedButton.icon(
+    final addButton = OutlinedButton.icon(
       label: Text(RRulePickerLocalizations.of(context).rrulePickerSkip),
       icon: const Icon(Icons.add),
       onPressed: () async {

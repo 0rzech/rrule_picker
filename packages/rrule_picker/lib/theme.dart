@@ -12,7 +12,6 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   static const defaultPadding = EdgeInsets.all(0);
   static const defaultSegmentedButtonStyle = ButtonStyle(
     visualDensity: .standard,
-    shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: .zero)),
   );
 
   /// The text style for labels in the picker.

@@ -145,7 +145,7 @@ void main() {
           ),
         );
 
-        await act.tap(spot<ElevatedButton>());
+        await act.tap(spot<OutlinedButton>());
         await tester.pumpAndSettle();
         await act.tap(spot<DatePickerDialog>().spotText('OK'));
         await tester.pumpAndSettle();

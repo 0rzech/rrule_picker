@@ -28,7 +28,7 @@ void main() {
     testWidgets('renders add button with correct localization', (tester) async {
       await tester.pumpWrapped(ExcludedDates(controller: controller));
 
-      spot<ElevatedButton>().existsOnce();
+      spot<OutlinedButton>().existsOnce();
       spotIcon(Icons.add).existsOnce();
       final text = tester.localizations<ExcludedDates>().rrulePickerSkip;
       spotText(text, exact: true).existsOnce();
@@ -37,7 +37,7 @@ void main() {
     testWidgets('shows date picker when add button is pressed', (tester) async {
       await tester.pumpWrapped(ExcludedDates(controller: controller));
 
-      await act.tap(spot<ElevatedButton>());
+      await act.tap(spot<OutlinedButton>());
       await tester.pumpAndSettle();
 
       spot<DatePickerDialog>().existsOnce();
@@ -46,7 +46,7 @@ void main() {
     testWidgets('adds date to list when date is selected', (tester) async {
       await tester.pumpWrapped(ExcludedDates(controller: controller));
 
-      await act.tap(spot<ElevatedButton>());
+      await act.tap(spot<OutlinedButton>());
       await tester.pumpAndSettle();
 
       await act.tap(

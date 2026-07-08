@@ -54,8 +54,15 @@ void main() {
       );
 
       spot<IntervalPicker>().existsOnce();
-      spotText('Every', exact: true).existsOnce();
-      spotText('month', exact: true).existsAtLeastOnce();
+      final l = tester.localizations<MonthlyPicker>();
+      spotText(
+        l.rrulePickerEveryMonthly(defaultInterval),
+        exact: true,
+      ).existsOnce();
+      spotText(
+        l.rrulePickerMonths(defaultInterval),
+        exact: true,
+      ).existsAtLeastOnce();
     });
 
     testWidgets('renders 2 interval segment types (precise and relative)', (

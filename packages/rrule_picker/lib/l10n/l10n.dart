@@ -190,28 +190,28 @@ abstract class RRulePickerLocalizations {
   /// **'{count, plural, one{day} other{days}}'**
   String rrulePickerDays(int count);
 
-  /// Returns a demonstrative adjective with number/case variations.
+  /// Returns a preposition indicating frequency/distribution.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, other{Every}}'**
+  /// **'{count, plural, other{every}}'**
   String rrulePickerEveryDaily(int count);
 
-  /// Returns a demonstrative adjective with number/case variations.
+  /// Returns a preposition indicating frequency/distribution.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, other{Every}}'**
+  /// **'{count, plural, other{every}}'**
   String rrulePickerEveryMonthly(int count);
 
-  /// Returns a demonstrative adjective with number/case variations.
+  /// Returns a preposition indicating frequency/distribution.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, other{Every}}'**
+  /// **'{count, plural, other{every}}'**
   String rrulePickerEveryWeekly(int count);
 
-  /// Returns a demonstrative adjective with number/case variations.
+  /// Returns a preposition indicating frequency/distribution.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, other{Every}}'**
+  /// **'{count, plural, other{every}}'**
   String rrulePickerEveryYearly(int count);
 
   /// First `dayOfWeek`. Valid options are: `'monday'`, `'tuesday'`, `'wednesday'`, `'thursday'`, `'friday'`, `'saturday'`, `'sunday'`.

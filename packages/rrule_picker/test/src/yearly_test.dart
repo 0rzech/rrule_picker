@@ -43,6 +43,27 @@ void main() {
 
     tearDown(() => controller.dispose.callIgnoringErrors());
 
+    testWidgets('renders IntervalPicker '
+        'with correct localizations', (tester) async {
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: YearlyPicker(controller: controller),
+        ),
+      );
+
+      spot<IntervalPicker>().existsOnce();
+      final l = tester.localizations<YearlyPicker>();
+      spotText(
+        l.rrulePickerEveryYearly(defaultInterval),
+        exact: true,
+      ).existsOnce();
+      spotText(
+        l.rrulePickerYears(defaultInterval),
+        exact: true,
+      ).existsAtLeastOnce();
+    });
+
     testWidgets('renders SegmentedButton with correct localizations', (
       tester,
     ) async {

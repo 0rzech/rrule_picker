@@ -46,8 +46,12 @@ void main() {
       );
 
       spot<IntervalPicker>().existsOnce();
-      spotText('Every', exact: true).existsOnce();
-      spotText('day', exact: true).existsOnce();
+      final l = tester.localizations<DailyPicker>();
+      spotText(
+        l.rrulePickerEveryDaily(defaultInterval),
+        exact: true,
+      ).existsOnce();
+      spotText(l.rrulePickerDays(defaultInterval), exact: true).existsOnce();
     });
 
     testWidgets('uses provided controller', (tester) async {

@@ -53,8 +53,15 @@ void main() {
       );
 
       spot<IntervalPicker>().existsOnce();
-      spotText('Every', exact: true).existsOnce();
-      spotText('week', exact: true).existsAtLeastOnce();
+      final l = tester.localizations<WeeklyPicker>();
+      spotText(
+        l.rrulePickerEveryWeekly(defaultInterval),
+        exact: true,
+      ).existsOnce();
+      spotText(
+        l.rrulePickerWeeks(defaultInterval),
+        exact: true,
+      ).existsAtLeastOnce();
     });
 
     testWidgets('renders SegmentedButton '

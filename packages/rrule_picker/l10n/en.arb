@@ -21,44 +21,44 @@
     "description": "Returns a plural noun with case variations."
   },
 
-  "rrulePickerEveryDaily": "{count, plural, other{Every}}",
+  "rrulePickerEveryDaily": "{count, plural, other{every}}",
   "@rrulePickerEveryDaily": {
     "placeholders": {
       "count": {
         "type": "int"
       }
     },
-    "description": "Returns a demonstrative adjective with number/case variations."
+    "description": "Returns a preposition indicating frequency/distribution."
   },
 
-  "rrulePickerEveryMonthly": "{count, plural, other{Every}}",
+  "rrulePickerEveryMonthly": "{count, plural, other{every}}",
   "@rrulePickerEveryMonthly": {
     "placeholders": {
       "count": {
         "type": "int"
       }
     },
-    "description": "Returns a demonstrative adjective with number/case variations."
+    "description": "Returns a preposition indicating frequency/distribution."
   },
 
-  "rrulePickerEveryWeekly": "{count, plural, other{Every}}",
+  "rrulePickerEveryWeekly": "{count, plural, other{every}}",
   "@rrulePickerEveryWeekly": {
     "placeholders": {
       "count": {
         "type": "int"
       }
     },
-    "description": "Returns a demonstrative adjective with number/case variations."
+    "description": "Returns a preposition indicating frequency/distribution."
   },
 
-  "rrulePickerEveryYearly": "{count, plural, other{Every}}",
+  "rrulePickerEveryYearly": "{count, plural, other{every}}",
   "@rrulePickerEveryYearly": {
     "placeholders": {
       "count": {
         "type": "int"
       }
     },
-    "description": "Returns a demonstrative adjective with number/case variations."
+    "description": "Returns a preposition indicating frequency/distribution."
   },
 
   "rrulePickerFirstDayOfWeek": "{dayOfWeek, select, monday{first} tuesday{first} wednesday{first} thursday{first} friday{first} saturday{first} sunday{first} other{first}}",

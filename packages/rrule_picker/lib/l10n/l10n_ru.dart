@@ -31,8 +31,8 @@ class RRulePickerLocalizationsRu extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Каждые',
-      one: 'Каждый',
+      other: 'каждые',
+      one: 'каждый',
     );
     return '$_temp0';
   }
@@ -42,8 +42,8 @@ class RRulePickerLocalizationsRu extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Каждые',
-      one: 'Каждый',
+      other: 'каждые',
+      one: 'каждый',
     );
     return '$_temp0';
   }
@@ -53,8 +53,8 @@ class RRulePickerLocalizationsRu extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Каждые',
-      one: 'Каждая',
+      other: 'каждые',
+      one: 'каждую',
     );
     return '$_temp0';
   }
@@ -64,8 +64,8 @@ class RRulePickerLocalizationsRu extends RRulePickerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Каждые',
-      one: 'Каждый',
+      other: 'каждые',
+      one: 'каждый',
     );
     return '$_temp0';
   }

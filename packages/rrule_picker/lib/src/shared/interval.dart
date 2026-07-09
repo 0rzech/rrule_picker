@@ -217,4 +217,34 @@ abstract class IntervalPickerSegmentController
 }
 
 @internal
+class IntervalPickerSegmentTypeButton extends StatelessWidget {
+  final Set<IntervalPickerSegmentType> segmentType;
+  final String preciseText;
+  final String relativeText;
+  final void Function(Set<IntervalPickerSegmentType> value) onSelectionChanged;
+
+  const IntervalPickerSegmentTypeButton({
+    super.key,
+    required this.segmentType,
+    required this.preciseText,
+    required this.relativeText,
+    required this.onSelectionChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SegmentedButton<IntervalPickerSegmentType>(
+      onSelectionChanged: onSelectionChanged,
+      selected: segmentType,
+      showSelectedIcon: false,
+      style: ResolvedTheme.of(context).segmentedButtonStyle,
+      segments: [
+        ButtonSegment(value: .precise, label: Text(preciseText)),
+        ButtonSegment(value: .relative, label: Text(relativeText)),
+      ],
+    );
+  }
+}
+
+@internal
 enum IntervalPickerSegmentType { precise, relative }

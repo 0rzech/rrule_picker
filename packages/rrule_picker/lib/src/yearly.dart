@@ -14,6 +14,11 @@ import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
+part 'yearly/day_of_month.dart';
+part 'yearly/day_of_week.dart';
+part 'yearly/day_of_week_ordinal.dart';
+part 'yearly/month.dart';
+
 @internal
 class YearlyPicker extends StatefulWidget {
   final DayOfWeek firstDayOfWeek;
@@ -51,7 +56,6 @@ class _YearlyPickerState extends State<YearlyPicker> {
   Widget build(BuildContext context) {
     final l = RRulePickerLocalizations.of(context);
     final theme = ResolvedTheme.of(context);
-    final decorate = widget.dropdownDecorators(theme.dropdownTheme);
     final controller = widget.controller;
 
     final interval = IntervalPicker(
@@ -59,122 +63,10 @@ class _YearlyPickerState extends State<YearlyPicker> {
       intervalUnitText: l.rrulePickerYears,
       controller: controller,
     );
-    final month = _buildMonth(l, theme, decorate, controller);
-    final slash = Text('/', style: theme.labelStyle);
 
-    return ValueListenableBuilder(
-      valueListenable: controller.intervalSegmentType,
-      builder: (_, segmentType, _) {
-        final segmentTypeButton = _buildSegmentType(
-          l,
-          theme,
-          decorate,
-          controller,
-          segmentType,
-        );
-
-        return switch (segmentType.first) {
-          .precise => Column(
-            spacing: 8,
-            children: [
-              interval,
-              segmentTypeButton,
-              Row(
-                spacing: 8,
-                children: [
-                  month,
-                  slash,
-                  _buildDayOfMonth(l, theme, decorate, controller),
-                ],
-              ),
-            ],
-          ),
-          .relative => LayoutBuilder(
-            builder: (_, constraints) =>
-                constraints.maxWidth - theme.padding.vertical <
-                    global.narrowLayoutBreakpoint
-                ? Column(
-                    spacing: 8,
-                    children: [
-                      interval,
-                      segmentTypeButton,
-                      Row(spacing: 8, children: [month, slash]),
-                      Row(
-                        spacing: 8,
-                        children: _buildDayOrdinal(
-                          l,
-                          theme,
-                          decorate,
-                          controller,
-                        ),
-                      ),
-                    ],
-                  )
-                : Column(
-                    spacing: 8,
-                    children: [
-                      interval,
-                      segmentTypeButton,
-                      Row(
-                        spacing: 8,
-                        children: [
-                          month,
-                          slash,
-                          ..._buildDayOrdinal(l, theme, decorate, controller),
-                        ],
-                      ),
-                    ],
-                  ),
-          ),
-        };
-      },
-    );
-  }
-}
-
-Widget _buildSegmentType(
-  RRulePickerLocalizations l,
-  ResolvedThemeData theme,
-  DropdownDecorators decorate,
-  YearlyPickerController controller,
-  Set<IntervalPickerSegmentType> segmentType,
-) => SegmentedButton<IntervalPickerSegmentType>(
-  onSelectionChanged: (value) => controller.intervalSegmentType.value = value,
-  selected: segmentType,
-  showSelectedIcon: false,
-  style: theme.segmentedButtonStyle,
-  segments: [
-    ButtonSegment(value: .precise, label: Text(l.rrulePickerDayOfMonth)),
-    ButtonSegment(value: .relative, label: Text(l.rrulePickerDayOfWeek)),
-  ],
-);
-
-Widget _buildMonth(
-  RRulePickerLocalizations l,
-  ResolvedThemeData theme,
-  DropdownDecorators decorate,
-  YearlyPickerController controller,
-) => ValueListenableBuilder(
-  valueListenable: controller.month,
-  builder: (context, day, _) {
-    final dropdown = DropdownButton(
-      value: day,
-      isExpanded: true,
-      style: theme.dropdownTheme.style,
-      items: Month.values
-          .map((month) {
-            final date = DateTime(2026, 01 + month.index, 01);
-            final text = Text(
-              controller.monthFormatter.format(date),
-              style: theme.dropdownTheme.menuItemStyle,
-            );
-
-            return DropdownMenuItem(
-              value: month,
-              child: decorate.dropdownMenuItem(text),
-            );
-          })
-          .toList(growable: false),
+    final month = _MonthDropdown(
+      month: controller.month,
+      monthFormatter: controller.monthFormatter,
       onChanged: (value) {
         controller.month.value = value!;
         controller.dayOfMonth.value = min(
@@ -184,118 +76,84 @@ Widget _buildMonth(
       },
     );
 
-    return Flexible(child: decorate.dropdown(dropdown));
-  },
-);
+    final slash = Text('/', style: theme.labelStyle);
 
-Widget _buildDayOfMonth(
-  RRulePickerLocalizations l,
-  ResolvedThemeData theme,
-  DropdownDecorators decorate,
-  YearlyPickerController controller,
-) => ListenableBuilder(
-  listenable: .merge([controller.month, controller.dayOfMonth]),
-  builder: (_, _) {
-    final dropdown = DropdownButton(
-      value: controller.dayOfMonth.value,
-      isExpanded: true,
-      style: theme.dropdownTheme.style,
-      items: .generate(controller.month.value.maxDay, (i) {
-        final day = i + 1;
-        final text = Text(
-          controller.dayOfMonthFormatter.format(day),
-          style: theme.dropdownTheme.menuItemStyle,
+    return ValueListenableBuilder(
+      valueListenable: controller.intervalSegmentType,
+      builder: (_, segmentType, _) {
+        final segmentTypeButton = IntervalPickerSegmentTypeButton(
+          segmentType: segmentType,
+          preciseText: l.rrulePickerDayOfMonth,
+          relativeText: l.rrulePickerDayOfWeek,
+          onSelectionChanged: (value) =>
+              controller.intervalSegmentType.value = value,
         );
 
-        return DropdownMenuItem(
-          value: day,
-          child: decorate.dropdownMenuItem(text),
+        return LayoutBuilder(
+          builder: (_, constraints) => Column(
+            spacing: 8,
+            children: [
+              interval,
+              segmentTypeButton,
+              ...switch (segmentType.first) {
+                .precise => [
+                  Row(
+                    spacing: 8,
+                    children: [
+                      month,
+                      slash,
+                      _DayOfMonthDropdown(
+                        month: controller.month,
+                        dayOfMonth: controller.dayOfMonth,
+                        monthFormatter: controller.dayOfMonthFormatter,
+                        onChanged: (value) =>
+                            controller.dayOfMonth.value = value!,
+                      ),
+                    ],
+                  ),
+                ],
+                .relative =>
+                  constraints.maxWidth - theme.padding.vertical <
+                          global.narrowLayoutBreakpoint
+                      ? [
+                          Row(spacing: 8, children: [month, slash]),
+                          Row(
+                            spacing: 8,
+                            children: _buildDayOrdinal(controller),
+                          ),
+                        ]
+                      : [
+                          Row(
+                            spacing: 8,
+                            children: [
+                              month,
+                              slash,
+                              ..._buildDayOrdinal(controller),
+                            ],
+                          ),
+                        ],
+              },
+            ],
+          ),
         );
-      }, growable: false),
-      onChanged: (value) => controller.dayOfMonth.value = value!,
+      },
     );
+  }
+}
 
-    return Flexible(child: decorate.dropdown(dropdown));
-  },
-);
-
-List<Widget> _buildDayOrdinal(
-  RRulePickerLocalizations l,
-  ResolvedThemeData theme,
-  DropdownDecorators decorate,
-  YearlyPickerController controller,
-) => [
-  _buildOrdinal(l, theme, decorate, controller),
-  _buildDayOfWeek(l, theme, decorate, controller),
+List<Widget> _buildDayOrdinal(YearlyPickerController controller) => [
+  _DayOfWeekOrdinalDropdown(
+    daysOfWeek: controller.daysOfWeek,
+    dayOfWeekOrdinal: controller.dayOfWeekOrdinal,
+    dayOfWeek: controller.dayOfWeek,
+    onChanged: (value) => controller.dayOfWeekOrdinal.value = value!,
+  ),
+  _DayOfWeekDropdown(
+    daysOfWeek: controller.daysOfWeek,
+    dayOfWeek: controller.dayOfWeek,
+    onChanged: (value) => controller.dayOfWeek.value = value!,
+  ),
 ];
-
-Widget _buildOrdinal(
-  RRulePickerLocalizations l,
-  ResolvedThemeData theme,
-  DropdownDecorators decorate,
-  YearlyPickerController controller,
-) => ListenableBuilder(
-  listenable: .merge([
-    controller.daysOfWeek,
-    controller.dayOfWeekOrdinal,
-    controller.dayOfWeek,
-  ]),
-  builder: (_, _) {
-    final dropdown = DropdownButton(
-      value: controller.dayOfWeekOrdinal.value,
-      isExpanded: true,
-      style: theme.dropdownTheme.style,
-      items: DayOfWeekOrdinal.values
-          .map((ordinal) {
-            final text = Text(
-              l.rrulePickerDayOfWeekOrdinal(
-                ordinal,
-                controller.dayOfWeek.value,
-              ),
-              style: theme.dropdownTheme.menuItemStyle,
-            );
-
-            return DropdownMenuItem(
-              value: ordinal,
-              child: decorate.dropdownMenuItem(text),
-            );
-          })
-          .toList(growable: false),
-      onChanged: (value) => controller.dayOfWeekOrdinal.value = value!,
-    );
-
-    return Flexible(child: decorate.dropdown(dropdown));
-  },
-);
-
-Widget _buildDayOfWeek(
-  RRulePickerLocalizations l,
-  ResolvedThemeData theme,
-  DropdownDecorators decorate,
-  YearlyPickerController controller,
-) => ListenableBuilder(
-  listenable: .merge([controller.daysOfWeek, controller.dayOfWeek]),
-  builder: (_, _) {
-    final dropdown = DropdownButton(
-      value: controller.dayOfWeek.value,
-      isExpanded: true,
-      style: theme.dropdownTheme.style,
-      items: controller.daysOfWeek.value
-          .map((day) {
-            final text = Text(day.$2, style: theme.dropdownTheme.menuItemStyle);
-
-            return DropdownMenuItem(
-              value: day.$1,
-              child: decorate.dropdownMenuItem(text),
-            );
-          })
-          .toList(growable: false),
-      onChanged: (value) => controller.dayOfWeek.value = value!,
-    );
-
-    return Flexible(child: decorate.dropdown(dropdown));
-  },
-);
 
 @internal
 class YearlyPickerController extends IntervalPickerSegmentController {

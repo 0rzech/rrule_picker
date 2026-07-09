@@ -345,14 +345,14 @@ void main() {
             final controller = ExcludedDatesController()
               ..addListener(() => ++listenerCallCount);
             dates.forEach(controller.addDate);
-            return (controller: controller, dates: dates);
+            return (month: controller, dates: dates);
           }),
           (t) {
-            t.dates.forEach(t.controller.removeDate);
+            t.dates.forEach(t.month.removeDate);
 
             expect(listenerCallCount, t.dates.length);
 
-            t.controller.dispose();
+            t.month.dispose();
           },
           setUp: () {
             listenerCallCount = 0;

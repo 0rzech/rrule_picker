@@ -29,7 +29,7 @@ void main() {
           expect(
             localizations.rrulePickerDayOfWeekOrdinal(ordinal, day),
             expected,
-            reason: 'Input: $ordinal, $day',
+            reason: 'input: $ordinal, $day',
           );
         }
       }

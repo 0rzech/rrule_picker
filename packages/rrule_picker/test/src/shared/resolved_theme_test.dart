@@ -161,9 +161,7 @@ void main() {
 
     group('defaults()', () {
       test('creates default theme with Material ThemeData', () {
-        final theme = ThemeData();
-
-        final defaults = ResolvedThemeData.defaults(theme);
+        final defaults = ResolvedThemeData.defaults(.new());
 
         expect(defaults.padding, RRulePickerThemeData.defaultPadding);
         expect(
@@ -230,26 +228,23 @@ void main() {
         expect(defaults.headerTheme.style?.backgroundColor, Colors.cyan);
       });
 
-      test(
-        'header style uses fallback when theme textTheme.titleSmall is null',
-        () {
-          final theme = MockThemeData();
-          when(() => theme.textTheme).thenReturn(MockTextTheme());
+      test('header style uses fallback '
+          'when theme textTheme.titleSmall is null', () {
+        final theme = MockThemeData();
+        when(() => theme.textTheme).thenReturn(MockTextTheme());
 
-          final defaults = ResolvedThemeData.defaults(theme);
+        final defaults = ResolvedThemeData.defaults(theme);
 
-          expect(
-            defaults.headerTheme.style,
-            RRulePickerHeaderThemeData.fallbackStyle,
-          );
-        },
-      );
+        expect(
+          defaults.headerTheme.style,
+          RRulePickerHeaderThemeData.fallbackStyle,
+        );
+      });
     });
 
     group('resolve()', () {
-      testWidgets('uses defaults when no local or global theme', (
-        tester,
-      ) async {
+      testWidgets('uses defaults '
+          'when no local or global theme', (tester) async {
         late ResolvedThemeData resolved;
         late ResolvedThemeData defaults;
 
@@ -292,9 +287,8 @@ void main() {
         expect(resolved.padding, padding);
       });
 
-      testWidgets('uses global theme from ThemeExtension when provided', (
-        tester,
-      ) async {
+      testWidgets('uses global theme from ThemeExtension '
+          'when provided', (tester) async {
         const padding = EdgeInsets.all(100);
         const theme = RRulePickerThemeData(padding: padding);
         late ResolvedThemeData resolved;
@@ -314,9 +308,8 @@ void main() {
         expect(resolved.padding, padding);
       });
 
-      testWidgets('local theme takes precedence over global theme', (
-        tester,
-      ) async {
+      testWidgets('local theme takes precedence '
+          'over global theme', (tester) async {
         const localPadding = EdgeInsets.all(100);
         const globalPadding = EdgeInsets.all(200);
         const localTheme = RRulePickerThemeData(padding: localPadding);
@@ -338,9 +331,8 @@ void main() {
         expect(resolved.padding, localPadding);
       });
 
-      testWidgets('resolves dropdown theme with fallback to defaults', (
-        tester,
-      ) async {
+      testWidgets('resolves dropdown theme '
+          'with fallback to defaults', (tester) async {
         late ResolvedThemeData resolved;
 
         await tester.pumpWidget(
@@ -360,45 +352,42 @@ void main() {
         );
       });
 
-      testWidgets(
-        'resolves topDropdownTheme with fallback from dropdownTheme',
-        (tester) async {
-          late ResolvedThemeData resolved;
+      testWidgets('resolves topDropdownTheme '
+          'with fallback from dropdownTheme', (tester) async {
+        late ResolvedThemeData resolved;
 
-          await tester.pumpWidget(
-            MaterialApp(
-              home: Builder(
-                builder: (context) {
-                  resolved = .resolve(context);
-                  return const SizedBox.shrink();
-                },
-              ),
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Builder(
+              builder: (context) {
+                resolved = .resolve(context);
+                return const SizedBox.shrink();
+              },
             ),
-          );
+          ),
+        );
 
-          expect(
-            resolved.topDropdownTheme.showUnderline,
-            RRulePickerDropdownThemeData.defaultTopShowUnderline,
-          );
-          expect(resolved.topDropdownTheme.style, resolved.dropdownTheme.style);
-          expect(
-            resolved.topDropdownTheme.decoration,
-            resolved.dropdownTheme.decoration,
-          );
-          expect(
-            resolved.topDropdownTheme.menuItemStyle,
-            resolved.dropdownTheme.decoration,
-          );
-          expect(
-            resolved.topDropdownTheme.menuItemDecoration,
-            resolved.dropdownTheme.decoration,
-          );
-        },
-      );
+        expect(
+          resolved.topDropdownTheme.showUnderline,
+          RRulePickerDropdownThemeData.defaultTopShowUnderline,
+        );
+        expect(resolved.topDropdownTheme.style, resolved.dropdownTheme.style);
+        expect(
+          resolved.topDropdownTheme.decoration,
+          resolved.dropdownTheme.decoration,
+        );
+        expect(
+          resolved.topDropdownTheme.menuItemStyle,
+          resolved.dropdownTheme.decoration,
+        );
+        expect(
+          resolved.topDropdownTheme.menuItemDecoration,
+          resolved.dropdownTheme.decoration,
+        );
+      });
 
-      testWidgets('resolves textFieldTheme with fallback to defaults', (
-        tester,
-      ) async {
+      testWidgets('resolves textFieldTheme '
+          'with fallback to defaults', (tester) async {
         late ResolvedThemeData resolved;
 
         await tester.pumpWidget(
@@ -533,29 +522,27 @@ void main() {
         expect(resolved.dropdownTheme.menuItemDecoration, menuItemDecoration);
       });
 
-      testWidgets(
-        'resolves topDropdownTheme.decoration with fallback to dropdownTheme',
-        (tester) async {
-          const decoration = BoxDecoration(color: Colors.red);
-          const localTheme = RRulePickerThemeData(
-            dropdownTheme: .new(decoration: decoration),
-          );
-          late ResolvedThemeData resolved;
+      testWidgets('resolves topDropdownTheme.decoration '
+          'with fallback to dropdownTheme', (tester) async {
+        const decoration = BoxDecoration(color: Colors.red);
+        const localTheme = RRulePickerThemeData(
+          dropdownTheme: .new(decoration: decoration),
+        );
+        late ResolvedThemeData resolved;
 
-          await tester.pumpWidget(
-            MaterialApp(
-              home: Builder(
-                builder: (context) {
-                  resolved = .resolve(context, localTheme);
-                  return const SizedBox.shrink();
-                },
-              ),
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Builder(
+              builder: (context) {
+                resolved = .resolve(context, localTheme);
+                return const SizedBox.shrink();
+              },
             ),
-          );
+          ),
+        );
 
-          expect(resolved.topDropdownTheme.decoration, decoration);
-        },
-      );
+        expect(resolved.topDropdownTheme.decoration, decoration);
+      });
 
       testWidgets('resolves textFieldTheme from local theme', (tester) async {
         const style = TextStyle(fontSize: 40);
@@ -623,34 +610,32 @@ void main() {
         expect(resolved.labelStyle, labelStyle);
       });
 
-      testWidgets(
-        'local theme takes precedence over global for nested dropdown properties',
-        (tester) async {
-          const localDecoration = BoxDecoration(color: Colors.red);
-          const globalDecoration = BoxDecoration(color: Colors.blue);
-          const localTheme = RRulePickerThemeData(
-            dropdownTheme: .new(decoration: localDecoration),
-          );
-          const globalTheme = RRulePickerThemeData(
-            dropdownTheme: .new(decoration: globalDecoration),
-          );
-          late ResolvedThemeData resolved;
+      testWidgets('local theme takes precedence over global '
+          'for nested dropdown properties', (tester) async {
+        const localDecoration = BoxDecoration(color: Colors.red);
+        const globalDecoration = BoxDecoration(color: Colors.blue);
+        const localTheme = RRulePickerThemeData(
+          dropdownTheme: .new(decoration: localDecoration),
+        );
+        const globalTheme = RRulePickerThemeData(
+          dropdownTheme: .new(decoration: globalDecoration),
+        );
+        late ResolvedThemeData resolved;
 
-          await tester.pumpWidget(
-            MaterialApp(
-              theme: ThemeData(extensions: [globalTheme]),
-              home: Builder(
-                builder: (context) {
-                  resolved = .resolve(context, localTheme);
-                  return const SizedBox.shrink();
-                },
-              ),
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: ThemeData(extensions: [globalTheme]),
+            home: Builder(
+              builder: (context) {
+                resolved = .resolve(context, localTheme);
+                return const SizedBox.shrink();
+              },
             ),
-          );
+          ),
+        );
 
-          expect(resolved.dropdownTheme.decoration, localDecoration);
-        },
-      );
+        expect(resolved.dropdownTheme.decoration, localDecoration);
+      });
     });
 
     group('equality', () {
@@ -799,29 +784,27 @@ void main() {
         expect(theme1, isNot(theme2));
       });
 
-      test(
-        'instances with different weekdaySelectionButtonStyle are not equal',
-        () {
-          const theme1 = ResolvedThemeData(
-            padding: .all(8),
-            headerTheme: .new(),
-            dropdownTheme: .new(),
-            topDropdownTheme: .new(),
-            weekdaySelectionButtonStyle: .new(),
-          );
-          const theme2 = ResolvedThemeData(
-            padding: .all(8),
-            headerTheme: .new(),
-            dropdownTheme: .new(),
-            topDropdownTheme: .new(),
-            weekdaySelectionButtonStyle: .new(
-              backgroundColor: WidgetStatePropertyAll(Colors.blue),
-            ),
-          );
+      test('instances with different weekdaySelectionButtonStyle '
+          'are not equal', () {
+        const theme1 = ResolvedThemeData(
+          padding: .all(8),
+          headerTheme: .new(),
+          dropdownTheme: .new(),
+          topDropdownTheme: .new(),
+          weekdaySelectionButtonStyle: .new(),
+        );
+        const theme2 = ResolvedThemeData(
+          padding: .all(8),
+          headerTheme: .new(),
+          dropdownTheme: .new(),
+          topDropdownTheme: .new(),
+          weekdaySelectionButtonStyle: .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue),
+          ),
+        );
 
-          expect(theme1, isNot(theme2));
-        },
-      );
+        expect(theme1, isNot(theme2));
+      });
 
       test('same instance is equal to itself', () {
         const theme = ResolvedThemeData(

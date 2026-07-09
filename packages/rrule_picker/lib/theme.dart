@@ -18,6 +18,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   final TextStyle? labelStyle;
 
   /// The padding around the picker.
+  ///
+  /// The default is [RRulePickerThemeData.defaultPadding].
   final EdgeInsetsGeometry? padding;
 
   /// Theme data for the header of the picker.
@@ -33,6 +35,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   final RRulePickerTextFieldThemeData? textFieldTheme;
 
   /// The style for segmented buttons in the picker.
+  ///
+  /// The default is [RRulePickerThemeData.defaultSegmentedButtonStyle].
   final ButtonStyle? segmentedButtonStyle;
 
   /// The style for weekday selection buttons in the picker.
@@ -67,6 +71,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     RRulePickerTextFieldThemeData? textFieldTheme,
     ButtonStyle? segmentedButtonStyle,
     ButtonStyle? weekdaySelectionButtonStyle,
+    int? narrowLayoutBreakpoint,
   }) => RRulePickerThemeData(
     labelStyle: labelStyle ?? this.labelStyle,
     padding: padding ?? this.padding,

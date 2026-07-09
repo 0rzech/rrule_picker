@@ -11,6 +11,7 @@ import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/src/yearly.dart';
+import 'package:rrule_picker/widget.dart';
 import 'package:spot/spot.dart';
 
 import '../helpers.dart';
@@ -125,7 +126,7 @@ void main() {
     });
 
     testWidgets('renders month, dayOfWeekOrdinal and dayOfWeek dropdowns '
-        'when relative is selected', (tester) async {
+        'when relative is selected (wide layout)', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
           theme: theme,
@@ -140,9 +141,51 @@ void main() {
       await act.tap(button);
       await tester.pumpAndSettle();
 
-      spot<DropdownButton<Month>>().existsOnce();
-      spot<DropdownButton<DayOfWeekOrdinal>>().existsOnce();
+      final month = spot<DropdownButton<Month>>()..existsOnce();
+      final monthRow = spot<Row>().withChild(month).existsOnce().widget;
+      final ordinal = spot<DropdownButton<DayOfWeekOrdinal>>()..existsOnce();
+      final ordinalRow = spot<Row>().withChild(ordinal).existsOnce().widget;
       spot<DropdownButton<DayOfWeek>>().existsOnce();
+      expect(
+        monthRow,
+        ordinalRow,
+        reason: 'Reason: month and ordinal in different rows',
+      );
+    });
+
+    testWidgets('renders month, dayOfWeekOrdinal and dayOfWeek dropdowns '
+        'when relative is selected (narrow layout)', (tester) async {
+      RRulePicker.narrowLayoutBreakpoint = 10_000;
+
+      await tester.pumpWrapped(
+        ResolvedTheme(
+          theme: theme,
+          child: YearlyPicker(controller: controller),
+        ),
+      );
+
+      final text = tester.localizations<YearlyPicker>().rrulePickerDayOfWeek;
+      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
+          .spotText(text, exact: true);
+
+      await act.tap(button);
+      await tester.pumpAndSettle();
+
+      final month = spot<DropdownButton<Month>>()..existsOnce();
+      final monthRow = spot<Row>().withChild(month).existsOnce().widget;
+      final ordinal = spot<DropdownButton<DayOfWeekOrdinal>>()..existsOnce();
+      final ordinalRow = spot<Row>().withChild(ordinal).existsOnce().widget;
+      spot<DropdownButton<DayOfWeek>>().existsOnce();
+      expect(
+        monthRow,
+        isNot(ordinalRow),
+        reason: 'Reason: month and ordinal in the same row',
+      );
+
+      addTearDown(() {
+        RRulePicker.narrowLayoutBreakpoint =
+            RRulePicker.defaultNarrowLayoutBreakpoint;
+      });
     });
 
     testWidgets('uses provided controller', (tester) async {

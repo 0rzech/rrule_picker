@@ -53,7 +53,7 @@ void main() {
         ('001', 1),
         ('-001', 1),
       ]) {
-        expect(parseInterval(input), expected, reason: 'Input: <$input>');
+        expect(parseInterval(input), expected, reason: 'input: <$input>');
       }
     });
   });

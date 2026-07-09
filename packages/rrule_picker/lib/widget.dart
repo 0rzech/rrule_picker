@@ -8,6 +8,7 @@ import 'package:rrule_picker/src/daily.dart';
 import 'package:rrule_picker/src/excluded_dates.dart';
 import 'package:rrule_picker/src/monthly.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
+import 'package:rrule_picker/src/shared/global_state.dart' as global;
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/src/weekly.dart';
 import 'package:rrule_picker/src/yearly.dart';
@@ -20,6 +21,19 @@ import 'package:rrule_picker/theme.dart';
 /// weekly, monthly, yearly) and configure their specific parameters.
 /// It also supports excluding specific dates from the recurrence.
 class RRulePicker extends StatefulWidget {
+  /// See [narrowLayoutBreakpoint].
+  static const int defaultNarrowLayoutBreakpoint = 400;
+
+  /// Below this width, [RRulePicker] will apply a narrow adaptive layout.
+  ///
+  /// The width equals to parent's width -
+  /// [RRulePickerThemeData.padding].horizontal.
+  ///
+  /// The default is [defaultNarrowLayoutBreakpoint].
+  static int get narrowLayoutBreakpoint => global.narrowLayoutBreakpoint;
+  static set narrowLayoutBreakpoint(int value) =>
+      global.narrowLayoutBreakpoint = value;
+
   /// The initial recurrence rule string to be displayed in the picker.
   ///
   /// Defaults to an empty string, which means no recurrence.

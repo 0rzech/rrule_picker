@@ -18,6 +18,8 @@ part 'yearly/day_of_month.dart';
 part 'yearly/day_of_week.dart';
 part 'yearly/day_of_week_ordinal.dart';
 part 'yearly/month.dart';
+part 'yearly/precise_segment.dart';
+part 'yearly/relative_segment.dart';
 
 @internal
 class YearlyPicker extends StatefulWidget {
@@ -81,7 +83,7 @@ class _YearlyPickerState extends State<YearlyPicker> {
     return ValueListenableBuilder(
       valueListenable: controller.intervalSegmentType,
       builder: (_, segmentType, _) {
-        final segmentTypeButton = IntervalPickerSegmentTypeButton(
+        final segmentTypeButton = IntervalSegmentTypeButton(
           segmentType: segmentType,
           preciseText: l.rrulePickerDayOfMonth,
           relativeText: l.rrulePickerDayOfWeek,
@@ -89,71 +91,41 @@ class _YearlyPickerState extends State<YearlyPicker> {
               controller.intervalSegmentType.value = value,
         );
 
-        return LayoutBuilder(
-          builder: (_, constraints) => Column(
-            spacing: 8,
-            children: [
-              interval,
-              segmentTypeButton,
-              ...switch (segmentType.first) {
-                .precise => [
-                  Row(
-                    spacing: 8,
-                    children: [
-                      month,
-                      slash,
-                      _DayOfMonthDropdown(
-                        month: controller.month,
-                        dayOfMonth: controller.dayOfMonth,
-                        monthFormatter: controller.dayOfMonthFormatter,
-                        onChanged: (value) =>
-                            controller.dayOfMonth.value = value!,
-                      ),
-                    ],
-                  ),
-                ],
-                .relative =>
-                  constraints.maxWidth - theme.padding.vertical <
-                          global.narrowLayoutBreakpoint
-                      ? [
-                          Row(spacing: 8, children: [month, slash]),
-                          Row(
-                            spacing: 8,
-                            children: _buildDayOrdinal(controller),
-                          ),
-                        ]
-                      : [
-                          Row(
-                            spacing: 8,
-                            children: [
-                              month,
-                              slash,
-                              ..._buildDayOrdinal(controller),
-                            ],
-                          ),
-                        ],
-              },
-            ],
+        return switch (segmentType.first) {
+          .precise => _PreciseIntervalSegment(
+            intervalPicker: interval,
+            segmentTypeButton: segmentTypeButton,
+            monthDropdown: month,
+            slash: slash,
+            dayOfMonthDropdown: _DayOfMonthDropdown(
+              month: controller.month,
+              dayOfMonth: controller.dayOfMonth,
+              dayOfMonthFormatter: controller.dayOfMonthFormatter,
+              onChanged: (value) => controller.dayOfMonth.value = value!,
+            ),
           ),
-        );
+          .relative => _RelativeIntervalSegment(
+            intervalPicker: interval,
+            segmentTypeButton: segmentTypeButton,
+            monthDropdown: month,
+            slash: slash,
+            dayOfWeekOrdinalDropdown: _DayOfWeekOrdinalDropdown(
+              daysOfWeek: controller.daysOfWeek,
+              dayOfWeekOrdinal: controller.dayOfWeekOrdinal,
+              dayOfWeek: controller.dayOfWeek,
+              onChanged: (value) => controller.dayOfWeekOrdinal.value = value!,
+            ),
+            dayOfWeekDropdown: _DayOfWeekDropdown(
+              daysOfWeek: controller.daysOfWeek,
+              dayOfWeek: controller.dayOfWeek,
+              onChanged: (value) => controller.dayOfWeek.value = value!,
+            ),
+          ),
+        };
       },
     );
   }
 }
-
-List<Widget> _buildDayOrdinal(YearlyPickerController controller) => [
-  _DayOfWeekOrdinalDropdown(
-    daysOfWeek: controller.daysOfWeek,
-    dayOfWeekOrdinal: controller.dayOfWeekOrdinal,
-    dayOfWeek: controller.dayOfWeek,
-    onChanged: (value) => controller.dayOfWeekOrdinal.value = value!,
-  ),
-  _DayOfWeekDropdown(
-    daysOfWeek: controller.daysOfWeek,
-    dayOfWeek: controller.dayOfWeek,
-    onChanged: (value) => controller.dayOfWeek.value = value!,
-  ),
-];
 
 @internal
 class YearlyPickerController extends IntervalPickerSegmentController {

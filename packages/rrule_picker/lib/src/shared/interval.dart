@@ -124,7 +124,7 @@ abstract class IntervalPickerController extends PickerController {
 @internal
 abstract class IntervalPickerSegmentController
     extends IntervalPickerController {
-  final ValueNotifier<Set<IntervalPickerSegmentType>> intervalSegmentType;
+  final ValueNotifier<Set<IntervalSegmentType>> intervalSegmentType;
 
   late final ValueNotifier<int> dayOfMonth;
   late final NumberFormat dayOfMonthFormatter;
@@ -136,7 +136,7 @@ abstract class IntervalPickerSegmentController
 
   IntervalPickerSegmentController({
     super.initialInterval,
-    Set<IntervalPickerSegmentType> initialSegmentType = const {.precise},
+    Set<IntervalSegmentType> initialSegmentType = const {.precise},
     int initialDayOfMonth = defaultByMonthDay,
     String dayOfMonthFormat = '00',
     DayOfWeekOrdinal initialDayOfWeekOrdinal = .first,
@@ -171,9 +171,8 @@ abstract class IntervalPickerSegmentController
 
   @visibleForTesting
   @protected
-  void setIntervalSegmentTypeValue(
-    Set<IntervalPickerSegmentType> segmentType,
-  ) => intervalSegmentType.value = segmentType;
+  void setIntervalSegmentTypeValue(Set<IntervalSegmentType> segmentType) =>
+      intervalSegmentType.value = segmentType;
 
   @visibleForTesting
   @protected
@@ -217,13 +216,13 @@ abstract class IntervalPickerSegmentController
 }
 
 @internal
-class IntervalPickerSegmentTypeButton extends StatelessWidget {
-  final Set<IntervalPickerSegmentType> segmentType;
+class IntervalSegmentTypeButton extends StatelessWidget {
+  final Set<IntervalSegmentType> segmentType;
   final String preciseText;
   final String relativeText;
-  final void Function(Set<IntervalPickerSegmentType> value) onSelectionChanged;
+  final void Function(Set<IntervalSegmentType> value) onSelectionChanged;
 
-  const IntervalPickerSegmentTypeButton({
+  const IntervalSegmentTypeButton({
     super.key,
     required this.segmentType,
     required this.preciseText,
@@ -233,7 +232,7 @@ class IntervalPickerSegmentTypeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<IntervalPickerSegmentType>(
+    return SegmentedButton<IntervalSegmentType>(
       onSelectionChanged: onSelectionChanged,
       selected: segmentType,
       showSelectedIcon: false,
@@ -247,4 +246,4 @@ class IntervalPickerSegmentTypeButton extends StatelessWidget {
 }
 
 @internal
-enum IntervalPickerSegmentType { precise, relative }
+enum IntervalSegmentType { precise, relative }

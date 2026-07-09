@@ -75,7 +75,7 @@ void main() {
         ),
       );
 
-      spot<SegmentedButton<IntervalPickerSegmentType>>().existsOnce();
+      spot<SegmentedButton<IntervalSegmentType>>().existsOnce();
       final l = tester.localizations<YearlyPicker>();
       spotText(l.rrulePickerDayOfMonth, exact: true).existsOnce();
       spotText(l.rrulePickerDayOfWeek, exact: true).existsOnce();
@@ -91,13 +91,13 @@ void main() {
         ),
       );
 
-      final buttons = spot<SegmentedButton<IntervalPickerSegmentType>>()
+      final buttons = spot<SegmentedButton<IntervalSegmentType>>()
           .existsOnce()
           .widget
           .segments
           .map((segment) => segment.value);
 
-      expect(buttons, const <IntervalPickerSegmentType>[.precise, .relative]);
+      expect(buttons, const <IntervalSegmentType>[.precise, .relative]);
     });
 
     testWidgets('renders month dropdown '
@@ -135,8 +135,10 @@ void main() {
       );
 
       final text = tester.localizations<YearlyPicker>().rrulePickerDayOfWeek;
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
-          .spotText(text, exact: true);
+      final button = spot<SegmentedButton<IntervalSegmentType>>().spotText(
+        text,
+        exact: true,
+      );
 
       await act.tap(button);
       await tester.pumpAndSettle();
@@ -165,8 +167,10 @@ void main() {
       );
 
       final text = tester.localizations<YearlyPicker>().rrulePickerDayOfWeek;
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
-          .spotText(text, exact: true);
+      final button = spot<SegmentedButton<IntervalSegmentType>>().spotText(
+        text,
+        exact: true,
+      );
 
       await act.tap(button);
       await tester.pumpAndSettle();
@@ -225,7 +229,7 @@ void main() {
         ),
       );
 
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
+      final button = spot<SegmentedButton<IntervalSegmentType>>()
           .existsOnce()
           .widget
           .style;
@@ -369,7 +373,7 @@ void main() {
         ),
       );
 
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
+      final button = spot<SegmentedButton<IntervalSegmentType>>()
           .spot<TextButton>()
           .atIndex(1);
       await act.tap(button);
@@ -397,7 +401,7 @@ void main() {
         ),
       );
 
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
+      final button = spot<SegmentedButton<IntervalSegmentType>>()
           .spot<TextButton>()
           .atIndex(1);
       await act.tap(button);
@@ -462,12 +466,12 @@ void main() {
       );
 
       expect(controller.intervalSegmentType.value, const {
-        IntervalPickerSegmentType.precise,
+        IntervalSegmentType.precise,
       });
 
       final l = tester.localizations<YearlyPicker>();
       await act.tap(
-        spot<SegmentedButton<IntervalPickerSegmentType>>().spotText(
+        spot<SegmentedButton<IntervalSegmentType>>().spotText(
           l.rrulePickerDayOfWeek,
           exact: true,
         ),
@@ -475,11 +479,11 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.intervalSegmentType.value, const {
-        IntervalPickerSegmentType.relative,
+        IntervalSegmentType.relative,
       });
 
       await act.tap(
-        spot<SegmentedButton<IntervalPickerSegmentType>>().spotText(
+        spot<SegmentedButton<IntervalSegmentType>>().spotText(
           l.rrulePickerDayOfMonth,
           exact: true,
         ),
@@ -487,7 +491,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.intervalSegmentType.value, const {
-        IntervalPickerSegmentType.precise,
+        IntervalSegmentType.precise,
       });
     });
 
@@ -622,7 +626,7 @@ void main() {
         expect(controller.month.value, Month.january);
         expect(controller.dayOfMonth.value, defaultByMonthDay);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -648,20 +652,20 @@ void main() {
             return combine2(
               constant(month),
               integer(min: byMonthDayMin, max: month.maxDay),
-            ).map((t) => (month: t.$1, day: t.$2));
+            ).map((t) => (monthDropdown: t.$1, day: t.$2));
           }),
           (t) {
             controller = YearlyPickerController(
               initialRRule:
                   'FREQ=YEARLY;'
-                  'BYMONTH=${t.month.rruleValue};BYMONTHDAY=${t.day}',
+                  'BYMONTH=${t.monthDropdown.rruleValue};BYMONTHDAY=${t.day}',
               listener: () {},
             );
 
-            expect(controller.month.value, t.month);
+            expect(controller.month.value, t.monthDropdown);
             expect(controller.dayOfMonth.value, t.day);
             expect(controller.intervalSegmentType.value, const {
-              IntervalPickerSegmentType.precise,
+              IntervalSegmentType.precise,
             });
           },
           tearDown: () => controller.dispose(),
@@ -678,21 +682,21 @@ void main() {
               interval(),
               constant(month),
               integer(min: byMonthDayMin, max: month.maxDay),
-            ).map((t) => (interval: t.$1, month: t.$2, day: t.$3));
+            ).map((t) => (interval: t.$1, monthDropdown: t.$2, day: t.$3));
           }),
           (t) {
             controller = YearlyPickerController(
               initialRRule:
                   'FREQ=YEARLY;INTERVAL=${t.interval};'
-                  'BYMONTH=${t.month.rruleValue};BYMONTHDAY=${t.day}',
+                  'BYMONTH=${t.monthDropdown.rruleValue};BYMONTHDAY=${t.day}',
               listener: () {},
             );
 
             expect(controller.getIntervalValue(), t.interval);
-            expect(controller.month.value, t.month);
+            expect(controller.month.value, t.monthDropdown);
             expect(controller.dayOfMonth.value, t.day);
             expect(controller.intervalSegmentType.value, const {
-              IntervalPickerSegmentType.precise,
+              IntervalSegmentType.precise,
             });
           },
           tearDown: () => controller.dispose(),
@@ -704,28 +708,26 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          combine4(
-            interval(),
-            month(),
-            dayOfWeek(),
-            dayOfWeekOrdinal(),
-          ).map((t) => (interval: t.$1, month: t.$2, day: t.$3, ordinal: t.$4)),
+          combine4(interval(), month(), dayOfWeek(), dayOfWeekOrdinal()).map(
+            (t) =>
+                (interval: t.$1, monthDropdown: t.$2, day: t.$3, ordinal: t.$4),
+          ),
           (t) {
             controller = YearlyPickerController(
               initialRRule:
                   'FREQ=YEARLY;INTERVAL=${t.interval};'
-                  'BYMONTH=${t.month.rruleValue};'
+                  'BYMONTH=${t.monthDropdown.rruleValue};'
                   'BYDAY=${t.day.rruleName};BYSETPOS=${t.ordinal.rruleValue}',
               listener: () {},
             );
 
             expect(controller.getIntervalValue(), t.interval);
             expect(controller.intervalNotifier.value, t.interval);
-            expect(controller.month.value, t.month);
+            expect(controller.month.value, t.monthDropdown);
             expect(controller.dayOfWeek.value, t.day);
             expect(controller.dayOfWeekOrdinal.value, t.ordinal);
             expect(controller.intervalSegmentType.value, const {
-              IntervalPickerSegmentType.relative,
+              IntervalSegmentType.relative,
             });
           },
           tearDown: () => controller.dispose(),
@@ -739,7 +741,7 @@ void main() {
         );
 
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
 
         addTearDown(controller.dispose);
@@ -752,7 +754,7 @@ void main() {
         );
 
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
 
         addTearDown(controller.dispose);
@@ -835,18 +837,21 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          combine2(month(), byMonthDay()).map((t) => (month: t.$1, day: t.$2)),
+          combine2(
+            month(),
+            byMonthDay(),
+          ).map((t) => (monthDropdown: t.$1, day: t.$2)),
           (t) {
-            final maxDay = t.month.maxDay;
+            final maxDay = t.monthDropdown.maxDay;
             final day = t.day <= maxDay ? t.day : maxDay;
             controller.setRRule(
-              'FREQ=YEARLY;BYMONTH=${t.month.rruleValue};BYMONTHDAY=$day',
+              'FREQ=YEARLY;BYMONTH=${t.monthDropdown.rruleValue};BYMONTHDAY=$day',
             );
 
-            expect(controller.month.value, t.month);
+            expect(controller.month.value, t.monthDropdown);
             expect(controller.dayOfMonth.value, day);
             expect(controller.intervalSegmentType.value, const {
-              IntervalPickerSegmentType.precise,
+              IntervalSegmentType.precise,
             });
           },
           setUp: () => controller = YearlyPickerController(listener: () {}),
@@ -859,24 +864,22 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          combine4(
-            interval(),
-            month(),
-            dayOfWeek(),
-            dayOfWeekOrdinal(),
-          ).map((t) => (interval: t.$1, month: t.$2, day: t.$3, ordinal: t.$4)),
+          combine4(interval(), month(), dayOfWeek(), dayOfWeekOrdinal()).map(
+            (t) =>
+                (interval: t.$1, monthDropdown: t.$2, day: t.$3, ordinal: t.$4),
+          ),
           (t) {
             controller.setRRule(
               'FREQ=YEARLY;INTERVAL=${t.interval};'
-              'BYMONTH=${t.month.rruleValue};'
+              'BYMONTH=${t.monthDropdown.rruleValue};'
               'BYDAY=${t.day.rruleName};BYSETPOS=${t.ordinal.rruleValue}',
             );
 
-            expect(controller.month.value, t.month);
+            expect(controller.month.value, t.monthDropdown);
             expect(controller.dayOfWeek.value, t.day);
             expect(controller.dayOfWeekOrdinal.value, t.ordinal);
             expect(controller.intervalSegmentType.value, const {
-              IntervalPickerSegmentType.relative,
+              IntervalSegmentType.relative,
             });
           },
           setUp: () => controller = YearlyPickerController(listener: () {}),
@@ -888,7 +891,7 @@ void main() {
         controller.setRRule('FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=15');
 
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -896,7 +899,7 @@ void main() {
         controller.setRRule('FREQ=YEARLY;BYMONTH=1;BYDAY=MO;BYSETPOS=1');
 
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 
@@ -906,7 +909,7 @@ void main() {
         expect(controller.month.value, Month.january);
         expect(controller.dayOfMonth.value, defaultByMonthDay);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -916,7 +919,7 @@ void main() {
         expect(controller.month.value, Month.january);
         expect(controller.dayOfMonth.value, defaultByMonthDay);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -977,7 +980,7 @@ void main() {
         expect(controller.dayOfWeek.value, DayOfWeek.friday);
         expect(controller.dayOfWeekOrdinal.value, DayOfWeekOrdinal.last);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 
@@ -989,7 +992,7 @@ void main() {
         expect(controller.month.value, Month.june);
         expect(controller.dayOfMonth.value, 25);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -999,7 +1002,7 @@ void main() {
         expect(controller.month.value, Month.january);
         expect(controller.dayOfMonth.value, 15);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -1010,7 +1013,7 @@ void main() {
         expect(controller.dayOfWeek.value, DayOfWeek.monday);
         expect(controller.dayOfWeekOrdinal.value, DayOfWeekOrdinal.first);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 
@@ -1029,7 +1032,7 @@ void main() {
         expect(controller.dayOfWeek.value, DayOfWeek.monday);
         expect(controller.dayOfWeekOrdinal.value, DayOfWeekOrdinal.first);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 
@@ -1066,7 +1069,7 @@ void main() {
         expect(controller.month.value, Month.february);
         expect(controller.dayOfMonth.value, 29);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -1084,14 +1087,14 @@ void main() {
             return combine2(
               constant(month),
               integer(min: month.maxDay + 1),
-            ).map((t) => (month: t.$1, day: t.$2));
+            ).map((t) => (monthDropdown: t.$1, day: t.$2));
           }),
           (t) {
             controller.setRRule(
-              'FREQ=YEARLY;BYMONTH=${t.month.rruleValue};BYMONTHDAY=${t.day}',
+              'FREQ=YEARLY;BYMONTH=${t.monthDropdown.rruleValue};BYMONTHDAY=${t.day}',
             );
 
-            expect(controller.month.value, t.month);
+            expect(controller.month.value, t.monthDropdown);
             expect(controller.dayOfMonth.value, defaultByMonthDay);
           },
         );
@@ -1127,22 +1130,22 @@ void main() {
               interval(),
               constant(month),
               integer(min: byMonthDayMin, max: month.maxDay),
-            ).map((t) => (interval: t.$1, month: t.$2, day: t.$3));
+            ).map((t) => (interval: t.$1, monthDropdown: t.$2, day: t.$3));
           }),
           (t) {
             controller.setRRule(
               'FREQ=YEARLY;INTERVAL=${t.interval};'
-              'BYMONTH=${t.month.rruleValue};BYMONTHDAY=${t.day}',
+              'BYMONTH=${t.monthDropdown.rruleValue};BYMONTHDAY=${t.day}',
             );
 
             controller.buildRRulePart(sb);
 
-            final maxDay = t.month.maxDay;
+            final maxDay = t.monthDropdown.maxDay;
             final day = t.day <= maxDay ? t.day : maxDay;
             expect(
               sb.toString(),
               'FREQ=YEARLY;INTERVAL=${t.interval};'
-              'BYMONTH=${t.month.rruleValue};BYMONTHDAY=$day',
+              'BYMONTH=${t.monthDropdown.rruleValue};BYMONTHDAY=$day',
             );
           },
           setUp: () => controller = YearlyPickerController(listener: () {}),
@@ -1158,16 +1161,14 @@ void main() {
         late YearlyPickerController controller;
 
         forAll(
-          combine4(
-            interval(),
-            month(),
-            dayOfWeek(),
-            dayOfWeekOrdinal(),
-          ).map((t) => (interval: t.$1, month: t.$2, day: t.$3, ordinal: t.$4)),
+          combine4(interval(), month(), dayOfWeek(), dayOfWeekOrdinal()).map(
+            (t) =>
+                (interval: t.$1, monthDropdown: t.$2, day: t.$3, ordinal: t.$4),
+          ),
           (t) {
             controller.setRRule(
               'FREQ=YEARLY;INTERVAL=${t.interval};'
-              'BYMONTH=${t.month.rruleValue};'
+              'BYMONTH=${t.monthDropdown.rruleValue};'
               'BYDAY=${t.day.rruleName};BYSETPOS=${t.ordinal.rruleValue}',
             );
 
@@ -1177,7 +1178,7 @@ void main() {
             expect(
               sb.toString(),
               'FREQ=YEARLY;INTERVAL=${t.interval};'
-              'BYMONTH=${t.month.rruleValue};'
+              'BYMONTH=${t.monthDropdown.rruleValue};'
               'BYDAY=${t.day.rruleName};BYSETPOS=${t.ordinal.rruleValue}',
             );
           },

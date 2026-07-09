@@ -62,7 +62,7 @@ class _MonthlyPickerState extends State<MonthlyPicker> {
           spacing: 8,
           children: [
             interval!,
-            SegmentedButton<IntervalPickerSegmentType>(
+            SegmentedButton<IntervalSegmentType>(
               onSelectionChanged: (value) =>
                   controller.intervalSegmentType.value = value,
               selected: segmentType,

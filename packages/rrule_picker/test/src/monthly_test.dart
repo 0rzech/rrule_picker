@@ -75,7 +75,7 @@ void main() {
         ),
       );
 
-      final buttons = spot<SegmentedButton<IntervalPickerSegmentType>>()
+      final buttons = spot<SegmentedButton<IntervalSegmentType>>()
           .existsOnce()
           .widget
           .segments
@@ -83,7 +83,7 @@ void main() {
 
       expect(
         buttons,
-        orderedEquals(<IntervalPickerSegmentType>[.precise, .relative]),
+        orderedEquals(<IntervalSegmentType>[.precise, .relative]),
       );
     });
 
@@ -113,8 +113,10 @@ void main() {
       );
 
       final l = tester.localizations<MonthlyPicker>();
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
-          .spotText(l.rrulePickerDayOfWeek, exact: true);
+      final button = spot<SegmentedButton<IntervalSegmentType>>().spotText(
+        l.rrulePickerDayOfWeek,
+        exact: true,
+      );
 
       await act.tap(button);
       await tester.pump();
@@ -161,8 +163,7 @@ void main() {
         ),
       );
 
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
-          .existsOnce();
+      final button = spot<SegmentedButton<IntervalSegmentType>>().existsOnce();
 
       expect(button.widget.style, theme.segmentedButtonStyle);
     });
@@ -193,11 +194,11 @@ void main() {
       );
 
       expect(controller.intervalSegmentType.value, const {
-        IntervalPickerSegmentType.precise,
+        IntervalSegmentType.precise,
       });
 
       await act.tap(
-        spot<SegmentedButton<IntervalPickerSegmentType>>().spotText(
+        spot<SegmentedButton<IntervalSegmentType>>().spotText(
           tester.localizations<MonthlyPicker>().rrulePickerDayOfWeek,
           exact: true,
         ),
@@ -205,11 +206,11 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.intervalSegmentType.value, const {
-        IntervalPickerSegmentType.relative,
+        IntervalSegmentType.relative,
       });
 
       await act.tap(
-        spot<SegmentedButton<IntervalPickerSegmentType>>().spotText(
+        spot<SegmentedButton<IntervalSegmentType>>().spotText(
           tester.localizations<MonthlyPicker>().rrulePickerDayOfMonth,
           exact: true,
         ),
@@ -217,7 +218,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.intervalSegmentType.value, const {
-        IntervalPickerSegmentType.precise,
+        IntervalSegmentType.precise,
       });
     });
 
@@ -255,7 +256,7 @@ void main() {
         ),
       );
 
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
+      final button = spot<SegmentedButton<IntervalSegmentType>>()
           .spot<TextButton>()
           .atIndex(1);
       await act.tap(button);
@@ -284,7 +285,7 @@ void main() {
         ),
       );
 
-      final button = spot<SegmentedButton<IntervalPickerSegmentType>>()
+      final button = spot<SegmentedButton<IntervalSegmentType>>()
           .spot<TextButton>()
           .atIndex(1);
       await act.tap(button);
@@ -405,7 +406,7 @@ void main() {
         expect(controller.intervalController.text, defaultInterval.toString());
         expect(controller.dayOfMonth.value, defaultByMonthDay);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
 
         addTearDown(controller.dispose);
@@ -500,7 +501,7 @@ void main() {
           );
 
           expect(controller.intervalSegmentType.value, const {
-            IntervalPickerSegmentType.precise,
+            IntervalSegmentType.precise,
           });
         }, tearDown: () => controller.dispose());
       });
@@ -515,7 +516,7 @@ void main() {
           );
 
           expect(controller.intervalSegmentType.value, const {
-            IntervalPickerSegmentType.relative,
+            IntervalSegmentType.relative,
           });
         }, tearDown: () => controller.dispose());
       });
@@ -630,7 +631,7 @@ void main() {
         controller.setRRule('FREQ=MONTHLY;BYMONTHDAY=15');
 
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -638,7 +639,7 @@ void main() {
         controller.setRRule('FREQ=MONTHLY;BYDAY=MO;BYSETPOS=1');
 
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 
@@ -649,7 +650,7 @@ void main() {
         expect(controller.intervalController.text, defaultInterval.toString());
         expect(controller.dayOfMonth.value, defaultByMonthDay);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -660,7 +661,7 @@ void main() {
         expect(controller.intervalController.text, defaultInterval.toString());
         expect(controller.dayOfMonth.value, defaultByMonthDay);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -717,7 +718,7 @@ void main() {
         expect(controller.dayOfWeek.value, DayOfWeek.friday);
         expect(controller.dayOfWeekOrdinal.value, DayOfWeekOrdinal.last);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 
@@ -729,7 +730,7 @@ void main() {
         expect(controller.intervalNotifier.value, 3);
         expect(controller.dayOfMonth.value, 25);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -739,7 +740,7 @@ void main() {
         expect(controller.getIntervalValue(), 2);
         expect(controller.dayOfMonth.value, 15);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.precise,
+          IntervalSegmentType.precise,
         });
       });
 
@@ -750,7 +751,7 @@ void main() {
         expect(controller.dayOfWeek.value, DayOfWeek.monday);
         expect(controller.dayOfWeekOrdinal.value, DayOfWeekOrdinal.first);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 
@@ -770,7 +771,7 @@ void main() {
         expect(controller.dayOfWeek.value, DayOfWeek.monday);
         expect(controller.dayOfWeekOrdinal.value, DayOfWeekOrdinal.first);
         expect(controller.intervalSegmentType.value, const {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 

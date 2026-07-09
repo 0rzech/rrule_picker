@@ -5,13 +5,13 @@ part of '../yearly.dart';
 
 class _DayOfMonthDropdown extends StatelessWidget {
   final ValueListenable<Month> month;
-  final NumberFormat monthFormatter;
   final ValueListenable<int> dayOfMonth;
+  final NumberFormat dayOfMonthFormatter;
   final ValueChanged<int?> onChanged;
 
   const _DayOfMonthDropdown({
     required this.month,
-    required this.monthFormatter,
+    required this.dayOfMonthFormatter,
     required this.dayOfMonth,
     required this.onChanged,
   });
@@ -31,7 +31,7 @@ class _DayOfMonthDropdown extends StatelessWidget {
           items: .generate(month.value.maxDay, (i) {
             final day = i + 1;
             final text = Text(
-              monthFormatter.format(day),
+              dayOfMonthFormatter.format(day),
               style: theme.menuItemStyle,
             );
 

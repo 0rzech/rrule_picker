@@ -536,7 +536,7 @@ void main() {
       group('constructor', () {
         test('initializes with precise segment type', () {
           expect(controller.intervalSegmentType.value, {
-            IntervalPickerSegmentType.precise,
+            IntervalSegmentType.precise,
           });
         });
 
@@ -546,7 +546,7 @@ void main() {
           );
 
           expect(controller.intervalSegmentType.value, {
-            IntervalPickerSegmentType.relative,
+            IntervalSegmentType.relative,
           });
 
           addTearDown(controller.dispose);
@@ -558,8 +558,8 @@ void main() {
           );
 
           expect(controller.intervalSegmentType.value, {
-            IntervalPickerSegmentType.precise,
-            IntervalPickerSegmentType.relative,
+            IntervalSegmentType.precise,
+            IntervalSegmentType.relative,
           });
 
           addTearDown(controller.dispose);
@@ -583,7 +583,7 @@ void main() {
         controller.setIntervalSegmentTypeValue({.relative});
 
         expect(controller.intervalSegmentType.value, {
-          IntervalPickerSegmentType.relative,
+          IntervalSegmentType.relative,
         });
       });
 

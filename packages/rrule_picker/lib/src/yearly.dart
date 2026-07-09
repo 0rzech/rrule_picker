@@ -64,52 +64,70 @@ class _YearlyPickerState extends State<YearlyPicker> {
 
     return ValueListenableBuilder(
       valueListenable: controller.intervalSegmentType,
-      builder: (_, segmentType, _) => LayoutBuilder(
-        builder: (_, constraints) => Column(
-          spacing: 8,
-          children: [
-            interval,
-            _buildSegmentType(l, theme, decorate, controller, segmentType),
-            ...switch (segmentType.first) {
-              .precise => [
-                Row(
-                  spacing: 8,
-                  children: [
-                    month,
-                    slash,
-                    _buildDayOfMonth(l, theme, decorate, controller),
-                  ],
-                ),
-              ],
-              .relative =>
+      builder: (_, segmentType, _) {
+        final segmentTypeButton = _buildSegmentType(
+          l,
+          theme,
+          decorate,
+          controller,
+          segmentType,
+        );
+
+        return switch (segmentType.first) {
+          .precise => Column(
+            spacing: 8,
+            children: [
+              interval,
+              segmentTypeButton,
+              Row(
+                spacing: 8,
+                children: [
+                  month,
+                  slash,
+                  _buildDayOfMonth(l, theme, decorate, controller),
+                ],
+              ),
+            ],
+          ),
+          .relative => LayoutBuilder(
+            builder: (_, constraints) =>
                 constraints.maxWidth - theme.padding.vertical <
-                        global.narrowLayoutBreakpoint
-                    ? [
-                        Row(spacing: 8, children: [month, slash]),
-                        Row(
-                          spacing: 8,
-                          children: _buildDayOrdinal(
-                            l,
-                            theme,
-                            decorate,
-                            controller,
-                          ),
+                    global.narrowLayoutBreakpoint
+                ? Column(
+                    spacing: 8,
+                    children: [
+                      interval,
+                      segmentTypeButton,
+                      Row(spacing: 8, children: [month, slash]),
+                      Row(
+                        spacing: 8,
+                        children: _buildDayOrdinal(
+                          l,
+                          theme,
+                          decorate,
+                          controller,
                         ),
-                      ]
-                    : [
-                        Row(
-                          spacing: 8,
-                          children: [
-                            month,
-                            slash,
-                            ..._buildDayOrdinal(l, theme, decorate, controller),
-                          ],
-                        ),
-                      ],
-            },
-          ],
-        ),
-      ),
+                      ),
+                    ],
+                  )
+                : Column(
+                    spacing: 8,
+                    children: [
+                      interval,
+                      segmentTypeButton,
+                      Row(
+                        spacing: 8,
+                        children: [
+                          month,
+                          slash,
+                          ..._buildDayOrdinal(l, theme, decorate, controller),
+                        ],
+                      ),
+                    ],
+                  ),
+          ),
+        };
+      },
     );
   }
 }

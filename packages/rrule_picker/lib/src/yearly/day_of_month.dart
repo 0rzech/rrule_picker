@@ -26,8 +26,8 @@ class _DayOfMonthDropdown extends StatelessWidget {
       builder: (_, _) {
         final dropdown = DropdownButton(
           value: dayOfMonth.value,
-          isExpanded: true,
           style: theme.style,
+          isExpanded: true,
           items: .generate(month.value.maxDay, (i) {
             final day = i + 1;
             final text = Text(

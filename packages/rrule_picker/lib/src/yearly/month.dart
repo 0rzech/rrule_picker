@@ -24,8 +24,8 @@ class _MonthDropdown extends StatelessWidget {
       builder: (context, day, _) {
         final dropdown = DropdownButton(
           value: day,
-          isExpanded: true,
           style: theme.style,
+          isExpanded: true,
           items: Month.values
               .map((month) {
                 final date = DateTime(2026, 01 + month.index, 01);

@@ -24,8 +24,8 @@ class _DayOfWeekDropdown extends StatelessWidget {
       builder: (_, _) {
         final dropdown = DropdownButton(
           value: dayOfWeek.value,
-          isExpanded: true,
           style: theme.style,
+          isExpanded: true,
           items: daysOfWeek.value
               .map((day) {
                 final text = Text(day.$2, style: theme.menuItemStyle);

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
+import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 
 /// Theme data for customizing the appearance of the RRulePicker widget.
 ///
@@ -37,10 +38,26 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   /// The style for segmented buttons in the picker.
   ///
   /// The default is [RRulePickerThemeData.defaultSegmentedButtonStyle].
+  ///
+  /// See [SegmentedButton.style].
   final ButtonStyle? segmentedButtonStyle;
 
-  /// The style for weekday selection buttons in the picker.
-  final ButtonStyle? weekdaySelectionButtonStyle;
+  /// The style for [SplitSegmentedButton].
+  ///
+  /// This is an internal Widget that by default approximates
+  /// [SegmentedButton.style], but with each segment being a separate [InkWell]
+  /// with its own [StadiumBorder].
+  ///
+  /// The properties used by the widget buttons are:
+  ///
+  /// * [ButtonStyle.textStyle].
+  /// * [ButtonStyle.foregroundColor] - used with default text style only.
+  /// * [ButtonStyle.backgroundColor].
+  /// * [ButtonStyle.shape].
+  /// * [ButtonStyle.side] - used with default shape only.
+  /// * [ButtonStyle.fixedSize].
+  /// * [ButtonStyle.animationDuration] - used for button tap animation.
+  final ButtonStyle? splitSegmentedButtonStyle;
 
   /// Creates a new [RRulePickerThemeData] with the provided styling options.
   ///
@@ -54,7 +71,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     this.topDropdownTheme,
     this.textFieldTheme,
     this.segmentedButtonStyle,
-    this.weekdaySelectionButtonStyle,
+    this.splitSegmentedButtonStyle,
   });
 
   /// Creates a copy of this theme with the given fields replaced
@@ -70,7 +87,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     RRulePickerDropdownThemeData? topDropdownTheme,
     RRulePickerTextFieldThemeData? textFieldTheme,
     ButtonStyle? segmentedButtonStyle,
-    ButtonStyle? weekdaySelectionButtonStyle,
+    ButtonStyle? splitSegmentedButtonStyle,
     int? narrowLayoutBreakpoint,
   }) => RRulePickerThemeData(
     labelStyle: labelStyle ?? this.labelStyle,
@@ -80,8 +97,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     topDropdownTheme: topDropdownTheme ?? this.topDropdownTheme,
     textFieldTheme: textFieldTheme ?? this.textFieldTheme,
     segmentedButtonStyle: segmentedButtonStyle ?? this.segmentedButtonStyle,
-    weekdaySelectionButtonStyle:
-        weekdaySelectionButtonStyle ?? this.weekdaySelectionButtonStyle,
+    splitSegmentedButtonStyle:
+        splitSegmentedButtonStyle ?? this.splitSegmentedButtonStyle,
   );
 
   /// Linearly interpolates between this theme and another theme.
@@ -122,9 +139,9 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
         other.segmentedButtonStyle,
         t,
       ),
-      weekdaySelectionButtonStyle: ButtonStyle.lerp(
-        weekdaySelectionButtonStyle,
-        other.weekdaySelectionButtonStyle,
+      splitSegmentedButtonStyle: ButtonStyle.lerp(
+        splitSegmentedButtonStyle,
+        other.splitSegmentedButtonStyle,
         t,
       ),
     );
@@ -141,7 +158,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
             other.topDropdownTheme == topDropdownTheme &&
             other.textFieldTheme == textFieldTheme &&
             other.segmentedButtonStyle == segmentedButtonStyle &&
-            other.weekdaySelectionButtonStyle == weekdaySelectionButtonStyle;
+            other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
 
   @override
   int get hashCode => Object.hash(
@@ -152,7 +169,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     topDropdownTheme,
     textFieldTheme,
     segmentedButtonStyle,
-    weekdaySelectionButtonStyle,
+    splitSegmentedButtonStyle,
   );
 }
 

@@ -37,7 +37,7 @@ class ResolvedThemeData {
   final RRulePickerDropdownThemeData topDropdownTheme;
   final RRulePickerTextFieldThemeData? textFieldTheme;
   final ButtonStyle? segmentedButtonStyle;
-  final ButtonStyle? weekdaySelectionButtonStyle;
+  final ButtonStyle? splitSegmentedButtonStyle;
 
   @visibleForTesting
   const ResolvedThemeData({
@@ -48,7 +48,7 @@ class ResolvedThemeData {
     required this.topDropdownTheme,
     this.textFieldTheme,
     this.segmentedButtonStyle,
-    this.weekdaySelectionButtonStyle,
+    this.splitSegmentedButtonStyle,
   });
 
   @visibleForTesting
@@ -106,11 +106,6 @@ class ResolvedThemeData {
           defaultTheme.dropdownTheme.menuItemDecoration,
     );
 
-    final segmentedButtonStyle =
-        localTheme?.segmentedButtonStyle ??
-        globalTheme?.segmentedButtonStyle ??
-        defaultTheme.segmentedButtonStyle;
-
     return .new(
       labelStyle:
           localTheme?.labelStyle ??
@@ -165,12 +160,16 @@ class ResolvedThemeData {
             globalTheme?.textFieldTheme?.decoration ??
             defaultTheme.textFieldTheme?.decoration,
       ),
-      segmentedButtonStyle: segmentedButtonStyle,
-      weekdaySelectionButtonStyle:
-          localTheme?.weekdaySelectionButtonStyle ??
-          globalTheme?.weekdaySelectionButtonStyle ??
-          defaultTheme.weekdaySelectionButtonStyle ??
-          segmentedButtonStyle,
+      segmentedButtonStyle:
+          localTheme?.segmentedButtonStyle ??
+          globalTheme?.segmentedButtonStyle ??
+          defaultTheme.segmentedButtonStyle,
+      splitSegmentedButtonStyle: resolveSplitSegmentedButtonStyle(
+        localTheme?.splitSegmentedButtonStyle ??
+            globalTheme?.splitSegmentedButtonStyle ??
+            defaultTheme.splitSegmentedButtonStyle,
+        theme,
+      ),
     );
   }
 
@@ -185,7 +184,7 @@ class ResolvedThemeData {
             other.topDropdownTheme == topDropdownTheme &&
             other.textFieldTheme == textFieldTheme &&
             other.segmentedButtonStyle == segmentedButtonStyle &&
-            other.weekdaySelectionButtonStyle == weekdaySelectionButtonStyle;
+            other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
 
   @override
   int get hashCode => Object.hash(
@@ -196,6 +195,56 @@ class ResolvedThemeData {
     topDropdownTheme,
     textFieldTheme,
     segmentedButtonStyle,
-    weekdaySelectionButtonStyle,
+    splitSegmentedButtonStyle,
   );
+
+  @visibleForTesting
+  static ButtonStyle resolveSplitSegmentedButtonStyle(
+    ButtonStyle? style,
+    ThemeData theme,
+  ) {
+    final foregroundColor =
+        style?.foregroundColor ??
+        .resolveWith((states) {
+          return states.contains(WidgetState.selected)
+              ? theme.colorScheme.onSecondaryContainer
+              : theme.colorScheme.onSurface;
+        });
+
+    final side =
+        style?.side ??
+        WidgetStatePropertyAll(.new(color: theme.colorScheme.outline));
+
+    return ButtonStyle(
+      textStyle:
+          style?.textStyle ??
+          .resolveWith((states) {
+            return states.contains(WidgetState.selected)
+                ? theme.textTheme.labelLarge?.copyWith(
+                    color: foregroundColor.resolve(states),
+                  )
+                : theme.textTheme.labelLarge;
+          }),
+      foregroundColor: foregroundColor,
+      backgroundColor:
+          style?.backgroundColor ??
+          .resolveWith((states) {
+            return states.contains(WidgetState.selected)
+                ? theme.colorScheme.secondaryContainer
+                : Colors.transparent;
+          }),
+      shape:
+          style?.shape ??
+          .resolveWith((states) {
+            return StadiumBorder(
+              side:
+                  side.resolve(states) ??
+                  .new(color: theme.colorScheme.outline),
+            );
+          }),
+      side: side,
+      fixedSize: style?.fixedSize ?? const WidgetStatePropertyAll(Size(80, 40)),
+      animationDuration: style?.animationDuration ?? kThemeAnimationDuration,
+    );
+  }
 }

@@ -124,7 +124,7 @@ void main() {
         expect(theme.topDropdownTheme, topDropdownTheme);
         expect(theme.textFieldTheme, null);
         expect(theme.segmentedButtonStyle, null);
-        expect(theme.weekdaySelectionButtonStyle, null);
+        expect(theme.splitSegmentedButtonStyle, null);
       });
 
       test('creates instance with all optional parameters', () {
@@ -135,7 +135,7 @@ void main() {
         const topDropdownTheme = RRulePickerDropdownThemeData();
         const textFieldTheme = RRulePickerTextFieldThemeData();
         const segmentedButtonStyle = ButtonStyle();
-        const weekdaySelectionButtonStyle = ButtonStyle();
+        const splitSegmentedButtonStyle = ButtonStyle();
 
         const theme = ResolvedThemeData(
           labelStyle: labelStyle,
@@ -145,7 +145,7 @@ void main() {
           topDropdownTheme: topDropdownTheme,
           textFieldTheme: textFieldTheme,
           segmentedButtonStyle: segmentedButtonStyle,
-          weekdaySelectionButtonStyle: weekdaySelectionButtonStyle,
+          splitSegmentedButtonStyle: splitSegmentedButtonStyle,
         );
 
         expect(theme.labelStyle, labelStyle);
@@ -155,7 +155,7 @@ void main() {
         expect(theme.topDropdownTheme, topDropdownTheme);
         expect(theme.textFieldTheme, textFieldTheme);
         expect(theme.segmentedButtonStyle, segmentedButtonStyle);
-        expect(theme.weekdaySelectionButtonStyle, weekdaySelectionButtonStyle);
+        expect(theme.splitSegmentedButtonStyle, splitSegmentedButtonStyle);
       });
     });
 
@@ -406,14 +406,16 @@ void main() {
         expect(resolved.textFieldTheme?.decoration, isNotNull);
       });
 
-      testWidgets('resolves weekdaySelectionButtonStyle '
-          'with fallback to segmentedButtonStyle', (tester) async {
+      testWidgets('resolves splitSegmentedButtonStyle '
+          'with fallback to defaults', (tester) async {
+        late ThemeData theme;
         late ResolvedThemeData resolved;
 
         await tester.pumpWidget(
           MaterialApp(
             home: Builder(
               builder: (context) {
+                theme = Theme.of(context);
                 resolved = .resolve(context);
                 return const SizedBox.shrink();
               },
@@ -422,8 +424,10 @@ void main() {
         );
 
         expect(
-          resolved.weekdaySelectionButtonStyle,
-          resolved.segmentedButtonStyle,
+          resolved.splitSegmentedButtonStyle?.backgroundColor?.resolve({
+            .selected,
+          }),
+          theme.colorScheme.secondaryContainer,
         );
       });
 
@@ -565,14 +569,12 @@ void main() {
         expect(resolved.textFieldTheme?.style, style);
       });
 
-      testWidgets('resolves weekdaySelectionButtonStyle from local theme', (
+      testWidgets('resolves splitSegmentedButtonStyle from local theme', (
         tester,
       ) async {
-        const style = ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(Colors.blue),
-        );
+        const color = WidgetStatePropertyAll(Colors.blue);
         const localTheme = RRulePickerThemeData(
-          weekdaySelectionButtonStyle: style,
+          splitSegmentedButtonStyle: .new(backgroundColor: color),
         );
         late ResolvedThemeData resolved;
 
@@ -587,7 +589,7 @@ void main() {
           ),
         );
 
-        expect(resolved.weekdaySelectionButtonStyle, style);
+        expect(resolved.splitSegmentedButtonStyle?.backgroundColor, color);
       });
 
       testWidgets('resolves labelStyle from global theme', (tester) async {
@@ -784,21 +786,21 @@ void main() {
         expect(theme1, isNot(theme2));
       });
 
-      test('instances with different weekdaySelectionButtonStyle '
+      test('instances with different splitSegmentedButtonStyle '
           'are not equal', () {
         const theme1 = ResolvedThemeData(
           padding: .all(8),
           headerTheme: .new(),
           dropdownTheme: .new(),
           topDropdownTheme: .new(),
-          weekdaySelectionButtonStyle: .new(),
+          splitSegmentedButtonStyle: .new(),
         );
         const theme2 = ResolvedThemeData(
           padding: .all(8),
           headerTheme: .new(),
           dropdownTheme: .new(),
           topDropdownTheme: .new(),
-          weekdaySelectionButtonStyle: .new(
+          splitSegmentedButtonStyle: .new(
             backgroundColor: WidgetStatePropertyAll(Colors.blue),
           ),
         );

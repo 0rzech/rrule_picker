@@ -10,6 +10,7 @@ import 'package:kiri_check/kiri_check.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
+import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 import 'package:rrule_picker/src/weekly.dart';
 import 'package:spot/spot.dart';
 
@@ -64,7 +65,7 @@ void main() {
       ).existsAtLeastOnce();
     });
 
-    testWidgets('renders SegmentedButton '
+    testWidgets('renders $SplitSegmentedButton'
         'for day of week selection', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
@@ -73,7 +74,7 @@ void main() {
         ),
       );
 
-      spot<SegmentedButton<DayOfWeek>>().existsOnce();
+      spot<SplitSegmentedButton<DayOfWeek, (DayOfWeek, String)>>().existsOnce();
     });
 
     testWidgets('renders 7 day of week segments', (tester) async {
@@ -84,12 +85,15 @@ void main() {
         ),
       );
 
-      final button = spot<SegmentedButton<DayOfWeek>>().existsOnce();
+      final values =
+          spot<SplitSegmentedButton<DayOfWeek, (DayOfWeek, String)>>()
+              .spot<SplitButton<DayOfWeek>>()
+              .existsExactlyNTimes(7)
+              .widgets
+              .whereType<SplitButton<DayOfWeek>>()
+              .map((widget) => widget.value);
 
-      expect(
-        button.widget.segments.map((segment) => segment.value),
-        orderedEquals(DayOfWeek.values),
-      );
+      expect(values, DayOfWeek.values);
     });
 
     testWidgets('uses provided controller', (tester) async {
@@ -131,7 +135,7 @@ void main() {
 
       expect(controller.selectedDaysOfWeek.value, const {DayOfWeek.monday});
 
-      final segments = spot<TextButton>();
+      final segments = spot<InkWell>();
 
       await act.tap(segments.atIndex(0));
       await act.tap(segments.atIndex(3));
@@ -156,22 +160,51 @@ void main() {
         ),
       );
 
-      final button = spot<SegmentedButton<DayOfWeek>>().existsOnce();
+      final value = spot<SplitSegmentedButton<DayOfWeek, (DayOfWeek, String)>>()
+          .spot<SplitButton<DayOfWeek>>()
+          .existsAtLeastOnce()
+          .widgets
+          .whereType<SplitButton<DayOfWeek>>()
+          .first
+          .value;
 
-      expect(button.widget.segments.first.value, DayOfWeek.friday);
+      expect(value, DayOfWeek.friday);
     });
 
-    testWidgets('applies ResolvedTheme to SegmentedButton', (tester) async {
+    testWidgets('applies ResolvedTheme '
+        'to $SplitSegmentedButton', (tester) async {
+      late ThemeData theme;
+
       await tester.pumpWrapped(
-        ResolvedTheme(
-          theme: theme,
-          child: WeeklyPicker(controller: controller),
+        Builder(
+          builder: (context) {
+            theme = Theme.of(context);
+            return ResolvedTheme(
+              theme: .resolve(context),
+              child: WeeklyPicker(controller: controller),
+            );
+          },
         ),
       );
 
-      final button = spot<SegmentedButton<DayOfWeek>>().existsOnce();
+      final container = spot<SplitButton<DayOfWeek>>()
+          .spot<AnimatedContainer>()
+          .existsAtLeastOnce()
+          .widgets
+          .first;
 
-      expect(button.widget.style, theme.segmentedButtonStyle);
+      expect(
+        container,
+        isA<AnimatedContainer>().having(
+          (container) => container.decoration,
+          'decoration',
+          isA<ShapeDecoration>().having(
+            (decoration) => decoration.color,
+            'color',
+            theme.colorScheme.secondaryContainer,
+          ),
+        ),
+      );
     });
 
     testWidgets('updates dayOfWeekFormat when locale changes', (tester) async {

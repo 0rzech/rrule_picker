@@ -18,7 +18,7 @@ void main() {
         expect(theme.topDropdownTheme, null);
         expect(theme.textFieldTheme, null);
         expect(theme.segmentedButtonStyle, null);
-        expect(theme.weekdaySelectionButtonStyle, null);
+        expect(theme.splitSegmentedButtonStyle, null);
       });
 
       test('constructor accepts and stores all provided parameters', () {
@@ -37,7 +37,7 @@ void main() {
         const segmentedButtonStyle = ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(Colors.blue),
         );
-        const weekdaySelectionButtonStyle = ButtonStyle(
+        const splitSegmentedButtonStyle = ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(Colors.green),
         );
 
@@ -49,7 +49,7 @@ void main() {
           topDropdownTheme: topDropdownTheme,
           textFieldTheme: textFieldTheme,
           segmentedButtonStyle: segmentedButtonStyle,
-          weekdaySelectionButtonStyle: weekdaySelectionButtonStyle,
+          splitSegmentedButtonStyle: splitSegmentedButtonStyle,
         );
 
         expect(theme.labelStyle, fontSize16);
@@ -59,7 +59,7 @@ void main() {
         expect(theme.topDropdownTheme, topDropdownTheme);
         expect(theme.textFieldTheme, textFieldTheme);
         expect(theme.segmentedButtonStyle, segmentedButtonStyle);
-        expect(theme.weekdaySelectionButtonStyle, weekdaySelectionButtonStyle);
+        expect(theme.splitSegmentedButtonStyle, splitSegmentedButtonStyle);
       });
 
       test('handles nested null values', () {
@@ -165,7 +165,7 @@ void main() {
           topDropdownTheme: null,
           textFieldTheme: null,
           segmentedButtonStyle: null,
-          weekdaySelectionButtonStyle: null,
+          splitSegmentedButtonStyle: null,
         );
 
         expect(copied, original);

@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
-import 'package:rrule_picker/src/shared/resolved_theme.dart';
+import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 
 @internal
 class WeeklyPicker extends StatefulWidget {
@@ -45,34 +45,28 @@ class _WeeklyPickerState extends State<WeeklyPicker> {
   @override
   Widget build(BuildContext context) {
     final localizations = RRulePickerLocalizations.of(context);
-    final theme = ResolvedTheme.of(context);
+    final controller = widget.controller;
 
     final interval = IntervalPicker(
       everyUnitText: localizations.rrulePickerEveryWeekly,
       intervalUnitText: localizations.rrulePickerWeeks,
-      controller: widget.controller,
+      controller: controller,
     );
 
     final dayOfWeekSelector = SizedBox(
       width: .infinity,
       child: ValueListenableBuilder(
-        valueListenable: widget.controller.selectedDaysOfWeek,
-        builder: (context, selected, _) => SegmentedButton(
-          style: theme.segmentedButtonStyle,
-          multiSelectionEnabled: true,
-          showSelectedIcon: false,
-          segments: widget.controller.daysOfWeek
-              .map((day) {
-                return ButtonSegment(
-                  value: day.$1,
-                  label: FittedBox(child: Text(day.$2)),
-                );
-              })
-              .toList(growable: false),
-          selected: selected,
-          onSelectionChanged: (value) =>
-              widget.controller.selectedDaysOfWeek.value = value,
-        ),
+        valueListenable: controller.selectedDaysOfWeek,
+        builder: (_, selectedDays, _) {
+          return SplitSegmentedButton<DayOfWeek, (DayOfWeek, String)>(
+            selected: selectedDays,
+            onSelectionChanged: (days) =>
+                controller.selectedDaysOfWeek.value = days,
+            segmentInput: controller.daysOfWeek,
+            segmentMapper: (day) =>
+                SplitButtonSegment(value: day.$1, text: day.$2),
+          );
+        },
       ),
     );
 

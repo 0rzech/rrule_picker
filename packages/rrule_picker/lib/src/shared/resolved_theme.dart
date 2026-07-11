@@ -219,11 +219,9 @@ class ResolvedThemeData {
       textStyle:
           style?.textStyle ??
           .resolveWith((states) {
-            return states.contains(WidgetState.selected)
-                ? theme.textTheme.labelLarge?.copyWith(
-                    color: foregroundColor.resolve(states),
-                  )
-                : theme.textTheme.labelLarge;
+            return theme.textTheme.labelLarge?.copyWith(
+              color: foregroundColor.resolve(states),
+            );
           }),
       foregroundColor: foregroundColor,
       backgroundColor:

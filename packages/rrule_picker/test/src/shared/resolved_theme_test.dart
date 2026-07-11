@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kiri_check/kiri_check.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/theme.dart';
@@ -159,10 +160,11 @@ void main() {
       });
     });
 
-    group('defaults()', () {
-      test('creates default theme with Material ThemeData', () {
+    group('defaults', () {
+      test('creates default theme with Material $ThemeData', () {
         final defaults = ResolvedThemeData.defaults(.new());
 
+        expect(defaults.labelStyle, null);
         expect(defaults.padding, RRulePickerThemeData.defaultPadding);
         expect(
           defaults.headerTheme.showHeader,
@@ -202,6 +204,7 @@ void main() {
           defaults.segmentedButtonStyle,
           RRulePickerThemeData.defaultSegmentedButtonStyle,
         );
+        expect(defaults.splitSegmentedButtonStyle, null);
       });
 
       test('header style uses theme textTheme when available', () {
@@ -242,7 +245,7 @@ void main() {
       });
     });
 
-    group('resolve()', () {
+    group('resolve', () {
       testWidgets('uses defaults '
           'when no local or global theme', (tester) async {
         late ResolvedThemeData resolved;
@@ -424,9 +427,9 @@ void main() {
         );
 
         expect(
-          resolved.splitSegmentedButtonStyle?.backgroundColor?.resolve({
-            .selected,
-          }),
+          resolved.splitSegmentedButtonStyle?.backgroundColor?.resolve(
+            selectedState,
+          ),
           theme.colorScheme.secondaryContainer,
         );
       });
@@ -569,9 +572,8 @@ void main() {
         expect(resolved.textFieldTheme?.style, style);
       });
 
-      testWidgets('resolves splitSegmentedButtonStyle from local theme', (
-        tester,
-      ) async {
+      testWidgets('resolves splitSegmentedButtonStyle '
+          'from local theme', (tester) async {
         const color = WidgetStatePropertyAll(Colors.blue);
         const localTheme = RRulePickerThemeData(
           splitSegmentedButtonStyle: .new(backgroundColor: color),
@@ -637,6 +639,252 @@ void main() {
         );
 
         expect(resolved.dropdownTheme.decoration, localDecoration);
+      });
+    });
+
+    group('resolveSplitSegmentedButtonStyle', () {
+      const resolveSplitSegmentedButtonStyle =
+          ResolvedThemeData.resolveSplitSegmentedButtonStyle;
+
+      final theme = ThemeData(
+        colorScheme: const .light(
+          secondaryContainer: Colors.pink,
+          onSecondaryContainer: Colors.white,
+          outline: Colors.cyan,
+          onSurface: Colors.cyanAccent,
+        ),
+        textTheme: const .new(
+          labelLarge: .new(fontSize: 16, color: Colors.yellow),
+        ),
+      );
+
+      test('returns default style when input style is null', () {
+        final result = resolveSplitSegmentedButtonStyle(null, theme);
+
+        final selectedTextStyle = result.textStyle?.resolve(selectedState);
+        expect(
+          selectedTextStyle?.fontSize,
+          theme.textTheme.labelLarge!.fontSize,
+        );
+        expect(
+          selectedTextStyle?.color,
+          theme.colorScheme.onSecondaryContainer,
+        );
+
+        final unselectedTextStyle = result.textStyle?.resolve(unselectedState);
+        expect(
+          unselectedTextStyle?.fontSize,
+          theme.textTheme.labelLarge!.fontSize,
+        );
+        expect(unselectedTextStyle?.color, theme.colorScheme.onSurface);
+
+        expect(
+          result.foregroundColor?.resolve(selectedState),
+          theme.colorScheme.onSecondaryContainer,
+        );
+        expect(
+          result.foregroundColor?.resolve(unselectedState),
+          theme.colorScheme.onSurface,
+        );
+
+        expect(
+          result.backgroundColor?.resolve(selectedState),
+          theme.colorScheme.secondaryContainer,
+        );
+        expect(
+          result.backgroundColor?.resolve(unselectedState),
+          Colors.transparent,
+        );
+
+        expect(
+          result.shape?.resolve(unselectedState),
+          isA<StadiumBorder>().having(
+            (border) => border.side,
+            'side',
+            (side) => side?.color == theme.colorScheme.outline,
+          ),
+        );
+
+        expect(
+          result.side?.resolve(unselectedState)?.color,
+          theme.colorScheme.outline,
+        );
+
+        expect(result.fixedSize?.resolve(unselectedState), const Size(80, 40));
+
+        expect(result.animationDuration, kThemeAnimationDuration);
+      });
+
+      test('resolves default textStyle with provided foregroundColor', () {
+        const style = ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(Colors.blue),
+        );
+
+        final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+        expect(result.textStyle?.resolve(unselectedState)?.color, Colors.blue);
+      });
+
+      test('resolves default shape with provided side', () {
+        const side = BorderSide(color: Colors.amber);
+        const style = ButtonStyle(side: WidgetStatePropertyAll(side));
+
+        final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+        expect(result.shape?.resolve(unselectedState)?.side, side);
+      });
+
+      test('resolves textStyle based on selected state', () {
+        const selectedStyle = TextStyle(color: Colors.green);
+        const unselectedStyle = TextStyle(color: Colors.red);
+        final style = ButtonStyle(
+          textStyle: WidgetStateTextStyle.resolveWith((states) {
+            return states.contains(WidgetState.selected)
+                ? selectedStyle
+                : unselectedStyle;
+          }),
+        );
+
+        final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+        expect(result.textStyle?.resolve(selectedState), selectedStyle);
+        expect(result.textStyle?.resolve(unselectedState), unselectedStyle);
+      });
+
+      test('resolves foregroundColor based on selected state', () {
+        final style = ButtonStyle(
+          foregroundColor: WidgetStateProperty.resolveWith((states) {
+            return states.contains(WidgetState.selected)
+                ? Colors.red
+                : Colors.blue;
+          }),
+        );
+
+        final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+        expect(result.foregroundColor?.resolve(selectedState), Colors.red);
+        expect(result.foregroundColor?.resolve(unselectedState), Colors.blue);
+      });
+
+      test('resolves backgroundColor based on selected state', () {
+        final style = ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith((states) {
+            return states.contains(WidgetState.selected)
+                ? Colors.green
+                : Colors.yellow;
+          }),
+        );
+
+        final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+        expect(result.backgroundColor?.resolve(selectedState), Colors.green);
+        expect(result.backgroundColor?.resolve(unselectedState), Colors.yellow);
+      });
+
+      test('resolves shape based on selected state', () {
+        const selectedShape = RoundedRectangleBorder();
+        const unselectedShape = BeveledRectangleBorder();
+        final style = ButtonStyle(
+          shape: WidgetStateProperty.resolveWith((states) {
+            return states.contains(WidgetState.selected)
+                ? selectedShape
+                : unselectedShape;
+          }),
+        );
+
+        final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+        expect(result.shape?.resolve(selectedState), selectedShape);
+        expect(result.shape?.resolve(unselectedState), unselectedShape);
+      });
+
+      test('resolves side based on selected state', () {
+        const selectedSide = BorderSide(color: Colors.purple, width: 2);
+        const unselectedSide = BorderSide(color: Colors.orange, width: 1);
+        final style = ButtonStyle(
+          side: WidgetStateProperty.resolveWith((states) {
+            return states.contains(WidgetState.selected)
+                ? selectedSide
+                : unselectedSide;
+          }),
+        );
+
+        final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+        expect(result.side?.resolve(selectedState), selectedSide);
+        expect(result.side?.resolve(unselectedState), unselectedSide);
+      });
+
+      property('resolves fixedSize based on selected state', () {
+        forAll(
+          combine2(
+            float(min: 0),
+            float(min: 0),
+          ).map((i) => (Size(i.$1, i.$2), Size(i.$2, i.$1))),
+          (t) {
+            final (s1, s2) = t;
+            final style = ButtonStyle(
+              fixedSize: WidgetStateProperty.resolveWith((states) {
+                return states.contains(WidgetState.selected) ? s1 : s2;
+              }),
+            );
+
+            final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+            expect(result.fixedSize?.resolve(selectedState), s1);
+            expect(result.fixedSize?.resolve(unselectedState), s2);
+          },
+        );
+      });
+
+      property('resolves animationDuration based on selected state', () {
+        forAll(duration(), (duration) {
+          final style = ButtonStyle(animationDuration: duration);
+
+          final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+          expect(result.animationDuration, duration);
+        });
+      });
+
+      property('resolves style with all used fields set', () {
+        forAll(
+          combine4(float(min: 0), float(min: 0), float(min: 0), duration()).map(
+            (t) => (
+              side: BorderSide(width: t.$1),
+              size: Size(t.$2, t.$3),
+              duration: t.$4,
+            ),
+          ),
+          (t) {
+            const textStyle = WidgetStatePropertyAll(TextStyle());
+            const foregroundColor = WidgetStatePropertyAll(Colors.cyan);
+            const backgroundColor = WidgetStatePropertyAll(Colors.amber);
+            const shape = WidgetStatePropertyAll(StarBorder());
+            final side = WidgetStatePropertyAll(t.side);
+            final fixedSize = WidgetStatePropertyAll(t.size);
+            final duration = t.duration;
+            final style = ButtonStyle(
+              textStyle: textStyle,
+              foregroundColor: foregroundColor,
+              backgroundColor: backgroundColor,
+              shape: shape,
+              side: side,
+              fixedSize: fixedSize,
+              animationDuration: duration,
+            );
+
+            final result = resolveSplitSegmentedButtonStyle(style, theme);
+
+            expect(result.textStyle, textStyle);
+            expect(result.foregroundColor, foregroundColor);
+            expect(result.backgroundColor, backgroundColor);
+            expect(result.shape, shape);
+            expect(result.side, side);
+            expect(result.fixedSize, fixedSize);
+            expect(result.animationDuration, duration);
+          },
+        );
       });
     });
 
@@ -871,3 +1119,6 @@ void main() {
     });
   });
 }
+
+const selectedState = {WidgetState.selected};
+const unselectedState = <WidgetState>{};

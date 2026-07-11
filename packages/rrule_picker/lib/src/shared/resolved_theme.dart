@@ -174,17 +174,18 @@ class ResolvedThemeData {
   }
 
   @override
-  bool operator ==(Object other) => identical(this, other)
-      ? true
-      : other is ResolvedThemeData &&
-            other.labelStyle == labelStyle &&
-            other.padding == padding &&
-            other.headerTheme == headerTheme &&
-            other.dropdownTheme == dropdownTheme &&
-            other.topDropdownTheme == topDropdownTheme &&
-            other.textFieldTheme == textFieldTheme &&
-            other.segmentedButtonStyle == segmentedButtonStyle &&
-            other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ResolvedThemeData &&
+          other.runtimeType == runtimeType &&
+          other.labelStyle == labelStyle &&
+          other.padding == padding &&
+          other.headerTheme == headerTheme &&
+          other.dropdownTheme == dropdownTheme &&
+          other.topDropdownTheme == topDropdownTheme &&
+          other.textFieldTheme == textFieldTheme &&
+          other.segmentedButtonStyle == segmentedButtonStyle &&
+          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
 
   @override
   int get hashCode => Object.hash(

@@ -148,17 +148,18 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   }
 
   @override
-  bool operator ==(Object other) => identical(this, other)
-      ? true
-      : other is RRulePickerThemeData &&
-            other.labelStyle == labelStyle &&
-            other.padding == padding &&
-            other.headerTheme == headerTheme &&
-            other.dropdownTheme == dropdownTheme &&
-            other.topDropdownTheme == topDropdownTheme &&
-            other.textFieldTheme == textFieldTheme &&
-            other.segmentedButtonStyle == segmentedButtonStyle &&
-            other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RRulePickerThemeData &&
+          other.runtimeType == runtimeType &&
+          other.labelStyle == labelStyle &&
+          other.padding == padding &&
+          other.headerTheme == headerTheme &&
+          other.dropdownTheme == dropdownTheme &&
+          other.topDropdownTheme == topDropdownTheme &&
+          other.textFieldTheme == textFieldTheme &&
+          other.segmentedButtonStyle == segmentedButtonStyle &&
+          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
 
   @override
   int get hashCode => Object.hash(
@@ -230,11 +231,12 @@ class RRulePickerHeaderThemeData {
   }
 
   @override
-  bool operator ==(Object other) => identical(this, other)
-      ? true
-      : other is RRulePickerHeaderThemeData &&
-            other.showHeader == showHeader &&
-            other.style == style;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RRulePickerHeaderThemeData &&
+          other.runtimeType == runtimeType &&
+          other.showHeader == showHeader &&
+          other.style == style;
 
   @override
   int get hashCode => Object.hash(showHeader, style);
@@ -322,14 +324,15 @@ class RRulePickerDropdownThemeData {
   }
 
   @override
-  bool operator ==(Object other) => identical(this, other)
-      ? true
-      : other is RRulePickerDropdownThemeData &&
-            other.showUnderline == showUnderline &&
-            other.style == style &&
-            other.decoration == decoration &&
-            other.menuItemStyle == menuItemStyle &&
-            other.menuItemDecoration == menuItemDecoration;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RRulePickerDropdownThemeData &&
+          other.runtimeType == runtimeType &&
+          other.showUnderline == showUnderline &&
+          other.style == style &&
+          other.decoration == decoration &&
+          other.menuItemStyle == menuItemStyle &&
+          other.menuItemDecoration == menuItemDecoration;
 
   @override
   int get hashCode => Object.hash(
@@ -394,11 +397,12 @@ class RRulePickerTextFieldThemeData {
   }
 
   @override
-  bool operator ==(Object other) => identical(this, other)
-      ? true
-      : other is RRulePickerTextFieldThemeData &&
-            other.style == style &&
-            other.decoration == decoration;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RRulePickerTextFieldThemeData &&
+          other.runtimeType == runtimeType &&
+          other.style == style &&
+          other.decoration == decoration;
 
   @override
   int get hashCode => Object.hash(style, decoration);

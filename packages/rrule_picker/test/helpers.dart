@@ -9,13 +9,15 @@ import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
 import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/resolved_theme.dart';
+import 'package:rrule_picker/theme.dart';
 import 'package:spot/spot.dart';
 
 extension PumpWrapped on WidgetTester {
   Future<void> pumpWrapped(
     Widget widget, {
     Locale locale = const Locale('en'),
-  }) => pumpWidget(
+  }) async => await pumpWidget(
     MaterialApp(
       locale: locale,
       supportedLocales: RRulePickerLocalizations.supportedLocales,
@@ -109,3 +111,23 @@ Arbitrary<Set<T>> standardSet<T>(
 }) => set(element, minLength: minLength, maxLength: maxLength);
 
 final exdateFormatter = DateFormat('yyyyMMdd');
+
+ResolvedThemeData testResolvedTheme({
+  TextStyle? labelStyle,
+  EdgeInsetsGeometry padding = .zero,
+  RRulePickerHeaderThemeData headerTheme = const .new(),
+  RRulePickerDropdownThemeData dropdownTheme = const .new(),
+  RRulePickerDropdownThemeData topDropdownTheme = const .new(),
+  RRulePickerTextFieldThemeData? textFieldTheme = const .new(),
+  ButtonStyle? segmentedButtonStyle,
+  ButtonStyle? splitSegmentedButtonStyle,
+}) => ResolvedThemeData(
+  labelStyle: labelStyle,
+  padding: padding,
+  headerTheme: headerTheme,
+  dropdownTheme: dropdownTheme,
+  topDropdownTheme: topDropdownTheme,
+  textFieldTheme: textFieldTheme,
+  segmentedButtonStyle: segmentedButtonStyle,
+  splitSegmentedButtonStyle: splitSegmentedButtonStyle,
+);

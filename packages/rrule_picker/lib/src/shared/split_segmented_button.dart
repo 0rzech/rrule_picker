@@ -62,6 +62,17 @@ class SplitButtonSegment<T> {
   final String text;
 
   const SplitButtonSegment({required this.value, required this.text});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SplitButtonSegment<T> &&
+          other.runtimeType == runtimeType &&
+          other.value == value &&
+          other.text == text;
+
+  @override
+  int get hashCode => Object.hash(value.hashCode, text.hashCode);
 }
 
 @internal

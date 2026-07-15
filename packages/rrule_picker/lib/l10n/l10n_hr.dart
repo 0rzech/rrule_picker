@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'l10n.dart';

@@ -4,4 +4,7 @@ nullable-getter: false
 output-dir: lib/l10n
 output-localization-file: l10n.dart
 output-class: RRulePickerLocalizations
+required-resource-attributes: true
+header: '// ignore_for_file: public_member_api_docs'
+format: true
 untranslated-messages-file: l10n/missing.json

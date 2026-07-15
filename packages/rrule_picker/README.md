@@ -55,7 +55,7 @@ class RRulePickerExampleApp extends StatelessWidget {
 }
 ```
 
-More elaborate example can be found in the demo web app's [source code](https://codeberg.org/0rzech/rrule_picker/src/branch/main/packages/rrule_picker_example/lib/main.dart).
+More elaborate example can be found in the demo web app's [source code](https://codeberg.org/0rzech/rrule_picker/src/branch/main/packages/rrule_picker/example/lib/main.dart).
 
 You can also check the interactive [demo web app](https://0rzech.codeberg.page/rrule_picker/).
 

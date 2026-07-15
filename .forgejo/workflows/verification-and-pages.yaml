@@ -43,11 +43,11 @@ jobs:
             --base-href '/${{ forgejo.event.repository.name }}/' \
             --csp \
             --release
-        working-directory: packages/rrule_picker_example
+        working-directory: packages/rrule_picker/example
       - name: Publish to git-pages (main branch only)
         if: (!forgejo.head_ref) && forgejo.ref_name == 'main'
         uses: https://data.forgejo.org/actions/git-pages@${{ env.ACTIONS_GIT_PAGES_VERSION }}
         with:
           site: https://${{ forgejo.repository_owner }}.codeberg.page/${{ forgejo.event.repository.name }}/
           token: ${{ forgejo.token }}
-          source: packages/rrule_picker_example/build/web/
+          source: packages/rrule_picker/example/build/web/

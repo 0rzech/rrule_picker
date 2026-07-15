@@ -510,35 +510,33 @@ void main() {
 
   group(RRulePickerController, () {
     group('constructor', () {
+      late RRulePickerController controller;
+
+      tearDown(() => controller.dispose());
+
       test('sets correct default values', () {
-        final controller = RRulePickerController();
+        controller = RRulePickerController();
 
         expect(controller.value, '');
         expect(controller.excludedDatesEnabled, true);
-
-        addTearDown(controller.dispose);
       });
 
       test('handles initialRRule', () {
-        final controller = RRulePickerController(
+        controller = RRulePickerController(
           initialRRule: 'RRULE:FREQ=DAILY;INTERVAL=3',
         );
 
         expect(controller.value, 'RRULE:FREQ=DAILY;INTERVAL=3');
-
-        addTearDown(controller.dispose);
       });
 
       test('handles enableExcludedDates', () {
-        final controller = RRulePickerController(enableExcludedDates: false);
+        controller = RRulePickerController(enableExcludedDates: false);
 
         expect(controller.excludedDatesEnabled, false);
-
-        addTearDown(controller.dispose);
       });
 
       test('handles all parameters', () {
-        final controller = RRulePickerController(
+        controller = RRulePickerController(
           initialRRule:
               'RRULE:FREQ=WEEKLY;INTERVAL=9;BYDAY=SU;'
               'EXDATE;VALUE=DATE:20260703',
@@ -552,8 +550,6 @@ void main() {
           'EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20260703',
         );
         expect(controller.excludedDatesEnabled, true);
-
-        addTearDown(controller.dispose);
       });
     });
 
@@ -572,50 +568,44 @@ void main() {
     });
 
     group('setRRule', () {
+      late RRulePickerController controller;
+
+      tearDown(() => controller.dispose());
+
       test('handles empty string', () {
-        final controller = RRulePickerController(
-          initialRRule: 'RRULE:FREQ=DAILY',
-        );
+        controller = RRulePickerController(initialRRule: 'RRULE:FREQ=DAILY');
 
         controller.setRRule('');
 
         expect(controller.value, '');
-
-        addTearDown(controller.dispose);
       });
 
       test('handles DAILY rrule', () {
-        final controller = RRulePickerController();
+        controller = RRulePickerController();
 
         controller.setRRule('RRULE:FREQ=DAILY;INTERVAL=3');
 
         expect(controller.value, 'RRULE:FREQ=DAILY;INTERVAL=3');
-
-        addTearDown(controller.dispose);
       });
 
       test('handles WEEKLY rrule', () {
-        final controller = RRulePickerController();
+        controller = RRulePickerController();
 
         controller.setRRule('RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,WE,FR');
 
         expect(controller.value, 'RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,WE,FR');
-
-        addTearDown(controller.dispose);
       });
 
       test('handles MONTHLY rrule', () {
-        final controller = RRulePickerController();
+        controller = RRulePickerController();
 
         controller.setRRule('RRULE:FREQ=MONTHLY;INTERVAL=5;BYMONTHDAY=15');
 
         expect(controller.value, 'RRULE:FREQ=MONTHLY;INTERVAL=5;BYMONTHDAY=15');
-
-        addTearDown(controller.dispose);
       });
 
       test('handles YEARLY rrule', () {
-        final controller = RRulePickerController();
+        controller = RRulePickerController();
 
         controller.setRRule(
           'RRULE:FREQ=YEARLY;INTERVAL=10;BYMONTH=1;BYMONTHDAY=1',
@@ -625,12 +615,10 @@ void main() {
           controller.value,
           'RRULE:FREQ=YEARLY;INTERVAL=10;BYMONTH=1;BYMONTHDAY=1',
         );
-
-        addTearDown(controller.dispose);
       });
 
       test('handles defaultTimeZone', () {
-        final controller = RRulePickerController();
+        controller = RRulePickerController();
 
         controller.setRRule(
           'RRULE:FREQ=DAILY;INTERVAL=1;EXDATE;VALUE=DATE:20260703',
@@ -642,42 +630,34 @@ void main() {
           'RRULE:FREQ=DAILY;INTERVAL=1;'
           'EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20260703',
         );
-
-        addTearDown(controller.dispose);
       });
 
       test('does not notify when set to the same value', () {
         var listenerCallCount = 0;
-        final controller = RRulePickerController(
+        controller = RRulePickerController(
           initialRRule: 'RRULE:FREQ=DAILY;INTERVAL=2',
         )..addListener(() => ++listenerCallCount);
 
         controller.setRRule('RRULE:FREQ=DAILY;INTERVAL=2');
 
         expect(listenerCallCount, 0);
-
-        addTearDown(controller.dispose);
       });
 
       test('notifies on change', () {
         var listenerCallCount = 0;
-        final controller = RRulePickerController()
+        controller = RRulePickerController()
           ..addListener(() => ++listenerCallCount);
 
         controller.setRRule('RRULE:FREQ=DAILY');
         expect(listenerCallCount, greaterThan(0));
-
-        addTearDown(controller.dispose);
       });
 
       test('handles malformed RRULE strings', () {
-        final controller = RRulePickerController();
+        controller = RRulePickerController();
 
         controller.setRRule('INVALID_RRULE');
 
         expect(controller.value, '');
-
-        addTearDown(controller.dispose);
       });
     });
 

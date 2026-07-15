@@ -35,7 +35,7 @@ void main() {
 
     tearDown(() => controller.dispose());
 
-    testWidgets('renders IntervalPicker with correct localizations', (
+    testWidgets('renders $IntervalPicker with correct localizations', (
       tester,
     ) async {
       await tester.pumpWrapped(
@@ -67,7 +67,7 @@ void main() {
       expect(controller.getIntervalValue(), 222);
     });
 
-    testWidgets('applies ResolvedTheme when provided', (tester) async {
+    testWidgets('applies $ResolvedTheme when provided', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
           theme: theme,

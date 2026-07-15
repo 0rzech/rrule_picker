@@ -67,7 +67,7 @@ void main() {
       });
     });
 
-    test('returns correct Month for valid month strings', () {
+    test('returns correct $Month for valid month strings', () {
       for (final (value, month) in const <(String, Month)>[
         ('1', .january),
         ('2', .february),
@@ -208,7 +208,7 @@ void main() {
       });
     });
 
-    test('returns correct DayOfWeek for valid codes', () {
+    test('returns correct $DayOfWeek for valid codes', () {
       expect(parseByDaySingle('MO'), DayOfWeek.monday);
       expect(parseByDaySingle('TU'), DayOfWeek.tuesday);
       expect(parseByDaySingle('WE'), DayOfWeek.wednesday);
@@ -274,13 +274,13 @@ void main() {
       );
     });
 
-    property('returns set with single DayOfWeek', () {
+    property('returns set with single $DayOfWeek', () {
       forAll(dayOfWeek(), (day) {
         expect(parseByDayMulti(day.rruleName), {day});
       });
     });
 
-    property('returns set with multiple DayOfWeek values', () {
+    property('returns set with multiple $DayOfWeek values', () {
       forAll(
         dayOfWeekSet().map((days) {
           return (
@@ -348,7 +348,7 @@ void main() {
       });
     });
 
-    test('returns correct DayOfWeekOrdinal for valid values', () {
+    test('returns correct $DayOfWeekOrdinal for valid values', () {
       expect(parseBySetPosNthWeekDay('1'), DayOfWeekOrdinal.first);
       expect(parseBySetPosNthWeekDay('2'), DayOfWeekOrdinal.second);
       expect(parseBySetPosNthWeekDay('3'), DayOfWeekOrdinal.third);
@@ -410,7 +410,7 @@ void main() {
 
   group(DayOfWeek, () {
     group('tryParse', () {
-      test('returns correct DayOfWeek for valid codes', () {
+      test('returns correct $DayOfWeek for valid codes', () {
         expect(DayOfWeek.tryParse('MO'), DayOfWeek.monday);
         expect(DayOfWeek.tryParse('TU'), DayOfWeek.tuesday);
         expect(DayOfWeek.tryParse('WE'), DayOfWeek.wednesday);
@@ -486,7 +486,7 @@ void main() {
 
   group(DayOfWeekOrdinal, () {
     group('tryParse', () {
-      test('returns correct DayOfWeekOrdinal for valid values', () {
+      test('returns correct $DayOfWeekOrdinal for valid values', () {
         expect(DayOfWeekOrdinal.tryParse('1'), DayOfWeekOrdinal.first);
         expect(DayOfWeekOrdinal.tryParse('2'), DayOfWeekOrdinal.second);
         expect(DayOfWeekOrdinal.tryParse('3'), DayOfWeekOrdinal.third);
@@ -552,7 +552,7 @@ void main() {
 
   group(Month, () {
     group('tryParse', () {
-      test('returns correct Month for valid values', () {
+      test('returns correct $Month for valid values', () {
         expect(Month.tryParse('1'), Month.january);
         expect(Month.tryParse('2'), Month.february);
         expect(Month.tryParse('3'), Month.march);
@@ -635,7 +635,7 @@ void main() {
     });
   });
 
-  group('Constants', () {
+  group('constants', () {
     test('intervalMin is 1', () {
       expect(intervalMin, 1);
     });
@@ -644,7 +644,7 @@ void main() {
       expect(defaultInterval, 1);
     });
 
-    test('defaultByMonth is Month.january', () {
+    test('defaultByMonth is ${Month.january}', () {
       expect(defaultByMonth, Month.january);
     });
 
@@ -660,15 +660,15 @@ void main() {
       expect(defaultByMonthDay, 1);
     });
 
-    test('defaultByDaySingle is DayOfWeek.monday', () {
+    test('defaultByDaySingle is ${DayOfWeek.monday}', () {
       expect(defaultByDaySingle, DayOfWeek.monday);
     });
 
-    test('defaultByDayMulti is {DayOfWeek.monday}', () {
+    test('defaultByDayMulti is ${DayOfWeek.monday}', () {
       expect(defaultByDayMulti, {DayOfWeek.monday});
     });
 
-    test('defaultBySetPosNthWeekDay is DayOfWeekOrdinal.first', () {
+    test('defaultBySetPosNthWeekDay is ${DayOfWeekOrdinal.first}', () {
       expect(defaultBySetPosNthWeekDay, DayOfWeekOrdinal.first);
     });
   });

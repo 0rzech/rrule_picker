@@ -8,6 +8,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/theme.dart';
 
+import '../../helpers.dart';
+
 class MockThemeData extends Mock implements ThemeData {
   @override
   String toString({DiagnosticLevel minLevel = .info}) => 'MockThemeData';
@@ -21,12 +23,7 @@ class MockTextTheme extends Mock implements TextTheme {
 void main() {
   group(ResolvedTheme, () {
     testWidgets('of() returns theme when context is wrapped', (tester) async {
-      const theme = ResolvedThemeData(
-        padding: .all(8),
-        headerTheme: .new(),
-        dropdownTheme: .new(),
-        topDropdownTheme: .new(),
-      );
+      final theme = testResolvedTheme();
       late ResolvedThemeData resolved;
 
       await tester.pumpWidget(
@@ -69,37 +66,29 @@ void main() {
     });
 
     test('updateShouldNotify returns true when theme changes', () {
-      const theme1 = ResolvedThemeData(
-        padding: .all(8),
-        headerTheme: .new(),
-        dropdownTheme: .new(),
-        topDropdownTheme: .new(),
+      final widgetA = ResolvedTheme(
+        theme: testResolvedTheme(),
+        child: const SizedBox.shrink(),
       );
-      const theme2 = ResolvedThemeData(
-        padding: .all(16),
-        headerTheme: .new(),
-        dropdownTheme: .new(),
-        topDropdownTheme: .new(),
+      final widgetB = ResolvedTheme(
+        theme: testResolvedTheme(padding: const .all(16)),
+        child: const SizedBox.shrink(),
       );
 
-      const widget1 = ResolvedTheme(theme: theme1, child: SizedBox.shrink());
-      const widget2 = ResolvedTheme(theme: theme2, child: SizedBox.shrink());
-
-      expect(widget2.updateShouldNotify(widget1), true);
+      expect(widgetB.updateShouldNotify(widgetA), true);
     });
 
     test('updateShouldNotify returns false when theme is the same', () {
-      const theme = ResolvedThemeData(
-        padding: .all(8),
-        headerTheme: .new(),
-        dropdownTheme: .new(),
-        topDropdownTheme: .new(),
+      final widgetA = ResolvedTheme(
+        theme: testResolvedTheme(),
+        child: const SizedBox.shrink(),
+      );
+      final widgetB = ResolvedTheme(
+        theme: testResolvedTheme(),
+        child: const SizedBox.shrink(),
       );
 
-      const widget1 = ResolvedTheme(theme: theme, child: SizedBox.shrink());
-      const widget2 = ResolvedTheme(theme: theme, child: SizedBox.shrink());
-
-      expect(widget2.updateShouldNotify(widget1), false);
+      expect(widgetB.updateShouldNotify(widgetA), false);
     });
   });
 
@@ -290,7 +279,7 @@ void main() {
         expect(resolved.padding, padding);
       });
 
-      testWidgets('uses global theme from ThemeExtension '
+      testWidgets('uses global theme from $ThemeExtension '
           'when provided', (tester) async {
         const padding = EdgeInsets.all(100);
         const theme = RRulePickerThemeData(padding: padding);
@@ -888,193 +877,104 @@ void main() {
       });
     });
 
-    group('equality', () {
-      test('equal instances with same properties are equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
+    group('equality operator', () {
+      test('returns true for identical instances', () {
+        final theme = testResolvedTheme();
 
-        expect(theme1, theme2);
-        expect(theme1.hashCode, theme2.hashCode);
+        expect(theme == theme, true);
       });
 
-      test('instances with different padding are not equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
-        const theme2 = ResolvedThemeData(
-          padding: .all(16),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
+      test('returns true for equal instances', () {
+        final themeA = testResolvedTheme();
+        final themeB = testResolvedTheme();
 
-        expect(theme1, isNot(theme2));
+        expect(themeA == themeB, true);
       });
 
-      test('instances with different labelStyle are not equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          labelStyle: .new(fontSize: 16),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          labelStyle: .new(fontSize: 20),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
+      test('returns false when padding differs', () {
+        final themeA = testResolvedTheme(padding: const .all(10));
+        final themeB = testResolvedTheme(padding: const .all(5));
 
-        expect(theme1, isNot(theme2));
+        expect(themeA == themeB, false);
       });
 
-      test('instances with different headerTheme are not equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(showHeader: true),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(showHeader: false),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
+      test('returns false when labelStyle differs', () {
+        final themeA = testResolvedTheme(labelStyle: const .new(fontSize: 16));
+        final themeB = testResolvedTheme(labelStyle: const .new(fontSize: 20));
 
-        expect(theme1, isNot(theme2));
+        expect(themeA == themeB, false);
       });
 
-      test('instances with different dropdownTheme are not equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(showUnderline: true),
-          topDropdownTheme: .new(),
+      test('returns false when headerTheme differs', () {
+        final themeA = testResolvedTheme(
+          headerTheme: const .new(showHeader: true),
         );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(showUnderline: false),
-          topDropdownTheme: .new(),
+        final themeB = testResolvedTheme(
+          headerTheme: const .new(showHeader: false),
         );
 
-        expect(theme1, isNot(theme2));
+        expect(themeA == themeB, false);
       });
 
-      test('instances with different topDropdownTheme are not equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(showUnderline: true),
+      test('returns false when dropdownTheme differs', () {
+        final themeA = testResolvedTheme(
+          dropdownTheme: const .new(showUnderline: true),
         );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(showUnderline: false),
+        final themeB = testResolvedTheme(
+          dropdownTheme: const .new(showUnderline: false),
         );
 
-        expect(theme1, isNot(theme2));
+        expect(themeA == themeB, false);
       });
 
-      test('instances with different textFieldTheme are not equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-          textFieldTheme: .new(decoration: .new()),
+      test('returns false when topDropdownTheme differs', () {
+        final themeA = testResolvedTheme(
+          topDropdownTheme: const .new(showUnderline: true),
         );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-          textFieldTheme: .new(decoration: .new(fillColor: Colors.red)),
+        final themeB = testResolvedTheme(
+          topDropdownTheme: const .new(showUnderline: false),
         );
 
-        expect(theme1, isNot(theme2));
+        expect(themeA == themeB, false);
       });
 
-      test('instances with different segmentedButtonStyle are not equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-          segmentedButtonStyle: .new(),
+      test('returns false when textFieldTheme differs', () {
+        final themeA = testResolvedTheme(
+          textFieldTheme: const .new(decoration: .new()),
         );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-          segmentedButtonStyle: .new(
+        final themeB = testResolvedTheme(
+          textFieldTheme: const .new(decoration: .new(fillColor: Colors.red)),
+        );
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when segmentedButtonStyle differs', () {
+        final themeA = testResolvedTheme(segmentedButtonStyle: const .new());
+        final themeB = testResolvedTheme(
+          segmentedButtonStyle: const .new(
             backgroundColor: WidgetStatePropertyAll(Colors.red),
           ),
         );
 
-        expect(theme1, isNot(theme2));
+        expect(themeA == themeB, false);
       });
 
-      test('instances with different splitSegmentedButtonStyle '
-          'are not equal', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-          splitSegmentedButtonStyle: .new(),
+      test('returns false when splitSegmentedButtonStyle differs', () {
+        final themeA = testResolvedTheme(
+          splitSegmentedButtonStyle: const .new(),
         );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-          splitSegmentedButtonStyle: .new(
+        final themeB = testResolvedTheme(
+          splitSegmentedButtonStyle: const .new(
             backgroundColor: WidgetStatePropertyAll(Colors.blue),
           ),
         );
 
-        expect(theme1, isNot(theme2));
+        expect(themeA == themeB, false);
       });
 
-      test('same instance is equal to itself', () {
-        const theme = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
-
-        expect(theme, theme);
-        expect(theme.hashCode, theme.hashCode);
-      });
-
-      test('different types are not equal', () {
-        const theme = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
+      test('returns false when themes are of different type', () {
+        final theme = testResolvedTheme();
 
         expect(theme, isNot(isA<String>()));
         expect(theme, isNot(isA<int>()));
@@ -1083,38 +983,24 @@ void main() {
     });
 
     group('hashCode', () {
-      test('same properties produce same hashCode', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
-        const theme2 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
+      test('returns consistent value for identical instances', () {
+        final theme = testResolvedTheme();
 
-        expect(theme1.hashCode, theme2.hashCode);
+        expect(theme.hashCode, theme.hashCode);
       });
 
-      test('different properties produce different hashCode', () {
-        const theme1 = ResolvedThemeData(
-          padding: .all(8),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
-        const theme2 = ResolvedThemeData(
-          padding: .all(16),
-          headerTheme: .new(),
-          dropdownTheme: .new(),
-          topDropdownTheme: .new(),
-        );
+      test('returns same values for equal instances', () {
+        final themeA = testResolvedTheme();
+        final themeB = testResolvedTheme();
 
-        expect(theme1.hashCode, isNot(equals(theme2.hashCode)));
+        expect(themeA.hashCode, themeB.hashCode);
+      });
+
+      test('returns different values when padding differs', () {
+        final theme1 = testResolvedTheme(padding: const .all(8));
+        final theme2 = testResolvedTheme(padding: const .all(16));
+
+        expect(theme1.hashCode, isNot(theme2.hashCode));
       });
     });
   });

@@ -63,7 +63,7 @@ void main() {
     group('onSelectionChanged', () {
       testWidgets('is called when tapping unselected segment', (tester) async {
         Set<int>? selected;
-        var callCount = 0;
+        var listenerCallCount = 0;
 
         await tester.pumpWrapped(
           ResolvedTheme(
@@ -72,7 +72,7 @@ void main() {
               selected: const {1},
               onSelectionChanged: (s) {
                 selected = s;
-                ++callCount;
+                ++listenerCallCount;
               },
               segmentInput: const [
                 SplitButtonSegment(value: 1, text: 'Option 1'),
@@ -88,13 +88,13 @@ void main() {
         );
 
         expect(selected, const {1, 2});
-        expect(callCount, 1);
+        expect(listenerCallCount, 1);
       });
 
       testWidgets('is called when tapping selected segment '
           'with multiple selections', (tester) async {
         Set<int>? selection;
-        var callCount = 0;
+        var listenerCallCount = 0;
 
         await tester.pumpWrapped(
           ResolvedTheme(
@@ -103,7 +103,7 @@ void main() {
               selected: const {1, 2},
               onSelectionChanged: (s) {
                 selection = s;
-                ++callCount;
+                ++listenerCallCount;
               },
               segmentInput: const [
                 SplitButtonSegment(value: 1, text: 'Option 1'),
@@ -118,13 +118,13 @@ void main() {
         await tester.pump();
 
         expect(selection, const {2});
-        expect(callCount, 1);
+        expect(listenerCallCount, 1);
       });
 
       testWidgets('is not called '
           'when tapping the only selected segment', (tester) async {
         Set<int>? selection;
-        var callCount = 0;
+        var listenerCallCount = 0;
 
         await tester.pumpWrapped(
           ResolvedTheme(
@@ -133,7 +133,7 @@ void main() {
               selected: const {1},
               onSelectionChanged: (s) {
                 selection = s;
-                ++callCount;
+                ++listenerCallCount;
               },
               segmentInput: const [
                 SplitButtonSegment(value: 1, text: 'Option 1'),
@@ -149,7 +149,7 @@ void main() {
         );
 
         expect(selection, null);
-        expect(callCount, 0);
+        expect(listenerCallCount, 0);
       });
     });
 
@@ -378,7 +378,7 @@ void main() {
 
     testWidgets('calls onTap with correct value when tapped', (tester) async {
       int? value;
-      var callCount = 0;
+      var listenerCallCount = 0;
 
       await tester.pumpWrapped(
         ResolvedTheme(
@@ -388,7 +388,7 @@ void main() {
             value: 42,
             onTap: (v) {
               value = v;
-              ++callCount;
+              ++listenerCallCount;
             },
             child: const Text('Test'),
           ),
@@ -398,7 +398,7 @@ void main() {
       await act.tap(spot<SplitButton<int>>());
 
       expect(value, 42);
-      expect(callCount, 1);
+      expect(listenerCallCount, 1);
     });
 
     testWidgets('uses default animation duration '

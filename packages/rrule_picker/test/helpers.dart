@@ -34,18 +34,6 @@ extension Localizations on WidgetTester {
   }
 }
 
-extension IgnoreErrors on void Function() {
-  /// Catches and ignores [Error]s. Useful, for example, when calling
-  /// `dispose()` on a `late` instance, that hasn't been initialized.
-  void callIgnoringErrors() {
-    try {
-      call();
-    } on Error {
-      // noop
-    }
-  }
-}
-
 Arbitrary<int> interval() => integer(min: intervalMin);
 
 Arbitrary<String> asciiString({int minLength = 1, int maxLength = 5}) => string(

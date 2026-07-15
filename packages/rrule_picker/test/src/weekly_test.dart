@@ -42,9 +42,9 @@ void main() {
       listenerCallCount = 0;
     });
 
-    tearDown(() => controller.dispose.callIgnoringErrors());
+    tearDown(() => controller.dispose());
 
-    testWidgets('renders IntervalPicker '
+    testWidgets('renders $IntervalPicker '
         'with correct localizations', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
@@ -109,7 +109,7 @@ void main() {
       expect(controller.getIntervalValue(), 222);
     });
 
-    testWidgets('applies ResolvedTheme when provided', (tester) async {
+    testWidgets('applies $ResolvedTheme when provided', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
           theme: theme,
@@ -171,7 +171,7 @@ void main() {
       expect(value, DayOfWeek.friday);
     });
 
-    testWidgets('applies ResolvedTheme '
+    testWidgets('applies $ResolvedTheme '
         'to $SplitSegmentedButton', (tester) async {
       late ThemeData theme;
 
@@ -396,21 +396,19 @@ void main() {
       });
     });
 
-    group('dispose', () {
-      test('disposes selectedDaysOfWeek', () {
-        final controller = WeeklyPickerController(listener: () {});
+    test('disposes notifier', () {
+      final controller = WeeklyPickerController(listener: () {});
 
-        ChangeNotifier.debugAssertNotDisposed(controller.selectedDaysOfWeek);
+      ChangeNotifier.debugAssertNotDisposed(controller.selectedDaysOfWeek);
 
-        controller.dispose();
+      controller.dispose();
 
-        expect(
-          () => ChangeNotifier.debugAssertNotDisposed(
-            controller.selectedDaysOfWeek,
-          ),
-          throwsFlutterError,
-        );
-      });
+      expect(
+        () => ChangeNotifier.debugAssertNotDisposed(
+          controller.selectedDaysOfWeek,
+        ),
+        throwsFlutterError,
+      );
     });
 
     group('setRRule', () {
@@ -518,7 +516,7 @@ void main() {
 
     property('listener is called when selectedDaysOfWeek is set', () async {
       late WeeklyPickerController controller;
-      late int callCount;
+      late int listenerCallCount;
 
       forAll(
         combine3(
@@ -529,14 +527,14 @@ void main() {
         (t) {
           controller = WeeklyPickerController(
             initialRRule: 'INTERVAL=${t.interval};BYDAY=${t.oldDay.rruleName}',
-            listener: () => ++callCount,
+            listener: () => ++listenerCallCount,
           );
 
           controller.selectedDaysOfWeek.value = {t.newDay};
 
-          expect(callCount, 1);
+          expect(listenerCallCount, 1);
         },
-        setUp: () => callCount = 0,
+        setUp: () => listenerCallCount = 0,
         tearDown: () => controller.dispose(),
       );
     });

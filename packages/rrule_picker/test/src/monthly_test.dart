@@ -41,9 +41,9 @@ void main() {
       listenerCallCount = 0;
     });
 
-    tearDown(() => controller.dispose.callIgnoringErrors());
+    tearDown(() => controller.dispose());
 
-    testWidgets('renders IntervalPicker with correct localizations', (
+    testWidgets('renders $IntervalPicker with correct localizations', (
       tester,
     ) async {
       await tester.pumpWrapped(
@@ -65,7 +65,7 @@ void main() {
       ).existsAtLeastOnce();
     });
 
-    testWidgets('renders 2 interval segment types (precise and relative)', (
+    testWidgets('renders precise and relative interval segment types', (
       tester,
     ) async {
       await tester.pumpWrapped(
@@ -139,7 +139,7 @@ void main() {
       expect(controller.getIntervalValue(), 222);
     });
 
-    testWidgets('applies ResolvedTheme when provided', (tester) async {
+    testWidgets('applies $ResolvedTheme when provided', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
           theme: theme,
@@ -155,7 +155,7 @@ void main() {
           .existsAtLeastOnce();
     });
 
-    testWidgets('applies ResolvedTheme to SegmentedButton', (tester) async {
+    testWidgets('applies $ResolvedTheme to $SegmentedButton', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
           theme: theme,
@@ -399,8 +399,6 @@ void main() {
 
     group('constructor', () {
       test('initializes with default interval when initialRRule is empty', () {
-        final controller = MonthlyPickerController(listener: () {});
-
         expect(controller.getIntervalValue(), defaultInterval);
         expect(controller.intervalNotifier.value, defaultInterval);
         expect(controller.intervalController.text, defaultInterval.toString());
@@ -408,8 +406,6 @@ void main() {
         expect(controller.intervalSegmentType.value, const {
           IntervalSegmentType.precise,
         });
-
-        addTearDown(controller.dispose);
       });
 
       property('initializes with firstDayOfWeek when provided', () {
@@ -878,7 +874,7 @@ void main() {
       });
     });
 
-    test('disposes all notifiers', () {
+    test('disposes notifiers', () {
       final controller = MonthlyPickerController(listener: () {});
 
       ChangeNotifier.debugAssertNotDisposed(controller.intervalNotifier);

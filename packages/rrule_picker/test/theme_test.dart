@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rrule_picker/theme.dart';
+import 'package:rrule_picker/widget.dart';
 
 void main() {
   group(RRulePickerThemeData, () {
@@ -61,21 +62,6 @@ void main() {
         expect(theme.segmentedButtonStyle, segmentedButtonStyle);
         expect(theme.splitSegmentedButtonStyle, splitSegmentedButtonStyle);
       });
-
-      test('handles nested null values', () {
-        const themeA = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          headerTheme: null,
-          dropdownTheme: null,
-        );
-        const themeB = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          headerTheme: null,
-          dropdownTheme: null,
-        );
-
-        expect(themeA, themeB);
-      });
     });
 
     test('static constants have expected values', () {
@@ -88,7 +74,7 @@ void main() {
 
     group('copyWith', () {
       test('with no arguments returns equal instance', () {
-        const theme = RRulePickerThemeData();
+        final theme = testTheme();
 
         final copied = theme.copyWith();
 
@@ -96,10 +82,7 @@ void main() {
       });
 
       test('updates each field individually when provided', () {
-        const original = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(8),
-        );
+        final original = testTheme(labelStyle: fontSize16);
 
         final copied = original.copyWith(labelStyle: fontSize20);
 
@@ -108,10 +91,9 @@ void main() {
       });
 
       test('retains existing values for unspecified fields', () {
-        const original = RRulePickerThemeData(
+        final original = testTheme(
           labelStyle: fontSize16,
-          padding: .all(8),
-          headerTheme: .new(showHeader: true),
+          headerTheme: const .new(showHeader: true),
         );
 
         final copied = original.copyWith(labelStyle: fontSize20);
@@ -122,10 +104,7 @@ void main() {
       });
 
       test('handles null values correctly (retains original)', () {
-        const original = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(8),
-        );
+        final original = testTheme(labelStyle: fontSize16);
 
         final copied = original.copyWith(labelStyle: null);
 
@@ -134,10 +113,7 @@ void main() {
       });
 
       test('creates new instance with all new values', () {
-        const original = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(8),
-        );
+        final original = testTheme(labelStyle: fontSize16);
 
         const newTheme = RRulePickerThemeData(
           labelStyle: fontSize20,
@@ -155,27 +131,19 @@ void main() {
       });
 
       test('handles all null values', () {
-        const original = RRulePickerThemeData(labelStyle: fontSize16);
+        final original = testTheme(labelStyle: fontSize16);
 
-        final copied = original.copyWith(
-          labelStyle: null,
-          padding: null,
-          headerTheme: null,
-          dropdownTheme: null,
-          topDropdownTheme: null,
-          textFieldTheme: null,
-          segmentedButtonStyle: null,
-          splitSegmentedButtonStyle: null,
-        );
+        final copied = original.copyWith();
 
         expect(copied, original);
+        expect(identical(original, copied), false);
       });
     });
 
     group('lerp', () {
       test('with t=0 returns this (first theme)', () {
-        const themeA = RRulePickerThemeData(labelStyle: fontSize16);
-        const themeB = RRulePickerThemeData(labelStyle: fontSize20);
+        final themeA = testTheme(labelStyle: fontSize16);
+        final themeB = testTheme(labelStyle: fontSize20);
 
         final result = themeA.lerp(themeB, 0);
 
@@ -183,8 +151,8 @@ void main() {
       });
 
       test('with t=1 returns other (second theme)', () {
-        const themeA = RRulePickerThemeData(labelStyle: fontSize16);
-        const themeB = RRulePickerThemeData(labelStyle: fontSize20);
+        final themeA = testTheme(labelStyle: fontSize16);
+        final themeB = testTheme(labelStyle: fontSize20);
 
         final result = themeA.lerp(themeB, 1);
 
@@ -192,8 +160,8 @@ void main() {
       });
 
       test('with t=0.5 returns properly interpolated theme', () {
-        const themeA = RRulePickerThemeData(padding: .all(8));
-        const themeB = RRulePickerThemeData(padding: .all(16));
+        final themeA = testTheme();
+        final themeB = testTheme(padding: const .all(16));
 
         final result = themeA.lerp(themeB, 0.5);
 
@@ -201,7 +169,7 @@ void main() {
       });
 
       test('with identical themes returns the same instance', () {
-        const theme = RRulePickerThemeData(labelStyle: fontSize16);
+        final theme = testTheme(labelStyle: fontSize16);
 
         final result = theme.lerp(theme, 0.5);
 
@@ -209,7 +177,7 @@ void main() {
       });
 
       test('with null other returns this', () {
-        const theme = RRulePickerThemeData(labelStyle: fontSize16);
+        final theme = testTheme(labelStyle: fontSize16);
 
         final result = theme.lerp(null, 0.5);
 
@@ -217,14 +185,8 @@ void main() {
       });
 
       test('with null fields in either theme handles nulls correctly', () {
-        const themeA = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: null,
-        );
-        const themeB = RRulePickerThemeData(
-          labelStyle: null,
-          padding: .all(16),
-        );
+        final themeA = testTheme(labelStyle: fontSize16, padding: null);
+        final themeB = testTheme(labelStyle: null, padding: const .all(16));
 
         final result = themeA.lerp(themeB, 0.5);
 
@@ -242,27 +204,25 @@ void main() {
           style: fontSize20,
         );
 
-        const themeA = RRulePickerThemeData(headerTheme: headerThemeA);
-        const themeB = RRulePickerThemeData(headerTheme: headerThemeB);
+        final themeA = testTheme(headerTheme: headerThemeA);
+        final themeB = testTheme(headerTheme: headerThemeB);
 
         final result = themeA.lerp(themeB, 0.5);
 
         expect(result.headerTheme?.style?.fontSize, 18);
       });
 
-      test('calls Flutter built-in lerp '
-          'for TextStyle, EdgeInsetsGeometry, ButtonStyle', () {
-        const themeA = RRulePickerThemeData(
+      test('calls lerp for labelStyle and segmentedButtonStyle', () {
+        final themeA = testTheme(
           labelStyle: fontSize16,
-          padding: .all(8),
-          segmentedButtonStyle: ButtonStyle(
+          segmentedButtonStyle: const ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(Colors.blue),
           ),
         );
-        const themeB = RRulePickerThemeData(
+        final themeB = testTheme(
           labelStyle: fontSize20,
-          padding: .all(16),
-          segmentedButtonStyle: ButtonStyle(
+          padding: const .all(16),
+          segmentedButtonStyle: const ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(Colors.red),
           ),
         );
@@ -283,8 +243,8 @@ void main() {
       });
 
       test('handles t values outside [0, 1] range', () {
-        const themeA = RRulePickerThemeData(labelStyle: fontSize16);
-        const themeB = RRulePickerThemeData(labelStyle: fontSize20);
+        final themeA = testTheme(labelStyle: fontSize16);
+        final themeB = testTheme(labelStyle: fontSize20);
 
         final resultBelow = themeA.lerp(themeB, -0.5);
         final resultAbove = themeA.lerp(themeB, 1.5);
@@ -294,8 +254,8 @@ void main() {
       });
 
       test('handles t=0.5 and both themes having null for a field', () {
-        const themeA = RRulePickerThemeData(labelStyle: null);
-        const themeB = RRulePickerThemeData(labelStyle: null);
+        final themeA = testTheme(labelStyle: null);
+        final themeB = testTheme(labelStyle: null);
 
         final result = themeA.lerp(themeB, 0.5);
 
@@ -303,49 +263,102 @@ void main() {
       });
     });
 
-    group('equality', () {
+    group('equality operator', () {
       test('returns true for identical instances', () {
-        const themeA = RRulePickerThemeData(labelStyle: fontSize16);
-        const themeB = RRulePickerThemeData(labelStyle: fontSize16);
+        final theme = testTheme();
 
-        expect(themeA, themeB);
+        expect(theme == theme, true);
       });
 
-      test('returns false for different instances', () {
-        const themeA = RRulePickerThemeData(labelStyle: fontSize16);
-        const themeB = RRulePickerThemeData(labelStyle: fontSize20);
+      test('returns true for equal instances', () {
+        final themeA = testTheme(labelStyle: fontSize16);
+        final themeB = testTheme(labelStyle: fontSize16);
 
-        expect(themeA, isNot(themeB));
+        expect(themeA == themeB, true);
       });
 
-      test('returns true when all fields are equal', () {
-        const themeA = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(8),
-        );
-        const themeB = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(8),
-        );
+      test('returns false when labelStyle differs', () {
+        final themeA = testTheme(labelStyle: fontSize16);
+        final themeB = testTheme(labelStyle: fontSize20);
 
-        expect(themeA, themeB);
+        expect(themeA == themeB, false);
       });
 
-      test('returns false when any field differs', () {
-        const themeA = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(8),
+      test('returns false when padding differs', () {
+        final themeA = testTheme();
+        final themeB = testTheme(padding: const .all(16));
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when headerTheme differs', () {
+        final themeA = testTheme(headerTheme: const .new(showHeader: true));
+        final themeB = testTheme(headerTheme: const .new(showHeader: false));
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when dropdownTheme differs', () {
+        final themeA = testTheme(
+          dropdownTheme: const .new(showUnderline: true),
         );
-        const themeB = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(16),
+        final themeB = testTheme(
+          dropdownTheme: const .new(showUnderline: false),
         );
 
-        expect(themeA, isNot(themeB));
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when topDropdownTheme differs', () {
+        final themeA = testTheme(
+          topDropdownTheme: const .new(showUnderline: true),
+        );
+        final themeB = testTheme(
+          topDropdownTheme: const .new(showUnderline: false),
+        );
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when textFieldTheme differs', () {
+        final themeA = testTheme(textFieldTheme: const .new(style: fontSize16));
+        final themeB = testTheme(textFieldTheme: const .new(style: fontSize20));
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when segmentedButtonStyle differs', () {
+        final themeA = testTheme(
+          segmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue),
+          ),
+        );
+        final themeB = testTheme(
+          segmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.red),
+          ),
+        );
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when splitSegmentedButtonStyle differs', () {
+        final themeA = testTheme(
+          splitSegmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue),
+          ),
+        );
+        final themeB = testTheme(
+          splitSegmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.red),
+          ),
+        );
+
+        expect(themeA == themeB, false);
       });
 
       test('handles null comparisons correctly', () {
-        const themeA = RRulePickerThemeData(labelStyle: fontSize16);
+        final themeA = testTheme(labelStyle: fontSize16);
         const RRulePickerThemeData? themeB = null;
 
         expect(themeA == themeB, false);
@@ -354,40 +367,114 @@ void main() {
     });
 
     group('hashCode', () {
-      test('returns consistent value for same instance', () {
-        const theme = RRulePickerThemeData(labelStyle: fontSize16);
+      test('returns consistent value for identical instances', () {
+        final theme = testTheme(labelStyle: fontSize16);
 
-        final hashA = theme.hashCode;
-        final hashB = theme.hashCode;
-
-        expect(hashA, hashB);
+        expect(theme.hashCode, theme.hashCode);
       });
 
       test('returns same value for equal instances', () {
-        const themeA = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(8),
-        );
-        const themeB = RRulePickerThemeData(
-          labelStyle: fontSize16,
-          padding: .all(8),
-        );
+        final themeA = testTheme(labelStyle: fontSize16);
+        final themeB = testTheme(labelStyle: fontSize16);
 
         expect(themeA.hashCode, themeB.hashCode);
       });
 
-      test('returns different value for different instances', () {
-        const themeA = RRulePickerThemeData(labelStyle: fontSize16);
-        const themeB = RRulePickerThemeData(labelStyle: fontSize20);
+      test('returns different values when labelStyle differs', () {
+        final themeA = testTheme(labelStyle: fontSize16);
+        final themeB = testTheme(labelStyle: fontSize20);
 
         expect(themeA.hashCode, isNot(themeB.hashCode));
       });
 
-      test('returns same values for themes containing all null values', () {
-        const themeA = RRulePickerThemeData();
-        const themeB = RRulePickerThemeData();
+      test('returns different values when padding differs', () {
+        final themeA = testTheme();
+        final themeB = testTheme(padding: const .all(16));
 
-        expect(themeA.hashCode, themeB.hashCode);
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values when headerTheme differs', () {
+        final themeA = testTheme(headerTheme: const .new(showHeader: true));
+        final themeB = testTheme(headerTheme: const .new(showHeader: false));
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values when dropdownTheme differs', () {
+        final themeA = testTheme(
+          dropdownTheme: const .new(showUnderline: true),
+        );
+        final themeB = testTheme(
+          dropdownTheme: const .new(showUnderline: false),
+        );
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values when topDropdownTheme differs', () {
+        final themeA = testTheme(
+          topDropdownTheme: const .new(showUnderline: true),
+        );
+        final themeB = testTheme(
+          topDropdownTheme: const .new(showUnderline: false),
+        );
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values when textFieldTheme differs', () {
+        final themeA = testTheme(textFieldTheme: const .new(style: fontSize16));
+        final themeB = testTheme(textFieldTheme: const .new(style: fontSize20));
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values when segmentedButtonStyle differs', () {
+        final themeA = testTheme(
+          segmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue),
+          ),
+        );
+        final themeB = testTheme(
+          segmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.red),
+          ),
+        );
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values '
+          'when splitSegmentedButtonStyle differs', () {
+        final themeA = testTheme(
+          splitSegmentedButtonStyle: const .new(
+            foregroundColor: WidgetStatePropertyAll(Colors.white),
+          ),
+        );
+        final themeB = testTheme(
+          splitSegmentedButtonStyle: const .new(
+            foregroundColor: WidgetStatePropertyAll(Colors.red),
+          ),
+        );
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values '
+          'when splitSegmentedButtonStyle differs', () {
+        final themeA = testTheme(
+          splitSegmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue),
+          ),
+        );
+        final themeB = testTheme(
+          splitSegmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.red),
+          ),
+        );
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
       });
     });
   });
@@ -481,7 +568,7 @@ void main() {
     });
 
     group('lerp', () {
-      test('with t=0 returns first theme (a)', () {
+      test('with t=0 returns first theme', () {
         const themeA = RRulePickerHeaderThemeData(
           showHeader: true,
           style: fontSize16,
@@ -496,7 +583,7 @@ void main() {
         expect(result?.showHeader, themeA.showHeader);
       });
 
-      test('with t=1 returns second theme (b)', () {
+      test('with t=1 returns second theme', () {
         const themeA = RRulePickerHeaderThemeData(
           showHeader: true,
           style: fontSize16,
@@ -530,7 +617,7 @@ void main() {
         expect(resultAbove?.showHeader, themeB.showHeader);
       });
 
-      test('calls TextStyle.lerp for style fields', () {
+      test('calls lerp for style fields', () {
         const themeA = RRulePickerHeaderThemeData(style: fontSize16);
         const themeB = RRulePickerHeaderThemeData(style: fontSize20);
 
@@ -570,88 +657,66 @@ void main() {
       });
     });
 
-    group('equality', () {
-      test('Equals operator returns true for identical instances', () {
-        const themeA = RRulePickerHeaderThemeData(
-          showHeader: false,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerHeaderThemeData(
-          showHeader: false,
-          style: fontSize16,
-        );
-
-        expect(themeA, themeB);
-      });
-
-      test('Equals operator returns false for different instances', () {
-        const themeA = RRulePickerHeaderThemeData(
-          showHeader: true,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerHeaderThemeData(
-          showHeader: false,
-          style: fontSize20,
-        );
-
-        expect(themeA, isNot(themeB));
-      });
-
-      test('Equals operator returns true '
-          'when showHeader and style are equal', () {
-        const themeA = RRulePickerHeaderThemeData(
-          showHeader: true,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerHeaderThemeData(
-          showHeader: true,
-          style: fontSize16,
-        );
-
-        expect(themeA, themeB);
-      });
-
-      test('Equals operator returns false when showHeader differs', () {
-        const themeA = RRulePickerHeaderThemeData(
-          showHeader: true,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerHeaderThemeData(
-          showHeader: false,
-          style: fontSize16,
-        );
-
-        expect(themeA, isNot(themeB));
-      });
-
-      test('Equals operator returns false when style differs', () {
-        const themeA = RRulePickerHeaderThemeData(
-          showHeader: true,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerHeaderThemeData(
-          showHeader: true,
-          style: fontSize20,
-        );
-
-        expect(themeA, isNot(themeB));
-      });
-    });
-
-    group('hashCode', () {
-      test('hashCode returns consistent value for same instance', () {
+    group('equality operator', () {
+      test('returns true for identical instances', () {
         const theme = RRulePickerHeaderThemeData(
           showHeader: true,
           style: fontSize16,
         );
 
-        final hashA = theme.hashCode;
-        final hashB = theme.hashCode;
-
-        expect(hashA, hashB);
+        expect(theme == theme, true);
       });
 
-      test('hashCode returns same value for equal instances', () {
+      test('returns true for equal instances', () {
+        const themeA = RRulePickerHeaderThemeData(
+          showHeader: true,
+          style: fontSize16,
+        );
+        const themeB = RRulePickerHeaderThemeData(
+          showHeader: true,
+          style: fontSize16,
+        );
+
+        expect(themeA == themeB, true);
+      });
+
+      test('returns false when showHeader differs', () {
+        const themeA = RRulePickerHeaderThemeData(showHeader: true);
+        const themeB = RRulePickerHeaderThemeData(showHeader: false);
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when style differs', () {
+        const themeA = RRulePickerHeaderThemeData(style: fontSize16);
+        const themeB = RRulePickerHeaderThemeData(style: fontSize20);
+
+        expect(themeA == themeB, false);
+      });
+
+      test('handles null comparisons correctly', () {
+        const themeA = RRulePickerHeaderThemeData(
+          showHeader: true,
+          style: fontSize16,
+        );
+        const RRulePickerHeaderThemeData? themeB = null;
+
+        expect(themeA == themeB, false);
+        expect(themeB == themeA, false);
+      });
+    });
+
+    group('hashCode', () {
+      test('returns consistent value for same instance', () {
+        const theme = RRulePickerHeaderThemeData(
+          showHeader: true,
+          style: fontSize16,
+        );
+
+        expect(theme.hashCode, theme.hashCode);
+      });
+
+      test('returns same value for equal instances', () {
         const themeA = RRulePickerHeaderThemeData(
           showHeader: true,
           style: fontSize16,
@@ -664,15 +729,16 @@ void main() {
         expect(themeA.hashCode, themeB.hashCode);
       });
 
-      test('hashCode returns different value for different instances', () {
-        const themeA = RRulePickerHeaderThemeData(
-          showHeader: true,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerHeaderThemeData(
-          showHeader: false,
-          style: fontSize20,
-        );
+      test('returns different value when showHeader differs', () {
+        const themeA = RRulePickerHeaderThemeData(showHeader: true);
+        const themeB = RRulePickerHeaderThemeData(showHeader: false);
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different value when style differs', () {
+        const themeA = RRulePickerHeaderThemeData(style: fontSize16);
+        const themeB = RRulePickerHeaderThemeData(style: fontSize20);
 
         expect(themeA.hashCode, isNot(themeB.hashCode));
       });
@@ -681,7 +747,7 @@ void main() {
 
   group(RRulePickerDropdownThemeData, () {
     group('constructor', () {
-      test('Default constructor creates instance with all null fields', () {
+      test('default constructor creates instance with all null fields', () {
         const theme = RRulePickerDropdownThemeData();
 
         expect(theme.showUnderline, null);
@@ -691,7 +757,7 @@ void main() {
         expect(theme.menuItemDecoration, null);
       });
 
-      test('Constructor accepts and stores all fields correctly', () {
+      test('constructor accepts and stores all fields correctly', () {
         const theme = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -710,23 +776,25 @@ void main() {
         );
       });
 
-      test('Static constants have expected values', () {
+      test('static constants have expected values', () {
         expect(RRulePickerDropdownThemeData.defaultShowUnderline, true);
         expect(RRulePickerDropdownThemeData.defaultTopShowUnderline, false);
       });
     });
 
     group('copyWith', () {
-      test('copyWith with no arguments returns identical instance', () {
+      test('with no arguments returns equal instances', () {
         const theme = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
         );
+
         final copied = theme.copyWith();
+
         expect(copied, theme);
       });
 
-      test('copyWith updates each field individually when provided', () {
+      test('updates each field individually when provided', () {
         const original = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -739,7 +807,7 @@ void main() {
         expect(copied.decoration, original.decoration);
       });
 
-      test('copyWith retains existing values for unspecified fields', () {
+      test('retains existing values for unspecified fields', () {
         const original = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -752,7 +820,7 @@ void main() {
         expect(copied.decoration, original.decoration);
       });
 
-      test('copyWith handles null values correctly', () {
+      test('handles null values correctly', () {
         const original = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -765,7 +833,7 @@ void main() {
     });
 
     group('lerp', () {
-      test('lerp with t=0 returns first theme (a)', () {
+      test('with t=0 returns first theme', () {
         const themeA = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -780,7 +848,7 @@ void main() {
         expect(result?.showUnderline, themeA.showUnderline);
       });
 
-      test('lerp with t=1 returns second theme (b)', () {
+      test('with t=1 returns second theme', () {
         const themeA = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -795,29 +863,26 @@ void main() {
         expect(result?.showUnderline, themeB.showUnderline);
       });
 
-      test(
-        'lerp with t=0.5 uses threshold logic for boolean showUnderline',
-        () {
-          const themeA = RRulePickerDropdownThemeData(showUnderline: true);
-          const themeB = RRulePickerDropdownThemeData(showUnderline: false);
+      test('with t=0.5 uses threshold logic for boolean showUnderline', () {
+        const themeA = RRulePickerDropdownThemeData(showUnderline: true);
+        const themeB = RRulePickerDropdownThemeData(showUnderline: false);
 
-          final resultBelow = RRulePickerDropdownThemeData.lerp(
-            themeA,
-            themeB,
-            0.4,
-          );
-          final resultAbove = RRulePickerDropdownThemeData.lerp(
-            themeA,
-            themeB,
-            0.6,
-          );
+        final resultBelow = RRulePickerDropdownThemeData.lerp(
+          themeA,
+          themeB,
+          0.4,
+        );
+        final resultAbove = RRulePickerDropdownThemeData.lerp(
+          themeA,
+          themeB,
+          0.6,
+        );
 
-          expect(resultBelow?.showUnderline, themeA.showUnderline);
-          expect(resultAbove?.showUnderline, themeB.showUnderline);
-        },
-      );
+        expect(resultBelow?.showUnderline, themeA.showUnderline);
+        expect(resultAbove?.showUnderline, themeB.showUnderline);
+      });
 
-      test('lerp calls .new.lerp for style fields', () {
+      test('calls lerp for style fields', () {
         const themeA = RRulePickerDropdownThemeData(style: fontSize16);
         const themeB = RRulePickerDropdownThemeData(style: fontSize20);
 
@@ -826,7 +891,7 @@ void main() {
         expect(result?.style?.fontSize, 18.0);
       });
 
-      test('lerp calls BoxDecoration.lerp for decoration fields', () {
+      test('calls lerp for decoration fields', () {
         const themeA = RRulePickerDropdownThemeData(
           decoration: .new(color: Colors.blue),
         );
@@ -839,7 +904,7 @@ void main() {
         expect(result?.decoration, isNotNull);
       });
 
-      test('lerp with identical themes returns the same instance', () {
+      test('with identical themes returns the same instance', () {
         const theme = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -850,13 +915,13 @@ void main() {
         expect(result, theme);
       });
 
-      test('lerp with both null returns null', () {
+      test('with both null returns null', () {
         final result = RRulePickerDropdownThemeData.lerp(null, null, 0.5);
 
         expect(result, null);
       });
 
-      test('lerp with one null theme handles correctly', () {
+      test('with one null theme handles correctly', () {
         const theme = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -870,76 +935,97 @@ void main() {
       });
     });
 
-    group('equality', () {
-      test('Equals operator returns true for identical instances', () {
-        const themeA = RRulePickerDropdownThemeData(
-          showUnderline: true,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerDropdownThemeData(
-          showUnderline: true,
-          style: fontSize16,
-        );
-
-        expect(themeA, themeB);
-      });
-
-      test('Equals operator returns false for different instances', () {
-        const themeA = RRulePickerDropdownThemeData(
-          showUnderline: true,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerDropdownThemeData(
-          showUnderline: false,
-          style: fontSize20,
-        );
-
-        expect(themeA, isNot(themeB));
-      });
-
-      test('Equals operator returns true when all fields are equal', () {
-        const themeA = RRulePickerDropdownThemeData(
-          showUnderline: true,
-          style: fontSize16,
-          decoration: .new(color: Colors.blue),
-        );
-        const themeB = RRulePickerDropdownThemeData(
-          showUnderline: true,
-          style: fontSize16,
-          decoration: .new(color: Colors.blue),
-        );
-
-        expect(themeA, themeB);
-      });
-
-      test('Equals operator returns false when any field differs', () {
-        const themeA = RRulePickerDropdownThemeData(
-          showUnderline: true,
-          style: fontSize16,
-        );
-        const themeB = RRulePickerDropdownThemeData(
-          showUnderline: false,
-          style: fontSize16,
-        );
-
-        expect(themeA, isNot(themeB));
-      });
-    });
-
-    group('hashCode', () {
-      test('hashCode returns consistent value for same instance', () {
+    group('equality operator', () {
+      test('returns true for identical instances', () {
         const theme = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
         );
 
-        final hashA = theme.hashCode;
-        final hashB = theme.hashCode;
-
-        expect(hashA, hashB);
+        expect(theme == theme, true);
       });
 
-      test('hashCode returns same value for equal instances', () {
+      test('returns true for equal instances', () {
+        const themeA = RRulePickerDropdownThemeData(
+          showUnderline: true,
+          style: fontSize16,
+          decoration: .new(color: Colors.blue),
+        );
+        const themeB = RRulePickerDropdownThemeData(
+          showUnderline: true,
+          style: fontSize16,
+          decoration: .new(color: Colors.blue),
+        );
+
+        expect(themeA == themeB, true);
+      });
+
+      test('returns false when showUnderline differs', () {
+        const themeA = RRulePickerDropdownThemeData(showUnderline: true);
+        const themeB = RRulePickerDropdownThemeData(showUnderline: false);
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when style differs', () {
+        const themeA = RRulePickerDropdownThemeData(style: fontSize16);
+        const themeB = RRulePickerDropdownThemeData(style: fontSize20);
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when decoration differs', () {
+        const themeA = RRulePickerDropdownThemeData(
+          decoration: .new(color: Colors.blue),
+        );
+        const themeB = RRulePickerDropdownThemeData(
+          decoration: .new(color: Colors.red),
+        );
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when menuItemStyle differs', () {
+        const themeA = RRulePickerDropdownThemeData(menuItemStyle: fontSize16);
+        const themeB = RRulePickerDropdownThemeData(menuItemStyle: fontSize20);
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when menuItemDecoration differs', () {
+        const themeA = RRulePickerDropdownThemeData(
+          menuItemDecoration: .new(color: Colors.blue),
+        );
+        const themeB = RRulePickerDropdownThemeData(
+          menuItemDecoration: .new(color: Colors.red),
+        );
+
+        expect(themeA == themeB, false);
+      });
+
+      test('handles null comparisons correctly', () {
+        const themeA = RRulePickerDropdownThemeData(
+          showUnderline: true,
+          style: fontSize16,
+        );
+        const RRulePickerDropdownThemeData? themeB = null;
+
+        expect(themeA == themeB, false);
+        expect(themeB == themeA, false);
+      });
+    });
+
+    group('hashCode', () {
+      test('returns consistent value for same instance', () {
+        const theme = RRulePickerDropdownThemeData(
+          showUnderline: true,
+          style: fontSize16,
+        );
+
+        expect(theme.hashCode, theme.hashCode);
+      });
+
+      test('returns same value for equal instances', () {
         const themeA = RRulePickerDropdownThemeData(
           showUnderline: true,
           style: fontSize16,
@@ -952,14 +1038,44 @@ void main() {
         expect(themeA.hashCode, themeB.hashCode);
       });
 
-      test('hashCode returns different value for different instances', () {
+      test('returns different value when showUnderline differs', () {
+        const themeA = RRulePickerDropdownThemeData(showUnderline: true);
+        const themeB = RRulePickerDropdownThemeData(showUnderline: false);
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different value when style differs', () {
+        const themeA = RRulePickerDropdownThemeData(style: fontSize16);
+        const themeB = RRulePickerDropdownThemeData(style: fontSize20);
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different value when decoration differs', () {
         const themeA = RRulePickerDropdownThemeData(
-          showUnderline: true,
-          style: fontSize16,
+          decoration: .new(color: Colors.blue),
         );
         const themeB = RRulePickerDropdownThemeData(
-          showUnderline: false,
-          style: fontSize20,
+          decoration: .new(color: Colors.red),
+        );
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different value when menuItemStyle differs', () {
+        const themeA = RRulePickerDropdownThemeData(menuItemStyle: fontSize16);
+        const themeB = RRulePickerDropdownThemeData(menuItemStyle: fontSize20);
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different value when menuItemDecoration differs', () {
+        const themeA = RRulePickerDropdownThemeData(
+          menuItemDecoration: .new(color: Colors.blue),
+        );
+        const themeB = RRulePickerDropdownThemeData(
+          menuItemDecoration: .new(color: Colors.red),
         );
 
         expect(themeA.hashCode, isNot(themeB.hashCode));
@@ -969,14 +1085,14 @@ void main() {
 
   group(RRulePickerTextFieldThemeData, () {
     group('constructor', () {
-      test('Default constructor creates instance with all null fields', () {
+      test('creates instance with all null fields by default', () {
         const theme = RRulePickerTextFieldThemeData();
 
         expect(theme.style, null);
         expect(theme.decoration, null);
       });
 
-      test('Constructor accepts and stores style and decoration correctly', () {
+      test('accepts and stores style and decoration correctly', () {
         const decoration = InputDecoration(
           isDense: true,
           hintText: 'Enter text',
@@ -990,7 +1106,7 @@ void main() {
         expect(theme.decoration, decoration);
       });
 
-      test('Static constant defaultDecoration has expected value', () {
+      test('static constant defaultDecoration has expected value', () {
         expect(
           RRulePickerTextFieldThemeData.defaultDecoration,
           const InputDecoration(isDense: true),
@@ -999,13 +1115,15 @@ void main() {
     });
 
     group('copyWith', () {
-      test('copyWith with no arguments returns identical instance', () {
+      test('with no arguments returns equal instance', () {
         const theme = RRulePickerTextFieldThemeData(style: fontSize16);
+
         final copied = theme.copyWith();
+
         expect(copied, theme);
       });
 
-      test('copyWith updates style when provided', () {
+      test('updates style when provided', () {
         const original = RRulePickerTextFieldThemeData(
           style: fontSize16,
           decoration: .new(isDense: true),
@@ -1016,7 +1134,7 @@ void main() {
         expect(copied.decoration, original.decoration);
       });
 
-      test('copyWith updates decoration when provided', () {
+      test('updates decoration when provided', () {
         const original = RRulePickerTextFieldThemeData(
           style: fontSize16,
           decoration: .new(isDense: true),
@@ -1028,7 +1146,7 @@ void main() {
         expect(copied.style, original.style);
       });
 
-      test('copyWith retains existing values for unspecified fields', () {
+      test('retains existing values for unspecified fields', () {
         const original = RRulePickerTextFieldThemeData(
           style: fontSize16,
           decoration: .new(isDense: true),
@@ -1038,21 +1156,10 @@ void main() {
         expect(copied.style, isNot(original.style));
         expect(copied.decoration, original.decoration);
       });
-
-      test('copyWith handles null values correctly', () {
-        const original = RRulePickerTextFieldThemeData(
-          style: fontSize16,
-          decoration: .new(isDense: true),
-        );
-        final copied = original.copyWith(style: null, decoration: null);
-
-        expect(copied.style, original.style);
-        expect(copied.decoration, original.decoration);
-      });
     });
 
     group('lerp', () {
-      test('lerp with t=0 returns first theme (a)', () {
+      test('with t=0 returns first theme', () {
         const themeA = RRulePickerTextFieldThemeData(style: fontSize16);
         const themeB = RRulePickerTextFieldThemeData(style: fontSize20);
 
@@ -1061,7 +1168,7 @@ void main() {
         expect(result?.style?.fontSize, 16.0);
       });
 
-      test('lerp with t=1 returns second theme (b)', () {
+      test('with t=1 returns second theme', () {
         const themeA = RRulePickerTextFieldThemeData(style: fontSize16);
         const themeB = RRulePickerTextFieldThemeData(style: fontSize20);
 
@@ -1070,7 +1177,7 @@ void main() {
         expect(result?.style?.fontSize, 20.0);
       });
 
-      test('lerp with t=0.5 uses threshold logic for InputDecoration', () {
+      test('with t=0.5 uses threshold logic for decoration', () {
         const themeA = RRulePickerTextFieldThemeData(
           decoration: .new(isDense: true),
         );
@@ -1093,7 +1200,7 @@ void main() {
         expect(resultAbove?.decoration, themeB.decoration);
       });
 
-      test('lerp calls .new.lerp for style fields', () {
+      test('calls lerp for style fields', () {
         const themeA = RRulePickerTextFieldThemeData(style: fontSize16);
         const themeB = RRulePickerTextFieldThemeData(style: fontSize20);
 
@@ -1102,7 +1209,7 @@ void main() {
         expect(result?.style?.fontSize, 18.0);
       });
 
-      test('lerp with identical themes returns the same instance', () {
+      test('with identical themes returns the same instance', () {
         const theme = RRulePickerTextFieldThemeData(style: fontSize16);
 
         final result = RRulePickerTextFieldThemeData.lerp(theme, theme, 0.5);
@@ -1110,13 +1217,13 @@ void main() {
         expect(result, theme);
       });
 
-      test('lerp with both null returns null', () {
+      test('with both null returns null', () {
         final result = RRulePickerTextFieldThemeData.lerp(null, null, 0.5);
 
         expect(result, null);
       });
 
-      test('lerp with one null theme handles correctly', () {
+      test('with one null theme handles correctly', () {
         const theme = RRulePickerTextFieldThemeData(style: fontSize16);
 
         final resultA = RRulePickerTextFieldThemeData.lerp(theme, null, 0.5);
@@ -1127,33 +1234,18 @@ void main() {
       });
     });
 
-    group('equality', () {
+    group('equality operator', () {
       test('returns true for identical instances', () {
+        const theme = RRulePickerTextFieldThemeData(style: fontSize16);
+
+        expect(theme == theme, true);
+      });
+
+      test('returns true for equal instances', () {
         const themeA = RRulePickerTextFieldThemeData(style: fontSize16);
         const themeB = RRulePickerTextFieldThemeData(style: fontSize16);
 
-        expect(themeA, themeB);
-      });
-
-      test('returns false for different instances', () {
-        const themeA = RRulePickerTextFieldThemeData(style: fontSize16);
-        const themeB = RRulePickerTextFieldThemeData(style: fontSize20);
-
-        expect(themeA, isNot(themeB));
-      });
-
-      test('returns true when style and decoration are equal', () {
-        const decoration = InputDecoration(isDense: true);
-        const themeA = RRulePickerTextFieldThemeData(
-          style: fontSize16,
-          decoration: decoration,
-        );
-        const themeB = RRulePickerTextFieldThemeData(
-          style: fontSize16,
-          decoration: decoration,
-        );
-
-        expect(themeA, themeB);
+        expect(themeA == themeB, true);
       });
 
       test('returns false when style differs', () {
@@ -1166,7 +1258,7 @@ void main() {
           decoration: .new(isDense: true),
         );
 
-        expect(themeA, isNot(themeB));
+        expect(themeA == themeB, false);
       });
 
       test('returns false when decoration differs', () {
@@ -1179,30 +1271,62 @@ void main() {
           decoration: .new(isDense: false),
         );
 
-        expect(themeA, isNot(themeB));
+        expect(themeA == themeB, false);
+      });
+
+      test('returns true for equal instances with all fields', () {
+        const themeA = RRulePickerTextFieldThemeData(
+          style: fontSize16,
+          decoration: .new(isDense: true),
+        );
+        const themeB = RRulePickerTextFieldThemeData(
+          style: fontSize16,
+          decoration: .new(isDense: true),
+        );
+
+        expect(themeA == themeB, true);
+      });
+
+      test('handles null comparisons correctly', () {
+        const themeA = RRulePickerTextFieldThemeData(
+          style: fontSize16,
+          decoration: .new(isDense: false),
+        );
+        const RRulePickerTextFieldThemeData? themeB = null;
+
+        expect(themeA == themeB, false);
+        expect(themeB == themeA, false);
       });
     });
 
     group('hashCode', () {
-      test('returns consistent value for same instance', () {
+      test('returns consistent value for the same instance', () {
         const theme = RRulePickerTextFieldThemeData(style: fontSize16);
 
-        final hashA = theme.hashCode;
-        final hashB = theme.hashCode;
-
-        expect(hashA, hashB);
+        expect(theme.hashCode, theme.hashCode);
       });
 
-      test('returns same value for equal instances', () {
+      test('returns same values for equal instances', () {
         const themeA = RRulePickerTextFieldThemeData(style: fontSize16);
         const themeB = RRulePickerTextFieldThemeData(style: fontSize16);
 
         expect(themeA.hashCode, themeB.hashCode);
       });
 
-      test('returns different value for different instances', () {
+      test('returns different value when style differs', () {
         const themeA = RRulePickerTextFieldThemeData(style: fontSize16);
         const themeB = RRulePickerTextFieldThemeData(style: fontSize20);
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different value when decoration differs', () {
+        const themeA = RRulePickerTextFieldThemeData(
+          decoration: .new(isDense: true),
+        );
+        const themeB = RRulePickerTextFieldThemeData(
+          decoration: .new(isDense: false),
+        );
 
         expect(themeA.hashCode, isNot(themeB.hashCode));
       });
@@ -1212,3 +1336,24 @@ void main() {
 
 const fontSize16 = TextStyle(fontSize: 16);
 const fontSize20 = TextStyle(fontSize: 20);
+
+RRulePickerThemeData testTheme({
+  TextStyle? labelStyle = const .new(),
+  EdgeInsetsGeometry? padding = const .all(8),
+  RRulePickerHeaderThemeData? headerTheme = const .new(),
+  RRulePickerDropdownThemeData? dropdownTheme = const .new(),
+  RRulePickerDropdownThemeData? topDropdownTheme = const .new(),
+  RRulePickerTextFieldThemeData? textFieldTheme = const .new(),
+  ButtonStyle? segmentedButtonStyle = const .new(),
+  ButtonStyle? splitSegmentedButtonStyle = const .new(),
+  int? narrowLayoutBreakpoint = RRulePicker.defaultNarrowLayoutBreakpoint,
+}) => RRulePickerThemeData(
+  labelStyle: labelStyle,
+  padding: padding,
+  headerTheme: headerTheme,
+  dropdownTheme: dropdownTheme,
+  topDropdownTheme: topDropdownTheme,
+  textFieldTheme: textFieldTheme,
+  segmentedButtonStyle: segmentedButtonStyle,
+  splitSegmentedButtonStyle: splitSegmentedButtonStyle,
+);

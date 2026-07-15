@@ -42,9 +42,9 @@ void main() {
       listenerCallCount = 0;
     });
 
-    tearDown(() => controller.dispose.callIgnoringErrors());
+    tearDown(() => controller.dispose());
 
-    testWidgets('renders IntervalPicker '
+    testWidgets('renders $IntervalPicker '
         'with correct localizations', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
@@ -65,7 +65,7 @@ void main() {
       ).existsAtLeastOnce();
     });
 
-    testWidgets('renders SegmentedButton with correct localizations', (
+    testWidgets('renders $SegmentedButton with correct localizations', (
       tester,
     ) async {
       await tester.pumpWrapped(
@@ -81,7 +81,7 @@ void main() {
       spotText(l.rrulePickerDayOfWeek, exact: true).existsOnce();
     });
 
-    testWidgets('renders 2 interval segment types (precise and relative)', (
+    testWidgets('renders precise and relative interval segment types', (
       tester,
     ) async {
       await tester.pumpWrapped(
@@ -205,7 +205,7 @@ void main() {
       expect(controller.getIntervalValue(), 222);
     });
 
-    testWidgets('applies ResolvedTheme when provided', (tester) async {
+    testWidgets('applies $ResolvedTheme when provided', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
           theme: theme,
@@ -221,7 +221,7 @@ void main() {
           .existsAtLeastOnce();
     });
 
-    testWidgets('applies ResolvedTheme to SegmentedButton', (tester) async {
+    testWidgets('applies $ResolvedTheme to $SegmentedButton', (tester) async {
       await tester.pumpWrapped(
         ResolvedTheme(
           theme: theme,
@@ -611,12 +611,14 @@ void main() {
     tearDown(() => controller.dispose());
 
     test('listener is called when state changes', () {
-      var callCount = 0;
-      final controller = YearlyPickerController(listener: () => ++callCount);
+      var listenerCallCount = 0;
+      final controller = YearlyPickerController(
+        listener: () => ++listenerCallCount,
+      );
 
       controller.month.value = Month.february;
 
-      expect(callCount, 1);
+      expect(listenerCallCount, 1);
 
       addTearDown(controller.dispose);
     });
@@ -1191,7 +1193,7 @@ void main() {
       });
     });
 
-    test('disposes all notifiers', () {
+    test('disposes notifiers', () {
       final controller = YearlyPickerController(listener: () {});
 
       ChangeNotifier.debugAssertNotDisposed(controller.month);

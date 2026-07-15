@@ -371,8 +371,7 @@ void main() {
     late IntervalPickerController controller;
 
     setUp(() => controller = TestIntervalPickerController());
-
-    tearDown(() => controller.dispose.callIgnoringErrors());
+    tearDown(() => controller.dispose());
 
     group('constructor', () {
       test('initializes with default value', () {
@@ -394,15 +393,15 @@ void main() {
       });
 
       test('adds listener to notifier', () {
-        var callCount = 0;
+        var listenerCallCount = 0;
         final controller = TestIntervalPickerController(
           initialInterval: 1,
-          listener: () => ++callCount,
+          listener: () => ++listenerCallCount,
         );
 
         controller.intervalNotifier.value = 2;
 
-        expect(callCount, 1);
+        expect(listenerCallCount, 1);
 
         addTearDown(controller.dispose);
       });
@@ -415,77 +414,75 @@ void main() {
       expect(controller.intervalNotifier.value, 10);
     });
 
-    test('getIntervalValue returns notifier value when valid', () {
-      controller.setIntervalValue(5);
+    group('getIntervalValue', () {
+      test('returns notifier value when valid', () {
+        controller.setIntervalValue(5);
 
-      expect(controller.getIntervalValue(), 5);
-    });
-
-    property('getIntervalValue returns defaultValue '
-        'when value is below min', () {
-      final controller = TestIntervalPickerController(initialInterval: 0);
-
-      forAll(integer(max: 4), (interval) {
-        controller.setIntervalValue(interval);
-
-        final result = controller.getIntervalValue(
-          minValue: 5,
-          defaultValue: 10,
-        );
-
-        expect(result, 10);
+        expect(controller.getIntervalValue(), 5);
       });
 
-      addTearDown(controller.dispose);
-    });
+      property('returns defaultValue when value is below min', () {
+        final controller = TestIntervalPickerController(initialInterval: 0);
 
-    property('getIntervalValue returns initialIntervalValue '
-        'when value is below minValue and no defaultValue', () {
-      final controller = TestIntervalPickerController(initialInterval: 10);
+        forAll(integer(max: 4), (interval) {
+          controller.setIntervalValue(interval);
 
-      forAll(integer(max: 4), (interval) {
-        controller.setIntervalValue(interval);
+          final result = controller.getIntervalValue(
+            minValue: 5,
+            defaultValue: 10,
+          );
 
-        final result = controller.getIntervalValue(minValue: 5);
+          expect(result, 10);
+        });
 
-        expect(result, 10);
+        addTearDown(controller.dispose);
       });
 
-      addTearDown(controller.dispose);
-    });
+      property('returns initialIntervalValue '
+          'when value is below minValue and no defaultValue', () {
+        final controller = TestIntervalPickerController(initialInterval: 10);
 
-    property('getIntervalValue returns defaultValue '
-        'when value is below minValue', () {
-      final controller = TestIntervalPickerController(initialInterval: 3);
+        forAll(integer(max: 4), (interval) {
+          controller.setIntervalValue(interval);
 
-      forAll(integer(max: 4), (interval) {
-        controller.setIntervalValue(interval);
+          final result = controller.getIntervalValue(minValue: 5);
 
-        final result = controller.getIntervalValue(
-          minValue: 5,
-          defaultValue: 10,
-        );
+          expect(result, 10);
+        });
 
-        expect(result, 10);
+        addTearDown(controller.dispose);
       });
 
-      addTearDown(controller.dispose);
-    });
+      property('returns defaultValue when value is below minValue', () {
+        final controller = TestIntervalPickerController(initialInterval: 3);
 
-    property('getIntervalValue returns value when equal to minValue', () {
-      forAll(integer(), (interval) {
-        controller.setIntervalValue(interval);
+        forAll(integer(max: 4), (interval) {
+          controller.setIntervalValue(interval);
 
-        final result = controller.getIntervalValue(minValue: interval);
+          final result = controller.getIntervalValue(
+            minValue: 5,
+            defaultValue: 10,
+          );
 
-        expect(result, interval);
+          expect(result, 10);
+        });
+
+        addTearDown(controller.dispose);
       });
-    });
 
-    property(
-      'getIntervalValue returns initialIntervalValue '
-      'when value is below minValue and initialIntervalValue >= minValue',
-      () {
+      property('returns value when equal to minValue', () {
+        forAll(integer(), (interval) {
+          controller.setIntervalValue(interval);
+
+          final result = controller.getIntervalValue(minValue: interval);
+
+          expect(result, interval);
+        });
+      });
+
+      property('returns initialIntervalValue '
+          'when value is below minValue '
+          'and initialIntervalValue >= minValue', () {
         final controller = TestIntervalPickerController(initialInterval: -1111);
 
         forAll(integer(min: -1000), (interval) {
@@ -497,10 +494,12 @@ void main() {
         });
 
         addTearDown(controller.dispose);
-      },
-    );
+      });
+    });
 
-    test('dispose disposes controller and notifier', () {
+    test('disposes notifier and controller', () {
+      final controller = TestIntervalPickerController();
+
       ChangeNotifier.debugAssertNotDisposed(controller.intervalController);
       ChangeNotifier.debugAssertNotDisposed(controller.intervalNotifier);
 
@@ -522,15 +521,9 @@ void main() {
 
   group(IntervalPickerSegmentController, () {
     late IntervalPickerSegmentController controller;
-    late int listenerCallCount;
 
-    setUp(() {
-      controller = TestIntervalPickerSegmentController(
-        listener: () => ++listenerCallCount,
-      );
-    });
-
-    tearDown(() => controller.dispose.callIgnoringErrors());
+    setUp(() => controller = TestIntervalPickerSegmentController());
+    tearDown(() => controller.dispose());
 
     group('interval segment type', () {
       group('constructor', () {
@@ -553,7 +546,7 @@ void main() {
         });
 
         test('initializes with multiple segment types', () {
-          controller = TestIntervalPickerSegmentController(
+          final controller = TestIntervalPickerSegmentController(
             initialSegmentType: {.precise, .relative},
           );
 
@@ -566,14 +559,14 @@ void main() {
         });
 
         test('adds listener to notifier', () {
-          var callCount = 0;
-          controller = TestIntervalPickerSegmentController(
-            listener: () => ++callCount,
+          var listenerCallCount = 0;
+          final controller = TestIntervalPickerSegmentController(
+            listener: () => ++listenerCallCount,
           );
 
           controller.intervalSegmentType.value = {.relative};
 
-          expect(callCount, 1);
+          expect(listenerCallCount, 1);
 
           addTearDown(controller.dispose);
         });
@@ -587,7 +580,9 @@ void main() {
         });
       });
 
-      test('dispose disposes notifier', () {
+      test('disposes notifier', () {
+        final controller = TestIntervalPickerSegmentController();
+
         ChangeNotifier.debugAssertNotDisposed(controller.intervalSegmentType);
 
         controller.dispose();
@@ -613,7 +608,7 @@ void main() {
       listenerCallCount = 0;
     });
 
-    tearDown(() => controller.dispose.callIgnoringErrors());
+    tearDown(() => controller.dispose());
 
     group('constructor', () {
       test('initializes with default day of month value', () {
@@ -654,7 +649,9 @@ void main() {
       });
     });
 
-    test('dispose disposes the ValueNotifier', () {
+    test('disposes notifier', () {
+      final controller = TestIntervalPickerSegmentController();
+
       ChangeNotifier.debugAssertNotDisposed(controller.dayOfMonth);
 
       controller.dispose();
@@ -682,7 +679,7 @@ void main() {
         expect(listenerCallCount, 2);
       });
 
-      test('can set value to 1 (minimum)', () {
+      test('can set value to minimum', () {
         final controller = TestIntervalPickerSegmentController(
           initialDayOfMonth: 30,
         );
@@ -694,7 +691,7 @@ void main() {
         addTearDown(controller.dispose);
       });
 
-      test('can set value to 31 (maximum valid)', () {
+      test('can set value to maximum', () {
         controller.setDayOfMonthValue(31);
 
         expect(controller.dayOfMonth.value, 31);
@@ -752,7 +749,7 @@ void main() {
       listenerCallCount = 0;
     });
 
-    tearDown(() => controller.dispose.callIgnoringErrors());
+    tearDown(() => controller.dispose());
 
     group('constructor', () {
       test('initializes with default values', () {
@@ -849,7 +846,9 @@ void main() {
       });
     });
 
-    test('dispose disposes all ValueNotifiers', () {
+    test('disposes notifiers', () {
+      final controller = TestIntervalPickerSegmentController();
+
       ChangeNotifier.debugAssertNotDisposed(controller.dayOfWeekOrdinal);
       ChangeNotifier.debugAssertNotDisposed(controller.dayOfWeek);
       ChangeNotifier.debugAssertNotDisposed(controller.daysOfWeek);
@@ -997,7 +996,7 @@ void main() {
       });
     });
 
-    group('dayOfWeekOrdinal values', () {
+    group('$DayOfWeekOrdinal values', () {
       test('first has rruleValue of 1', () {
         expect(DayOfWeekOrdinal.first.rruleValue, 1);
       });
@@ -1019,7 +1018,7 @@ void main() {
       });
     });
 
-    group('DayOfWeek values', () {
+    group('$DayOfWeek values', () {
       test('all days have correct rruleName', () {
         expect(DayOfWeek.monday.rruleName, 'MO');
         expect(DayOfWeek.tuesday.rruleName, 'TU');

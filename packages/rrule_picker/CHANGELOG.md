@@ -1,3 +1,7 @@
+## 0.1.4
+
+* Fix example directory path in Forgejo workflow and in README
+
 ## 0.1.3
 
 * Reverse screenshot order in pubspec

@@ -1,7 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run rrule_picker_example (profile mode)" type="FlutterRunConfigurationType" factoryName="Flutter">
-    <option name="additionalArgs" value="--web-port 8080 --profile" />
-    <option name="filePath" value="$PROJECT_DIR$/packages/rrule_picker_example/lib/main.dart" />
-    <method v="2" />
-  </configuration>
-</component>

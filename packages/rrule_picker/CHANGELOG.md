@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Reverse screenshot order in pubspec
+
 ## 0.1.2
 
 * Add topics and screenshots to pubspec                           

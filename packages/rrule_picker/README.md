@@ -1,6 +1,6 @@
 # RRULE Picker
 
-A Flutter widget for RRULE manipulation.
+RRULE picker is a widget used to manipulate RRULEs in accordance to a subset of RFC 5545.
 
 ## Features
 

@@ -68,10 +68,6 @@ You can also check the interactive [demo web app](https://0rzech.codeberg.page/r
 * When parsing fails, the parser falls back to defaults of each FREQ.
 * The widget always returns RRULE entries in upper-case whenever it's recommended by the RFC and sticks to RFC-recommended ordering of the entries.
 
-Example screenshot:
-
-![Yearly recurrence rule screenshot](https://codeberg.org/0rzech/rrule_picker/raw/branch/main/packages/rrule_picker/screenshot.png)
-
 ### Translations
 
 Currently, most translations are machine-generated, followed by a human review based on intuition rather than language proficiency.

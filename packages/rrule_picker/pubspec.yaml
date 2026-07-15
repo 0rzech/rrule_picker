@@ -1,6 +1,6 @@
 name: rrule_picker
 description: RRULE picker is a widget used to manipulate RRULEs in accordance to a subset of RFC 5545.
-version: 0.1.1
+version: 0.1.2
 homepage: https://codeberg.org/0rzech/rrule_picker
 repository: https://codeberg.org/0rzech/rrule_picker/src/branch/main/packages/rrule_picker
 issue_tracker: https://codeberg.org/0rzech/rrule_picker/issues

@@ -1,3 +1,9 @@
+## 0.1.2
+
+* Add topics and screenshots to pubspec                           
+* Update package description in README
+* Fix Codeberg badge URL and update Weblate URL in README
+
 ## 0.1.1
 
 * Update package description

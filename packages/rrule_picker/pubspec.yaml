@@ -5,20 +5,20 @@ homepage: https://codeberg.org/0rzech/rrule_picker
 repository: https://codeberg.org/0rzech/rrule_picker/src/branch/main/packages/rrule_picker
 issue_tracker: https://codeberg.org/0rzech/rrule_picker/issues
 screenshots:
-  - description: No recurrence.
-    path: screenshots/never.png
-  - description: Daily recurrence.
-    path: screenshots/daily.png
-  - description: Weekly recurrence.
-    path: screenshots/weekly.png
-  - description: Monthly recurrence (precise day).
-    path: screenshots/monthly_precise.png
-  - description: Monthly recurrence (relative day).
-    path: screenshots/monthly_relative.png
-  - description: Yearly recurrence (precise day).
-    path: screenshots/yearly_precise.png
   - description: Yearly recurrence (relative day).
     path: screenshots/yearly_relative.png
+  - description: Yearly recurrence (precise day).
+    path: screenshots/yearly_precise.png
+  - description: Monthly recurrence (relative day).
+    path: screenshots/monthly_relative.png
+  - description: Monthly recurrence (precise day).
+    path: screenshots/monthly_precise.png
+  - description: Weekly recurrence.
+    path: screenshots/weekly.png
+  - description: Daily recurrence.
+    path: screenshots/daily.png
+  - description: No recurrence.
+    path: screenshots/never.png
 topics:
   - flutter
   - material

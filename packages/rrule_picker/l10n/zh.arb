@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "月的某一天",
   "rrulePickerDayOfWeek": "一周的某一天",
   "rrulePickerDays": "{count, plural, other{天}}",
+  "rrulePickerEndAfterDate": "在日期后结束",
   "rrulePickerEveryDaily": "{count, plural, other{每个}}",
   "rrulePickerEveryMonthly": "{count, plural, other{每个}}",
   "rrulePickerEveryWeekly": "{count, plural, other{每个}}",

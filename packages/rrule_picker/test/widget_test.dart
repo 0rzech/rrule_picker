@@ -145,7 +145,8 @@ void main() {
           ),
         );
 
-        await act.tap(spot<OutlinedButton>());
+        final l = tester.localizations<RRulePicker>();
+        await act.tap(spotText(l.rrulePickerSkip, exact: true));
         await tester.pumpAndSettle();
         await act.tap(spot<DatePickerDialog>().spotText('OK'));
         await tester.pumpAndSettle();

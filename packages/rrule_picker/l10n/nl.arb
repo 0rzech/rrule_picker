@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Dag van de maand",
   "rrulePickerDayOfWeek": "Dag van de week",
   "rrulePickerDays": "{count, plural, one{dag} other{dagen}}",
+  "rrulePickerEndAfterDate": "Einde na datum",
   "rrulePickerEveryDaily": "{count, plural, other{elke}}",
   "rrulePickerEveryMonthly": "{count, plural, other{elke}}",
   "rrulePickerEveryWeekly": "{count, plural, other{elke}}",

@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Ημέρα του μήνα",
   "rrulePickerDayOfWeek": "Ημέρα της εβδομάδας",
   "rrulePickerDays": "{count, plural, one{Ημέρα} other{Ημέρες}}",
+  "rrulePickerEndAfterDate": "Λήξη μετά την ημερομηνία",
   "rrulePickerEveryDaily": "{count, plural, other{κάθε}}",
   "rrulePickerEveryMonthly": "{count, plural, other{κάθε}}",
   "rrulePickerEveryWeekly": "{count, plural, other{κάθε}}",

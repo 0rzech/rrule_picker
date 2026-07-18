@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Dia do mês",
   "rrulePickerDayOfWeek": "Dia da semana",
   "rrulePickerDays": "{count, plural, one{dia} other{dias}}",
+  "rrulePickerEndAfterDate": "Fim após a data",
   "rrulePickerEveryDaily": "{count, plural, other{a cada}}",
   "rrulePickerEveryMonthly": "{count, plural, other{a cada}}",
   "rrulePickerEveryWeekly": "{count, plural, other{a cada}}",

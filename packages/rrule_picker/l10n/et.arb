@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Kuupäev",
   "rrulePickerDayOfWeek": "Nädalapäev",
   "rrulePickerDays": "{count, plural, one{päev} other{päevadel}}",
+  "rrulePickerEndAfterDate": "Lõppeb pärast kuupäeva",
   "rrulePickerEveryDaily": "{count, plural, other{iga}}",
   "rrulePickerEveryMonthly": "{count, plural, other{iga}}",
   "rrulePickerEveryWeekly": "{count, plural, other{iga}}",

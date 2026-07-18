@@ -21,6 +21,11 @@
     "description": "Returns a plural noun with case variations."
   },
 
+  "rrulePickerEndAfterDate": "End after date",
+  "@rrulePickerEndAfterDate": {
+    "description": "Label for an on/off switch. Returns an imperative sentence."
+  },
+
   "rrulePickerEveryDaily": "{count, plural, other{every}}",
   "@rrulePickerEveryDaily": {
     "placeholders": {

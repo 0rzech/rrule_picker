@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "День месяца",
   "rrulePickerDayOfWeek": "День недели",
   "rrulePickerDays": "{count, plural, one{день} few{дня} other{дней}}",
+  "rrulePickerEndAfterDate": "Окончание после даты",
   "rrulePickerEveryDaily": "{count, plural, one{каждый} other{каждые}}",
   "rrulePickerEveryMonthly": "{count, plural, one{каждый} other{каждые}}",
   "rrulePickerEveryWeekly": "{count, plural, one{каждую} other{каждые}}",

@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Mánno beaivi",
   "rrulePickerDayOfWeek": "Beaivvi vahkku",
   "rrulePickerDays": "{count, plural, one{beaivi} two{beaivvit} other{beaivvi}}",
+  "rrulePickerEndAfterDate": "Loahppa beaivemeari maŋŋel",
   "rrulePickerEveryDaily": "{count, plural, other{juohke}}",
   "rrulePickerEveryMonthly": "{count, plural, other{juohke}}",
   "rrulePickerEveryWeekly": "{count, plural, other{juohke}}",

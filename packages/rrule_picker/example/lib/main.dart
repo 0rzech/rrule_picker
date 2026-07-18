@@ -44,7 +44,7 @@ class _RRuleExampleState extends State<RRuleExample> {
     rrulePickerController = .new(
       initialRRule:
           'RRULE:FREQ=YEARLY;INTERVAL=10;BYMONTH=3;BYDAY=FR;BYSETPOS=-1;'
-          'EXDATE;VALUE=DATE:20561112,20591101',
+          'UNTIL=20991231;EXDATE;VALUE=DATE:20561112,20591101',
     );
   }
 
@@ -55,7 +55,7 @@ class _RRuleExampleState extends State<RRuleExample> {
       // `rrulePickerController` was initialized with its own non-empty
       // `initialRRule` value
       initialRRule:
-          'RRULE:FREQ=WEEKLY;INTERVAL=30;BYDAY=MO,TH,SU;'
+          'RRULE:FREQ=WEEKLY;INTERVAL=30;BYDAY=MO,TH,SU;UNTIL=21000101;'
           'EXDATE;TZID=Etc/UTC;VALUE=DATE:20840330,20870510',
       controller: rrulePickerController,
       theme: const .new(padding: .all(8)),

@@ -191,6 +191,12 @@ abstract class RRulePickerLocalizations {
   /// **'{count, plural, one{day} other{days}}'**
   String rrulePickerDays(int count);
 
+  /// Label for an on/off switch. Returns an imperative sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'End after date'**
+  String get rrulePickerEndAfterDate;
+
   /// Returns a preposition indicating frequency/distribution.
   ///
   /// In en, this message translates to:

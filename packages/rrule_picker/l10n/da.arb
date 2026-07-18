@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Dag i måneden",
   "rrulePickerDayOfWeek": "Ugedag",
   "rrulePickerDays": "{count, plural, one{dag} other{dage}}",
+  "rrulePickerEndAfterDate": "Slutter efter dato",
   "rrulePickerEveryDaily": "{count, plural, other{hver}}",
   "rrulePickerEveryMonthly": "{count, plural, other{hver}}",
   "rrulePickerEveryWeekly": "{count, plural, other{hver}}",

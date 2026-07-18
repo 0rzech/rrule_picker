@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "روز ماه",
   "rrulePickerDayOfWeek": "روز هفته",
   "rrulePickerDays": "{count, plural, one{روز} other{روزها}}",
+  "rrulePickerEndAfterDate": "اتمام پس از تاریخ",
   "rrulePickerEveryDaily": "{count, plural, other{هر}}",
   "rrulePickerEveryMonthly": "{count, plural, other{هر}}",
   "rrulePickerEveryWeekly": "{count, plural, other{هر}}",

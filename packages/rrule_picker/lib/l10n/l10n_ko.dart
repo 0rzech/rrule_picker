@@ -27,6 +27,9 @@ class RRulePickerLocalizationsKo extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEndAfterDate => '날짜 이후 종료';
+
+  @override
   String rrulePickerEveryDaily(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

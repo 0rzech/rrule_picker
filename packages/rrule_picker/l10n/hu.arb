@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "A hónap napja",
   "rrulePickerDayOfWeek": "A hét napja",
   "rrulePickerDays": "{count, plural, other{nap}}",
+  "rrulePickerEndAfterDate": "Befejezés dátum után",
   "rrulePickerEveryDaily": "{count, plural, other{minden}}",
   "rrulePickerEveryMonthly": "{count, plural, other{minden}}",
   "rrulePickerEveryWeekly": "{count, plural, other{minden}}",

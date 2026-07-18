@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "يوم من الشهر",
   "rrulePickerDayOfWeek": "يوم من الأسبوع",
   "rrulePickerDays": "{count, plural, one{يوم} two{يومان} other{أيام}}",
+  "rrulePickerEndAfterDate": "الانتهاء بعد التاريخ",
   "rrulePickerEveryDaily": "{count, plural, other{كل}}",
   "rrulePickerEveryMonthly": "{count, plural, other{كل}}",
   "rrulePickerEveryWeekly": "{count, plural, other{كل}}",

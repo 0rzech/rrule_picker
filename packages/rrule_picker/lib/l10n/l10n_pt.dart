@@ -28,6 +28,9 @@ class RRulePickerLocalizationsPt extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEndAfterDate => 'Fim após a data';
+
+  @override
   String rrulePickerEveryDaily(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -192,6 +195,9 @@ class RRulePickerLocalizationsPtBr extends RRulePickerLocalizationsPt {
     );
     return '$_temp0';
   }
+
+  @override
+  String get rrulePickerEndAfterDate => 'Fim após a data';
 
   @override
   String rrulePickerEveryDaily(int count) {

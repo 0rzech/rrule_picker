@@ -16,6 +16,9 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   );
   static const defaultSplitSegmentedButtonSegmentShape = StadiumBorder();
   static const defaultSplitSegmentedButtonSegmentSize = Size(80, 40);
+  static const defaultOutlinedContentButtonStyle = ButtonStyle(
+    visualDensity: .standard,
+  );
 
   /// The text style for labels in the picker.
   final TextStyle? labelStyle;
@@ -80,6 +83,14 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   /// See [OutlinedButton.style] and [OutlinedButton.styleFrom].
   final ButtonStyle? splitSegmentedButtonStyle;
 
+  /// The style for outlined content buttons in the picker.
+  /// These buttons keep action results as their labels.
+  ///
+  /// The default is [RRulePickerThemeData.outlinedContentButtonStyle].
+  ///
+  /// See [OutlinedButton.style].
+  final ButtonStyle? outlinedContentButtonStyle;
+
   /// Creates a new [RRulePickerThemeData] with the provided styling options.
   ///
   /// All parameters are optional and can be null, in which case default values
@@ -93,6 +104,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     this.textFieldTheme,
     this.segmentedButtonStyle,
     this.splitSegmentedButtonStyle,
+    this.outlinedContentButtonStyle,
   });
 
   /// Creates a copy of this theme with the given fields replaced
@@ -109,6 +121,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     RRulePickerTextFieldThemeData? textFieldTheme,
     ButtonStyle? segmentedButtonStyle,
     ButtonStyle? splitSegmentedButtonStyle,
+    ButtonStyle? outlinedContentButtonStyle,
     int? narrowLayoutBreakpoint,
   }) => RRulePickerThemeData(
     labelStyle: labelStyle ?? this.labelStyle,
@@ -120,6 +133,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     segmentedButtonStyle: segmentedButtonStyle ?? this.segmentedButtonStyle,
     splitSegmentedButtonStyle:
         splitSegmentedButtonStyle ?? this.splitSegmentedButtonStyle,
+    outlinedContentButtonStyle:
+        outlinedContentButtonStyle ?? this.outlinedContentButtonStyle,
   );
 
   /// Linearly interpolates between this theme and another theme.
@@ -165,6 +180,11 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
         other.splitSegmentedButtonStyle,
         t,
       ),
+      outlinedContentButtonStyle: ButtonStyle.lerp(
+        outlinedContentButtonStyle,
+        other.outlinedContentButtonStyle,
+        t,
+      ),
     );
   }
 
@@ -180,7 +200,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
           other.topDropdownTheme == topDropdownTheme &&
           other.textFieldTheme == textFieldTheme &&
           other.segmentedButtonStyle == segmentedButtonStyle &&
-          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
+          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle &&
+          other.outlinedContentButtonStyle == outlinedContentButtonStyle;
 
   @override
   int get hashCode => Object.hash(
@@ -192,6 +213,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     textFieldTheme,
     segmentedButtonStyle,
     splitSegmentedButtonStyle,
+    outlinedContentButtonStyle,
   );
 }
 

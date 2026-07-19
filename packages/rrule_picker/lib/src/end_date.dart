@@ -49,6 +49,7 @@ class _EndDateState extends State<EndDate> {
         );
 
         final button = OutlinedButton(
+          style: theme.outlinedContentButtonStyle,
           onPressed: state.enabled ? datePicker : null,
           child: Text(dateFormatter.format(state.date)),
         );

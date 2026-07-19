@@ -38,6 +38,7 @@ class ResolvedThemeData {
   final RRulePickerTextFieldThemeData? textFieldTheme;
   final ButtonStyle? segmentedButtonStyle;
   final ButtonStyle? splitSegmentedButtonStyle;
+  final ButtonStyle? outlinedContentButtonStyle;
 
   @visibleForTesting
   const ResolvedThemeData({
@@ -49,6 +50,7 @@ class ResolvedThemeData {
     this.textFieldTheme,
     this.segmentedButtonStyle,
     this.splitSegmentedButtonStyle,
+    this.outlinedContentButtonStyle,
   });
 
   @visibleForTesting
@@ -74,6 +76,8 @@ class ResolvedThemeData {
     ),
     segmentedButtonStyle: RRulePickerThemeData.defaultSegmentedButtonStyle,
     splitSegmentedButtonStyle: defaultSplitSegmentedButtonStyle(theme),
+    outlinedContentButtonStyle:
+        RRulePickerThemeData.defaultOutlinedContentButtonStyle,
   );
 
   factory ResolvedThemeData.resolve(
@@ -169,6 +173,10 @@ class ResolvedThemeData {
           localTheme?.splitSegmentedButtonStyle ??
           globalTheme?.splitSegmentedButtonStyle ??
           defaultTheme.splitSegmentedButtonStyle,
+      outlinedContentButtonStyle:
+          localTheme?.outlinedContentButtonStyle ??
+          globalTheme?.outlinedContentButtonStyle ??
+          defaultTheme.outlinedContentButtonStyle,
     );
   }
 
@@ -206,7 +214,8 @@ class ResolvedThemeData {
           other.topDropdownTheme == topDropdownTheme &&
           other.textFieldTheme == textFieldTheme &&
           other.segmentedButtonStyle == segmentedButtonStyle &&
-          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
+          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle &&
+          other.outlinedContentButtonStyle == outlinedContentButtonStyle;
 
   @override
   int get hashCode => Object.hash(
@@ -218,5 +227,6 @@ class ResolvedThemeData {
     textFieldTheme,
     segmentedButtonStyle,
     splitSegmentedButtonStyle,
+    outlinedContentButtonStyle,
   );
 }

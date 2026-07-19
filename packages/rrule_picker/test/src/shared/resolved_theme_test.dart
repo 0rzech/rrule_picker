@@ -114,6 +114,7 @@ void main() {
         expect(theme.textFieldTheme, null);
         expect(theme.segmentedButtonStyle, null);
         expect(theme.splitSegmentedButtonStyle, null);
+        expect(theme.outlinedContentButtonStyle, null);
       });
 
       test('creates instance with all optional parameters', () {
@@ -125,6 +126,7 @@ void main() {
         const textFieldTheme = RRulePickerTextFieldThemeData();
         const segmentedButtonStyle = ButtonStyle();
         const splitSegmentedButtonStyle = ButtonStyle();
+        const outlinedContentButtonStyle = ButtonStyle();
 
         const theme = ResolvedThemeData(
           labelStyle: labelStyle,
@@ -135,6 +137,7 @@ void main() {
           textFieldTheme: textFieldTheme,
           segmentedButtonStyle: segmentedButtonStyle,
           splitSegmentedButtonStyle: splitSegmentedButtonStyle,
+          outlinedContentButtonStyle: outlinedContentButtonStyle,
         );
 
         expect(theme.labelStyle, labelStyle);
@@ -145,6 +148,7 @@ void main() {
         expect(theme.textFieldTheme, textFieldTheme);
         expect(theme.segmentedButtonStyle, segmentedButtonStyle);
         expect(theme.splitSegmentedButtonStyle, splitSegmentedButtonStyle);
+        expect(theme.outlinedContentButtonStyle, outlinedContentButtonStyle);
       });
     });
 
@@ -247,6 +251,10 @@ void main() {
                 Colors.transparent,
               ),
         );
+        expect(
+          defaults.outlinedContentButtonStyle,
+          RRulePickerThemeData.defaultOutlinedContentButtonStyle,
+        );
       });
 
       test('header style uses theme textTheme when available', () {
@@ -313,6 +321,10 @@ void main() {
         expect(resolved.topDropdownTheme, defaults.topDropdownTheme);
         expect(resolved.textFieldTheme, defaults.textFieldTheme);
         expect(resolved.segmentedButtonStyle, defaults.segmentedButtonStyle);
+        expect(
+          resolved.outlinedContentButtonStyle,
+          defaults.outlinedContentButtonStyle,
+        );
       });
 
       testWidgets('uses local theme when provided', (tester) async {
@@ -658,6 +670,55 @@ void main() {
         expect(resolved.labelStyle, labelStyle);
       });
 
+      testWidgets('resolves outlinedContentButtonStyle '
+          'from global theme', (tester) async {
+        const outlinedContentButtonStyle = ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.red),
+        );
+        const theme = RRulePickerThemeData(
+          outlinedContentButtonStyle: outlinedContentButtonStyle,
+        );
+        late ResolvedThemeData resolved;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: ThemeData(extensions: [theme]),
+            home: Builder(
+              builder: (context) {
+                resolved = .resolve(context);
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        );
+
+        expect(resolved.outlinedContentButtonStyle, outlinedContentButtonStyle);
+      });
+
+      testWidgets('resolves outlinedContentButtonStyle '
+          'from local theme', (tester) async {
+        const outlinedContentButtonStyle = ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.red),
+        );
+        const theme = RRulePickerThemeData(
+          outlinedContentButtonStyle: outlinedContentButtonStyle,
+        );
+        late ResolvedThemeData resolved;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Builder(
+              builder: (context) {
+                resolved = .resolve(context, theme);
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        );
+
+        expect(resolved.outlinedContentButtonStyle, outlinedContentButtonStyle);
+      });
+
       testWidgets('local theme takes precedence over global '
           'for nested dropdown properties', (tester) async {
         const localDecoration = BoxDecoration(color: Colors.red);
@@ -775,6 +836,19 @@ void main() {
         );
         final themeB = testResolvedTheme(
           splitSegmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue),
+          ),
+        );
+
+        expect(themeA == themeB, false);
+      });
+
+      test('returns false when outlinedContentButtonStyle differs', () {
+        final themeA = testResolvedTheme(
+          outlinedContentButtonStyle: const .new(),
+        );
+        final themeB = testResolvedTheme(
+          outlinedContentButtonStyle: const .new(
             backgroundColor: WidgetStatePropertyAll(Colors.blue),
           ),
         );

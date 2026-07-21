@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/shared/global_state.dart' as global;
+import 'package:rrule_picker/src/shared/labeled_switch.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 
 @internal
@@ -35,20 +36,18 @@ class _EndDateState extends State<EndDate> {
 
   @override
   Widget build(BuildContext context) {
-    final l = RRulePickerLocalizations.of(context);
     final theme = ResolvedTheme.of(context);
 
     return ValueListenableBuilder(
       valueListenable: widget.controller,
       builder: (context, state, _) {
-        final tile = SwitchListTile.adaptive(
+        final endSwitch = LabeledSwitch(
           value: state.enabled,
-          shape: const StadiumBorder(),
-          title: Text(l.rrulePickerEndAfterDate),
           onChanged: (value) => widget.controller.enabled = value,
+          label: RRulePickerLocalizations.of(context).rrulePickerEndAfterDate,
         );
 
-        final button = OutlinedButton(
+        final dateButton = OutlinedButton(
           style: theme.outlinedContentButtonStyle,
           onPressed: state.enabled ? datePicker : null,
           child: Text(dateFormatter.format(state.date)),
@@ -58,12 +57,12 @@ class _EndDateState extends State<EndDate> {
           builder: (_, constraints) {
             final width = constraints.maxWidth - theme.padding.vertical;
             return width < global.narrowLayoutBreakpoint
-                ? Column(spacing: 8, children: [tile, button])
+                ? Column(spacing: 8, children: [endSwitch, dateButton])
                 : Row(
                     spacing: 8,
                     children: [
-                      Flexible(child: tile),
-                      Flexible(child: Center(child: button)),
+                      Flexible(child: endSwitch),
+                      Flexible(child: Center(child: dateButton)),
                     ],
                   );
           },

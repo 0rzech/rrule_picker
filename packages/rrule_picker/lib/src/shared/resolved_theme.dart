@@ -39,6 +39,7 @@ class ResolvedThemeData {
   final ButtonStyle? segmentedButtonStyle;
   final ButtonStyle? splitSegmentedButtonStyle;
   final ButtonStyle? outlinedContentButtonStyle;
+  final LabeledSwitchThemeData? labeledSwitchTheme;
 
   @visibleForTesting
   const ResolvedThemeData({
@@ -51,6 +52,7 @@ class ResolvedThemeData {
     this.segmentedButtonStyle,
     this.splitSegmentedButtonStyle,
     this.outlinedContentButtonStyle,
+    this.labeledSwitchTheme,
   });
 
   @visibleForTesting
@@ -78,6 +80,14 @@ class ResolvedThemeData {
     splitSegmentedButtonStyle: defaultSplitSegmentedButtonStyle(theme),
     outlinedContentButtonStyle:
         RRulePickerThemeData.defaultOutlinedContentButtonStyle,
+    labeledSwitchTheme: LabeledSwitchThemeData(
+      style: TextButton.styleFrom(
+        padding: LabeledSwitchThemeData.defaultPadding,
+        shape: LabeledSwitchThemeData.defaultShape,
+        textStyle: theme.textTheme.bodyLarge,
+        foregroundColor: theme.colorScheme.onSurface,
+      ),
+    ),
   );
 
   factory ResolvedThemeData.resolve(
@@ -177,6 +187,10 @@ class ResolvedThemeData {
           localTheme?.outlinedContentButtonStyle ??
           globalTheme?.outlinedContentButtonStyle ??
           defaultTheme.outlinedContentButtonStyle,
+      labeledSwitchTheme:
+          localTheme?.labeledSwitchTheme ??
+          globalTheme?.labeledSwitchTheme ??
+          defaultTheme.labeledSwitchTheme,
     );
   }
 
@@ -215,7 +229,8 @@ class ResolvedThemeData {
           other.textFieldTheme == textFieldTheme &&
           other.segmentedButtonStyle == segmentedButtonStyle &&
           other.splitSegmentedButtonStyle == splitSegmentedButtonStyle &&
-          other.outlinedContentButtonStyle == outlinedContentButtonStyle;
+          other.outlinedContentButtonStyle == outlinedContentButtonStyle &&
+          other.labeledSwitchTheme == labeledSwitchTheme;
 
   @override
   int get hashCode => Object.hash(
@@ -228,5 +243,6 @@ class ResolvedThemeData {
     segmentedButtonStyle,
     splitSegmentedButtonStyle,
     outlinedContentButtonStyle,
+    labeledSwitchTheme,
   );
 }

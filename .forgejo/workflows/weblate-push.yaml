@@ -9,17 +9,28 @@ on:
 
 env:
   ACTIONS_CHECKOUT_VERSION: df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-  FLUTTER_VERSION: sha256:46691e311715845de03a3ba4753a475476936805b29431b1f00f1816981033f8 # 3.44.0
+  FLUTTER_VERSION: sha256:c49442d14c78101da086bac26620323d6e395c3602b0478ab872a7919b41fada # 3.44.3
+  NODEJS_VERSION: 24.18.0 # https://nodejs.org
+  NODEJS_CHECKSUM: 783130984963db7ba9cbd01089eaf2c2efb055c7c1693c943174b967b3050cb8 # https://nodejs.org/dist/
 
 jobs:
   weblate-push:
     name: Generate and commit Dart localizations
     runs-on: codeberg-small-lazy
     container:
-      image: ghcr.io/cirruslabs/flutter@${{ env.FLUTTER_VERSION }}
+      image: ghcr.io/gmeligio/flutter-web@${{ env.FLUTTER_VERSION }}
     steps:
       - name: Install Node.js
-        run: apt-get update && apt-get --yes install --no-install-recommends --no-install-suggests nodejs
+        run: |
+          set -uo pipefail
+          archive_name="node-v${NODEJS_VERSION}-linux-x64"
+          archive_file="${archive_name}.tar.gz"
+          curl --fail --silent --show-error \
+            --location "https://nodejs.org/dist/v${NODEJS_VERSION}/${archive_file}" \
+            --output "${archive_file}"
+          echo "${NODEJS_CHECKSUM} ${archive_file}" | sha256sum --check
+          tar --auto-compress --extract --file "${archive_file}" --directory "${HOME}"
+          echo "${HOME}/${archive_name}/bin" >> "${FORGEJO_PATH}"
       - name: Clone repository
         uses: https://data.forgejo.org/actions/checkout@${{ env.ACTIONS_CHECKOUT_VERSION }}
         with:
@@ -33,10 +44,10 @@ jobs:
           git add .
           if git diff --staged --quiet; then
             echo 'No changes'
-            echo 'has_changes=false' >> $FORGEJO_OUTPUT
+            echo 'has_changes=false' >> "${FORGEJO_OUTPUT}"
           else
             git diff --staged --name-status
-            echo 'has_changes=true' >> $FORGEJO_OUTPUT
+            echo 'has_changes=true' >> "${FORGEJO_OUTPUT}"
           fi
       - name: Commit l10n
         if: steps.check-l10n-changes.outputs.has_changes == 'true'

@@ -24,26 +24,29 @@ class SplitSegmentedButton<T, U> extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = ResolvedTheme.of(context).splitSegmentedButtonStyle;
 
-    return Wrap(
-      alignment: .spaceEvenly,
-      spacing: 8,
-      runSpacing: 8,
-      children: segmentInput
-          .map((value) {
-            final segment = segmentMapper.call(value);
-            final isSelected = selected.contains(segment.value);
-            final textStyle = style?.textStyle?.resolve(
-              isSelected ? const {.selected} : {.focused},
-            );
+    return Semantics(
+      container: true,
+      child: Wrap(
+        alignment: .spaceEvenly,
+        spacing: 8,
+        runSpacing: 8,
+        children: segmentInput
+            .map((value) {
+              final segment = segmentMapper.call(value);
+              final isSelected = selected.contains(segment.value);
+              final textStyle = style?.textStyle?.resolve(
+                isSelected ? const {.selected} : {.focused},
+              );
 
-            return SplitButton(
-              isSelected: isSelected,
-              value: segment.value,
-              onTap: onSegmentTap,
-              child: Text(segment.text, style: textStyle),
-            );
-          })
-          .toList(growable: false),
+              return SplitButton(
+                isSelected: isSelected,
+                value: segment.value,
+                onTap: onSegmentTap,
+                child: Text(segment.text, style: textStyle),
+              );
+            })
+            .toList(growable: false),
+      ),
     );
   }
 
@@ -99,19 +102,22 @@ class SplitButton<T> extends StatelessWidget {
     final size = style?.fixedSize?.resolve(states);
     final shape = style?.shape?.resolve(states) ?? const StadiumBorder();
 
-    return AnimatedContainer(
-      width: size?.width,
-      height: size?.height,
-      duration: style?.animationDuration ?? kThemeAnimationDuration,
-      curve: Curves.easeInOut,
-      decoration: ShapeDecoration(
-        shape: shape,
-        color: style?.backgroundColor?.resolve(states),
-      ),
-      child: InkWell(
-        customBorder: shape,
-        onTap: () => onTap(value),
-        child: FittedBox(fit: .scaleDown, child: child),
+    return Semantics(
+      selected: isSelected,
+      child: AnimatedContainer(
+        width: size?.width,
+        height: size?.height,
+        duration: style?.animationDuration ?? kThemeAnimationDuration,
+        curve: Curves.easeInOut,
+        decoration: ShapeDecoration(
+          shape: shape,
+          color: style?.backgroundColor?.resolve(states),
+        ),
+        child: InkWell(
+          customBorder: shape,
+          onTap: () => onTap(value),
+          child: FittedBox(fit: .scaleDown, child: child),
+        ),
       ),
     );
   }

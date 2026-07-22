@@ -39,6 +39,7 @@ class SplitSegmentedButton<T, U> extends StatelessWidget {
               );
 
               return SplitButton(
+                key: ValueKey(segment.value),
                 isSelected: isSelected,
                 value: segment.value,
                 onTap: onSegmentTap,

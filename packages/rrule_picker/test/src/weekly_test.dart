@@ -187,23 +187,18 @@ void main() {
         ),
       );
 
-      final container = spot<SplitButton<DayOfWeek>>()
-          .spot<AnimatedContainer>()
+      final style = spot<SplitButton<DayOfWeek>>()
+          .spot<OutlinedButton>()
           .existsAtLeastOnce()
           .widgets
-          .first;
+          .whereType<OutlinedButton>()
+          .first
+          .style;
 
+      expect(style?.fixedSize?.resolve(const {}), const Size(80, 40));
       expect(
-        container,
-        isA<AnimatedContainer>().having(
-          (container) => container.decoration,
-          'decoration',
-          isA<ShapeDecoration>().having(
-            (decoration) => decoration.color,
-            'color',
-            theme.colorScheme.secondaryContainer,
-          ),
-        ),
+        style?.foregroundColor?.resolve(const {.selected}),
+        theme.colorScheme.onSecondaryContainer,
       );
     });
 

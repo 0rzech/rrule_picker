@@ -154,8 +154,8 @@ void main() {
     });
 
     testWidgets('uses correct theme style', (tester) async {
-      const selectedColor = Colors.green;
-      const unselectedColor = Colors.red;
+      const selectedFontSize = 48.0;
+      const unselectedFontSize = 24.0;
 
       await tester.pumpWrapped(
         ResolvedTheme(
@@ -163,9 +163,9 @@ void main() {
             splitSegmentedButtonStyle: .new(
               textStyle: WidgetStateProperty.resolveWith((states) {
                 return TextStyle(
-                  color: states.contains(WidgetState.selected)
-                      ? selectedColor
-                      : unselectedColor,
+                  fontSize: states.contains(WidgetState.selected)
+                      ? selectedFontSize
+                      : unselectedFontSize,
                 );
               }),
               shape: const WidgetStatePropertyAll(StadiumBorder()),
@@ -187,15 +187,19 @@ void main() {
       splitButtons
           .spotText('Option 1', exact: true)
           .whereWidgetProp(
-            widgetProp('textStyle.color', (widget) => widget.textStyle?.color),
-            (color) => color == selectedColor,
+            widgetProp('textStyle.fontSize', (widget) {
+              return widget.textStyle?.fontSize;
+            }),
+            (fontSize) => fontSize == selectedFontSize,
           )
           .existsOnce();
       splitButtons
           .spotText('Option 2', exact: true)
           .whereWidgetProp(
-            widgetProp('textStyle.color', (widget) => widget.textStyle?.color),
-            (color) => color == unselectedColor,
+            widgetProp('textStyle.fontSize', (widget) {
+              return widget.textStyle?.fontSize;
+            }),
+            (fontSize) => fontSize == unselectedFontSize,
           )
           .existsOnce();
     });
@@ -351,7 +355,7 @@ void main() {
           child: const SplitButton(
             isSelected: false,
             value: 1,
-            onTap: noop,
+            onSelected: noop,
             child: Text('Test'),
           ),
         ),
@@ -367,7 +371,7 @@ void main() {
           child: const SplitButton(
             isSelected: true,
             value: 1,
-            onTap: noop,
+            onSelected: noop,
             child: Icon(Icons.check),
           ),
         ),
@@ -386,7 +390,7 @@ void main() {
           child: SplitButton(
             isSelected: false,
             value: 42,
-            onTap: (v) {
+            onSelected: (v) {
               value = v;
               ++listenerCallCount;
             },
@@ -401,109 +405,20 @@ void main() {
       expect(listenerCallCount, 1);
     });
 
-    testWidgets('uses default animation duration '
-        'when not specified', (tester) async {
-      await tester.pumpWrapped(
-        ResolvedTheme(theme: testResolvedTheme(), child: testSplitButton),
+    testWidgets('uses $ResolvedTheme'
+        '.splitSegmentedButtonStyle', (tester) async {
+      const style = ButtonStyle(
+        foregroundColor: WidgetStatePropertyAll(Colors.pink),
       );
-
-      expect(
-        spot<AnimatedContainer>().existsOnce().widget.duration,
-        kThemeAnimationDuration,
-      );
-    });
-
-    testWidgets('uses theme animation duration', (tester) async {
-      const duration = Duration(milliseconds: 500);
 
       await tester.pumpWrapped(
         ResolvedTheme(
-          theme: testResolvedTheme(
-            splitSegmentedButtonStyle: const .new(animationDuration: duration),
-          ),
+          theme: testResolvedTheme(splitSegmentedButtonStyle: style),
           child: testSplitButton,
         ),
       );
 
-      expect(spot<AnimatedContainer>().existsOnce().widget.duration, duration);
-    });
-
-    testWidgets('uses $StadiumBorder as default shape', (tester) async {
-      await tester.pumpWrapped(
-        ResolvedTheme(theme: testResolvedTheme(), child: testSplitButton),
-      );
-
-      final container = spot<AnimatedContainer>();
-      expect(
-        container.existsOnce().widget.decoration,
-        isA<ShapeDecoration>().having(
-          (decoration) => decoration.shape,
-          'shape',
-          const StadiumBorder(),
-        ),
-      );
-      expect(
-        container.spot<InkWell>().existsOnce().widget.customBorder,
-        const StadiumBorder(),
-      );
-    });
-
-    testWidgets('uses theme side when specified '
-        'with default shape', (tester) async {
-      const side = BorderSide(color: Colors.pink);
-
-      await tester.pumpWrapped(
-        Builder(
-          builder: (context) => ResolvedTheme(
-            theme: .resolve(
-              context,
-              const .new(
-                splitSegmentedButtonStyle: .new(
-                  side: WidgetStatePropertyAll(side),
-                ),
-              ),
-            ),
-            child: testSplitButton,
-          ),
-        ),
-      );
-
-      final container = spot<AnimatedContainer>();
-      final isSide = isA<StadiumBorder>().having((b) => b.side, 'side', side);
-      expect(
-        container.existsOnce().widget.decoration,
-        isA<ShapeDecoration>().having((d) => d.shape, 'shape', isSide),
-      );
-      expect(
-        container.spot<InkWell>().existsOnce().widget.customBorder,
-        isSide,
-      );
-    });
-
-    testWidgets('uses theme shape when specified', (tester) async {
-      final shape = RoundedRectangleBorder(borderRadius: .circular(8));
-
-      await tester.pumpWrapped(
-        ResolvedTheme(
-          theme: testResolvedTheme(
-            splitSegmentedButtonStyle: .new(
-              shape: WidgetStatePropertyAll(shape),
-            ),
-          ),
-          child: testSplitButton,
-        ),
-      );
-
-      final container = spot<AnimatedContainer>();
-      expect(
-        container.existsOnce().widget.decoration,
-        isA<ShapeDecoration>().having(
-          (decoration) => decoration.shape,
-          'shape',
-          shape,
-        ),
-      );
-      expect(container.spot<InkWell>().existsOnce().widget.customBorder, shape);
+      expect(spot<OutlinedButton>().existsOnce().widget.style, style);
     });
   });
 }
@@ -511,7 +426,7 @@ void main() {
 const testSplitButton = SplitButton<int>(
   isSelected: true,
   value: 1,
-  onTap: noop,
+  onSelected: noop,
   child: Text('Test'),
 );
 

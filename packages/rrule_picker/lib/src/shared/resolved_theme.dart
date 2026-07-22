@@ -73,6 +73,7 @@ class ResolvedThemeData {
       decoration: RRulePickerTextFieldThemeData.defaultDecoration,
     ),
     segmentedButtonStyle: RRulePickerThemeData.defaultSegmentedButtonStyle,
+    splitSegmentedButtonStyle: defaultSplitSegmentedButtonStyle(theme),
   );
 
   factory ResolvedThemeData.resolve(
@@ -164,14 +165,34 @@ class ResolvedThemeData {
           localTheme?.segmentedButtonStyle ??
           globalTheme?.segmentedButtonStyle ??
           defaultTheme.segmentedButtonStyle,
-      splitSegmentedButtonStyle: resolveSplitSegmentedButtonStyle(
-        localTheme?.splitSegmentedButtonStyle ??
-            globalTheme?.splitSegmentedButtonStyle ??
-            defaultTheme.splitSegmentedButtonStyle,
-        theme,
-      ),
+      splitSegmentedButtonStyle:
+          localTheme?.splitSegmentedButtonStyle ??
+          globalTheme?.splitSegmentedButtonStyle ??
+          defaultTheme.splitSegmentedButtonStyle,
     );
   }
+
+  @visibleForTesting
+  static ButtonStyle? defaultSplitSegmentedButtonStyle(ThemeData theme) =>
+      OutlinedButton.styleFrom(
+        padding: .zero,
+        foregroundColor: theme.colorScheme.onSurface,
+        shape: const StadiumBorder(),
+        side: .new(color: theme.colorScheme.outline),
+        fixedSize: const Size(80, 40),
+      ).copyWith(
+        foregroundColor: .resolveWith((states) {
+          return states.contains(WidgetState.selected)
+              ? theme.colorScheme.onSecondaryContainer
+              : theme.colorScheme.onSurface;
+        }),
+        backgroundColor: .resolveWith((states) {
+          return states.contains(WidgetState.selected)
+              ? theme.colorScheme.secondaryContainer
+              : Colors.transparent;
+        }),
+        animationDuration: kThemeAnimationDuration,
+      );
 
   @override
   bool operator ==(Object other) =>
@@ -198,52 +219,4 @@ class ResolvedThemeData {
     segmentedButtonStyle,
     splitSegmentedButtonStyle,
   );
-
-  @visibleForTesting
-  static ButtonStyle resolveSplitSegmentedButtonStyle(
-    ButtonStyle? style,
-    ThemeData theme,
-  ) {
-    final foregroundColor =
-        style?.foregroundColor ??
-        .resolveWith((states) {
-          return states.contains(WidgetState.selected)
-              ? theme.colorScheme.onSecondaryContainer
-              : theme.colorScheme.onSurface;
-        });
-
-    final side =
-        style?.side ??
-        WidgetStatePropertyAll(.new(color: theme.colorScheme.outline));
-
-    return ButtonStyle(
-      textStyle:
-          style?.textStyle ??
-          .resolveWith((states) {
-            return theme.textTheme.labelLarge?.copyWith(
-              color: foregroundColor.resolve(states),
-            );
-          }),
-      foregroundColor: foregroundColor,
-      backgroundColor:
-          style?.backgroundColor ??
-          .resolveWith((states) {
-            return states.contains(WidgetState.selected)
-                ? theme.colorScheme.secondaryContainer
-                : Colors.transparent;
-          }),
-      shape:
-          style?.shape ??
-          .resolveWith((states) {
-            return StadiumBorder(
-              side:
-                  side.resolve(states) ??
-                  .new(color: theme.colorScheme.outline),
-            );
-          }),
-      side: side,
-      fixedSize: style?.fixedSize ?? const WidgetStatePropertyAll(Size(80, 40)),
-      animationDuration: style?.animationDuration ?? kThemeAnimationDuration,
-    );
-  }
 }

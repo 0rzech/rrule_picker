@@ -21,35 +21,27 @@ class SplitSegmentedButton<T, U> extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final style = ResolvedTheme.of(context).splitSegmentedButtonStyle;
+  Widget build(BuildContext context) => Semantics(
+    container: true,
+    child: Wrap(
+      alignment: .spaceEvenly,
+      spacing: 8,
+      runSpacing: 8,
+      children: segmentInput
+          .map((value) {
+            final segment = segmentMapper.call(value);
 
-    return Semantics(
-      container: true,
-      child: Wrap(
-        alignment: .spaceEvenly,
-        spacing: 8,
-        runSpacing: 8,
-        children: segmentInput
-            .map((value) {
-              final segment = segmentMapper.call(value);
-              final isSelected = selected.contains(segment.value);
-              final textStyle = style?.textStyle?.resolve(
-                isSelected ? const {.selected} : {.focused},
-              );
-
-              return SplitButton(
-                key: ValueKey(segment.value),
-                isSelected: isSelected,
-                value: segment.value,
-                onTap: onSegmentTap,
-                child: Text(segment.text, style: textStyle),
-              );
-            })
-            .toList(growable: false),
-      ),
-    );
-  }
+            return SplitButton(
+              key: ValueKey(segment.value),
+              isSelected: selected.contains(segment.value),
+              value: segment.value,
+              onSelected: onSegmentTap,
+              child: Text(segment.text),
+            );
+          })
+          .toList(growable: false),
+    ),
+  );
 
   void onSegmentTap(T value) {
     if (!selected.contains(value)) {
@@ -80,46 +72,63 @@ class SplitButtonSegment<T> {
 }
 
 @internal
-class SplitButton<T> extends StatelessWidget {
+class SplitButton<T> extends StatefulWidget {
   final bool isSelected;
   final T value;
-  final void Function(T value) onTap;
+  final void Function(T value) onSelected;
   final Widget child;
 
   const SplitButton({
     super.key,
     required this.isSelected,
     required this.value,
-    required this.onTap,
+    required this.onSelected,
     required this.child,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final style = ResolvedTheme.of(context).splitSegmentedButtonStyle;
-    final states = isSelected
-        ? const {WidgetState.selected}
-        : const {WidgetState.focused};
-    final size = style?.fixedSize?.resolve(states);
-    final shape = style?.shape?.resolve(states) ?? const StadiumBorder();
+  State<SplitButton<T>> createState() => _SplitButtonState<T>();
+}
 
-    return Semantics(
-      selected: isSelected,
-      child: AnimatedContainer(
-        width: size?.width,
-        height: size?.height,
-        duration: style?.animationDuration ?? kThemeAnimationDuration,
-        curve: Curves.easeInOut,
-        decoration: ShapeDecoration(
-          shape: shape,
-          color: style?.backgroundColor?.resolve(states),
-        ),
-        child: InkWell(
-          customBorder: shape,
-          onTap: () => onTap(value),
-          child: FittedBox(fit: .scaleDown, child: child),
-        ),
-      ),
+class _SplitButtonState<T> extends State<SplitButton<T>> {
+  late final WidgetStatesController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = WidgetStatesController(
+      widget.isSelected ? const {.selected} : const {},
     );
   }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant SplitButton<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isSelected != widget.isSelected) {
+      // sneaking .selected into states without notifying listeners,
+      // because the parent has just triggered rebuild anyway
+      widget.isSelected
+          ? controller.value.add(.selected)
+          : controller.value.remove(WidgetState.selected);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => MergeSemantics(
+    child: Semantics(
+      selected: widget.isSelected,
+      child: OutlinedButton(
+        style: ResolvedTheme.of(context).splitSegmentedButtonStyle,
+        statesController: controller,
+        onPressed: () => widget.onSelected(widget.value),
+        child: FittedBox(fit: .scaleDown, child: widget.child),
+      ),
+    ),
+  );
 }

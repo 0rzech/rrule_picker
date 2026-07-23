@@ -1,4 +1,4 @@
-name: Weblate Pull Request Verification and Pages
+name: Weblate Pull Request Verification
 
 on:
   pull_request:
@@ -12,5 +12,5 @@ on:
 jobs:
   if-on-weblate-branch:
     name: Check if on weblate branch
-    if: forgejo.head_ref == 'weblate'
-    uses: ./.forgejo/workflows/verification-and-pages.yaml
+    if: github.head_ref == 'weblate'
+    uses: ./.github/workflows/verification.yaml

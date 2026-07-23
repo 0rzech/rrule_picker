@@ -55,9 +55,9 @@ class RRulePickerExampleApp extends StatelessWidget {
 }
 ```
 
-More elaborate example can be found in the demo web app's [source code](https://codeberg.org/0rzech/rrule_picker/src/branch/main/packages/rrule_picker/example/lib/main.dart).
+More elaborate example can be found in the demo web app's [source code](https://github.com/0rzech/rrule_picker/blob/main/packages/rrule_picker/example/lib/main.dart).
 
-You can also check the interactive [demo web app](https://0rzech.codeberg.page/rrule_picker/).
+You can also check the interactive [demo web app](https://0rzech.github.io/rrule_picker).
 
 ## Additional information
 
@@ -121,10 +121,4 @@ void main() {
 }
 ```
 
-You can also introduce complete translations for a missing language this way, but it would be much better (and very welcome) to contribute your translations to the project on [Weblate](https://translate.codeberg.org/engage/rrule_picker/).
-
-[![Translation status badge](https://translate.codeberg.org/widget/rrule_picker/multi-auto.svg)](https://translate.codeberg.org/engage/rrule_picker/)
-
-###
-
-[<img alt="Fork it on Codeberg badge" src="https://codeberg.org/0rzech/rrule_picker/raw/branch/main/packages/rrule_picker/example/assets/codeberg-badge.svg" width="200"/>](https://codeberg.org/0rzech/rrule_picker)
+You can also introduce complete translations for a missing language this way, but it would be much better (and very welcome) to contribute your translations to the project.

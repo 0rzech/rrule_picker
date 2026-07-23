@@ -1,0 +1,44 @@
+name: Pages
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  verification:
+    name: Publish to github pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment: github-pages
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/gmeligio/flutter-web@sha256:c49442d14c78101da086bac26620323d6e395c3602b0478ab872a7919b41fada # 3.44.3
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v7
+      - name: Get packages
+        run: flutter pub get
+      - name: Build example web app
+        run: |
+          flutter build web \
+            --no-pub \
+            --no-wasm-dry-run \
+            --build-number '${{ github.run_number }}' \
+            --build-name '${{ github.event.pull_request.head.sha || github.sha }}' \
+            --base-href '/${{ github.event.repository.name }}/' \
+            --csp \
+            --release
+        working-directory: packages/rrule_picker/example
+      - name: Upload example web app artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: packages/rrule_picker/example/build/web/
+      - name: Publish example web app
+        uses: actions/deploy-pages@v5

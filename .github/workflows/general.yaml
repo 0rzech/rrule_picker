@@ -1,0 +1,16 @@
+name: General Verification
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
+jobs:
+  if-not-on-weblate-branch:
+    name: Check if not on weblate branch
+    if: github.head_ref != 'weblate'
+    uses: ./.github/workflows/verification.yaml

@@ -1,11 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Flutter: run pre-commit checks" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
     <option name="arguments" value="--dummy" />
-    <option name="filePath" value="$PROJECT_DIR$/scripts/run_pre_commit_checks.dart" />
+    <option name="filePath" value="$PROJECT_DIR$/tool/run_pre_commit_checks.dart" />
     <option name="workingDirectory" value="$PROJECT_DIR$" />
     <method v="2">
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Dart: check missing localizations" run_configuration_type="DartCommandLineRunConfigurationType" />
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Dart: format" run_configuration_type="DartCommandLineRunConfigurationType" />
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Flutter: analyze" run_configuration_type="DartCommandLineRunConfigurationType" />
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Flutter: test" run_configuration_type="DartCommandLineRunConfigurationType" />
     </method>

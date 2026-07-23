@@ -32,15 +32,15 @@ jobs:
       - name: Get packages
         run: flutter pub get
       - name: Generate l10n
-        run: scripts/flutter_gen_l10n.dart
+        run: tool/flutter_gen_l10n.dart
       - name: Check for missing localizations
-        run: scripts/check_missing_localizations.dart
+        run: tool/check_missing_localizations.dart
       - name: Check code formatting
-        run: scripts/dart_format.dart
+        run: tool/dart_format.dart
       - name: Analyze code
-        run: scripts/flutter_analyze.dart --no-pub
+        run: tool/flutter_analyze.dart --no-pub
       - name: Run tests in Dart VM
-        run: scripts/flutter_test.dart --no-pub --branch-coverage
+        run: tool/flutter_test.dart --no-pub --branch-coverage
       - name: Build example web app (non-weblate branch only)
         if: (forgejo.head_ref || forgejo.ref_name) != 'weblate'
         run: |

@@ -18,10 +18,10 @@ Future<void> main(List<String> arguments) async {
     return;
   }
 
-  final workDir = Directory('scripts');
+  final workDir = Directory('tool');
 
   try {
-    for (final script in const [
+    for (final tool in const [
       'flutter_test.dart',
       'check_missing_localizations.dart',
       'flutter_analyze.dart',
@@ -29,7 +29,7 @@ Future<void> main(List<String> arguments) async {
     ]) {
       final result = await Process.start('dart', [
         'run',
-        '${workDir.path}$sep$script',
+        '${workDir.path}$sep$tool',
       ], mode: .inheritStdio).then((process) => process.exitCode);
 
       if (result != 0) {

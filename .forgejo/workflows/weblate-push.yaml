@@ -36,7 +36,7 @@ jobs:
         with:
           ref: weblate
       - name: Generate l10n
-        run: scripts/flutter_gen_l10n.dart
+        run: tool/flutter_gen_l10n.dart
       - name: Check l10n changes
         id: check-l10n-changes
         run: |

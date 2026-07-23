@@ -8,7 +8,7 @@ Future<void> main() async {
   try {
     exitCode = await Process.start('dart', [
       'run',
-      'scripts${Platform.pathSeparator}run_pre_commit_checks.dart',
+      'tool${Platform.pathSeparator}run_pre_commit_checks.dart',
     ], mode: .inheritStdio).then((process) => process.exitCode);
   } catch (e) {
     stderr.writeln(e.toString());

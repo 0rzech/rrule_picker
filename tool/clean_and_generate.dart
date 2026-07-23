@@ -11,16 +11,13 @@ Future<void> main(List<String> arguments) async {
     return;
   }
 
-  final workDir = Directory('scripts');
+  final workDir = Directory('tool');
 
   try {
-    for (final script in const [
-      'flutter_clean.dart',
-      'flutter_gen_l10n.dart',
-    ]) {
+    for (final tool in const ['flutter_clean.dart', 'flutter_gen_l10n.dart']) {
       final result = await Process.start('dart', [
         'run',
-        '${workDir.path}$sep$script',
+        '${workDir.path}$sep$tool',
       ], mode: .inheritStdio).then((process) => process.exitCode);
 
       if (result != 0) {

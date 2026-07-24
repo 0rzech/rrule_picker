@@ -12,14 +12,19 @@ concurrency:
 jobs:
   verification:
     name: Publish to github pages
+
     permissions:
       contents: read
       pages: write
       id-token: write
     environment: github-pages
+
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/gmeligio/flutter-web@sha256:c49442d14c78101da086bac26620323d6e395c3602b0478ab872a7919b41fada # 3.44.3
+
+    timeout-minutes: 3
+
     steps:
       - name: Clone repository
         uses: actions/checkout@v7

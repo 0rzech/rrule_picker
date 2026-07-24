@@ -10,10 +10,12 @@ import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 /// of the picker, including labels, padding, headers, dropdowns, text fields,
 /// and buttons.
 class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
-  static const defaultPadding = EdgeInsets.all(0);
+  static const defaultPadding = EdgeInsetsGeometry.zero;
   static const defaultSegmentedButtonStyle = ButtonStyle(
     visualDensity: .standard,
   );
+  static const defaultSplitSegmentedButtonSegmentShape = StadiumBorder();
+  static const defaultSplitSegmentedButtonSegmentSize = Size(80, 40);
 
   /// The text style for labels in the picker.
   final TextStyle? labelStyle;
@@ -55,11 +57,11 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   ///
   /// ```dart
   /// OutlinedButton.styleFrom(
-  ///   padding: .zero,
+  ///   padding: RRulePickerThemeData.defaultPadding,
   ///   foregroundColor: theme.colorScheme.onSurface,
-  ///   shape: const StadiumBorder(),
+  ///   shape: RRulePickerThemeData.defaultSplitSegmentedButtonSegmentShape,
   ///   side: .new(color: theme.colorScheme.outline),
-  ///   fixedSize: const Size(80, 40),
+  ///   fixedSize: RRulePickerThemeData.defaultSplitSelectionButtonSegmentSize,
   /// ).copyWith(
   ///   foregroundColor: .resolveWith((states) {
   ///     return states.contains(WidgetState.selected)

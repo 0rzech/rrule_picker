@@ -12,6 +12,7 @@ import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 import 'package:rrule_picker/src/weekly.dart';
+import 'package:rrule_picker/theme.dart';
 import 'package:spot/spot.dart';
 
 import '../helpers.dart';
@@ -195,7 +196,10 @@ void main() {
           .first
           .style;
 
-      expect(style?.fixedSize?.resolve(const {}), const Size(80, 40));
+      expect(
+        style?.fixedSize?.resolve(const {}),
+        RRulePickerThemeData.defaultSplitSegmentedButtonSegmentSize,
+      );
       expect(
         style?.foregroundColor?.resolve(const {.selected}),
         theme.colorScheme.onSecondaryContainer,

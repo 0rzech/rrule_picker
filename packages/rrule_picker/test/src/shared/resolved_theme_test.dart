@@ -199,7 +199,9 @@ void main() {
               .having(
                 (style) => style.padding,
                 'padding',
-                const WidgetStatePropertyAll(EdgeInsetsGeometry.zero),
+                const WidgetStatePropertyAll(
+                  RRulePickerThemeData.defaultPadding,
+                ),
               )
               .having(
                 (style) => style.shape,
@@ -207,7 +209,7 @@ void main() {
                 isA<WidgetStatePropertyAll>().having(
                   (p) => p.value,
                   'value',
-                  const StadiumBorder(),
+                  RRulePickerThemeData.defaultSplitSegmentedButtonSegmentShape,
                 ),
               )
               .having(
@@ -220,7 +222,9 @@ void main() {
               .having(
                 (style) => style.fixedSize,
                 'fixedSize',
-                const WidgetStatePropertyAll(Size(80, 40)),
+                const WidgetStatePropertyAll(
+                  RRulePickerThemeData.defaultSplitSegmentedButtonSegmentSize,
+                ),
               )
               .having(
                 (style) => style.foregroundColor?.resolve(const {.selected}),

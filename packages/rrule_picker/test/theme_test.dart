@@ -65,10 +65,18 @@ void main() {
     });
 
     test('static constants have expected values', () {
-      expect(RRulePickerThemeData.defaultPadding, const EdgeInsets.all(0));
+      expect(RRulePickerThemeData.defaultPadding, EdgeInsets.zero);
       expect(
         RRulePickerThemeData.defaultSegmentedButtonStyle,
         const ButtonStyle(visualDensity: .standard),
+      );
+      expect(
+        RRulePickerThemeData.defaultSplitSegmentedButtonSegmentShape,
+        const StadiumBorder(),
+      );
+      expect(
+        RRulePickerThemeData.defaultSplitSegmentedButtonSegmentSize,
+        const Size(80, 40),
       );
     });
 

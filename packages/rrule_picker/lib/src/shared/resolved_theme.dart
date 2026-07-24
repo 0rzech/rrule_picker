@@ -175,11 +175,11 @@ class ResolvedThemeData {
   @visibleForTesting
   static ButtonStyle? defaultSplitSegmentedButtonStyle(ThemeData theme) =>
       OutlinedButton.styleFrom(
-        padding: .zero,
+        padding: RRulePickerThemeData.defaultPadding,
         foregroundColor: theme.colorScheme.onSurface,
-        shape: const StadiumBorder(),
+        shape: RRulePickerThemeData.defaultSplitSegmentedButtonSegmentShape,
         side: .new(color: theme.colorScheme.outline),
-        fixedSize: const Size(80, 40),
+        fixedSize: RRulePickerThemeData.defaultSplitSegmentedButtonSegmentSize,
       ).copyWith(
         foregroundColor: .resolveWith((states) {
           return states.contains(WidgetState.selected)

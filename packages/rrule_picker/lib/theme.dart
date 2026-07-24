@@ -10,10 +10,12 @@ import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 /// of the picker, including labels, padding, headers, dropdowns, text fields,
 /// and buttons.
 class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
-  static const defaultPadding = EdgeInsets.all(0);
+  static const defaultPadding = EdgeInsetsGeometry.zero;
   static const defaultSegmentedButtonStyle = ButtonStyle(
     visualDensity: .standard,
   );
+  static const defaultSplitSegmentedButtonSegmentShape = StadiumBorder();
+  static const defaultSplitSegmentedButtonSegmentSize = Size(80, 40);
 
   /// The text style for labels in the picker.
   final TextStyle? labelStyle;
@@ -44,19 +46,38 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
 
   /// The style for [SplitSegmentedButton].
   ///
-  /// This is an internal Widget that by default approximates
-  /// [SegmentedButton.style], but with each segment being a separate [InkWell]
-  /// with its own [StadiumBorder].
+  /// [SplitSegmentedButton] is an internal Widget that by default approximates
+  /// [SegmentedButton.style], but with each segment being a separate
+  /// [OutlinedButton].
   ///
-  /// The properties used by the widget buttons are:
+  /// The widget is currently used for day of week selection for "weekly"
+  /// frequency.
   ///
-  /// * [ButtonStyle.textStyle].
-  /// * [ButtonStyle.foregroundColor] - used with default text style only.
-  /// * [ButtonStyle.backgroundColor].
-  /// * [ButtonStyle.shape].
-  /// * [ButtonStyle.side] - used with default shape only.
-  /// * [ButtonStyle.fixedSize].
-  /// * [ButtonStyle.animationDuration] - used for button tap animation.
+  /// The style defaults to:
+  ///
+  /// ```dart
+  /// OutlinedButton.styleFrom(
+  ///   padding: RRulePickerThemeData.defaultPadding,
+  ///   foregroundColor: theme.colorScheme.onSurface,
+  ///   shape: RRulePickerThemeData.defaultSplitSegmentedButtonSegmentShape,
+  ///   side: .new(color: theme.colorScheme.outline),
+  ///   fixedSize: RRulePickerThemeData.defaultSplitSelectionButtonSegmentSize,
+  /// ).copyWith(
+  ///   foregroundColor: .resolveWith((states) {
+  ///     return states.contains(WidgetState.selected)
+  ///         ? theme.colorScheme.onSecondaryContainer
+  ///         : theme.colorScheme.onSurface;
+  ///   }),
+  ///   backgroundColor: .resolveWith((states) {
+  ///     return states.contains(WidgetState.selected)
+  ///         ? theme.colorScheme.secondaryContainer
+  ///         : Colors.transparent;
+  ///   }),
+  ///   animationDuration: kThemeAnimationDuration,
+  /// )
+  /// ```
+  ///
+  /// See [OutlinedButton.style] and [OutlinedButton.styleFrom].
   final ButtonStyle? splitSegmentedButtonStyle;
 
   /// Creates a new [RRulePickerThemeData] with the provided styling options.

@@ -12,6 +12,7 @@ import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 import 'package:rrule_picker/src/weekly.dart';
+import 'package:rrule_picker/theme.dart';
 import 'package:spot/spot.dart';
 
 import '../helpers.dart';
@@ -187,23 +188,21 @@ void main() {
         ),
       );
 
-      final container = spot<SplitButton<DayOfWeek>>()
-          .spot<AnimatedContainer>()
+      final style = spot<SplitButton<DayOfWeek>>()
+          .spot<OutlinedButton>()
           .existsAtLeastOnce()
           .widgets
-          .first;
+          .whereType<OutlinedButton>()
+          .first
+          .style;
 
       expect(
-        container,
-        isA<AnimatedContainer>().having(
-          (container) => container.decoration,
-          'decoration',
-          isA<ShapeDecoration>().having(
-            (decoration) => decoration.color,
-            'color',
-            theme.colorScheme.secondaryContainer,
-          ),
-        ),
+        style?.fixedSize?.resolve(const {}),
+        RRulePickerThemeData.defaultSplitSegmentedButtonSegmentSize,
+      );
+      expect(
+        style?.foregroundColor?.resolve(const {.selected}),
+        theme.colorScheme.onSecondaryContainer,
       );
     });
 

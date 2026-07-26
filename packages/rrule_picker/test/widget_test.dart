@@ -4,10 +4,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
+import 'package:kiri_check/kiri_check.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/daily.dart';
+import 'package:rrule_picker/src/end_date.dart';
 import 'package:rrule_picker/src/excluded_dates.dart';
 import 'package:rrule_picker/src/monthly.dart';
+import 'package:rrule_picker/src/shared/labeled_switch.dart';
 import 'package:rrule_picker/src/weekly.dart';
 import 'package:rrule_picker/src/yearly.dart';
 import 'package:spot/spot.dart';
@@ -148,7 +152,7 @@ void main() {
         final l = tester.localizations<RRulePicker>();
         await act.tap(spotText(l.rrulePickerSkip, exact: true));
         await tester.pumpAndSettle();
-        await act.tap(spot<DatePickerDialog>().spotText('OK'));
+        await act.tap(spot<DatePickerDialog>().spotText('OK', exact: true));
         await tester.pumpAndSettle();
 
         expect(controller.value, contains(warsaw));
@@ -269,28 +273,63 @@ void main() {
         spot<YearlyPicker>().existsOnce();
       });
 
+      testWidgets('$EndDate widget is shown '
+          'when type != .never', (tester) async {
+        for (final type in <RecurrenceType>[
+          .daily,
+          .weekly,
+          .monthly,
+          .yearly,
+        ]) {
+          final rrule = 'RRULE:FREQ=$type';
+
+          await tester.pumpWrapped(RRulePicker(initialRRule: rrule));
+
+          spot<EndDate>().existsOnce();
+        }
+      });
+
+      testWidgets('$EndDate widget is not shown '
+          'when type == .never', (tester) async {
+        await tester.pumpWrapped(const RRulePicker(initialRRule: ''));
+
+        spot<EndDate>().doesNotExist();
+      });
+
       testWidgets('$ExcludedDates widget is shown '
           'when enabled and type != .never', (tester) async {
-        await tester.pumpWrapped(
-          const RRulePicker(
-            initialRRule: 'RRULE:FREQ=DAILY',
-            enableExcludedDates: true,
-          ),
-        );
+        for (final type in <RecurrenceType>[
+          .daily,
+          .weekly,
+          .monthly,
+          .yearly,
+        ]) {
+          final rrule = 'RRULE:FREQ=$type';
 
-        spot<ExcludedDates>().existsOnce();
+          await tester.pumpWrapped(
+            RRulePicker(initialRRule: rrule, enableExcludedDates: true),
+          );
+
+          spot<ExcludedDates>().existsOnce();
+        }
       });
 
       testWidgets('$ExcludedDates widget is not shown '
           'when disabled', (tester) async {
-        await tester.pumpWrapped(
-          const RRulePicker(
-            initialRRule: 'RRULE:FREQ=DAILY',
-            enableExcludedDates: false,
-          ),
-        );
+        for (final type in <RecurrenceType>[
+          .daily,
+          .weekly,
+          .monthly,
+          .yearly,
+        ]) {
+          final rrule = 'RRULE:FREQ=$type';
 
-        spot<ExcludedDates>().doesNotExist();
+          await tester.pumpWrapped(
+            RRulePicker(initialRRule: rrule, enableExcludedDates: false),
+          );
+
+          spot<ExcludedDates>().doesNotExist();
+        }
       });
 
       testWidgets('$ExcludedDates widget is not shown '
@@ -336,6 +375,17 @@ void main() {
               widgetProp('padding', (widget) => widget.padding),
               (value) => value == theme.padding,
             )
+            .existsOnce();
+      });
+
+      testWidgets('$EndDate widget is shown with UNTIL date', (tester) async {
+        final date = DateTime.now();
+        final rrule = 'RRULE:FREQ=DAILY;UNTIL=${endDateFormatter.format(date)}';
+
+        await tester.pumpWrapped(RRulePicker(initialRRule: rrule));
+
+        spot<EndDate>()
+            .spotText(DateFormat.yMMMMEEEEd().format(date))
             .existsOnce();
       });
 
@@ -404,6 +454,24 @@ void main() {
 
         expect(receivedRRule, 'RRULE:FREQ=MONTHLY;INTERVAL=7;BYMONTHDAY=1');
       });
+
+      testWidgets('onRRuleChanged callback is called '
+          'when $EndDate switch is toggled', (tester) async {
+        String? receivedRRule;
+
+        await tester.pumpWrapped(
+          RRulePicker(
+            initialRRule: 'RRULE:FREQ=DAILY',
+            onRRuleChanged: (rrule) => receivedRRule = rrule,
+          ),
+        );
+
+        expect(receivedRRule, null);
+
+        await act.tap(spot<EndDate>().spot<LabeledSwitch>());
+
+        expect(receivedRRule, contains('UNTIL='));
+      });
     });
 
     group('controller integration', () {
@@ -437,6 +505,51 @@ void main() {
 
         ChangeNotifier.debugAssertNotDisposed(controller);
       });
+
+      testWidgets('controller includes UNTIL in value '
+          'when $EndDate is enabled', (tester) async {
+        final controller = RRulePickerController(
+          initialRRule: 'RRULE:FREQ=WEEKLY',
+        );
+
+        await tester.pumpWrapped(RRulePicker(controller: controller));
+        await act.tap(spot<EndDate>().spot<LabeledSwitch>());
+
+        expect(controller.value, contains('UNTIL='));
+      });
+
+      testWidgets('controller does not include UNTIL in value '
+          'when $EndDate is disabled', (tester) async {
+        final controller = RRulePickerController(
+          initialRRule: 'RRULE:FREQ=DAILY;UNTIL=20260725',
+        );
+
+        await tester.pumpWrapped(RRulePicker(controller: controller));
+        await act.tap(spot<EndDate>().spot<LabeledSwitch>());
+
+        expect(controller.value, isNot(contains('UNTIL=')));
+      });
+
+      testWidgets('controller does not include UNTIL or EXDATE in value '
+          'when recurrence type == .never', (tester) async {
+        final controller = RRulePickerController(
+          initialRRule:
+              'RRULE:FREQ=DAILY;UNTIL=20260725;EXDATE;VALUE=DATE:20260727',
+        );
+
+        await tester.pumpWrapped(RRulePicker(controller: controller));
+        await act.tap(spot<DropdownButton<RecurrenceType>>());
+        await act.tap(
+          spotText(
+            tester.localizations<RRulePicker>().rrulePickerRecurrenceType(
+              RecurrenceType.never.name,
+            ),
+          ),
+        );
+
+        expect(controller.value, isNot(contains('UNTIL=')));
+        expect(controller.value, isNot(contains('EXDATE;VALUE=DATE:')));
+      });
     });
 
     group('didUpdateWidget', () {
@@ -445,7 +558,7 @@ void main() {
         var controller = RRulePickerController();
         await tester.pumpWrapped(RRulePicker(controller: controller));
 
-        controller = RRulePickerController();
+        controller = .new();
         await tester.pumpWrapped(RRulePicker(controller: controller));
 
         expect(tester.takeException(), null);
@@ -516,30 +629,28 @@ void main() {
       tearDown(() => controller.dispose());
 
       test('sets correct default values', () {
-        controller = RRulePickerController();
+        controller = .new();
 
         expect(controller.value, '');
         expect(controller.excludedDatesEnabled, true);
       });
 
       test('handles initialRRule', () {
-        controller = RRulePickerController(
-          initialRRule: 'RRULE:FREQ=DAILY;INTERVAL=3',
-        );
+        controller = .new(initialRRule: 'RRULE:FREQ=DAILY;INTERVAL=3');
 
         expect(controller.value, 'RRULE:FREQ=DAILY;INTERVAL=3');
       });
 
       test('handles enableExcludedDates', () {
-        controller = RRulePickerController(enableExcludedDates: false);
+        controller = .new(enableExcludedDates: false);
 
         expect(controller.excludedDatesEnabled, false);
       });
 
       test('handles all parameters', () {
-        controller = RRulePickerController(
+        controller = .new(
           initialRRule:
-              'RRULE:FREQ=WEEKLY;INTERVAL=9;BYDAY=SU;'
+              'RRULE:FREQ=WEEKLY;INTERVAL=9;BYDAY=SU;UNTIL=20270720;'
               'EXDATE;VALUE=DATE:20260703',
           defaultTimeZone: 'Europe/Warsaw',
           enableExcludedDates: true,
@@ -547,7 +658,7 @@ void main() {
 
         expect(
           controller.value,
-          'RRULE:FREQ=WEEKLY;INTERVAL=9;BYDAY=SU;'
+          'RRULE:FREQ=WEEKLY;INTERVAL=9;BYDAY=SU;UNTIL=20270720;'
           'EXDATE;TZID=Europe/Warsaw;VALUE=DATE:20260703',
         );
         expect(controller.excludedDatesEnabled, true);
@@ -574,7 +685,7 @@ void main() {
       tearDown(() => controller.dispose());
 
       test('handles empty string', () {
-        controller = RRulePickerController(initialRRule: 'RRULE:FREQ=DAILY');
+        controller = .new(initialRRule: 'RRULE:FREQ=DAILY');
 
         controller.setRRule('');
 
@@ -582,7 +693,7 @@ void main() {
       });
 
       test('handles DAILY rrule', () {
-        controller = RRulePickerController();
+        controller = .new();
 
         controller.setRRule('RRULE:FREQ=DAILY;INTERVAL=3');
 
@@ -590,7 +701,7 @@ void main() {
       });
 
       test('handles WEEKLY rrule', () {
-        controller = RRulePickerController();
+        controller = .new();
 
         controller.setRRule('RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,WE,FR');
 
@@ -598,7 +709,7 @@ void main() {
       });
 
       test('handles MONTHLY rrule', () {
-        controller = RRulePickerController();
+        controller = .new();
 
         controller.setRRule('RRULE:FREQ=MONTHLY;INTERVAL=5;BYMONTHDAY=15');
 
@@ -606,7 +717,7 @@ void main() {
       });
 
       test('handles YEARLY rrule', () {
-        controller = RRulePickerController();
+        controller = .new();
 
         controller.setRRule(
           'RRULE:FREQ=YEARLY;INTERVAL=10;BYMONTH=1;BYMONTHDAY=1',
@@ -619,7 +730,7 @@ void main() {
       });
 
       test('handles defaultTimeZone', () {
-        controller = RRulePickerController();
+        controller = .new();
 
         controller.setRRule(
           'RRULE:FREQ=DAILY;INTERVAL=1;EXDATE;VALUE=DATE:20260703',
@@ -635,9 +746,8 @@ void main() {
 
       test('does not notify when set to the same value', () {
         var listenerCallCount = 0;
-        controller = RRulePickerController(
-          initialRRule: 'RRULE:FREQ=DAILY;INTERVAL=2',
-        )..addListener(() => ++listenerCallCount);
+        controller = .new(initialRRule: 'RRULE:FREQ=DAILY;INTERVAL=2')
+          ..addListener(() => ++listenerCallCount);
 
         controller.setRRule('RRULE:FREQ=DAILY;INTERVAL=2');
 
@@ -646,19 +756,43 @@ void main() {
 
       test('notifies on change', () {
         var listenerCallCount = 0;
-        controller = RRulePickerController()
-          ..addListener(() => ++listenerCallCount);
+        controller = .new()..addListener(() => ++listenerCallCount);
 
         controller.setRRule('RRULE:FREQ=DAILY');
         expect(listenerCallCount, greaterThan(0));
       });
 
       test('handles malformed RRULE strings', () {
-        controller = RRulePickerController();
+        controller = .new();
 
         controller.setRRule('INVALID_RRULE');
 
         expect(controller.value, '');
+      });
+
+      property('value includes UNTIL when $EndDate is enabled', () {
+        forAll(date().map(endDateFormatter.format), (date) {
+          controller.setRRule('RRULE:FREQ=DAILY;UNTIL=$date');
+
+          expect(controller.value, contains('UNTIL=$date'));
+        }, setUp: () => controller = .new());
+      });
+
+      test('value does not include UNTIL when $EndDate is disabled', () {
+        controller = .new();
+
+        controller.setRRule('RRULE:FREQ=DAILY');
+
+        expect(controller.value, isNot(contains('UNTIL=')));
+      });
+
+      test('value does not include UNTIL when recurrence type is .never', () {
+        controller = .new(initialRRule: 'RRULE:FREQ=DAILY;UNTIL=20260725');
+
+        controller.setRRule('');
+
+        expect(controller.value, '');
+        expect(controller.value, isNot(contains('UNTIL=')));
       });
     });
 
@@ -822,3 +956,5 @@ void main() {
     });
   });
 }
+
+final endDateFormatter = DateFormat('yyyyMMdd');

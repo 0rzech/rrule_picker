@@ -354,7 +354,7 @@ class RRulePickerController extends ValueListenable<String>
 
   void _buildRRulePart(StringBuffer sb) {
     switch (_recurrenceType.value) {
-      case .never:
+      case .never: // noop
         ;
       case .daily:
         _daily.buildRRulePart(sb);

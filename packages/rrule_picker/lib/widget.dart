@@ -366,10 +366,12 @@ class RRulePickerController extends ValueListenable<String>
         _yearly.buildRRulePart(sb);
     }
 
-    _endDate.buildRRulePart(sb);
+    if (_recurrenceType.value != .never) {
+      _endDate.buildRRulePart(sb);
 
-    if (_recurrenceType.value != .never && excludedDatesEnabled) {
-      _excludedDates.buildRRulePart(sb);
+      if (_excludedDatesEnabled.value) {
+        _excludedDates.buildRRulePart(sb);
+      }
     }
   }
 }

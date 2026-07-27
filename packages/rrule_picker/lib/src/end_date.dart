@@ -75,7 +75,7 @@ class _EndDateState extends State<EndDate> {
     final now = DateTime.now();
     final date = await showDatePicker(
       context: context,
-      initialDate: DateTime(now.year, now.month, now.day),
+      initialDate: widget.controller.value.date,
       firstDate: DateTime(1900),
       lastDate: DateTime(now.add(const Duration(days: 200 * 365)).year),
     );

@@ -5,6 +5,7 @@
 import 'dart:io';
 
 final sep = Platform.pathSeparator;
+const dirNamesToDelete = ['localizations', 'failures'];
 
 Future<void> main() async {
   var errorCode = 0;
@@ -63,8 +64,9 @@ Future<int> runDelete(Directory dir) async {
   final futures = await dir
       .list(recursive: true, followLinks: false)
       .where((entity) {
-        final path = entity.path;
-        return path.contains('${sep}localizations$sep') && entity is File;
+        return dirNamesToDelete.any((dirName) {
+          return entity.path.contains('$sep$dirName$sep') && entity is File;
+        });
       })
       .map((file) async {
         try {

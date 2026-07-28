@@ -9,13 +9,13 @@ RRULE picker is a widget used to manipulate RRULEs in accordance to a subset of 
 
   * Daily, for example `RRULE:FREQ=DAILY;INTERVAL=1`.
   * Weekly, by selected days of each nth week, for example `RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,TH,SU`.
-  * Monthly, by nth day of each nth month, for example `RRULE:FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=4`.
+  * Monthly, by the nth day of each nth month, for example `RRULE:FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=4`.
   * Monthly, by weekday of nth week of nth month, for example `RRULE:FREQ=MONTHLY;INTERVAL=5;BYDAY=FR;BYSETPOS=-1`.
-  * Yearly, by nth day of nth month, for example `RRULE:FREQ=YEARLY;BYMONTH=7;BYMONTHDAY=8`.
+  * Yearly, by the nth day of nth month, for example `RRULE:FREQ=YEARLY;BYMONTH=7;BYMONTHDAY=8`.
   * Yearly, by weekday of nth week of nth month, for example `RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=WE;BYSETPOS=4`.
 
-* Allows picking multiple excluded dates,
-for example `EXDATE;VALUE=DATE:20561112,20591101,20840330,20870510`.
+* Allows setting recurrence end date, for example `UNTIL=20991231`.
+* Allows picking multiple excluded dates, for example `EXDATE;VALUE=DATE:20561112,20591101,20840330,20870510`.
 * Translated to 36 languages.
 * Uses [flutter_localizations](https://api.flutter.dev/flutter/flutter_localizations/) and [intl](https://pub.dev/packages/intl) for fluent translations.
 

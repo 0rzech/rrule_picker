@@ -61,6 +61,7 @@ class _MonthlyPickerState extends State<MonthlyPicker> {
     return ValueListenableBuilder(
       valueListenable: controller.intervalSegmentType,
       builder: (_, segmentType, interval) => Column(
+        mainAxisSize: .min,
         spacing: 8,
         children: [
           interval!,

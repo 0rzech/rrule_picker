@@ -51,6 +51,7 @@ class _ExcludedDatesState extends State<ExcludedDates> {
     return ValueListenableBuilder(
       valueListenable: widget.controller,
       builder: (_, value, _) => Column(
+        mainAxisSize: .min,
         crossAxisAlignment: .start,
         children: [
           addButton,

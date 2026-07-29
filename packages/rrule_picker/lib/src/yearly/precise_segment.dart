@@ -20,6 +20,7 @@ class _PreciseIntervalSegment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
+    mainAxisSize: .min,
     spacing: 8,
     children: [
       intervalPicker,

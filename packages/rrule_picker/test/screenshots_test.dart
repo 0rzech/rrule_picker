@@ -130,22 +130,12 @@ extension on WidgetTester {
         ),
         localizationsDelegates: RRulePickerLocalizations.localizationsDelegates,
         supportedLocales: RRulePickerLocalizations.supportedLocales,
-        home: LayoutBuilder(
-          builder: (_, constraints) => SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: .new(
-                minWidth: constraints.maxWidth,
-                minHeight: constraints.maxHeight,
-              ),
-              child: Center(
-                child: RepaintBoundary(
-                  child: Material(
-                    child: RRulePicker(
-                      initialRRule: rrule,
-                      theme: const .new(padding: .all(16)),
-                    ),
-                  ),
-                ),
+        home: Center(
+          child: RepaintBoundary(
+            child: Material(
+              child: RRulePicker(
+                initialRRule: rrule,
+                theme: const .new(padding: .all(16)),
               ),
             ),
           ),

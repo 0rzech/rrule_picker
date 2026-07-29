@@ -70,7 +70,11 @@ class _WeeklyPickerState extends State<WeeklyPicker> {
       ),
     );
 
-    return Column(spacing: 8, children: [interval, dayOfWeekSelector]);
+    return Column(
+      mainAxisSize: .min,
+      spacing: 8,
+      children: [interval, dayOfWeekSelector],
+    );
   }
 }
 

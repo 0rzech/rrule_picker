@@ -207,6 +207,7 @@ class _RRulePickerState extends State<RRulePicker> {
                 : const SizedBox.shrink();
 
             return Column(
+              mainAxisSize: .min,
               crossAxisAlignment: .start,
               spacing: 8,
               children: [

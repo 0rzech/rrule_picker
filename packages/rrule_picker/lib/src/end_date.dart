@@ -57,7 +57,11 @@ class _EndDateState extends State<EndDate> {
           builder: (_, constraints) {
             final width = constraints.maxWidth - theme.padding.vertical;
             return width < global.narrowLayoutBreakpoint
-                ? Column(spacing: 8, children: [endSwitch, dateButton])
+                ? Column(
+                    mainAxisSize: .min,
+                    spacing: 8,
+                    children: [endSwitch, dateButton],
+                  )
                 : Row(
                     spacing: 8,
                     children: [

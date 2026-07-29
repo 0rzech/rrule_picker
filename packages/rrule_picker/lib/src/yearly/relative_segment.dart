@@ -30,6 +30,7 @@ class _RelativeIntervalSegment extends StatelessWidget {
 
         return width < global.narrowLayoutBreakpoint
             ? Column(
+                mainAxisSize: .min,
                 spacing: 8,
                 children: [
                   intervalPicker,
@@ -42,6 +43,7 @@ class _RelativeIntervalSegment extends StatelessWidget {
                 ],
               )
             : Column(
+                mainAxisSize: .min,
                 spacing: 8,
                 children: [
                   intervalPicker,

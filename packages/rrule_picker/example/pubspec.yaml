@@ -15,13 +15,11 @@ dependencies:
     sdk: flutter
   rrule_picker: any
   url_launcher: any
-  vector_graphics: any
 
 dev_dependencies:
   flutter_lints: any
   flutter_test:
     sdk: flutter
-  vector_graphics_compiler: any
 
 flutter:
   uses-material-design: true

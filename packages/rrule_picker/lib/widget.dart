@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/daily.dart';
+import 'package:rrule_picker/src/end_date.dart';
 import 'package:rrule_picker/src/excluded_dates.dart';
 import 'package:rrule_picker/src/monthly.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
@@ -197,6 +198,10 @@ class _RRulePickerState extends State<RRulePicker> {
               .yearly => YearlyPicker(controller: _controller._yearly),
             };
 
+            final endDate = type != .never
+                ? EndDate(controller: _controller._endDate)
+                : const SizedBox.shrink();
+
             final excluder = type != .never && _controller.excludedDatesEnabled
                 ? ExcludedDates(controller: _controller._excludedDates)
                 : const SizedBox.shrink();
@@ -204,7 +209,13 @@ class _RRulePickerState extends State<RRulePicker> {
             return Column(
               crossAxisAlignment: .start,
               spacing: 8,
-              children: [title!, decorate.dropdown(dropdown), picker, excluder],
+              children: [
+                title!,
+                decorate.dropdown(dropdown),
+                picker,
+                endDate,
+                excluder,
+              ],
             );
           },
           child: theme.headerTheme.showHeaderOrDefault
@@ -231,6 +242,7 @@ class RRulePickerController extends ValueListenable<String>
   late final WeeklyPickerController _weekly;
   late final MonthlyPickerController _monthly;
   late final YearlyPickerController _yearly;
+  late final EndDateController _endDate;
   late final ExcludedDatesController _excludedDates;
   late final ValueNotifier<bool> _excludedDatesEnabled;
 
@@ -260,6 +272,7 @@ class RRulePickerController extends ValueListenable<String>
     _weekly = .new(listener: _rruleChanged, initialRRule: initialRRule);
     _monthly = .new(listener: _rruleChanged, initialRRule: initialRRule);
     _yearly = .new(listener: _rruleChanged, initialRRule: initialRRule);
+    _endDate = .new(initialRRule: initialRRule)..addListener(_rruleChanged);
 
     _excludedDates = .new(
       initialRRule: initialRRule,
@@ -277,6 +290,7 @@ class RRulePickerController extends ValueListenable<String>
   void dispose() {
     _excludedDatesEnabled.dispose();
     _excludedDates.dispose();
+    _endDate.dispose();
     _yearly.dispose();
     _monthly.dispose();
     _weekly.dispose();
@@ -327,6 +341,7 @@ class RRulePickerController extends ValueListenable<String>
     _weekly.setRRule(rrule);
     _monthly.setRRule(rrule);
     _yearly.setRRule(rrule);
+    _endDate.setRRule(rrule);
     _excludedDates.setRRule(rrule, defaultTimeZone);
   }
 
@@ -339,7 +354,7 @@ class RRulePickerController extends ValueListenable<String>
 
   void _buildRRulePart(StringBuffer sb) {
     switch (_recurrenceType.value) {
-      case .never:
+      case .never: // noop
         ;
       case .daily:
         _daily.buildRRulePart(sb);
@@ -351,8 +366,12 @@ class RRulePickerController extends ValueListenable<String>
         _yearly.buildRRulePart(sb);
     }
 
-    if (_recurrenceType.value != .never && excludedDatesEnabled) {
-      _excludedDates.buildRRulePart(sb);
+    if (_recurrenceType.value != .never) {
+      _endDate.buildRRulePart(sb);
+
+      if (_excludedDatesEnabled.value) {
+        _excludedDates.buildRRulePart(sb);
+      }
     }
   }
 }

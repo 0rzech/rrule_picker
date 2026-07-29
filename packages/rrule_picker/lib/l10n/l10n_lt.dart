@@ -29,6 +29,9 @@ class RRulePickerLocalizationsLt extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEndAfterDate => 'Pabaiga po datos';
+
+  @override
   String rrulePickerEveryDaily(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

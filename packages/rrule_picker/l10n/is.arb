@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Dagur mánaðar",
   "rrulePickerDayOfWeek": "Dagur vikunnar",
   "rrulePickerDays": "{count, plural, one{dagur} other{dagar}}",
+  "rrulePickerEndAfterDate": "Lýkur eftir dagsetningu",
   "rrulePickerEveryDaily": "{count, plural, other{á hverjum}}",
   "rrulePickerEveryMonthly": "{count, plural, other{á hverjum}}",
   "rrulePickerEveryWeekly": "{count, plural, other{á hverjum}}",

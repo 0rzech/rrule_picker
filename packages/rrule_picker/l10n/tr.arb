@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Ayın günü",
   "rrulePickerDayOfWeek": "Haftanın günü",
   "rrulePickerDays": "{count, plural, other{gün}}",
+  "rrulePickerEndAfterDate": "Tarihten sonra bitiş",
   "rrulePickerEveryDaily": "{count, plural, other{her}}",
   "rrulePickerEveryMonthly": "{count, plural, other{her}}",
   "rrulePickerEveryWeekly": "{count, plural, other{her}}",

@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Dan u mjesecu",
   "rrulePickerDayOfWeek": "Dan u tjednu",
   "rrulePickerDays": "{count, plural, one{dan} few{dana} other{dani}}",
+  "rrulePickerEndAfterDate": "Kraj nakon datuma",
   "rrulePickerEveryDaily": "{count, plural, one{svaki} few{svaka} other{svakih}}",
   "rrulePickerEveryMonthly": "{count, plural, one{svaki} few{svaka} other{svakih}}",
   "rrulePickerEveryWeekly": "{count, plural, one{svaki} few{svaka} other{svakih}}",

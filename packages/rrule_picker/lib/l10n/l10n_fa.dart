@@ -28,6 +28,9 @@ class RRulePickerLocalizationsFa extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEndAfterDate => 'اتمام پس از تاریخ';
+
+  @override
   String rrulePickerEveryDaily(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

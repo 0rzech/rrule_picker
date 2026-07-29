@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Deň v mesiaci",
   "rrulePickerDayOfWeek": "Deň v týždni",
   "rrulePickerDays": "{count, plural, one{deň} few{dni} other{dní}}",
+  "rrulePickerEndAfterDate": "Koniec po dátume",
   "rrulePickerEveryDaily": "{count, plural, one{každý} few{každé} other{každých}}",
   "rrulePickerEveryMonthly": "{count, plural, one{každý} few{každé} other{každých}}",
   "rrulePickerEveryWeekly": "{count, plural, one{každý} few{každé} other{každých}}",

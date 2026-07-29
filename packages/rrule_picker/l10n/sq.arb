@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Dita e muajit",
   "rrulePickerDayOfWeek": "Dita e javës",
   "rrulePickerDays": "{count, plural, other{ditë}}",
+  "rrulePickerEndAfterDate": "Përfundon pas datës",
   "rrulePickerEveryDaily": "{count, plural, other{çdo}}",
   "rrulePickerEveryMonthly": "{count, plural, other{çdo}}",
   "rrulePickerEveryWeekly": "{count, plural, other{çdo}}",

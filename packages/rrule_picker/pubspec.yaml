@@ -5,20 +5,24 @@ homepage: https://github.com/0rzech/rrule_picker
 repository: https://github.com/0rzech/rrule_picker/tree/main/packages/rrule_picker
 issue_tracker: https://github.com/0rzech/rrule_picker/issues
 screenshots:
-  - description: Yearly recurrence (relative day).
-    path: screenshots/yearly_relative.png
-  - description: Yearly recurrence (precise day).
-    path: screenshots/yearly_precise.png
-  - description: Monthly recurrence (relative day).
-    path: screenshots/monthly_relative.png
-  - description: Monthly recurrence (precise day).
-    path: screenshots/monthly_precise.png
-  - description: Weekly recurrence.
-    path: screenshots/weekly.png
-  - description: Daily recurrence.
-    path: screenshots/daily.png
-  - description: No recurrence.
-    path: screenshots/never.png
+  - description: Yearly recurrence (relative day, Linux).
+    path: screenshots/linux_yearly_relative.png
+  - description: Yearly recurrence (exact day, Android).
+    path: screenshots/android_yearly_exact.png
+  - description: Monthly recurrence (relative day, iOS).
+    path: screenshots/ios_monthly_relative.png
+  - description: Monthly recurrence (exact day, Linux).
+    path: screenshots/linux_monthly_exact.png
+  - description: Weekly recurrence (Android).
+    path: screenshots/android_weekly.png
+  - description: Weekly recurrence (iOS).
+    path: screenshots/ios_weekly.png
+  - description: Weekly recurrence (Linux).
+    path: screenshots/linux_weekly.png
+  - description: Daily recurrence (Android).
+    path: screenshots/android_daily.png
+  - description: No recurrence (iOS).
+    path: screenshots/ios_never.png
 topics:
   - flutter
   - material

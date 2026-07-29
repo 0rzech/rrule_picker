@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Tanggal bulan",
   "rrulePickerDayOfWeek": "Hari dalam seminggu",
   "rrulePickerDays": "{count, plural, other{hari}}",
+  "rrulePickerEndAfterDate": "Berakhir setelah tanggal",
   "rrulePickerEveryDaily": "{count, plural, other{setiap}}",
   "rrulePickerEveryMonthly": "{count, plural, other{setiap}}",
   "rrulePickerEveryWeekly": "{count, plural, other{setiap}}",

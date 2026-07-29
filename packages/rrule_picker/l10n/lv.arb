@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Mēnesa diena",
   "rrulePickerDayOfWeek": "Nedēļas diena",
   "rrulePickerDays": "{count, plural, one{diena} other{dienas}}",
+  "rrulePickerEndAfterDate": "Beigas pēc datuma",
   "rrulePickerEveryDaily": "{count, plural, other{katru}}",
   "rrulePickerEveryMonthly": "{count, plural, other{katru}}",
   "rrulePickerEveryWeekly": "{count, plural, other{katru}}",

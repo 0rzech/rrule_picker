@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Ден от месеца",
   "rrulePickerDayOfWeek": "Ден от седмицата",
   "rrulePickerDays": "{count, plural, one{ден} other{дни}}",
+  "rrulePickerEndAfterDate": "Край след дата",
   "rrulePickerEveryDaily": "{count, plural, one{всеки} other{на всеки}}",
   "rrulePickerEveryMonthly": "{count, plural, one{всеки} other{на всеки}}",
   "rrulePickerEveryWeekly": "{count, plural, one{всяка} other{на всеки}}",

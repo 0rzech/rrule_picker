@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "월의 일",
   "rrulePickerDayOfWeek": "요일",
   "rrulePickerDays": "{count, plural, other{일}}",
+  "rrulePickerEndAfterDate": "날짜 이후 종료",
   "rrulePickerEveryDaily": "{count, plural, other{매}}",
   "rrulePickerEveryMonthly": "{count, plural, other{매}}",
   "rrulePickerEveryWeekly": "{count, plural, other{매}}",

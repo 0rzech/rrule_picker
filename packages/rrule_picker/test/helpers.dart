@@ -109,6 +109,7 @@ ResolvedThemeData testResolvedTheme({
   RRulePickerTextFieldThemeData? textFieldTheme = const .new(),
   ButtonStyle? segmentedButtonStyle,
   ButtonStyle? splitSegmentedButtonStyle,
+  ButtonStyle? outlinedContentButtonStyle,
 }) => ResolvedThemeData(
   labelStyle: labelStyle,
   padding: padding,
@@ -118,4 +119,5 @@ ResolvedThemeData testResolvedTheme({
   textFieldTheme: textFieldTheme,
   segmentedButtonStyle: segmentedButtonStyle,
   splitSegmentedButtonStyle: splitSegmentedButtonStyle,
+  outlinedContentButtonStyle: outlinedContentButtonStyle,
 );

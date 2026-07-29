@@ -28,6 +28,9 @@ class RRulePickerLocalizationsIs extends RRulePickerLocalizations {
   }
 
   @override
+  String get rrulePickerEndAfterDate => 'Lýkur eftir dagsetningu';
+
+  @override
   String rrulePickerEveryDaily(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

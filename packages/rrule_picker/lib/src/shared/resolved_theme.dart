@@ -38,6 +38,8 @@ class ResolvedThemeData {
   final RRulePickerTextFieldThemeData? textFieldTheme;
   final ButtonStyle? segmentedButtonStyle;
   final ButtonStyle? splitSegmentedButtonStyle;
+  final ButtonStyle? outlinedContentButtonStyle;
+  final LabeledSwitchThemeData? labeledSwitchTheme;
 
   @visibleForTesting
   const ResolvedThemeData({
@@ -49,6 +51,8 @@ class ResolvedThemeData {
     this.textFieldTheme,
     this.segmentedButtonStyle,
     this.splitSegmentedButtonStyle,
+    this.outlinedContentButtonStyle,
+    this.labeledSwitchTheme,
   });
 
   @visibleForTesting
@@ -74,6 +78,16 @@ class ResolvedThemeData {
     ),
     segmentedButtonStyle: RRulePickerThemeData.defaultSegmentedButtonStyle,
     splitSegmentedButtonStyle: defaultSplitSegmentedButtonStyle(theme),
+    outlinedContentButtonStyle:
+        RRulePickerThemeData.defaultOutlinedContentButtonStyle,
+    labeledSwitchTheme: LabeledSwitchThemeData(
+      style: TextButton.styleFrom(
+        padding: LabeledSwitchThemeData.defaultPadding,
+        shape: LabeledSwitchThemeData.defaultShape,
+        textStyle: theme.textTheme.bodyLarge,
+        foregroundColor: theme.colorScheme.onSurface,
+      ),
+    ),
   );
 
   factory ResolvedThemeData.resolve(
@@ -169,6 +183,14 @@ class ResolvedThemeData {
           localTheme?.splitSegmentedButtonStyle ??
           globalTheme?.splitSegmentedButtonStyle ??
           defaultTheme.splitSegmentedButtonStyle,
+      outlinedContentButtonStyle:
+          localTheme?.outlinedContentButtonStyle ??
+          globalTheme?.outlinedContentButtonStyle ??
+          defaultTheme.outlinedContentButtonStyle,
+      labeledSwitchTheme:
+          localTheme?.labeledSwitchTheme ??
+          globalTheme?.labeledSwitchTheme ??
+          defaultTheme.labeledSwitchTheme,
     );
   }
 
@@ -206,7 +228,9 @@ class ResolvedThemeData {
           other.topDropdownTheme == topDropdownTheme &&
           other.textFieldTheme == textFieldTheme &&
           other.segmentedButtonStyle == segmentedButtonStyle &&
-          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
+          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle &&
+          other.outlinedContentButtonStyle == outlinedContentButtonStyle &&
+          other.labeledSwitchTheme == labeledSwitchTheme;
 
   @override
   int get hashCode => Object.hash(
@@ -218,5 +242,7 @@ class ResolvedThemeData {
     textFieldTheme,
     segmentedButtonStyle,
     splitSegmentedButtonStyle,
+    outlinedContentButtonStyle,
+    labeledSwitchTheme,
   );
 }

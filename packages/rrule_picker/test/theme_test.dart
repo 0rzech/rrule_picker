@@ -20,6 +20,7 @@ void main() {
         expect(theme.textFieldTheme, null);
         expect(theme.segmentedButtonStyle, null);
         expect(theme.splitSegmentedButtonStyle, null);
+        expect(theme.outlinedContentButtonStyle, null);
       });
 
       test('constructor accepts and stores all provided parameters', () {
@@ -41,6 +42,9 @@ void main() {
         const splitSegmentedButtonStyle = ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(Colors.green),
         );
+        const outlinedContentButtonStyle = ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.red),
+        );
 
         const theme = RRulePickerThemeData(
           labelStyle: fontSize16,
@@ -51,6 +55,7 @@ void main() {
           textFieldTheme: textFieldTheme,
           segmentedButtonStyle: segmentedButtonStyle,
           splitSegmentedButtonStyle: splitSegmentedButtonStyle,
+          outlinedContentButtonStyle: outlinedContentButtonStyle,
         );
 
         expect(theme.labelStyle, fontSize16);
@@ -61,6 +66,7 @@ void main() {
         expect(theme.textFieldTheme, textFieldTheme);
         expect(theme.segmentedButtonStyle, segmentedButtonStyle);
         expect(theme.splitSegmentedButtonStyle, splitSegmentedButtonStyle);
+        expect(theme.outlinedContentButtonStyle, outlinedContentButtonStyle);
       });
     });
 
@@ -68,6 +74,10 @@ void main() {
       expect(RRulePickerThemeData.defaultPadding, EdgeInsets.zero);
       expect(
         RRulePickerThemeData.defaultSegmentedButtonStyle,
+        const ButtonStyle(visualDensity: .standard),
+      );
+      expect(
+        RRulePickerThemeData.defaultOutlinedContentButtonStyle,
         const ButtonStyle(visualDensity: .standard),
       );
       expect(
@@ -365,6 +375,21 @@ void main() {
         expect(themeA == themeB, false);
       });
 
+      test('returns false when outlinedContentButtonStyle differs', () {
+        final themeA = testTheme(
+          outlinedContentButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue),
+          ),
+        );
+        final themeB = testTheme(
+          outlinedContentButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.red),
+          ),
+        );
+
+        expect(themeA == themeB, false);
+      });
+
       test('handles null comparisons correctly', () {
         final themeA = testTheme(labelStyle: fontSize16);
         const RRulePickerThemeData? themeB = null;
@@ -478,6 +503,22 @@ void main() {
         );
         final themeB = testTheme(
           splitSegmentedButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.red),
+          ),
+        );
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values '
+          'when outlinedContentButtonStyle differs', () {
+        final themeA = testTheme(
+          outlinedContentButtonStyle: const .new(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue),
+          ),
+        );
+        final themeB = testTheme(
+          outlinedContentButtonStyle: const .new(
             backgroundColor: WidgetStatePropertyAll(Colors.red),
           ),
         );
@@ -1354,6 +1395,7 @@ RRulePickerThemeData testTheme({
   RRulePickerTextFieldThemeData? textFieldTheme = const .new(),
   ButtonStyle? segmentedButtonStyle = const .new(),
   ButtonStyle? splitSegmentedButtonStyle = const .new(),
+  ButtonStyle? outlinedContentButtonStyle = const .new(),
   int? narrowLayoutBreakpoint = RRulePicker.defaultNarrowLayoutBreakpoint,
 }) => RRulePickerThemeData(
   labelStyle: labelStyle,
@@ -1364,4 +1406,5 @@ RRulePickerThemeData testTheme({
   textFieldTheme: textFieldTheme,
   segmentedButtonStyle: segmentedButtonStyle,
   splitSegmentedButtonStyle: splitSegmentedButtonStyle,
+  outlinedContentButtonStyle: outlinedContentButtonStyle,
 );

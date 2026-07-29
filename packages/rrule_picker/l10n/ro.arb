@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Zi a lunii",
   "rrulePickerDayOfWeek": "Zi a săptămânii",
   "rrulePickerDays": "{count, plural, one{zi} other{zile}}",
+  "rrulePickerEndAfterDate": "Se termină după dată",
   "rrulePickerEveryDaily": "{count, plural, other{fiecare}}",
   "rrulePickerEveryMonthly": "{count, plural, other{fiecare}}",
   "rrulePickerEveryWeekly": "{count, plural, other{fiecare}}",

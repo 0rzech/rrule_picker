@@ -3,6 +3,7 @@
   "rrulePickerDayOfMonth": "Kuukauden päivä",
   "rrulePickerDayOfWeek": "Viikonpäivä",
   "rrulePickerDays": "{count, plural, one{päivä} other{päiviä}}",
+  "rrulePickerEndAfterDate": "Päättyy päivämäärän jälkeen",
   "rrulePickerEveryDaily": "{count, plural, other{joka}}",
   "rrulePickerEveryMonthly": "{count, plural, other{joka}}",
   "rrulePickerEveryWeekly": "{count, plural, other{joka}}",

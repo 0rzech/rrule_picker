@@ -16,6 +16,9 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   );
   static const defaultSplitSegmentedButtonSegmentShape = StadiumBorder();
   static const defaultSplitSegmentedButtonSegmentSize = Size(80, 40);
+  static const defaultOutlinedContentButtonStyle = ButtonStyle(
+    visualDensity: .standard,
+  );
 
   /// The text style for labels in the picker.
   final TextStyle? labelStyle;
@@ -80,6 +83,32 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   /// See [OutlinedButton.style] and [OutlinedButton.styleFrom].
   final ButtonStyle? splitSegmentedButtonStyle;
 
+  /// The style for outlined content buttons in the picker.
+  /// These buttons keep action results as their labels.
+  ///
+  /// The default is [RRulePickerThemeData.outlinedContentButtonStyle].
+  ///
+  /// See [OutlinedButton.style].
+  final ButtonStyle? outlinedContentButtonStyle;
+
+  /// Theme data for labeled switch buttons. These widgets approximate the look
+  /// and feel of [SwitchListTile], but are actually [TextButton]s having [Row]
+  /// with [Text] and [Switch] as its children.
+  ///
+  /// The default is:
+  ///
+  /// ```dart
+  /// LabeledSwitchThemeData(
+  ///   style: TextButton.styleFrom(
+  ///     padding: LabeledSwitchThemeData.defaultPadding,
+  ///     shape: LabeledSwitchThemeData.defaultShape,
+  ///     textStyle: Theme.of(context).textTheme.bodyLarge,
+  ///     foregroundColor: Theme.of(context).colorScheme.onSurface,
+  ///   ),
+  /// )
+  /// ```
+  final LabeledSwitchThemeData? labeledSwitchTheme;
+
   /// Creates a new [RRulePickerThemeData] with the provided styling options.
   ///
   /// All parameters are optional and can be null, in which case default values
@@ -93,6 +122,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     this.textFieldTheme,
     this.segmentedButtonStyle,
     this.splitSegmentedButtonStyle,
+    this.outlinedContentButtonStyle,
+    this.labeledSwitchTheme,
   });
 
   /// Creates a copy of this theme with the given fields replaced
@@ -109,6 +140,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     RRulePickerTextFieldThemeData? textFieldTheme,
     ButtonStyle? segmentedButtonStyle,
     ButtonStyle? splitSegmentedButtonStyle,
+    ButtonStyle? outlinedContentButtonStyle,
+    LabeledSwitchThemeData? labeledSwitchTheme,
     int? narrowLayoutBreakpoint,
   }) => RRulePickerThemeData(
     labelStyle: labelStyle ?? this.labelStyle,
@@ -120,6 +153,9 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     segmentedButtonStyle: segmentedButtonStyle ?? this.segmentedButtonStyle,
     splitSegmentedButtonStyle:
         splitSegmentedButtonStyle ?? this.splitSegmentedButtonStyle,
+    outlinedContentButtonStyle:
+        outlinedContentButtonStyle ?? this.outlinedContentButtonStyle,
+    labeledSwitchTheme: labeledSwitchTheme ?? this.labeledSwitchTheme,
   );
 
   /// Linearly interpolates between this theme and another theme.
@@ -165,6 +201,16 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
         other.splitSegmentedButtonStyle,
         t,
       ),
+      outlinedContentButtonStyle: ButtonStyle.lerp(
+        outlinedContentButtonStyle,
+        other.outlinedContentButtonStyle,
+        t,
+      ),
+      labeledSwitchTheme: LabeledSwitchThemeData.lerp(
+        labeledSwitchTheme,
+        other.labeledSwitchTheme,
+        t,
+      ),
     );
   }
 
@@ -180,7 +226,9 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
           other.topDropdownTheme == topDropdownTheme &&
           other.textFieldTheme == textFieldTheme &&
           other.segmentedButtonStyle == segmentedButtonStyle &&
-          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle;
+          other.splitSegmentedButtonStyle == splitSegmentedButtonStyle &&
+          other.outlinedContentButtonStyle == outlinedContentButtonStyle &&
+          other.labeledSwitchTheme == labeledSwitchTheme;
 
   @override
   int get hashCode => Object.hash(
@@ -192,6 +240,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     textFieldTheme,
     segmentedButtonStyle,
     splitSegmentedButtonStyle,
+    outlinedContentButtonStyle,
+    labeledSwitchTheme,
   );
 }
 
@@ -427,4 +477,71 @@ class RRulePickerTextFieldThemeData {
 
   @override
   int get hashCode => Object.hash(style, decoration);
+}
+
+/// Theme data for customizing labeled switches in the RRulePicker widget.
+class LabeledSwitchThemeData {
+  /// Default shape used by [style].
+  static const defaultShape = StadiumBorder();
+
+  /// Default padding used by [style].
+  static const defaultPadding = EdgeInsets.symmetric(horizontal: 16);
+
+  /// The style for the button part of the labeled switch.
+  final ButtonStyle? style;
+
+  /// The theme for the switch part of the labeled switch.
+  final SwitchThemeData? switchTheme;
+
+  /// Creates a new [LabeledSwitchThemeData] with the provided styling options.
+  ///
+  /// All parameters are optional and can be null, in which case default values
+  /// will be used.
+  const LabeledSwitchThemeData({this.style, this.switchTheme});
+
+  /// Creates a copy of this theme with the given fields replaced
+  /// by the new values.
+  ///
+  /// If a field is not provided, the existing value is retained.
+  LabeledSwitchThemeData copyWith({
+    ButtonStyle? style,
+    SwitchThemeData? switchTheme,
+  }) => LabeledSwitchThemeData(
+    style: style ?? this.style,
+    switchTheme: switchTheme ?? this.switchTheme,
+  );
+
+  /// Linearly interpolates between two labeled switch themes.
+  ///
+  /// The [t] argument is a value between 0 and 1, where 0 returns
+  /// the first theme and 1 returns the second theme.
+  static LabeledSwitchThemeData? lerp(
+    LabeledSwitchThemeData? a,
+    LabeledSwitchThemeData? b,
+    double t,
+  ) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    if (a == null && b == null) {
+      return null;
+    }
+
+    return LabeledSwitchThemeData(
+      style: ButtonStyle.lerp(a?.style, b?.style, t),
+      switchTheme: SwitchThemeData.lerp(a?.switchTheme, b?.switchTheme, t),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LabeledSwitchThemeData &&
+          other.runtimeType == runtimeType &&
+          other.style == style &&
+          other.switchTheme == switchTheme;
+
+  @override
+  int get hashCode => Object.hash(style, switchTheme);
 }

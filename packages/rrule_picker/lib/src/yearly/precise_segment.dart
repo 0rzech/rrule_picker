@@ -19,13 +19,20 @@ class _PreciseIntervalSegment extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Column(
-    mainAxisSize: .min,
-    spacing: 8,
-    children: [
-      intervalPicker,
-      segmentTypeButton,
-      Row(spacing: 8, children: [monthDropdown, slash, dayOfMonthDropdown]),
-    ],
-  );
+  Widget build(BuildContext context) {
+    final theme = ResolvedTheme.of(context);
+
+    return Column(
+      mainAxisSize: .min,
+      spacing: theme.spacing.column,
+      children: [
+        intervalPicker,
+        segmentTypeButton,
+        Row(
+          spacing: theme.spacing.row,
+          children: [monthDropdown, slash, dayOfMonthDropdown],
+        ),
+      ],
+    );
+  }
 }

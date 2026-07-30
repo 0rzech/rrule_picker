@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kiri_check/kiri_check.dart';
 import 'package:rrule_picker/theme.dart';
 import 'package:rrule_picker/widget.dart';
 
@@ -14,6 +15,7 @@ void main() {
 
         expect(theme.labelStyle, null);
         expect(theme.padding, null);
+        expect(theme.spacing, null);
         expect(theme.headerTheme, null);
         expect(theme.dropdownTheme, null);
         expect(theme.topDropdownTheme, null);
@@ -24,7 +26,8 @@ void main() {
       });
 
       test('constructor accepts and stores all provided parameters', () {
-        const padding = EdgeInsets.all(8);
+        const padding = EdgeInsets.all(16);
+        const spacing = RRulePickerSpacing(row: 5, column: 10);
         const headerTheme = RRulePickerHeaderThemeData(
           showHeader: true,
           style: .new(fontWeight: .bold),
@@ -49,6 +52,7 @@ void main() {
         const theme = RRulePickerThemeData(
           labelStyle: fontSize16,
           padding: padding,
+          spacing: spacing,
           headerTheme: headerTheme,
           dropdownTheme: dropdownTheme,
           topDropdownTheme: topDropdownTheme,
@@ -60,6 +64,7 @@ void main() {
 
         expect(theme.labelStyle, fontSize16);
         expect(theme.padding, padding);
+        expect(theme.spacing, spacing);
         expect(theme.headerTheme, headerTheme);
         expect(theme.dropdownTheme, dropdownTheme);
         expect(theme.topDropdownTheme, topDropdownTheme);
@@ -72,6 +77,10 @@ void main() {
 
     test('static constants have expected values', () {
       expect(RRulePickerThemeData.defaultPadding, EdgeInsets.zero);
+      expect(
+        RRulePickerThemeData.defaultSpacing,
+        const RRulePickerSpacing.defaults(),
+      );
       expect(
         RRulePickerThemeData.defaultSegmentedButtonStyle,
         const ButtonStyle(visualDensity: .standard),
@@ -309,6 +318,13 @@ void main() {
         expect(themeA == themeB, false);
       });
 
+      test('returns false when spacing differs', () {
+        final themeA = testTheme();
+        final themeB = testTheme(spacing: const .defaults(row: 10));
+
+        expect(themeA == themeB, false);
+      });
+
       test('returns false when headerTheme differs', () {
         final themeA = testTheme(headerTheme: const .new(showHeader: true));
         final themeB = testTheme(headerTheme: const .new(showHeader: false));
@@ -423,6 +439,13 @@ void main() {
       test('returns different values when padding differs', () {
         final themeA = testTheme();
         final themeB = testTheme(padding: const .all(16));
+
+        expect(themeA.hashCode, isNot(themeB.hashCode));
+      });
+
+      test('returns different values when spacing differs', () {
+        final themeA = testTheme();
+        final themeB = testTheme(spacing: const .defaults(row: 10));
 
         expect(themeA.hashCode, isNot(themeB.hashCode));
       });
@@ -1381,6 +1404,332 @@ void main() {
       });
     });
   });
+
+  group(RRulePickerSpacing, () {
+    group('constructor', () {
+      property('creates instance with provided row and column values', () {
+        forAll(combine2(float(), float()), (f) {
+          final spacing = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          expect(spacing.row, f.$1);
+          expect(spacing.column, f.$2);
+        });
+      });
+
+      test('accepts zero values', () {
+        const spacing = RRulePickerSpacing(row: 0.0, column: 0.0);
+
+        expect(spacing.row, 0.0);
+        expect(spacing.column, 0.0);
+      });
+    });
+
+    test('defaults constructor creates instance with default values', () {
+      const spacing = RRulePickerSpacing.defaults();
+
+      expect(spacing.row, 8.0);
+      expect(spacing.column, 8.0);
+    });
+
+    property('defaults constructor allows overriding values', () {
+      forAll(combine2(float(), float()), (f) {
+        final spacing = RRulePickerSpacing.defaults(row: f.$1, column: f.$2);
+
+        expect(spacing.row, f.$1);
+        expect(spacing.column, f.$2);
+      });
+    });
+
+    group('copyWith', () {
+      property('with no arguments returns equal instance', () {
+        forAll(combine2(float(), float()), (f) {
+          final spacing = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final copied = spacing.copyWith();
+
+          expect(copied, spacing);
+        });
+      });
+
+      property('updates row when provided', () {
+        forAll(combine3(float(), float(), float()), (f) {
+          final original = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final copied = original.copyWith(row: f.$3);
+
+          expect(copied.row, f.$3);
+          expect(copied.column, f.$2);
+        });
+      });
+
+      property('updates column when provided', () {
+        forAll(combine3(float(), float(), float()), (f) {
+          final original = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final copied = original.copyWith(column: f.$3);
+
+          expect(copied.row, f.$1);
+          expect(copied.column, f.$3);
+        });
+      });
+
+      property('updates both row and column when provided', () {
+        forAll(combine4(float(), float(), float(), float()), (f) {
+          final original = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final copied = original.copyWith(row: f.$3, column: f.$4);
+
+          expect(copied.row, f.$3);
+          expect(copied.column, f.$4);
+        });
+      });
+
+      property('handles null values by retaining originals', () {
+        forAll(combine2(float(), float()), (f) {
+          final original = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final copied = original.copyWith(row: null, column: null);
+
+          expect(copied.row, original.row);
+          expect(copied.column, original.column);
+        });
+      });
+    });
+
+    group('lerp', () {
+      property('with t=0 returns first spacing', () {
+        forAll(combine4(float(), float(), float(), float()), (f) {
+          final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+          final spacingB = RRulePickerSpacing(row: f.$3, column: f.$4);
+
+          final result = RRulePickerSpacing.lerp(spacingA, spacingB, 0);
+
+          expect(result?.row, spacingA.row);
+          expect(result?.column, spacingA.column);
+        });
+      });
+
+      property('with t=1 returns second spacing', () {
+        forAll(combine4(float(), float(), float(), float()), (f) {
+          final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+          final spacingB = RRulePickerSpacing(row: f.$3, column: f.$4);
+
+          final result = RRulePickerSpacing.lerp(spacingA, spacingB, 1);
+
+          expect(result?.row, spacingB.row);
+          expect(result?.column, spacingB.column);
+        });
+      });
+
+      property('with t=0.5 returns average spacing', () {
+        final half = double.maxFinite / 2;
+
+        forAll(
+          combine4(
+            float(min: -half, max: half),
+            float(min: -half, max: half),
+            float(min: -half, max: half),
+            float(min: -half, max: half),
+          ),
+          (f) {
+            final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+            final spacingB = RRulePickerSpacing(row: f.$3, column: f.$4);
+
+            final result = RRulePickerSpacing.lerp(spacingA, spacingB, 0.5);
+
+            expect(result?.row, (spacingA.row + spacingB.row) / 2);
+            expect(result?.column, (spacingA.column + spacingB.column) / 2);
+          },
+        );
+      });
+
+      property('with identical spacings returns the same instance', () {
+        forAll(combine3(float(), float(), float(min: 0, max: 1)), (f) {
+          final spacing = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final result = RRulePickerSpacing.lerp(spacing, spacing, f.$3);
+
+          expect(result, spacing);
+        });
+      });
+
+      property('with both nulls returns null', () {
+        forAll(float(min: 0, max: 1), (f) {
+          final result = RRulePickerSpacing.lerp(null, null, f);
+
+          expect(result, null);
+        });
+      });
+
+      property('handles one null spacing correctly', () {
+        forAll(combine3(float(), float(), float(min: 0, max: 1)), (f) {
+          final spacing = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final resultA = RRulePickerSpacing.lerp(spacing, null, f.$3);
+          final resultB = RRulePickerSpacing.lerp(null, spacing, f.$3);
+
+          expect(resultA, isNotNull);
+          expect(resultB, isNotNull);
+        });
+      });
+
+      property('handles interpolation between zero and non-zero values', () {
+        forAll(combine3(float(), float(), float(min: 0, max: 1)), (f) {
+          const spacingA = RRulePickerSpacing(row: 0.0, column: 0.0);
+          final spacingB = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final result = RRulePickerSpacing.lerp(spacingA, spacingB, f.$3);
+
+          expect(result?.row, f.$1 * f.$3);
+          expect(result?.column, f.$2 * f.$3);
+        });
+      });
+
+      property('handles interpolation with negative values', () {
+        forAll(combine2(float(), float()), (f) {
+          final spacingA = RRulePickerSpacing(row: -f.$1, column: -f.$2);
+          final spacingB = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          final result = RRulePickerSpacing.lerp(spacingA, spacingB, 0.5);
+
+          expect(result?.row, 0.0);
+          expect(result?.column, 0.0);
+        });
+      });
+    });
+
+    group('equality operator', () {
+      property('returns true for identical instances', () {
+        forAll(combine2(float(), float()), (f) {
+          final spacing = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          expect(spacing == spacing, true);
+        });
+      });
+
+      property('returns true for equal instances', () {
+        forAll(combine2(float(), float()), (f) {
+          final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+          final spacingB = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          expect(spacingA == spacingB, true);
+        });
+      });
+
+      property('returns false when row differs', () {
+        forAll(
+          combine3(float(), float(), float()).filter((f) => f.$1 != f.$3),
+          (f) {
+            final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+            final spacingB = RRulePickerSpacing(row: f.$3, column: f.$2);
+
+            expect(spacingA == spacingB, false);
+          },
+        );
+      });
+
+      property('returns false when column differs', () {
+        forAll(
+          combine3(float(), float(), float()).filter((f) => f.$2 != f.$3),
+          (f) {
+            final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+            final spacingB = RRulePickerSpacing(row: f.$1, column: f.$3);
+
+            expect(spacingA == spacingB, false);
+          },
+        );
+      });
+
+      property('returns false when both row and column differ', () {
+        forAll(
+          combine4(float(), float(), float(), float()).filter((f) {
+            return f.$1 != f.$3 && f.$2 != f.$4;
+          }),
+          (f) {
+            final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+            final spacingB = RRulePickerSpacing(row: f.$3, column: f.$4);
+
+            expect(spacingA == spacingB, false);
+          },
+        );
+      });
+
+      property('handles null comparisons correctly', () {
+        forAll(combine2(float(), float()), (f) {
+          final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+          const RRulePickerSpacing? spacingB = null;
+
+          expect(spacingA == spacingB, false);
+          expect(spacingB == spacingA, false);
+        });
+      });
+
+      property('returns false for different types', () {
+        forAll(combine2(float(), float()), (f) {
+          final dynamic spacing = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          expect(spacing == 'not a spacing', false);
+        });
+      });
+    });
+
+    group('hashCode', () {
+      property('returns consistent value for same instance', () {
+        forAll(combine2(float(), float()), (f) {
+          final spacing = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          expect(spacing.hashCode, spacing.hashCode);
+        });
+      });
+
+      property('returns same value for equal instances', () {
+        forAll(combine2(float(), float()), (f) {
+          final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+          final spacingB = RRulePickerSpacing(row: f.$1, column: f.$2);
+
+          expect(spacingA.hashCode, spacingB.hashCode);
+        });
+      });
+
+      property('returns different value when row differs', () {
+        forAll(
+          combine3(float(), float(), float()).filter((f) => f.$1 != f.$3),
+          (f) {
+            final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+            final spacingB = RRulePickerSpacing(row: f.$3, column: f.$2);
+
+            expect(spacingA.hashCode, isNot(spacingB.hashCode));
+          },
+        );
+      });
+
+      property('returns different value when column differs', () {
+        forAll(
+          combine3(float(), float(), float()).filter((f) => f.$2 != f.$3),
+          (f) {
+            final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+            final spacingB = RRulePickerSpacing(row: f.$1, column: f.$3);
+
+            expect(spacingA.hashCode, isNot(spacingB.hashCode));
+          },
+        );
+      });
+
+      property('returns different value when both row and column differ', () {
+        forAll(
+          combine4(float(), float(), float(), float()).filter((f) {
+            return f.$1 != f.$3 && f.$2 != f.$4;
+          }),
+          (f) {
+            final spacingA = RRulePickerSpacing(row: f.$1, column: f.$2);
+            final spacingB = RRulePickerSpacing(row: f.$3, column: f.$4);
+
+            expect(spacingA.hashCode, isNot(spacingB.hashCode));
+          },
+        );
+      });
+    });
+  });
 }
 
 const fontSize16 = TextStyle(fontSize: 16);
@@ -1389,6 +1738,7 @@ const fontSize20 = TextStyle(fontSize: 20);
 RRulePickerThemeData testTheme({
   TextStyle? labelStyle = const .new(),
   EdgeInsetsGeometry? padding = const .all(8),
+  RRulePickerSpacing? spacing = const .defaults(),
   RRulePickerHeaderThemeData? headerTheme = const .new(),
   RRulePickerDropdownThemeData? dropdownTheme = const .new(),
   RRulePickerDropdownThemeData? topDropdownTheme = const .new(),
@@ -1400,6 +1750,7 @@ RRulePickerThemeData testTheme({
 }) => RRulePickerThemeData(
   labelStyle: labelStyle,
   padding: padding,
+  spacing: spacing,
   headerTheme: headerTheme,
   dropdownTheme: dropdownTheme,
   topDropdownTheme: topDropdownTheme,

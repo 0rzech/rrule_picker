@@ -95,12 +95,14 @@ void main() {
     group('constructor', () {
       test('creates instance with all required parameters', () {
         const padding = EdgeInsets.all(8);
+        const spacing = RRulePickerSpacing.defaults();
         const headerTheme = RRulePickerHeaderThemeData();
         const dropdownTheme = RRulePickerDropdownThemeData();
         const topDropdownTheme = RRulePickerDropdownThemeData();
 
         const theme = ResolvedThemeData(
           padding: padding,
+          spacing: spacing,
           headerTheme: headerTheme,
           dropdownTheme: dropdownTheme,
           topDropdownTheme: topDropdownTheme,
@@ -108,6 +110,7 @@ void main() {
 
         expect(theme.labelStyle, null);
         expect(theme.padding, padding);
+        expect(theme.spacing, spacing);
         expect(theme.headerTheme, headerTheme);
         expect(theme.dropdownTheme, dropdownTheme);
         expect(theme.topDropdownTheme, topDropdownTheme);
@@ -120,6 +123,7 @@ void main() {
       test('creates instance with all optional parameters', () {
         const labelStyle = TextStyle(fontSize: 16);
         const padding = EdgeInsets.all(8);
+        const spacing = RRulePickerSpacing.defaults();
         const headerTheme = RRulePickerHeaderThemeData();
         const dropdownTheme = RRulePickerDropdownThemeData();
         const topDropdownTheme = RRulePickerDropdownThemeData();
@@ -131,6 +135,7 @@ void main() {
         const theme = ResolvedThemeData(
           labelStyle: labelStyle,
           padding: padding,
+          spacing: spacing,
           headerTheme: headerTheme,
           dropdownTheme: dropdownTheme,
           topDropdownTheme: topDropdownTheme,
@@ -142,6 +147,7 @@ void main() {
 
         expect(theme.labelStyle, labelStyle);
         expect(theme.padding, padding);
+        expect(theme.spacing, spacing);
         expect(theme.headerTheme, headerTheme);
         expect(theme.dropdownTheme, dropdownTheme);
         expect(theme.topDropdownTheme, topDropdownTheme);

@@ -7,11 +7,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/src/yearly.dart';
-import 'package:rrule_picker/widget.dart';
 import 'package:spot/spot.dart';
 
 import '../helpers.dart';
@@ -20,6 +20,7 @@ void main() {
   group(YearlyPicker, () {
     const theme = ResolvedThemeData(
       padding: .all(8),
+      spacing: .defaults(),
       headerTheme: .new(),
       dropdownTheme: .new(),
       topDropdownTheme: .new(),
@@ -222,19 +223,58 @@ void main() {
     });
 
     testWidgets('applies $ResolvedTheme to $SegmentedButton', (tester) async {
+      const style = ButtonStyle();
       await tester.pumpWrapped(
-        ResolvedTheme(
-          theme: theme,
-          child: YearlyPicker(controller: controller),
+        Builder(
+          builder: (context) => ResolvedTheme(
+            theme: .resolve(context, const .new(segmentedButtonStyle: style)),
+            child: YearlyPicker(controller: controller),
+          ),
         ),
       );
 
       final button = spot<SegmentedButton<IntervalSegmentType>>()
           .existsOnce()
-          .widget
-          .style;
+          .widget;
+      expect(button.style, style);
+    });
 
-      expect(button, theme.segmentedButtonStyle);
+    testWidgets('applies spacing to rows and columns', (tester) async {
+      const spacing = RRulePickerSpacing(row: 5, column: 10);
+
+      await tester.pumpWrapped(
+        Builder(
+          builder: (context) => ResolvedTheme(
+            theme: .resolve(context, const .new(spacing: spacing)),
+            child: YearlyPicker(controller: controller),
+          ),
+        ),
+      );
+
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .existsExactlyNTimes(2);
+
+      spot<Column>()
+          .whereWidget(
+            (w) => w.spacing != spacing.column,
+            description: 'spacing',
+          )
+          .doesNotExist();
+
+      controller.intervalSegmentType.value = const {.relative};
+      await tester.pump();
+
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .existsExactlyNTimes(3);
+
+      spot<Column>()
+          .whereWidget(
+            (w) => w.spacing != spacing.column,
+            description: 'spacing',
+          )
+          .doesNotExist();
     });
 
     testWidgets('renders all months in month dropdown', (tester) async {

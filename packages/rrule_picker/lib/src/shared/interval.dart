@@ -58,13 +58,8 @@ class IntervalPicker extends StatelessWidget {
     );
 
     return Row(
-      children: [
-        everyLabel,
-        const SizedBox(width: 8),
-        countField,
-        const SizedBox(width: 8),
-        daysLabel,
-      ],
+      spacing: theme.spacing.row,
+      children: [everyLabel, countField, daysLabel],
     );
   }
 }

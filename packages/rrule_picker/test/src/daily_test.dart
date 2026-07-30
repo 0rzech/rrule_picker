@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/daily.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
@@ -17,6 +18,7 @@ void main() {
   group(DailyPicker, () {
     const theme = ResolvedThemeData(
       padding: .all(8),
+      spacing: .defaults(),
       headerTheme: .new(),
       dropdownTheme: .new(),
       topDropdownTheme: .new(),
@@ -81,6 +83,24 @@ void main() {
             (style) => style?.color == theme.labelStyle?.color,
           )
           .existsAtLeastOnce();
+    });
+
+    testWidgets('applies spacing to rows and columns', (tester) async {
+      const spacing = RRulePickerSpacing(row: 5, column: 10);
+
+      await tester.pumpWrapped(
+        Builder(
+          builder: (context) => ResolvedTheme(
+            theme: .resolve(context, const .new(spacing: spacing)),
+            child: DailyPicker(controller: controller),
+          ),
+        ),
+      );
+
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .doesNotExist();
+      spot<Column>().doesNotExist();
     });
   });
 

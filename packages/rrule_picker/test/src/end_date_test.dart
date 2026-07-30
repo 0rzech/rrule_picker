@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/end_date.dart';
 import 'package:rrule_picker/src/shared/labeled_switch.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
-import 'package:rrule_picker/widget.dart';
 import 'package:spot/spot.dart';
 
 import '../helpers.dart';
@@ -131,38 +131,58 @@ void main() {
       );
     });
 
-    testWidgets('uses $Column layout for narrow screens', (tester) async {
+    testWidgets('uses $Column layout with correct spacing '
+        'for narrow screens', (tester) async {
+      const spacing = RRulePickerSpacing(row: 5, column: 10);
+
       await tester.pumpWrapped(
         SizedBox(
           width: RRulePicker.defaultNarrowLayoutBreakpoint - 10,
-          child: ResolvedTheme(
-            theme: theme,
-            child: EndDate(controller: controller),
+          child: Builder(
+            builder: (context) {
+              return ResolvedTheme(
+                theme: .resolve(context, const .new(spacing: spacing)),
+                child: EndDate(controller: controller),
+              );
+            },
           ),
         ),
       );
 
-      spot<Column>().withChildren([
-        spot<LabeledSwitch>(),
-        spot<OutlinedButton>(),
-      ]).existsOnce();
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .doesNotExist();
+
+      spot<Column>()
+          .whereWidget(
+            (w) => w.spacing != spacing.column,
+            description: 'spacing',
+          )
+          .doesNotExist();
     });
 
-    testWidgets('uses $Row layout for wide screens', (tester) async {
+    testWidgets('uses $Row layout with correct spacing '
+        'for wide screens', (tester) async {
+      const spacing = RRulePickerSpacing(row: 5, column: 10);
+
       await tester.pumpWrapped(
         SizedBox(
           width: RRulePicker.defaultNarrowLayoutBreakpoint + 10,
-          child: ResolvedTheme(
-            theme: theme,
-            child: EndDate(controller: controller),
+          child: Builder(
+            builder: (context) {
+              return ResolvedTheme(
+                theme: .resolve(context, const .new(spacing: spacing)),
+                child: EndDate(controller: controller),
+              );
+            },
           ),
         ),
       );
 
-      spot<Row>().withChildren([
-        spot<LabeledSwitch>(),
-        spot<OutlinedButton>(),
-      ]).existsOnce();
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .doesNotExist();
+      spot<Column>().doesNotExist();
     });
 
     testWidgets('picks date from date picker', (tester) async {

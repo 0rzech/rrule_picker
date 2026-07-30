@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/monthly.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
@@ -19,6 +20,7 @@ void main() {
   group(MonthlyPicker, () {
     const theme = ResolvedThemeData(
       padding: .all(8),
+      spacing: .defaults(),
       headerTheme: .new(),
       dropdownTheme: .new(),
       topDropdownTheme: .new(),
@@ -166,6 +168,44 @@ void main() {
       final button = spot<SegmentedButton<IntervalSegmentType>>().existsOnce();
 
       expect(button.widget.style, theme.segmentedButtonStyle);
+    });
+
+    testWidgets('applies spacing to rows and columns', (tester) async {
+      const spacing = RRulePickerSpacing(row: 5, column: 10);
+
+      await tester.pumpWrapped(
+        Builder(
+          builder: (context) => ResolvedTheme(
+            theme: .resolve(context, const .new(spacing: spacing)),
+            child: MonthlyPicker(controller: controller),
+          ),
+        ),
+      );
+
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .existsExactlyNTimes(1);
+
+      spot<Column>()
+          .whereWidget(
+            (w) => w.spacing != spacing.column,
+            description: 'spacing',
+          )
+          .doesNotExist();
+
+      controller.intervalSegmentType.value = const {.relative};
+      await tester.pump();
+
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .existsExactlyNTimes(2);
+
+      spot<Column>()
+          .whereWidget(
+            (w) => w.spacing != spacing.column,
+            description: 'spacing',
+          )
+          .doesNotExist();
     });
 
     testWidgets('renders last day option in day of month dropdown', (

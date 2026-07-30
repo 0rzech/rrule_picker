@@ -33,7 +33,7 @@ class LabeledSwitch extends StatelessWidget {
           onPressed: toggle,
           style: theme.labeledSwitchTheme?.style,
           child: Row(
-            spacing: 8,
+            spacing: theme.spacing.row,
             mainAxisAlignment: .spaceBetween,
             children: [
               Flexible(child: Text(label)),

@@ -32,6 +32,7 @@ class ResolvedTheme extends InheritedWidget {
 class ResolvedThemeData {
   final TextStyle? labelStyle;
   final EdgeInsetsGeometry padding;
+  final RRulePickerSpacing spacing;
   final RRulePickerHeaderThemeData headerTheme;
   final RRulePickerDropdownThemeData dropdownTheme;
   final RRulePickerDropdownThemeData topDropdownTheme;
@@ -45,6 +46,7 @@ class ResolvedThemeData {
   const ResolvedThemeData({
     this.labelStyle,
     required this.padding,
+    required this.spacing,
     required this.headerTheme,
     required this.dropdownTheme,
     required this.topDropdownTheme,
@@ -58,6 +60,7 @@ class ResolvedThemeData {
   @visibleForTesting
   factory ResolvedThemeData.defaults(ThemeData theme) => .new(
     padding: RRulePickerThemeData.defaultPadding,
+    spacing: RRulePickerThemeData.defaultSpacing,
     headerTheme: .new(
       showHeader: RRulePickerHeaderThemeData.defaultShowHeader,
       style:
@@ -128,6 +131,8 @@ class ResolvedThemeData {
           defaultTheme.labelStyle,
       padding:
           localTheme?.padding ?? globalTheme?.padding ?? defaultTheme.padding,
+      spacing:
+          localTheme?.spacing ?? globalTheme?.spacing ?? defaultTheme.spacing,
       headerTheme: .new(
         showHeader:
             localTheme?.headerTheme?.showHeader ??
@@ -223,6 +228,7 @@ class ResolvedThemeData {
           other.runtimeType == runtimeType &&
           other.labelStyle == labelStyle &&
           other.padding == padding &&
+          other.spacing == spacing &&
           other.headerTheme == headerTheme &&
           other.dropdownTheme == dropdownTheme &&
           other.topDropdownTheme == topDropdownTheme &&
@@ -236,6 +242,7 @@ class ResolvedThemeData {
   int get hashCode => Object.hash(
     labelStyle,
     padding,
+    spacing,
     headerTheme,
     dropdownTheme,
     topDropdownTheme,

@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
 import 'package:rrule_picker/l10n/l10n_en.dart';
 import 'package:rrule_picker/l10n/l10n_pl.dart';
+import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
@@ -184,6 +185,7 @@ void main() {
       const style = TextStyle(fontSize: 40, color: Colors.blue);
       const theme = ResolvedThemeData(
         padding: .all(8),
+        spacing: .defaults(),
         headerTheme: .new(),
         dropdownTheme: .new(),
         topDropdownTheme: .new(),
@@ -211,6 +213,7 @@ void main() {
       );
       const theme = ResolvedThemeData(
         padding: .all(8),
+        spacing: .defaults(),
         headerTheme: .new(),
         dropdownTheme: .new(),
         topDropdownTheme: .new(),
@@ -236,6 +239,7 @@ void main() {
       const theme = ResolvedThemeData(
         labelStyle: labelStyle,
         padding: .all(8),
+        spacing: .defaults(),
         headerTheme: .new(),
         dropdownTheme: .new(),
         topDropdownTheme: .new(),
@@ -258,6 +262,30 @@ void main() {
             style.fontWeight.equals(.bold);
           })
           .existsExactlyNTimes(2);
+    });
+
+    testWidgets('applies row spacing', (tester) async {
+      const spacing = RRulePickerSpacing(row: 5, column: 10);
+
+      await tester.pumpWrapped(
+        Builder(
+          builder: (context) {
+            return ResolvedTheme(
+              theme: .resolve(context, const .new(spacing: spacing)),
+              child: IntervalPicker(
+                everyUnitText: (_) => 'Every',
+                intervalUnitText: (_) => 'days',
+                controller: controller,
+              ),
+            );
+          },
+        ),
+      );
+
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .doesNotExist();
+      spot<Column>().doesNotExist();
     });
 
     testWidgets('text field has digitsOnly input formatter', (tester) async {

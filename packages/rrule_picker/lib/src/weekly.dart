@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
+import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 
 @internal
@@ -44,12 +45,13 @@ class _WeeklyPickerState extends State<WeeklyPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = RRulePickerLocalizations.of(context);
+    final theme = ResolvedTheme.of(context);
+    final l = RRulePickerLocalizations.of(context);
     final controller = widget.controller;
 
     final interval = IntervalPicker(
-      everyUnitText: localizations.rrulePickerEveryWeekly,
-      intervalUnitText: localizations.rrulePickerWeeks,
+      everyUnitText: l.rrulePickerEveryWeekly,
+      intervalUnitText: l.rrulePickerWeeks,
       controller: controller,
     );
 
@@ -72,7 +74,7 @@ class _WeeklyPickerState extends State<WeeklyPicker> {
 
     return Column(
       mainAxisSize: .min,
-      spacing: 8,
+      spacing: theme.spacing.column,
       children: [interval, dayOfWeekSelector],
     );
   }

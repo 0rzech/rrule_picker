@@ -49,6 +49,7 @@ class _MonthlyPickerState extends State<MonthlyPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ResolvedTheme.of(context);
     final l = RRulePickerLocalizations.of(context);
     final controller = widget.controller;
 
@@ -62,7 +63,7 @@ class _MonthlyPickerState extends State<MonthlyPicker> {
       valueListenable: controller.intervalSegmentType,
       builder: (_, segmentType, interval) => Column(
         mainAxisSize: .min,
-        spacing: 8,
+        spacing: theme.spacing.column,
         children: [
           interval!,
           IntervalSegmentTypeButton(
@@ -88,7 +89,7 @@ class _MonthlyPickerState extends State<MonthlyPicker> {
                 final day = controller.dayOfWeek.value;
 
                 return Row(
-                  spacing: 8,
+                  spacing: theme.spacing.row,
                   children: [
                     _DayOfWeekOrdinalDropdown(
                       dayOfWeekOrdinal: controller.dayOfWeekOrdinal.value,

@@ -21,6 +21,7 @@ void main() {
   group(WeeklyPicker, () {
     const theme = ResolvedThemeData(
       padding: .all(8),
+      spacing: .defaults(),
       headerTheme: .new(),
       dropdownTheme: .new(),
       topDropdownTheme: .new(),
@@ -124,6 +125,41 @@ void main() {
             (style) => style?.color == theme.labelStyle?.color,
           )
           .existsAtLeastOnce();
+    });
+
+    testWidgets('applies spacing to rows and columns', (tester) async {
+      const spacing = RRulePickerSpacing(row: 5, column: 10);
+
+      await tester.pumpWrapped(
+        Builder(
+          builder: (context) => ResolvedTheme(
+            theme: .resolve(context, const .new(spacing: spacing)),
+            child: WeeklyPicker(controller: controller),
+          ),
+        ),
+      );
+
+      final wrap = spot<Wrap>();
+      wrap
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .doesNotExist();
+      wrap
+          .whereWidget(
+            (w) => w.runSpacing != spacing.row,
+            description: 'spacing',
+          )
+          .doesNotExist();
+
+      spot<Row>()
+          .whereWidget((w) => w.spacing != spacing.row, description: 'spacing')
+          .doesNotExist();
+
+      spot<Column>()
+          .whereWidget(
+            (w) => w.spacing != spacing.column,
+            description: 'spacing',
+          )
+          .doesNotExist();
     });
 
     testWidgets('updates selected days when clicking segments', (tester) async {

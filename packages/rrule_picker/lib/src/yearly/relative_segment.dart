@@ -31,25 +31,28 @@ class _RelativeIntervalSegment extends StatelessWidget {
         return width < global.narrowLayoutBreakpoint
             ? Column(
                 mainAxisSize: .min,
-                spacing: 8,
+                spacing: theme.spacing.column,
                 children: [
                   intervalPicker,
                   segmentTypeButton,
-                  Row(spacing: 8, children: [monthDropdown, slash]),
                   Row(
-                    spacing: 8,
+                    spacing: theme.spacing.row,
+                    children: [monthDropdown, slash],
+                  ),
+                  Row(
+                    spacing: theme.spacing.row,
                     children: [dayOfWeekOrdinalDropdown, dayOfWeekDropdown],
                   ),
                 ],
               )
             : Column(
                 mainAxisSize: .min,
-                spacing: 8,
+                spacing: theme.spacing.column,
                 children: [
                   intervalPicker,
                   segmentTypeButton,
                   Row(
-                    spacing: 8,
+                    spacing: theme.spacing.row,
                     children: [
                       monthDropdown,
                       slash,

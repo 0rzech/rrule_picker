@@ -209,7 +209,7 @@ class _RRulePickerState extends State<RRulePicker> {
             return Column(
               mainAxisSize: .min,
               crossAxisAlignment: .start,
-              spacing: 8,
+              spacing: theme.spacing.column,
               children: [
                 title!,
                 decorate.dropdown(dropdown),

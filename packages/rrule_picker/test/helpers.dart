@@ -103,6 +103,7 @@ final exdateFormatter = DateFormat('yyyyMMdd');
 ResolvedThemeData testResolvedTheme({
   TextStyle? labelStyle,
   EdgeInsetsGeometry padding = .zero,
+  RRulePickerSpacing spacing = const .defaults(),
   RRulePickerHeaderThemeData headerTheme = const .new(),
   RRulePickerDropdownThemeData dropdownTheme = const .new(),
   RRulePickerDropdownThemeData topDropdownTheme = const .new(),
@@ -112,6 +113,7 @@ ResolvedThemeData testResolvedTheme({
   ButtonStyle? outlinedContentButtonStyle,
 }) => ResolvedThemeData(
   labelStyle: labelStyle,
+  spacing: spacing,
   padding: padding,
   headerTheme: headerTheme,
   dropdownTheme: dropdownTheme,

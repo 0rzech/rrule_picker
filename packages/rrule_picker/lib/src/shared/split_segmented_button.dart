@@ -21,27 +21,31 @@ class SplitSegmentedButton<T, U> extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    container: true,
-    child: Wrap(
-      alignment: .spaceEvenly,
-      spacing: 8,
-      runSpacing: 8,
-      children: segmentInput
-          .map((value) {
-            final segment = segmentMapper.call(value);
+  Widget build(BuildContext context) {
+    final theme = ResolvedTheme.of(context);
 
-            return SplitButton(
-              key: ValueKey(segment.value),
-              isSelected: selected.contains(segment.value),
-              value: segment.value,
-              onSelected: onSegmentTap,
-              child: Text(segment.text),
-            );
-          })
-          .toList(growable: false),
-    ),
-  );
+    return Semantics(
+      container: true,
+      child: Wrap(
+        alignment: .spaceEvenly,
+        spacing: theme.spacing.row,
+        runSpacing: theme.spacing.row,
+        children: segmentInput
+            .map((value) {
+              final segment = segmentMapper.call(value);
+
+              return SplitButton(
+                key: ValueKey(segment.value),
+                isSelected: selected.contains(segment.value),
+                value: segment.value,
+                onSelected: onSegmentTap,
+                child: Text(segment.text),
+              );
+            })
+            .toList(growable: false),
+      ),
+    );
+  }
 
   void onSegmentTap(T value) {
     if (!selected.contains(value)) {

@@ -1,6 +1,8 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 
@@ -11,6 +13,7 @@ import 'package:rrule_picker/src/shared/split_segmented_button.dart';
 /// and buttons.
 class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   static const defaultPadding = EdgeInsetsGeometry.zero;
+  static const defaultSpacing = RRulePickerSpacing.defaults();
   static const defaultSegmentedButtonStyle = ButtonStyle(
     visualDensity: .standard,
   );
@@ -27,6 +30,8 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   ///
   /// The default is [RRulePickerThemeData.defaultPadding].
   final EdgeInsetsGeometry? padding;
+
+  final RRulePickerSpacing? spacing;
 
   /// Theme data for the header of the picker.
   final RRulePickerHeaderThemeData? headerTheme;
@@ -116,6 +121,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   const RRulePickerThemeData({
     this.labelStyle,
     this.padding,
+    this.spacing,
     this.headerTheme,
     this.dropdownTheme,
     this.topDropdownTheme,
@@ -134,6 +140,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   RRulePickerThemeData copyWith({
     TextStyle? labelStyle,
     EdgeInsetsGeometry? padding,
+    RRulePickerSpacing? spacing,
     RRulePickerHeaderThemeData? headerTheme,
     RRulePickerDropdownThemeData? dropdownTheme,
     RRulePickerDropdownThemeData? topDropdownTheme,
@@ -146,6 +153,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   }) => RRulePickerThemeData(
     labelStyle: labelStyle ?? this.labelStyle,
     padding: padding ?? this.padding,
+    spacing: spacing ?? this.spacing,
     headerTheme: headerTheme ?? this.headerTheme,
     dropdownTheme: dropdownTheme ?? this.dropdownTheme,
     topDropdownTheme: topDropdownTheme ?? this.topDropdownTheme,
@@ -171,6 +179,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
     return RRulePickerThemeData(
       labelStyle: TextStyle.lerp(labelStyle, other.labelStyle, t),
       padding: EdgeInsetsGeometry.lerp(padding, other.padding, t),
+      spacing: RRulePickerSpacing.lerp(spacing, other.spacing, t),
       headerTheme: RRulePickerHeaderThemeData.lerp(
         headerTheme,
         other.headerTheme,
@@ -221,6 +230,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
           other.runtimeType == runtimeType &&
           other.labelStyle == labelStyle &&
           other.padding == padding &&
+          other.spacing == spacing &&
           other.headerTheme == headerTheme &&
           other.dropdownTheme == dropdownTheme &&
           other.topDropdownTheme == topDropdownTheme &&
@@ -234,6 +244,7 @@ class RRulePickerThemeData extends ThemeExtension<RRulePickerThemeData> {
   int get hashCode => Object.hash(
     labelStyle,
     padding,
+    spacing,
     headerTheme,
     dropdownTheme,
     topDropdownTheme,
@@ -544,4 +555,63 @@ class LabeledSwitchThemeData {
 
   @override
   int get hashCode => Object.hash(style, switchTheme);
+}
+
+/// Theme data for customizing spacing in the RRulePicker widget.
+class RRulePickerSpacing {
+  /// The spacing between items in a row (main axis).
+  final double row;
+
+  /// The spacing between items in a column (main axis).
+  final double column;
+
+  /// Creates a new [RRulePickerSpacing] with the provided spacing values.
+  const RRulePickerSpacing({required this.row, required this.column});
+
+  /// Creates a new [RRulePickerSpacing] with the default spacing values.
+  ///
+  /// All parameters are optional and can be null, in which case default values
+  /// will be used.
+  const RRulePickerSpacing.defaults({this.row = 8.0, this.column = 8.0});
+
+  /// Creates a copy of this spacing with the given fields replaced
+  /// by the new values.
+  ///
+  /// If a field is not provided, the existing value is retained.
+  RRulePickerSpacing copyWith({double? row, double? column}) =>
+      RRulePickerSpacing(row: row ?? this.row, column: column ?? this.column);
+
+  /// Linearly interpolates between two spacing configurations.
+  ///
+  /// The [t] argument is a value between 0 and 1, where 0 returns
+  /// the first spacing and 1 returns the second spacing.
+  static RRulePickerSpacing? lerp(
+    RRulePickerSpacing? a,
+    RRulePickerSpacing? b,
+    double t,
+  ) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    if (a == null && b == null) {
+      return null;
+    }
+
+    return RRulePickerSpacing(
+      row: lerpDouble(a?.row, b?.row, t)!,
+      column: lerpDouble(a?.column, b?.column, t)!,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RRulePickerSpacing &&
+          other.runtimeType == runtimeType &&
+          other.row == row &&
+          other.column == column;
+
+  @override
+  int get hashCode => Object.hash(row, column);
 }

@@ -59,11 +59,11 @@ class _EndDateState extends State<EndDate> {
             return width < global.narrowLayoutBreakpoint
                 ? Column(
                     mainAxisSize: .min,
-                    spacing: 8,
+                    spacing: theme.spacing.column,
                     children: [endSwitch, dateButton],
                   )
                 : Row(
-                    spacing: 8,
+                    spacing: theme.spacing.row,
                     children: [
                       Flexible(child: endSwitch),
                       Flexible(child: Center(child: dateButton)),

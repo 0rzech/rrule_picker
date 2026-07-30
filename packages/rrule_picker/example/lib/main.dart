@@ -1,10 +1,13 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:rrule_picker/rrule_picker.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 void main() => runApp(const RRulePickerExampleApp());
 
@@ -66,6 +69,13 @@ class _RRuleExampleState extends State<RRuleExample> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         centerTitle: kIsWeb,
+        actions: [
+          TextButton.icon(
+            onPressed: urlPressed,
+            label: Text(commitHash),
+            icon: const Icon(Icons.commit, semanticLabel: 'Commit hash'),
+          ),
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => SingleChildScrollView(
@@ -116,3 +126,13 @@ class _RRuleExampleState extends State<RRuleExample> {
     }
   }
 }
+
+final urlPressed = switch (const String.fromEnvironment('repositoryUrl')) {
+  '' => null,
+  final url => () => launchUrlString(url),
+};
+
+final commitHash = switch (const String.fromEnvironment('commitHash')) {
+  '' => 'local build',
+  final hash => hash.substring(0, min(8, hash.length)),
+};

@@ -36,7 +36,7 @@ jobs:
             --no-pub \
             --no-wasm-dry-run \
             --build-number '${{ github.run_number }}' \
-            --build-name '${{ github.event.pull_request.head.sha || github.sha }}' \
+            --build-name '0.2.0' \
             --dart-define 'repositoryUrl=${{ github.server_url }}/${{ github.repository }}/tree/${{ github.event.pull_request.head.sha || github.sha }}/packages/rrule_picker/example' \
             --dart-define 'commitHash=${{ github.event.pull_request.head.sha || github.sha }}' \
             --base-href '/${{ github.event.repository.name }}/' \

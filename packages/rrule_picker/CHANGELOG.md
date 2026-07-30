@@ -1,3 +1,12 @@
+## 0.2.0
+
+* Add end date (RRULE `UNTIL`) support
+* Add `Semantics` to `SplitSegmentedButton`
+  * BREAKING: `SplitSegmentedButton` now uses `ButtonStyle` for its segments (made of `OutlinedButton` widgets)
+* Use controller date value for the initial date picker date
+* Add customizable row and column spacing via the `RRulePickerThemeData.spacing` field
+* Set `mainAxisSize` to `.min` for `Column` widgets
+
 ## 0.1.5
 
 * Migrate from Codeberg to GitHub

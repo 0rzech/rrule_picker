@@ -1,6 +1,7 @@
 // Copyright 2026 Piotr Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
+@TestOn('dart-vm')
 @Tags(['screenshots'])
 library;
 

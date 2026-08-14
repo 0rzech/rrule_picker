@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/monthly.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
@@ -59,11 +59,11 @@ void main() {
       final l = tester.localizations<MonthlyPicker>();
       spotText(
         l.rrulePickerEveryMonthly(defaultInterval),
-        exact: true,
+        whole: true,
       ).existsOnce();
       spotText(
         l.rrulePickerMonths(defaultInterval),
-        exact: true,
+        whole: true,
       ).existsAtLeastOnce();
     });
 
@@ -101,7 +101,7 @@ void main() {
 
       final l = tester.localizations<MonthlyPicker>();
       spot<DropdownButton<int>>().existsOnce();
-      spotText(l.rrulePickerDayOfMonth, exact: true).existsOnce();
+      spotText(l.rrulePickerDayOfMonth, whole: true).existsOnce();
     });
 
     testWidgets('renders day of week dropdowns when relative is selected', (
@@ -117,7 +117,7 @@ void main() {
       final l = tester.localizations<MonthlyPicker>();
       final button = spot<SegmentedButton<IntervalSegmentType>>().spotText(
         l.rrulePickerDayOfWeek,
-        exact: true,
+        whole: true,
       );
 
       await act.tap(button);
@@ -125,7 +125,7 @@ void main() {
 
       spot<DropdownButton<DayOfWeekOrdinal>>().existsOnce();
       spot<DropdownButton<DayOfWeek>>().existsOnce();
-      spotText(l.rrulePickerDayOfWeek, exact: true).existsOnce();
+      spotText(l.rrulePickerDayOfWeek, whole: true).existsOnce();
     });
 
     testWidgets('uses provided controller', (tester) async {
@@ -240,7 +240,7 @@ void main() {
       await act.tap(
         spot<SegmentedButton<IntervalSegmentType>>().spotText(
           tester.localizations<MonthlyPicker>().rrulePickerDayOfWeek,
-          exact: true,
+          whole: true,
         ),
       );
       await tester.pumpAndSettle();
@@ -252,7 +252,7 @@ void main() {
       await act.tap(
         spot<SegmentedButton<IntervalSegmentType>>().spotText(
           tester.localizations<MonthlyPicker>().rrulePickerDayOfMonth,
-          exact: true,
+          whole: true,
         ),
       );
       await tester.pumpAndSettle();
@@ -571,18 +571,14 @@ void main() {
       property('initializes with parsed dayOfMonth from rrule', () {
         late MonthlyPickerController controller;
 
-        forAll(
-          integer(min: byMonthDayMin, max: byMonthDayMax - 1),
-          (day) {
-            controller = MonthlyPickerController(
-              initialRRule: 'FREQ=MONTHLY;BYMONTHDAY=$day',
-              listener: () {},
-            );
+        forAll(integer(min: byMonthDayMin, max: byMonthDayMax - 1), (day) {
+          controller = MonthlyPickerController(
+            initialRRule: 'FREQ=MONTHLY;BYMONTHDAY=$day',
+            listener: () {},
+          );
 
-            expect(controller.dayOfMonth.value, day);
-          },
-          tearDown: () => controller.dispose(),
-        );
+          expect(controller.dayOfMonth.value, day);
+        }, tearDown: () => controller.dispose());
       });
 
       property('initializes with parsed dayOfWeek from rrule', () {

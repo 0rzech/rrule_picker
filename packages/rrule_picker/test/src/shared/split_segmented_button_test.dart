@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
 import 'package:rrule_picker/src/shared/split_segmented_button.dart';
@@ -84,7 +84,7 @@ void main() {
         );
 
         await act.tap(
-          spot<SplitButton<int>>().spotText('Option 2', exact: true),
+          spot<SplitButton<int>>().spotText('Option 2', whole: true),
         );
 
         expect(selected, const {1, 2});
@@ -145,7 +145,7 @@ void main() {
         );
 
         await act.tap(
-          spot<SplitButton<int>>().spotText('Option 1', exact: true),
+          spot<SplitButton<int>>().spotText('Option 1', whole: true),
         );
 
         expect(selection, null);
@@ -185,7 +185,7 @@ void main() {
 
       final splitButtons = spot<SplitButton<int>>();
       splitButtons
-          .spotText('Option 1', exact: true)
+          .spotText('Option 1', whole: true)
           .whereWidgetProp(
             widgetProp('textStyle.fontSize', (widget) {
               return widget.textStyle?.fontSize;
@@ -194,7 +194,7 @@ void main() {
           )
           .existsOnce();
       splitButtons
-          .spotText('Option 2', exact: true)
+          .spotText('Option 2', whole: true)
           .whereWidgetProp(
             widgetProp('textStyle.fontSize', (widget) {
               return widget.textStyle?.fontSize;

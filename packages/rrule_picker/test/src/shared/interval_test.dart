@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/l10n/l10n_en.dart';
 import 'package:rrule_picker/l10n/l10n_pl.dart';
 import 'package:rrule_picker/rrule_picker.dart';
@@ -82,9 +82,9 @@ void main() {
         ),
       );
 
-      spotText('Every', exact: true).existsOnce();
+      spotText('Every', whole: true).existsOnce();
       spot<TextField>().existsOnce();
-      spotText('days', exact: true).existsOnce();
+      spotText('days', whole: true).existsOnce();
     });
 
     testWidgets('displays correct initial interval value '
@@ -104,7 +104,7 @@ void main() {
         ),
       );
 
-      spotText(initialValue.toString(), exact: true).existsOnce();
+      spotText(initialValue.toString(), whole: true).existsOnce();
     });
 
     testWidgets('updates controller and notifier '
@@ -170,15 +170,15 @@ void main() {
 
       expect(everyUnitValue, 10);
       expect(intervalUnitValue, 10);
-      spotText('Every 10', exact: true).existsOnce();
-      spotText('10 days', exact: true).existsOnce();
+      spotText('Every 10', whole: true).existsOnce();
+      spotText('10 days', whole: true).existsOnce();
 
       await act.enterText(spot<TextField>(), '20');
 
       expect(everyUnitValue, 20);
       expect(intervalUnitValue, 20);
-      spotText('Every 20', exact: true).existsOnce();
-      spotText('20 days', exact: true).existsOnce();
+      spotText('Every 20', whole: true).existsOnce();
+      spotText('20 days', whole: true).existsOnce();
     });
 
     testWidgets('applies theme textFieldTheme style', (tester) async {
@@ -203,7 +203,12 @@ void main() {
         ),
       );
 
-      spot<TextField>().withStyle(style).existsOnce();
+      spot<TextField>()
+          .whereWidgetProp(
+            widgetProp('style', (w) => w.style),
+            (s) => s == style,
+          )
+          .existsOnce();
     });
 
     testWidgets('applies theme textFieldTheme decoration', (tester) async {
@@ -231,7 +236,12 @@ void main() {
         ),
       );
 
-      spot<TextField>().withDecoration(decoration).existsOnce();
+      spot<TextField>()
+          .whereWidgetProp(
+            widgetProp('decoration', (w) => w.decoration),
+            (d) => d == decoration,
+          )
+          .existsOnce();
     });
 
     testWidgets('applies theme labelStyle to labels', (tester) async {
@@ -321,7 +331,12 @@ void main() {
         ),
       );
 
-      spot<TextField>().withKeyboardType(.number).existsOnce();
+      spot<TextField>()
+          .whereWidgetProp(
+            widgetProp('keyboardType', (w) => w.keyboardType),
+            (t) => t == .number,
+          )
+          .existsOnce();
     });
   });
 

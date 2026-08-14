@@ -21,7 +21,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/gmeligio/flutter-web@sha256:c49442d14c78101da086bac26620323d6e395c3602b0478ab872a7919b41fada # 3.44.3
+      image: ghcr.io/gmeligio/flutter-web@sha256:d6122a04d19ba511c58fafcdabd45bce8b5c48331de4d19bcc6bcb89f49ee29e # 3.47.0
 
     timeout-minutes: 3
 

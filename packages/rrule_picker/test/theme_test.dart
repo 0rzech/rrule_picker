@@ -1,9 +1,9 @@
 // Copyright 2026 Piotr Mieczysław Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/theme.dart';
 import 'package:rrule_picker/widget.dart';
 

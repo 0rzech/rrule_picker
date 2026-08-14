@@ -8,8 +8,8 @@ library;
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/widget.dart';
 import 'package:spot/spot.dart';

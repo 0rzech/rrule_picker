@@ -4,7 +4,7 @@ RRULE picker is a widget used to manipulate RRULEs in accordance to a subset of 
 
 ## Features
 
-* No external dependencies except for [intl](https://pub.dev/packages/intl).
+* No external dependencies except for [intl](https://pub.dev/packages/intl) and [material_ui](https://pub.dev/packages/material_ui).
 * Supports the following types or recurrence rules:
 
   * Daily, for example `RRULE:FREQ=DAILY;INTERVAL=1`.
@@ -28,8 +28,7 @@ dart pub add rrule_picker
 ## Usage
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 
 void main() => runApp(const RRulePickerExampleApp());
@@ -42,9 +41,7 @@ class RRulePickerExampleApp extends StatelessWidget {
     localizationsDelegates: [
       // YourAppLocalizations.delegate,
       RRulePickerLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
+      ...GlobalMaterialLocalizations.delegates,
     ],
     supportedLocales: RRulePickerLocalizations.supportedLocales,  // YourAppLocalizations.supportedLocales,
     home: Scaffold(body:
@@ -75,7 +72,7 @@ Currently, most translations are machine-generated, followed by a human review b
 The following example shows how to customize localizations for a specific language:
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/l10n/l10n_en.dart';
 
 // Extend the generated English localization class
@@ -113,7 +110,7 @@ void main() {
       YourAppLocalizations.delegate,
       // Use your custom delegate INSTEAD of RRulePickerLocalizations.delegate
       CustomRRulePickerDelegate(),
-      // ... flutter default delegates (GlobalMaterialLocalizations.delegate, etc.)
+      ...GlobalMaterialLocalizations.delegates,
     ],
     supportedLocales: YourAppLocalizations.supportedLocales,
     home: const Scaffold(/*...*/),

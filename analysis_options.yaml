@@ -2,7 +2,6 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
-    avoid_final_parameters: true
     avoid_types_as_parameter_names: true
     avoid_unused_constructor_parameters: true
     omit_obvious_local_variable_types: true
@@ -16,4 +15,11 @@ linter:
 
 analyzer:
   exclude:
-    - ./**.g.dart
+    - '**.g.dart'
+    - build/**
+    - android/**
+    - linux/**
+    - ios/**
+    - macos/**
+    - web/**
+    - windows/**

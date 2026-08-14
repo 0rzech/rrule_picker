@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/daily.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
@@ -51,9 +51,9 @@ void main() {
       final l = tester.localizations<DailyPicker>();
       spotText(
         l.rrulePickerEveryDaily(defaultInterval),
-        exact: true,
+        whole: true,
       ).existsOnce();
-      spotText(l.rrulePickerDays(defaultInterval), exact: true).existsOnce();
+      spotText(l.rrulePickerDays(defaultInterval), whole: true).existsOnce();
     });
 
     testWidgets('uses provided controller', (tester) async {

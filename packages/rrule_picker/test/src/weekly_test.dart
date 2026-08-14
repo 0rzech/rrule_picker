@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/src/shared/interval.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
@@ -59,11 +59,11 @@ void main() {
       final l = tester.localizations<WeeklyPicker>();
       spotText(
         l.rrulePickerEveryWeekly(defaultInterval),
-        exact: true,
+        whole: true,
       ).existsOnce();
       spotText(
         l.rrulePickerWeeks(defaultInterval),
-        exact: true,
+        whole: true,
       ).existsAtLeastOnce();
     });
 

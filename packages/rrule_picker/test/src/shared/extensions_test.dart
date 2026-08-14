@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/l10n/l10n_en.dart';
 import 'package:rrule_picker/src/shared/extensions.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
@@ -63,7 +63,7 @@ void main() {
         spot<DropdownButtonHideUnderline>().doesNotExist();
         spot<DropdownButton<String>>()
             .spot<DropdownMenuItem<String>>()
-            .spotText('abc', exact: true)
+            .spotText('abc', whole: true)
             .existsOnce();
       });
 
@@ -84,7 +84,7 @@ void main() {
         spot<DropdownButtonHideUnderline>()
             .spot<DropdownButton<String>>()
             .spot<DropdownMenuItem<String>>()
-            .spotText('abc', exact: true)
+            .spotText('abc', whole: true)
             .existsOnce();
       });
 
@@ -132,7 +132,7 @@ void main() {
         button
             .spot<DropdownMenuItem<String>>()
             .spot<DecoratedBox>()
-            .withChild(spotText('abc', exact: true))
+            .withChild(spotText('abc', whole: true))
             .existsOnce()
             .hasWidgetProp(
               prop: widgetProp('decoration', (widget) => widget.decoration),
@@ -195,7 +195,7 @@ void main() {
         box
             .spot<DropdownMenuItem<String>>()
             .spot<DecoratedBox>()
-            .withChild(spotText('abc', exact: true))
+            .withChild(spotText('abc', whole: true))
             .existsOnce()
             .hasWidgetProp(
               prop: widgetProp('decoration', (widget) => widget.decoration),

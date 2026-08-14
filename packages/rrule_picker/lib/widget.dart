@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/daily.dart';
 import 'package:rrule_picker/src/end_date.dart';

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:rrule_picker/src/daily.dart';
 import 'package:rrule_picker/src/end_date.dart';
@@ -150,9 +150,9 @@ void main() {
         );
 
         final l = tester.localizations<RRulePicker>();
-        await act.tap(spotText(l.rrulePickerSkip, exact: true));
+        await act.tap(spotText(l.rrulePickerSkip, whole: true));
         await tester.pumpAndSettle();
-        await act.tap(spot<DatePickerDialog>().spotText('OK', exact: true));
+        await act.tap(spot<DatePickerDialog>().spotText('OK', whole: true));
         await tester.pumpAndSettle();
 
         expect(controller.value, contains(warsaw));
@@ -349,7 +349,7 @@ void main() {
         await tester.pumpWrapped(const RRulePicker(theme: theme));
 
         final l = tester.localizations<RRulePicker>();
-        spotText(l.rrulePickerTitle, exact: true).existsOnce();
+        spotText(l.rrulePickerTitle, whole: true).existsOnce();
       });
 
       testWidgets('header is not shown '
@@ -362,7 +362,7 @@ void main() {
         await tester.pumpWrapped(const RRulePicker(theme: theme));
 
         final l = tester.localizations<RRulePicker>();
-        spotText(l.rrulePickerTitle, exact: true).doesNotExist();
+        spotText(l.rrulePickerTitle, whole: true).doesNotExist();
       });
 
       testWidgets('padding is applied from theme', (tester) async {

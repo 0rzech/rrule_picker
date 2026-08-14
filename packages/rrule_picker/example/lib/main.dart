@@ -4,8 +4,7 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/rrule_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -20,9 +19,7 @@ class RRulePickerExampleApp extends StatelessWidget {
     theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.cyan)),
     localizationsDelegates: [
       RRulePickerLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
+      ...GlobalMaterialLocalizations.delegates,
     ],
     supportedLocales: RRulePickerLocalizations.supportedLocales,
     home: const RRuleExample(title: 'rrule_picker Example'),

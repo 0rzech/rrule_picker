@@ -4,9 +4,9 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/src/excluded_dates.dart';
 import 'package:spot/spot.dart';
 
@@ -31,7 +31,7 @@ void main() {
       spot<OutlinedButton>().existsOnce();
       spotIcon(Icons.add).existsOnce();
       final text = tester.localizations<ExcludedDates>().rrulePickerSkip;
-      spotText(text, exact: true).existsOnce();
+      spotText(text, whole: true).existsOnce();
     });
 
     testWidgets('shows date picker when add button is pressed', (tester) async {
@@ -50,7 +50,7 @@ void main() {
       await tester.pumpAndSettle();
 
       await act.tap(
-        spot<DatePickerDialog>().spot<TextButton>().spotText('OK', exact: true),
+        spot<DatePickerDialog>().spot<TextButton>().spotText('OK', whole: true),
       );
       await tester.pumpAndSettle();
 
@@ -751,9 +751,8 @@ void main() {
 
     property('returns empty dates for rrule without dates', () {
       forAll(
-        asciiString(
-          maxLength: 50,
-        ).filter((rrule) => !rrule.contains('VALUE=DATE:')),
+        asciiString(maxLength: 50)
+            .filter((rrule) => !rrule.contains('VALUE=DATE:')),
         (rrule) {
           final (_, dates) = parseRRule(rrule, 'UTC');
           expect(dates.length, 0);

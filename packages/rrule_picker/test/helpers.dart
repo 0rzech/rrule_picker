@@ -3,10 +3,10 @@
 
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:kiri_check/kiri_check.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rrule_picker/l10n/l10n.dart';
 import 'package:rrule_picker/src/shared/parsing.dart';
 import 'package:rrule_picker/src/shared/resolved_theme.dart';
@@ -21,7 +21,10 @@ extension PumpWrapped on WidgetTester {
     MaterialApp(
       locale: locale,
       supportedLocales: RRulePickerLocalizations.supportedLocales,
-      localizationsDelegates: RRulePickerLocalizations.localizationsDelegates,
+      localizationsDelegates: [
+        RRulePickerLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+      ],
       home: Scaffold(body: Center(child: widget)),
     ),
   );

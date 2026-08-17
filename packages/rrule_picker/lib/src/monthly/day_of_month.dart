@@ -1,4 +1,4 @@
-// Copyright 2026 Piotr Orzechowski
+// Copyright 2026 Piotr Mieczysław Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
 part of '../monthly.dart';

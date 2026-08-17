@@ -1,5 +1,6 @@
 #!/usr/bin/env dart
-// Copyright 2026 Piotr Orzechowski
+
+// Copyright 2026 Piotr Mieczysław Orzechowski
 // SPDX-License-Identifier: Apache-2.0
 
 import 'dart:io';

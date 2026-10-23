@@ -1,8 +1,16 @@
+## 0.3.0
+
+* **BREAKING:** Migrate to `material_ui` package
+  * Bumps the minimum SDK version to `3.13.0`
+  * Removes `cupertino_icons` dependency
+* **BREAKING:** Remove `url_launcher` dependency
+* Use full name in copyright notices
+
 ## 0.2.0
 
 * Add end date (RRULE `UNTIL`) support
 * Add `Semantics` to `SplitSegmentedButton`
-  * BREAKING: `SplitSegmentedButton` now uses `ButtonStyle` for its segments (made of `OutlinedButton` widgets)
+  * **BREAKING:** `SplitSegmentedButton` now uses `ButtonStyle` for its segments (made of `OutlinedButton` widgets)
 * Use controller date value for the initial date picker date
 * Add customizable row and column spacing via the `RRulePickerThemeData.spacing` field
 * Set `mainAxisSize` to `.min` for `Column` widgets
